@@ -706,7 +706,8 @@ $('.view').click(function () {
 
     $.ajax({
         type: 'GET',
-        url: '{{ url('/complain/get') }}/' + complainId,
+        // url: '{{ url('/complain/get') }}/' + complainId,
+        url: 'http://hallohcga.ppa-ba.net/complain/get/' + complainId,
         success: function (response) {
             // Fungsi untuk memeriksa dan menyembunyikan elemen jika data kosong
             function setFieldVisibility(selector, value) {
@@ -752,7 +753,7 @@ $('.view').click(function () {
     const field = $(selector).closest('.detail'); // Elemen parent dengan class 'detail'
 
     // Periksa apakah URL gambar valid (tidak hanya base path)
-    if (imageUrl && imageUrl !== 'https://hallohcga.com/storage') {
+    if (imageUrl && imageUrl !== 'https://hallohcga.ppa-ba.net/storage') {
         // Tampilkan gambar jika URL valid
         $(selector).html('<img src="' + imageUrl + '" alt="Foto" class="img-fluid" />');
         field.show(); // Pastikan elemen parent tampil
@@ -784,7 +785,7 @@ $('.edit').click(function() {
 
     $.ajax({
         type: 'GET',
-        url: '{{ url('/complain/get') }}/' + complainId,
+        url: 'http://hallohcga.ppa-ba.net/complain/get/' + complainId,
         success: function(response) {
             $('#complainModal').find('#tanggal_add').val(response.tanggal);
             $('#complainModal').find('#area_add').val(response.area);
@@ -847,7 +848,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             // url: '{{ url('/complain/myedit') }}/' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/myedit/' + complainId
+            url: 'http://hallohcga.ppa-ba.net/complain/myedit/' + complainId,
             data: formData,
             processData: false,  // Jangan proses data secara otomatis
             contentType: false,  // Biarkan browser menentukan content-type
