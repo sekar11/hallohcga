@@ -812,7 +812,8 @@ $(document).ready(function() {
         if (mode === 'add') {
             $.ajax({
                 type: 'POST',
-                url: '{{ url('/complain/create') }}',
+                // url: '{{ url('/complain/create') }}',
+                url: 'http://hallohcga.ppa-ba.net/complain/create',
                 data: formData,
                 processData: false,  // Jangan proses data secara otomatis
                 contentType: false,  // Biarkan browser menentukan content-type
@@ -845,7 +846,8 @@ $(document).ready(function() {
         } else if (mode === 'edit') {
         $.ajax({
             type: 'POST',
-            url: '{{ url('/complain/myedit') }}/' + complainId,
+            // url: '{{ url('/complain/myedit') }}/' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/myedit/' + complainId
             data: formData,
             processData: false,  // Jangan proses data secara otomatis
             contentType: false,  // Biarkan browser menentukan content-type
@@ -874,108 +876,6 @@ $(document).ready(function() {
     });
 });
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.getElementById('btn-yes-add').addEventListener('click', function () {
-//         const mode = document.getElementById('complainModal').dataset.mode;
-//         const formElement = document.querySelector('form');
-//         const formData = new FormData(formElement); // Membuat objek FormData dari form
-//         const fileInput = document.querySelector('input[name="fotodeviasi_add"]'); // Input file
-//         const xhr = new XMLHttpRequest();
-//         let url = '';
-
-//         if (mode === 'add') {
-//             url = '{{ url('/complain/create') }}';
-//         } else if (mode === 'edit') {
-//             url = `{{ url('/complain/myedit') }}/${complainId}`;
-//         } else {
-//             return; // Tidak melakukan apa-apa jika mode tidak dikenali
-//         }
-
-//         // Jika ada file yang diunggah
-//         if (fileInput && fileInput.files.length > 0) {
-//             const file = fileInput.files[0];
-
-//             // Cek jika file diunggah dari kamera
-//             if (file.size > 0) {
-//                 const reader = new FileReader();
-
-//                 // Setelah file dibaca sebagai Base64
-//                 reader.onload = function (event) {
-//                     const base64String = event.target.result;
-
-//                     // Tambahkan Base64 string ke FormData
-//                     formData.append('fotodeviasi_add', base64String);
-
-//                     // Kirim data melalui XHR
-//                     sendData();
-//                 };
-
-//                 // Baca file sebagai Base64
-//                 reader.readAsDataURL(file);
-//             } else {
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Error',
-//                     text: 'File dari kamera tidak valid atau kosong.',
-//                 });
-//             }
-//         } else {
-//             // Kirim data tanpa file
-//             sendData();
-//         }
-
-//         function sendData() {
-//             xhr.open('POST', url, true);
-//             xhr.onload = function () {
-//                 if (xhr.status === 200) {
-//                     const response = JSON.parse(xhr.responseText);
-
-//                     if (response.status === 'success') {
-//                         Swal.fire({
-//                             icon: 'success',
-//                             title: 'Success',
-//                             text: mode === 'add' ? 'Complain berhasil ditambahkan!' : 'Complain berhasil diedit!',
-//                         }).then(() => {
-//                             location.reload();
-//                         });
-//                     } else {
-//                         Swal.fire({
-//                             icon: 'error',
-//                             title: 'Error',
-//                             text: mode === 'add' ? 'Complain gagal ditambahkan.' : 'Complain gagal diedit.',
-//                         });
-//                     }
-//                 } else {
-//                     Swal.fire({
-//                         icon: 'error',
-//                         title: 'Error',
-//                         text: 'Terjadi kesalahan saat mengirim data.',
-//                     });
-//                     console.error('Error:', xhr.statusText);
-//                 }
-//             };
-
-//             xhr.onerror = function () {
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Error',
-//                     text: 'Gagal menghubungi server. Periksa koneksi Anda.',
-//                 });
-//                 console.error('Network Error');
-//             };
-
-//             // Sembunyikan modal sebelum mengirim data
-//             $('#complainModal').modal('hide');
-
-//             // Kirimkan data FormData
-//             xhr.send(formData);
-//         }
-//     });
-// });
-
-
-
-
 
 //DELETE
 document.querySelectorAll('.delete').forEach(function(link) {
@@ -992,7 +892,8 @@ document.querySelectorAll('.delete').forEach(function(link) {
            cancelButtonText: 'Batal'
        }).then((result) => {
            if (result.isConfirmed) {
-               axios.post('{{ route('delete.complain') }}', {
+            //    axios.post('{{ route('delete.complain') }}', {
+                axios.post('http://hallohcga.ppa-ba.net/complain/delete', {
                    complain_id: complainId
                })
                .then(function (response) {
@@ -1031,7 +932,9 @@ document.querySelectorAll('.send-link').forEach(function(link) {
            cancelButtonText: 'Batal'
        }).then((result) => {
            if (result.isConfirmed) {
-               axios.post('{{ route('send.complain') }}', {
+            //    axios.post('{{ route('send.complain') }}', {
+               axios.post('http://hallohcga.ppa-ba.net/complain/send-data', {
+
                    complain_id: complainId
                })
                .then(function (response) {
@@ -1063,7 +966,8 @@ $('.revisi').click(function() {
         var data = $('.form_revisi').serialize();
         $.ajax({
             type: 'POST',
-            url: '/complain/revisi?complain_id=' + complainId,
+            // url: '/complain/revisi?complain_id=' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/revisi?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1093,8 +997,8 @@ $('.reject').click(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/complain/reject?complain_id=' + complainId,
-
+            // url: '/complain/reject?complain_id=' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/reject?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1124,8 +1028,8 @@ $('.validasi').click(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/complain/validasigagl?complain_id=' + complainId,
-
+            // url: '/complain/validasigagl?complain_id=' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/validasigagl?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1147,42 +1051,6 @@ $('.validasi').click(function() {
     });
 });
 
-// Tambahkan listener untuk tombol validasi
-// $('.validasi').click(function () {
-//     var complainId = $(this).data('id'); // Ambil ID complain dari tombol
-//     $('#btn-yes-validasi').off('click').on('click', function () { // Hindari multiple binding
-//         var data = $('.form_validasi').serialize(); // Serialize form untuk kirim data
-
-//         // Kirimkan request POST dengan AJAX
-//         $.ajax({
-//             type: 'POST', // Pastikan menggunakan POST
-//             url: '/complain/validasigagl', // Endpoint Laravel
-//             data: { complain_id: complainId, ...data }, // Gabungkan complain_id dan form data
-//             headers: {
-//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Sertakan CSRF token
-//             },
-//             success: function (response) {
-//                 Swal.fire({
-//                     icon: 'success',
-//                     title: 'Sukses!',
-//                     text: response.message
-//                 }).then(() => {
-//                     location.reload(); // Reload halaman jika sukses
-//                 });
-//             },
-//             error: function (xhr) {
-//                 // Tampilkan error dari server untuk debugging
-//                 console.log('Error:', xhr.responseText);
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Gagal!',
-//                     text: 'Terjadi kesalahan saat mengirim data.'
-//                 });
-//             }
-//         });
-//     });
-// });
-
 
 //PENDING GAGL
 $('.pendingGagl').click(function() {
@@ -1192,7 +1060,8 @@ $('.pendingGagl').click(function() {
         var data = $('.form_pendingGagl').serialize();
         $.ajax({
             type: 'POST',
-            url: '/complain/pendingGagl?complain_id=' + complainId,
+            // url: '/complain/pendingGagl?complain_id=' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/pendingGagl?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1227,7 +1096,8 @@ $('.validasi_crew').click(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/complain/validasicrew',
+            // url: '/complain/validasicrew',
+            url: 'http://hallohcga.ppa-ba.net/complain/validasicrew',
             data: formData,
             processData: false, // Jangan memproses data secara otomatis
             contentType: false, // Jangan tetapkan header Content-Type secara manual
@@ -1260,8 +1130,8 @@ $('.rejectcrew').click(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/complain/rejectcrew?complain_id=' + complainId,
-
+            // url: '/complain/rejectcrew?complain_id=' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/rejectcrew?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1291,8 +1161,8 @@ $('.revisicrew').click(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/complain/revisicrew?complain_id=' + complainId,
-
+            //url: '/complain/revisicrew?complain_id=' + complainId,
+            url: 'http://hallohcga.ppa-ba.net/complain/revisicrew?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1327,7 +1197,7 @@ $('.approval').click(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/complain/approval', // URL tetap, complain_id ditambahkan lewat formData
+            url: 'http://hallohcga.ppa-ba.net/complain/approval', // URL tetap, complain_id ditambahkan lewat formData
             data: formData,
             processData: false, // Jangan memproses data secara otomatis
             contentType: false, // Jangan tetapkan header Content-Type secara manual
@@ -1463,7 +1333,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $.ajax({
-        url: '/complain/getteknisi',  // Sesuaikan dengan URL route Anda
+        url: 'http://hallohcga.ppa-ba.net/complain/getteknisi',  // Sesuaikan dengan URL route Anda
         method: 'GET',
         success: function(response) {
             // Log the response data for debugging

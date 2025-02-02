@@ -37,7 +37,7 @@ class ComplainController extends Controller
         $ComplainData = $this->ComplainRepository->getAllWithUsername();
         $nrpOptions = User::select('nrp')->distinct()->get();
 
-        return view('/complain/complain', [
+        return view('http://hallohcga.ppa-ba.net/complain/complain', [
             'ComplainData' => $ComplainData,
             'nrpOptions' => $nrpOptions,
         ]);
@@ -488,7 +488,7 @@ class ComplainController extends Controller
 
         $complainData = $query->get();
 
-        return view('/report/report_complain', [
+        return view('http://hallohcga.ppa-ba.net/report/report_complain', [
             'complainData' => $complainData,
             'startDate' => $startDate,  // Pass start_date to the view
             'endDate' => $endDate,      // Pass end_date to the view

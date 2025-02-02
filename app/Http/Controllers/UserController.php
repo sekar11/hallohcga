@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function showLoginForm()
     {
-        return view('/administration/login'); 
+        return view('/administration/login');
     }
 
     public function index()
@@ -42,35 +42,35 @@ class UserController extends Controller
 
      public function loginku(Request $request)
     {
-        
+
         $this->validate($request, [
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        
+
         $username = $request->input('username');
         $password = $request->input('password');
-        
+
         $hashedPassword = sha1($password);
         $user = $this->UserRepository->findUserByCredentials($username, $hashedPassword);
-        
+
         if ($user) {
-            
+
             Auth::loginUsingId($user->id);
 
-          
+
             if ($user->id_role == 1 || $user->id_role == 2) {
-                return redirect('/complain');
+                return redirect('http://hallohcga.ppa-ba.net/complain');
             } else {
-                return redirect('/dashboard');
+                return redirect('http://hallohcga.ppa-ba.net/dashboard');
             }
         } else {
-         
+
             return back()->withErrors(['password' => 'Username atau password salah.']);
         }
     }
-    
+
 
     public function showRegistrationForm()
     {
@@ -83,22 +83,22 @@ class UserController extends Controller
         //$data = $request->all();
         //dd($data);
         $result = $this->UserRepository->createUser($data);
-    
+
         $data = $request->all();
-        
+
         if ($result) {
             return Response::json(['status' => 'success']);
         } else {
             return Response::json(['status' => 'error']);
         }
-        
+
     }
 
     public function delete(Request $request)
     {
 
         $selectedUserId = $request->input('user_id');
-    
+
         $result = $this->UserRepository->delete($selectedUserId);
 
         return response()->json(['message' => $result]);
@@ -114,9 +114,9 @@ class UserController extends Controller
     public function edit($id, Request $request)
     {
         $data = $request->all();
-     
+
         $result = $this->UserRepository->edit($data, $id);
-        
+
         if ($result) {
             return response()->json(['status' => 'success']);
         } else {
@@ -128,7 +128,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $result = $this->UserRepository->editProfile($data, $id);
-        
+
         if ($result) {
             return response()->json(['status' => 'success']);
         } else {
