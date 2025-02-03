@@ -12,6 +12,30 @@
     </div>
 
     <section class="section dashboard">
+        {{-- <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="assets/img/HalloHCGA.png" alt="Foto 1"></div>
+                <div class="swiper-slide"><img src="image2.jpg" alt="Foto 2"></div>
+                <div class="swiper-slide"><img src="image3.jpg" alt="Foto 3"></div>
+                <div class="swiper-slide"><img src="image4.jpg" alt="Foto 4"></div>
+                <div class="swiper-slide"><img src="image5.jpg" alt="Foto 5"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div> --}}
+        {{-- </div> --}}
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <img src="assets/img/product-5.jpg" class="slide" alt="Foto 1">
+                <img src="assets/img/product-1.jpg" class="slide" alt="Foto 2">
+                <img src="assets/img/product-2.jpg" class="slide" alt="Foto 3">
+                <img src="assets/img/product-3.jpg" class="slide" alt="Foto 4">
+                <img src="assets/img/product-4.jpg" class="slide" alt="Foto 5">
+            </div>
+            {{-- <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlide(1)">&#10095;</button> --}}
+        </div>
+        <br>
     <div class="row">
         <!-- Filter Tanggal dan Status -->
         <div class="col-12 mb-4">
@@ -258,8 +282,57 @@
     </section>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script>
+// document.addEventListener("DOMContentLoaded", function () {
+//     let sliderWrapper = document.querySelector(".slider-wrapper");
+//     let slides = document.querySelectorAll(".slide");
+//     let currentIndex = 0;
+
+//     function nextSlide() {
+//         currentIndex = (currentIndex + 1) % slides.length;
+//         sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+//     }
+
+//     setInterval(nextSlide, 3000);
+// });
+
+
+function moveSlide(direction) {
+    currentIndex += direction;
+
+    if (currentIndex < 0) {
+        currentIndex = totalSlides - 1;
+    } else if (currentIndex >= totalSlides) {
+        currentIndex = 0;
+    }
+
+    document.querySelector('.slider-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let slides = document.querySelectorAll(".slide");
+    let currentIndex = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.display = i === index ? "block" : "none";
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    }
+
+    // Tampilkan slide pertama saat halaman dimuat
+    showSlide(currentIndex);
+
+    // Ganti slide setiap 3 detik
+    setInterval(nextSlide, 3000);
+});
+
 
 const ctx = document.getElementById('buildingBarChart').getContext('2d');
 let buildingChart = new Chart(ctx, {
