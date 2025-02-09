@@ -505,7 +505,16 @@ public function getFilteredComplainsStatus($startDate, $endDate)
         return DB::table('complain')
             ->leftJoin('users', 'complain.nrp', '=', 'users.nrp')
             ->where('complain.id', $id)
-            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama') // Pilih kolom yang ingin diambil
+            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama') 
+            ->first();
+    }
+
+    public function findByNoUsers($id)
+    {
+        return DB::table('complain')
+            ->leftJoin('users', 'complain.nrp', '=', 'users.nrp')
+            ->where('complain.id', $id)
+            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama') 
             ->first();
     }
 
