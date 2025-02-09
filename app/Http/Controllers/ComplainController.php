@@ -60,39 +60,6 @@ class ComplainController extends Controller
         return response()->json($teknisi);
     }
 
-    // public function create(Request $request)
-    // {
-    //     $userRole = auth()->user()->id_role;
-    //     $data = $request->except('_token');
-
-    //     $request->validate([
-    //         'fotodeviasi_add' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:1024000', // Menambahkan format HEIC/HEIF
-    //     ]);
-
-    //     if ($request->hasFile('fotodeviasi_add') && $request->file('fotodeviasi_add')->isValid()) {
-    //         $image = $request->file('fotodeviasi_add');
-    //         $imageInstance = Image::make($image);
-    //         $imageInstance->encode('jpg', 1);
-    //         $fileName = uniqid() . '.jpg';
-    //         $filePath = public_path('storage/photos/' . $fileName);
-
-    //         $imageInstance->save($filePath);
-
-    //         $data['fotodeviasi_add'] = 'photos/' . $fileName;
-
-    //     } else {
-    //         $data['fotodeviasi_add'] = null;
-    //     }
-
-    //     $result = $this->ComplainRepository->create($data, $userRole);
-
-    //     if ($result) {
-    //         return response()->json(['status' => 'success']);
-    //     } else {
-    //         return response()->json(['status' => 'error']);
-    //     }
-    // }
-
     public function create(Request $request)
     {
         $userRole = auth()->user()->id_role;

@@ -63,13 +63,13 @@ Class ComplainRepository
 
         return DB::table('complain')->insert([
             'nrp' => auth()->user()->nrp,
-            'tanggal' => $data['tanggal_add'] ?? null, // Default ke null jika tidak ada
+            'tanggal' => $data['tanggal_add'] ?? null, 
             'area' => $data['area_add'] ?? null,
             'gedung' => $data['gedung_add'] ?? null,
             'lokasi' => $data['lokasi_add'] ?? null,
             'foto_deviasi' => $data['fotodeviasi_add'] ?? null,
             'permasalahan' => $data['permasalahan_add'] ?? null,
-            'kode_status' => 1,
+            'kode_status' => 2,
             'created_by' => auth()->user()->id,
             'created_name' => auth()->user()->username,
             'created_on' => now(),
