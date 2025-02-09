@@ -61,9 +61,9 @@ class UserController extends Controller
 
 
             if ($user->id_role == 1 || $user->id_role == 2) {
-                return redirect('http://hallohcga.ppa-ba.net/complain');
+                return redirect('/complain');
             } else {
-                return redirect('http://hallohcga.ppa-ba.net/dashboard');
+                return redirect('/dashboard');
             }
         } else {
 

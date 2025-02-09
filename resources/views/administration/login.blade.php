@@ -54,7 +54,7 @@
               <!-- Gambar dan label akan disembunyikan pada layar kecil melalui CSS -->
               <div class="d-flex justify-content-center py-4 logo-container">
                 <a href="#" class="logo d-flex w-auto">
-                  <img class="login" src="assets/img/login.jpg" alt="">
+                  <img class="loginku" src="assets/img/login.jpg" alt="">
                 </a>
               </div>
             </div>
@@ -66,7 +66,7 @@
                     @csrf
                     <img class="form-login" src="assets/img/HalloHCGA.png" alt="">
 
-                    <div class="col-10 form-input">
+                    <div class="col-11 form-input">
                       <input type="text" name="username" class="form-control" id="username" placeholder="username">
                       <div class="invalid-feedback">Please enter your username!</div>
                       @error('username')
@@ -74,7 +74,7 @@
                       @enderror
                     </div>
 
-                    <div class="col-10 form-input">
+                    <div class="col-11 form-input">
                       <div class="input-group">
                         <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                         <button type="button" class="btn btn-outline-secondary" id="togglePassword">
@@ -87,7 +87,7 @@
                       @enderror
                     </div>
 
-                    <div class="col-10 form-input">
+                    <div class="col-11 form-input">
                       <button class="btn btn-primary w-100 btn-sm form-a" type="submit">Sign in</button>
                     </div>
                   </form>
@@ -131,6 +131,12 @@
                 $(this).html('<i class="bi bi-eye"></i>');
             }
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var images = ['assets/img/mess.jpg', 'assets/img/web-2.jpg', 'assets/img/web-3.jpg','assets/img/web-1.jpg','assets/img/web-5.jpg','assets/img/web-4.jpg'];
+    var randomImage = images[Math.floor(Math.random() * images.length)];
+    document.querySelector('.loginku').src = randomImage;
     });
   </script>
 
