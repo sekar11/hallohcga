@@ -216,52 +216,73 @@ class ComplainController extends Controller
         $skala = $request->input('skala');
         $due_date = $request->input('due_date');
         $crew_picadd = $request->input('crew_picadd');
-        $result = $this->ComplainRepository->validasigagl($selectedComplainId, $kategori, $skala, $due_date, $crew_picadd, $userId);
-        $crew = $this->ComplainRepository->findByName($crew_picadd);
 
+        $result = $this->ComplainRepository->validasigagl($selectedComplainId, $kategori, $skala, $due_date, $crew_picadd, $userId);
+        
+        $crew = $this->ComplainRepository->findByName($crew_picadd);
         if (!$crew) {
             return response()->json(['error' => 'Data crew tidak ditemukan'], 404);
         }
 
+
         $complain = $this->ComplainRepository->findById($selectedComplainId);
+        if (!$complain) {
+            return response()->json(['error' => 'Data complain tidak ditemukan'], 404);
+        }
 
         if (!$crew->no_hp) {
             return response()->json(['error' => 'Nomor HP crew tidak tersedia'], 400);
         }
 
-        $message = "Halo $crew->nama,\n";
-        $message .= "Terdapat pengajuan complain dengan detail sebagai berikut:\n\n";
+        $messageCrew = "Halo $crew->nama,\n";
+        $messageCrew .= "Terdapat pengajuan complain dengan detail sebagai berikut:\n\n";
+        $messageCrew .= "Status Pengerjaan: Belum Diproses\n";
+        $messageCrew .= "Tanggal Pengajuan: {$complain->tanggal}\n\n";
+        $messageCrew .= "Biodata Karyawan yang mengajukan complain:\n";
+        $messageCrew .= "- Nama: {$complain->nama}\n";
+        $messageCrew .= "- NRP: {$complain->nrp}\n";
+        $messageCrew .= "- No HP: {$complain->no_hp}\n";
+        $messageCrew .= "- Departemen: {$complain->dept}\n";
+        $messageCrew .= "- Perusahaan: {$complain->perusahaan}\n\n";
+        $messageCrew .= "Status Complain:\n";
+        $messageCrew .= "- Due Date: $due_date\n";
+        $messageCrew .= "- Kategori: $kategori\n";
+        $messageCrew .= "- Skala: $skala\n\n";
+        $messageCrew .= "Lokasi Complain:\n";
+        $messageCrew .= "- Lokasi: {$complain->lokasi}\n";
+        $messageCrew .= "- Area: {$complain->area}\n";
+        $messageCrew .= "- Gedung: {$complain->gedung}\n\n";
+        $messageCrew .= "Permasalahan:\n";
+        $messageCrew .= "{$complain->permasalahan}\n";
 
-        $message .= "Status Pengerjaan: Belum Diproses\n";
-        $message .= "Tanggal Pengajuan: {$complain->tanggal}\n\n";
+        $responseCrew = $this->sendWhatsAppMessage($crew->no_hp, $messageCrew);
+        if (!$responseCrew) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Crew'], 500);
+        }
 
-        $message .= "Biodata Karyawan yang mengajukan complain:\n";
-        $message .= "- Nama: {$complain->nama}\n";
-        $message .= "- NRP: {$complain->nrp}\n";
-        $message .= "- No HP: {$complain->no_hp}\n";
-        $message .= "- Departemen: {$complain->dept}\n";
-        $message .= "- Perusahaan: {$complain->perusahaan}\n\n";
+        if (!$complain->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
 
-        $message .= "Status Complain:\n";
-        $message .= "- Due Date: $due_date\n";
-        $message .= "- Kategori: $kategori\n";
-        $message .= "- Skala: $skala\n\n";
+        $messageUser = "Halo {$complain->nama},\n";
+        $messageUser .= "Status complain yang kamu ajukan saat ini sedang diproses.\n\n";
+        $messageUser .= "Detail Complain:\n";
+        $messageUser .= "- Lokasi: {$complain->lokasi}\n";
+        $messageUser .= "- Area: {$complain->area}\n";
+        $messageUser .= "- Gedung: {$complain->gedung}\n\n";
+        $messageUser .= "Permasalahan:\n";
+        $messageUser .= "{$complain->permasalahan}\n\n";
+        $messageUser .= "- Due Date: {$complain->due_date}\n";
+        $messageUser .= "- Crew PIC: {$crew->nama}\n";
 
-        $message .= "Lokasi Complain:\n";
-        $message .= "- Lokasi: {$complain->lokasi}\n";
-        $message .= "- Area: {$complain->area}\n";
-        $message .= "- Gedung: {$complain->gedung}\n\n";
-
-        $message .= "Permasalahan:\n";
-        $message .= "{$complain->permasalahan}\n";
-
-        $response = $this->sendWhatsAppMessage($crew->no_hp, $message);
-        if (!$response) {
-            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp'], 500);
+        $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
         }
 
         return response()->json(['message' => $result]);
     }
+
 
     protected function sendWhatsAppMessage($no_hp, $message)
     {
@@ -465,7 +486,7 @@ class ComplainController extends Controller
         $foto_hasil_perbaikan = $request->input('foto_hasil_perbaikan');
 
         $request->validate([
-        'foto_hasil_perbaikan' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:102400', // Menambahkan format HEIC/HEIF
+            'foto_hasil_perbaikan' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:102400',
         ]);
 
         if ($request->hasFile('foto_hasil_perbaikan') && $request->file('foto_hasil_perbaikan')->isValid()) {
@@ -496,16 +517,37 @@ class ComplainController extends Controller
         } else {
             $foto_hasil_perbaikan = null;
         }
-        
 
-    $result = $this->ComplainRepository->approval($approvalName, $selectedComplainId, $approval,$foto_hasil_perbaikan, $userId);
+        $result = $this->ComplainRepository->approval($approvalName, $selectedComplainId, $approval, $foto_hasil_perbaikan, $userId);
 
-    return response()->json([
-        'status' => 'success',
-        'message' => $result,
-        'foto_hasil_perbaikan' => $foto_hasil_perbaikan,
-    ]);
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
+
+        if (!$complain || !$complain->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "Halo {$complain->nama},\n";
+        $messageUser .= "Complain yang kamu ajukan telah selesai diproses.\n\n";
+        $messageUser .= "Detail Complain:\n";
+        $messageUser .= "- Lokasi: {$complain->lokasi}\n";
+        $messageUser .= "- Area: {$complain->area}\n";
+        $messageUser .= "- Gedung: {$complain->gedung}\n\n";
+        $messageUser .= "Permasalahan:\n";
+        $messageUser .= "{$complain->permasalahan}\n\n";
+        $messageUser .= "- Status: Done\n";
+
+        $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $result,
+            'foto_hasil_perbaikan' => $foto_hasil_perbaikan,
+        ]);
     }
+
 
     public function report(Request $request)
     {
