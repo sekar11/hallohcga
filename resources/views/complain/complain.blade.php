@@ -775,21 +775,21 @@ $('.view').click(function () {
             setFieldVisibility('#revisi_desc_crew', response.revisi_desc_crew);
             setFieldVisibility('#reject_by_crew', response.reject_by_crew);
             setFieldVisibility('#reject_desc_crew', response.reject_desc_crew);
-
             function setImageVisibility(imgSelector, labelSelector, imageUrl) {
-                const imgContainer = $(imgSelector);
-                const label = $(labelSelector);
+            
+            const imgContainer = $(imgSelector);
+            const label = $(labelSelector);
 
-                if (imageUrl && imageUrl == '') {
-                    imgContainer.html('<img src="' + imageUrl + '" alt="Foto" class="img-fluid" />');
-                    imgContainer.show(); 
-                    label.show(); 
-                } else {
-                    imgContainer.empty(); 
-                    imgContainer.hide(); 
-                    label.hide(); 
-                }
+            if (!imageUrl) {
+                imgContainer.empty(); 
+                imgContainer.hide(); 
+                label.hide(); 
+            } else {
+                imgContainer.html('<img src="' + imageUrl + '" alt="" class="img-fluid" />');
+                imgContainer.show(); 
+                label.show(); 
             }
+        }
 
             setImageVisibility('#fotodeviasi_complain', '#label_foto_deviasi', response.foto_deviasi);
             setImageVisibility('#fotoperbaikan_complain', '#label_foto_perbaikan', response.foto_perbaikan);
