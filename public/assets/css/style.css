@@ -1287,7 +1287,7 @@ h6 {
 }
 
 /* Login */
-.container .login {
+.container .loginku {
   min-height: 300px;
   margin-top: 0px;
 }
@@ -1305,6 +1305,11 @@ h6 {
   font-size: 20px;
 }
 
+.loginku {
+  border-radius: 15px; 
+  height: auto;
+}
+
 .form-login {
   max-width: 200px;
   margin: 15px 70px auto;
@@ -1313,7 +1318,6 @@ h6 {
 .form-input {
   text-align: center;
   margin: 15px 15px auto;
-  background: #f6f9ff;
   font-size: 12px;
 }
 
@@ -1617,7 +1621,7 @@ hr{
     object-fit: cover;
 }
 
-.prev, .next {
+/* .prev, .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -1629,7 +1633,50 @@ hr{
 }
 
 .prev { left: 10px; }
-.next { right: 10px; }
+.next { right: 10px; } */
+
+#loading-spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  z-index: 10; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+}
+
+#loading-spinner-validasi {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  z-index: 10; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+}
+
+#loading-spinner-approval {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  z-index: 10; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+}
+
+#btn-yes-add {
+  position: relative; 
+}
 
 
 

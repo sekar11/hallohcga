@@ -64,7 +64,7 @@
                                     </div>
 
                                     <div class="detail">
-                                        <label for="fotodeviasi_complain">Foto Deviasi:</label>
+                                        <label id="label_foto_deviasi" for="fotodeviasi_complain">Foto Deviasi:</label>
                                         <div id="fotodeviasi_complain" class="foto-container">
 
                                         </div>
@@ -90,11 +90,11 @@
                                         <span id="crew_pic"> </span>
                                     </div>
                                     <div class="detail">
-                                        <label for="identification">Identification:</label>
+                                        <label for="identification">Identifikasi Permasalahan:</label>
                                        <span id="identification_complain"></span>
                                     </div>
                                     <div class="detail">
-                                        <label for="correctiveaction">Corrective Action :</label>
+                                        <label for="correctiveaction">Tindakan Perbaikan :</label>
                                        <span id="correctiveaction_complain"></span>
                                     </div>
                                     <div class="detail">
@@ -103,7 +103,7 @@
                                     </div>
 
                                     <div class="detail">
-                                        <label for="fotoperbaikan_complain">Foto Perbaikan:</label>
+                                        <label id="label_foto_perbaikan" for="fotoperbaikan_complain">Foto Perbaikan:</label>
                                         <div id="fotoperbaikan_complain" class="foto-container"> </div>
                                     </div>
                                      <div class="detail">
@@ -127,7 +127,7 @@
                                         <span id="approval_desc"> </span>
                                     </div>
                                     <div class="detail">
-                                        <label for="fotohasilperbaikan_complain">Foto Hasil Perbaikan by GA/GL:</label>
+                                        <label id="label_foto_hasil_perbaikan" for="fotohasilperbaikan_complain">Foto Hasil Perbaikan by GA/GL:</label>
                                         <div id="fotohasilperbaikan_complain" class="foto-container">
                                         </div>
                                     </div>
@@ -232,6 +232,9 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btn-yes-add">Save</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <div id="loading-spinner" >
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                        </div>
                     </div>
                     </div>
                 </div>
@@ -259,6 +262,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-revisi">Kirim</button>
+                              <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -286,6 +292,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-reject">Kirim</button>
+                              <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -349,6 +358,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-validasi">Kirim</button>
+                              <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -376,6 +388,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-pendingGagl">Kirim</button>
+                              <div id="loading-spinner" >
+                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -397,13 +412,13 @@
 
                                 <!-- Input Kategori -->
                                 <div class="form-group">
-                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Identification <span style="color:red">*</span></label>
+                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Identifikasi Permasalahan <span style="color:red">*</span></label>
                                     <textarea class="form-control" id="identification" name="identification" rows="3"></textarea>
                                 </div>
 
                                 <!-- Input Skala -->
                                 <div class="form-group">
-                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Corrective Action <span style="color:red">*</span></label>
+                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Tindakan Perbaikan <span style="color:red">*</span></label>
                                     <textarea class="form-control" id="corrective_action" name="corrective_action" rows="3"></textarea>
                                 </div>
 
@@ -418,6 +433,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-validasi_crew">Kirim</button>
+                              <div id="loading-spinner-validasi" >
+                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -445,6 +463,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-reject_crew">Kirim</button>
+                              <div id="loading-spinner" >
+                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -472,6 +493,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-revisi_crew">Kirim</button>
+                              <div id="loading-spinner" >
+                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -509,6 +533,9 @@
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary" id="btn-yes-approval">Kirim</button>
+                              <div id="loading-spinner-approval" >
+                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -527,6 +554,7 @@
                     <th scope="col" class="hide-mobile">Gedung</th>
                     <th scope="col" class="hide-mobile">Lokasi</th>
                     <th scope="col" class="hide-mobile">Permasalahan</th>
+                    <th scope="col">Batas Waktu</th>
                     <th scope="col" class="hide-mobile">Skala</th>
                     <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
@@ -544,8 +572,8 @@
                     {{-- <td class="truncate-text">{{ $complain->informasi}}</td> --}}
                     <td class="hide-mobile">{{ $complain->gedung}}</td>
                     <td class="hide-mobile">{{ $complain->lokasi}}</td>
-
                     <td class="hide-mobile">{{ $complain->permasalahan}}</td>
+                    <td>{{ $complain->due_date}}</td>
                     <td class="hide-mobile">{{ $complain->skala ? $complain->skala : '-' }}</td>
                     <td>
                         @if($complain->kode_status == 1)
@@ -685,7 +713,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 <script>
-// Jumlah karakter data tabel
+
 $(document).ready(function() {
     $('.truncate-text').each(function() {
         var maxLength = 100;
@@ -707,16 +735,16 @@ $('.view').click(function () {
     $.ajax({
         type: 'GET',
         // url: '{{ url('/complain/get') }}/' + complainId,
-        url: 'http://hallohcga.ppa-ba.net/complain/get/' + complainId,
+        url: '/complain/get/' + complainId,
         success: function (response) {
-            // Fungsi untuk memeriksa dan menyembunyikan elemen jika data kosong
+            
             function setFieldVisibility(selector, value) {
-                const field = $(selector).closest('.detail'); // Ambil elemen parent dengan class 'detail'
+                const field = $(selector).closest('.detail'); 
                 if (value) {
                     $(selector).text(value);
-                    field.show(); // Tampilkan elemen jika data ada
+                    field.show(); 
                 } else {
-                    field.hide(); // Sembunyikan elemen jika data kosong
+                    field.hide();
                 }
             }
 
@@ -748,25 +776,25 @@ $('.view').click(function () {
             setFieldVisibility('#reject_by_crew', response.reject_by_crew);
             setFieldVisibility('#reject_desc_crew', response.reject_desc_crew);
 
-            // Fungsi untuk mengelola visibilitas gambar
-            function setImageVisibility(selector, imageUrl) {
-    const field = $(selector).closest('.detail'); // Elemen parent dengan class 'detail'
+            function setImageVisibility(imgSelector, labelSelector, imageUrl) {
+                const imgContainer = $(imgSelector);
+                const label = $(labelSelector);
 
-    // Periksa apakah URL gambar valid (tidak hanya base path)
-    if (imageUrl && imageUrl !== 'https://hallohcga.ppa-ba.net/storage') {
-        // Tampilkan gambar jika URL valid
-        $(selector).html('<img src="' + imageUrl + '" alt="Foto" class="img-fluid" />');
-        field.show(); // Pastikan elemen parent tampil
-    } else {
-        // Bersihkan isi elemen dan sembunyikan
-        $(selector).empty(); // Hapus isi elemen container
-        field.hide(); // Sembunyikan elemen parent
-    }
-}
-            setImageVisibility('#fotodeviasi_complain', response.foto_deviasi);
-            setImageVisibility('#fotoperbaikan_complain', response.foto_perbaikan);
-            setImageVisibility('#fotohasilperbaikan_complain', response.foto_hasil_perbaikan);
-            console.log('Foto Hasil Perbaikan:', response.foto_hasil_perbaikan);
+                if (imageUrl && imageUrl == '') {
+                    imgContainer.html('<img src="' + imageUrl + '" alt="Foto" class="img-fluid" />');
+                    imgContainer.show(); 
+                    label.show(); 
+                } else {
+                    imgContainer.empty(); 
+                    imgContainer.hide(); 
+                    label.hide(); 
+                }
+            }
+
+            setImageVisibility('#fotodeviasi_complain', '#label_foto_deviasi', response.foto_deviasi);
+            setImageVisibility('#fotoperbaikan_complain', '#label_foto_perbaikan', response.foto_perbaikan);
+            setImageVisibility('#fotohasilperbaikan_complain', '#label_foto_hasil_perbaikan', response.foto_hasil_perbaikan);
+
 
             $('#viewComplainModal').modal('show');
         },
@@ -785,14 +813,14 @@ $('.edit').click(function() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://hallohcga.ppa-ba.net/complain/get/' + complainId,
+        url: '/complain/get/' + complainId,
         success: function(response) {
             $('#complainModal').find('#tanggal_add').val(response.tanggal);
             $('#complainModal').find('#area_add').val(response.area);
             $('#complainModal').find('#gedung_add').val(response.gedung);
             $('#complainModal').find('#lokasi_add').val(response.lokasi);
             $('#complainModal').find('#permasalahan_add').val(response.permasalahan);
-        //$('#complainModal').find('#fotodeviasi_add').val(response.foto_deviasi);
+           //$('#complainModal').find('#fotodeviasi_add').val(response.foto_deviasi);
 
 
             $('#complainModal').attr('data-mode', 'edit');
@@ -807,17 +835,19 @@ $('.edit').click(function() {
 $(document).ready(function() {
     $('#btn-yes-add').click(function() {
         var mode = $('#complainModal').data('mode');
-        var formData = new FormData($('form')[0]); // Membuat objek FormData dari form
-        formData.append('complain_id', complainId); // Menambahkan ID complain
+        var formData = new FormData($('form')[0]);
+        formData.append('complain_id', complainId);
+
+        $('#btn-yes-add').hide(); 
+        $('#loading-spinner').show(); 
 
         if (mode === 'add') {
             $.ajax({
                 type: 'POST',
-                // url: '{{ url('/complain/create') }}',
-                url: 'http://hallohcga.ppa-ba.net/complain/create',
+                url: '{{ url('/complain/create') }}',
                 data: formData,
-                processData: false,  // Jangan proses data secara otomatis
-                contentType: false,  // Biarkan browser menentukan content-type
+                processData: false,
+                contentType: false,
                 success: function(response) {
                     if (response.status === 'success') {
                         Swal.fire({
@@ -825,7 +855,7 @@ $(document).ready(function() {
                             title: 'Success',
                             text: 'complain berhasil di tambahkan!',
                         }).then(() => {
-                            location.reload();
+                            window.location.href = window.location.href;
                         });
                     } else {
                         Swal.fire({
@@ -842,41 +872,55 @@ $(document).ready(function() {
                         title: 'Error',
                         text: 'Terjadi kesalahan saat mengirim data.',
                     });
+                },
+                complete: function() {
+                
+                    $('#btn-yes-add').show(); 
+                    $('#loading-spinner').hide();
                 }
             });
         } else if (mode === 'edit') {
-        $.ajax({
-            type: 'POST',
-            // url: '{{ url('/complain/myedit') }}/' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/myedit/' + complainId,
-            data: formData,
-            processData: false,  // Jangan proses data secara otomatis
-            contentType: false,  // Biarkan browser menentukan content-type
-            success: function(response) {
-                if (response.status === 'success') {
-                    // Display a SweetAlert success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'complain berhasil di edit!',
-                    }).then(() => {
-                        location.reload()
-                    });
-                } else {
+            $.ajax({
+                type: 'POST',
+                url: '/complain/myedit/' + complainId,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'complain berhasil di edit!',
+                        }).then(() => {
+                            window.location.href = window.location.href; // Reload halaman
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'complain gagal di edit.',
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'complain gagal di edit.',
+                        text: 'Terjadi kesalahan saat mengirim data.',
                     });
+                },
+                complete: function() {
+                    $('#btn-yes-add').show(); 
+                    $('#loading-spinner').hide(); 
                 }
-            },
-        });
-    }
+            });
+        }
 
-        $('#complainModal').modal('hide');
+       
     });
 });
-
 
 //DELETE
 document.querySelectorAll('.delete').forEach(function(link) {
@@ -893,8 +937,8 @@ document.querySelectorAll('.delete').forEach(function(link) {
            cancelButtonText: 'Batal'
        }).then((result) => {
            if (result.isConfirmed) {
-            //    axios.post('{{ route('delete.complain') }}', {
-                axios.post('http://hallohcga.ppa-ba.net/complain/delete', {
+                //    axios.post('{{ route('delete.complain') }}', {
+                axios.post('/complain/delete', {
                    complain_id: complainId
                })
                .then(function (response) {
@@ -934,7 +978,7 @@ document.querySelectorAll('.send-link').forEach(function(link) {
        }).then((result) => {
            if (result.isConfirmed) {
             //    axios.post('{{ route('send.complain') }}', {
-               axios.post('http://hallohcga.ppa-ba.net/complain/send-data', {
+               axios.post('/complain/send-data', {
 
                    complain_id: complainId
                })
@@ -960,35 +1004,45 @@ document.querySelectorAll('.send-link').forEach(function(link) {
 });
 
 //REVISI GAGL
-$('.revisi').click(function() {
-    var complainId = $(this).data('id');
+$(document).ready(function() {
+    $('.revisi').click(function() {
+        var complainId = $(this).data('id');
 
-    $('#btn-yes-revisi').click(function() {
-        var data = $('.form_revisi').serialize();
-        $.ajax({
-            type: 'POST',
-            // url: '/complain/revisi?complain_id=' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/revisi?complain_id=' + complainId,
-            data: data,
-            success: function(response) {
-                Swal.fire({
-                icon: 'success',
-                title: 'Sukses!',
-                text: response.message
-                }).then(() => {
-                       location.reload()
-                });
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim revisi.'
-                });
-            }
+        $('#btn-yes-revisi').off('click').on('click', function() { // Gunakan off().on() agar event tidak bertambah
+            var data = $('.form_revisi').serialize();
+
+            $('#btn-yes-revisi').hide();
+            $('#loading-spinner').show();
+
+            $.ajax({
+                type: 'POST',
+                url: '/complain/revisi?complain_id=' + complainId,
+                data: data,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Terjadi kesalahan saat mengirim revisi.'
+                    });
+                },
+                complete: function() {
+                    $('#btn-yes-revisi').show();
+                    $('#loading-spinner').hide();
+                }
+            });
         });
     });
 });
+
 
 //REJECT GAGL
 $('.reject').click(function() {
@@ -999,7 +1053,7 @@ $('.reject').click(function() {
         $.ajax({
             type: 'POST',
             // url: '/complain/reject?complain_id=' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/reject?complain_id=' + complainId,
+            url: '/complain/reject?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1030,7 +1084,7 @@ $('.validasi').click(function() {
         $.ajax({
             type: 'POST',
             // url: '/complain/validasigagl?complain_id=' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/validasigagl?complain_id=' + complainId,
+            url: '/complain/validasigagl?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1062,7 +1116,7 @@ $('.pendingGagl').click(function() {
         $.ajax({
             type: 'POST',
             // url: '/complain/pendingGagl?complain_id=' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/pendingGagl?complain_id=' + complainId,
+            url: '/complain/pendingGagl?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1084,41 +1138,50 @@ $('.pendingGagl').click(function() {
     });
 });
 
-//VALIDASI crew
-$('.validasi_crew').click(function() {
-    var complainId = $(this).data('id');
+// VALIDASI CREW
+$(document).ready(function() {
+    $('.validasi_crew').click(function() {
+        var complainId = $(this).data('id');
 
-    // Hanya tambahkan event handler satu kali
-    $('#btn-yes-validasi_crew').off('click').on('click', function() {
-        // Gunakan FormData untuk mendukung pengunggahan file
-        var form = $('.form_validasi_crew')[0];
-        var formData = new FormData(form);
-        formData.append('complain_id', complainId);
+        $('#btn-yes-validasi_crew').off('click').on('click', function() {
+            var form = $('.form_validasi_crew')[0];
+            var formData = new FormData(form);
+            formData.append('complain_id', complainId);
 
-        $.ajax({
-            type: 'POST',
-            // url: '/complain/validasicrew',
-            url: 'http://hallohcga.ppa-ba.net/complain/validasicrew',
-            data: formData,
-            processData: false, // Jangan memproses data secara otomatis
-            contentType: false, // Jangan tetapkan header Content-Type secara manual
-            success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses!',
-                    text: response.message
-                }).then(() => {
-                    location.reload();
-                });
-            },
-            error: function(error) {
-                var errorMessage = error.responseJSON?.message || 'Terjadi kesalahan saat mengirim revisi.';
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: errorMessage
-                });
-            }
+            $('#btn-yes-validasi_crew').hide();
+            $('#loading-spinner-validasi').show();
+
+            $.ajax({
+                type: 'POST',
+                url: '/complain/validasicrew',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(error) {
+                    var errorMessage = error.responseJSON && error.responseJSON.message 
+                        ? error.responseJSON.message 
+                        : 'Terjadi kesalahan saat mengirim validasi.';
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: errorMessage
+                    });
+                },
+                complete: function() { // Memperbaiki kesalahan titik koma
+                    $('#btn-yes-validasi_crew').show();
+                    $('#loading-spinner').hide();
+                }
+            });
         });
     });
 });
@@ -1131,8 +1194,8 @@ $('.rejectcrew').click(function() {
 
         $.ajax({
             type: 'POST',
-            // url: '/complain/rejectcrew?complain_id=' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/rejectcrew?complain_id=' + complainId,
+            url: '/complain/rejectcrew?complain_id=' + complainId,
+            //url: '/complain/rejectcrew?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1163,7 +1226,7 @@ $('.revisicrew').click(function() {
         $.ajax({
             type: 'POST',
             //url: '/complain/revisicrew?complain_id=' + complainId,
-            url: 'http://hallohcga.ppa-ba.net/complain/revisicrew?complain_id=' + complainId,
+            url: '/complain/revisicrew?complain_id=' + complainId,
             data: data,
             success: function(response) {
                 Swal.fire({
@@ -1189,19 +1252,18 @@ $('.revisicrew').click(function() {
 $('.approval').click(function() {
     var complainId = $(this).data('id');
 
-    // Pastikan event handler hanya terpasang sekali
     $('#btn-yes-approval').off('click').on('click', function() {
-        // Menggunakan FormData untuk mendukung pengunggahan file
         var form = $('.form_approval')[0];
         var formData = new FormData(form);
-        formData.append('complain_id', complainId); // Menambahkan complain_id ke FormData
-
+        formData.append('complain_id', complainId); 
+        $('#btn-yes-approval').hide(); 
+        $('#loading-spinner-approval').show(); 
         $.ajax({
             type: 'POST',
-            url: 'http://hallohcga.ppa-ba.net/complain/approval', // URL tetap, complain_id ditambahkan lewat formData
+            url: '/complain/approval', 
             data: formData,
-            processData: false, // Jangan memproses data secara otomatis
-            contentType: false, // Jangan tetapkan header Content-Type secara manual
+            processData: false, 
+            contentType: false, 
             success: function(response) {
                 Swal.fire({
                     icon: 'success',
@@ -1215,9 +1277,14 @@ $('.approval').click(function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim revisi.'
+                    text: 'Terjadi kesalahan saat mengirim data.'
                 });
-            }
+            },
+                complete: function() {
+                    $('#btn-yes-approval').show(); 
+                    $('#loading-spinner').hide(); 
+                }
+
         });
     });
 });
@@ -1229,19 +1296,18 @@ function updateDueDate() {
         const today = new Date();
 
         if (skala === 'Prioritas') {
-            today.setDate(today.getDate() + 0); // Tambah 3 hari untuk Prioritas
+            today.setDate(today.getDate() + 0); 
         } else if (skala === 'Minor') {
-            today.setDate(today.getDate() + 1); // Tambah 1 hari untuk Normal
+            today.setDate(today.getDate() + 1); 
         }else if (skala === 'Mayor') {
             today.setDate(today.getDate() + 3);
         }else {
-            dueDate.value = ''; // Kosongkan jika tidak ada skala dipilih
+            dueDate.value = ''; 
             return;
         }
-        dueDate.value = today.toISOString().split('T')[0]; // Format tanggal
+        dueDate.value = today.toISOString().split('T')[0]; 
     }
 
-    // Pastikan Due Date kosong saat halaman pertama kali dimuat
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('due_date').value = '';
     });
@@ -1268,17 +1334,15 @@ function updateDueDate() {
         'PITSTOP': [
             'MUSHOLLA', 'WORKSHOP TRACK', 'AKADEMI', 'FABRIKASI', 'TOOLS', 'TYRE', 'TRACKINDO', 'SUPPORT'
         ],
-        'OTHER': []  // Disable Gedung when "Other" is selected
+        'OTHER': []  
     };
 
     document.getElementById('area_add').addEventListener('change', function() {
         const selectedArea = this.value;
         const gedungSelect = document.getElementById('gedung_add');
 
-        // Clear existing options
         gedungSelect.innerHTML = '<option value="">Pilih Gedung</option>';
 
-        // If area is selected and not 'Lainnya', populate gedung options
         if (selectedArea && selectedArea !== 'OTHER') {
             gedungOptions[selectedArea].forEach(gedung => {
                 const option = document.createElement('option');
@@ -1297,17 +1361,17 @@ function updateDueDate() {
 
 
 $(document).ready(function() {
-    // Cek ukuran layar
+ 
     function getMaxLength() {
-        // Jika lebar layar kurang dari atau sama dengan 576px (layar kecil)
+        
         if (window.matchMedia("(max-width: 576px)").matches) {
-            return 10; // Panjang maksimal untuk layar kecil
+            return 10; 
         }
-        return 50; // Panjang maksimal untuk layar besar
+        return 50;
     }
 
     $('.truncate-text').each(function() {
-        var maxLength = getMaxLength(); // Tentukan maxLength berdasarkan ukuran layar
+        var maxLength = getMaxLength(); 
         var originalText = $(this).text();
 
         if (originalText.length > maxLength) {
@@ -1316,7 +1380,6 @@ $(document).ready(function() {
         }
     });
 
-    // Update truncate saat ukuran layar berubah
     $(window).resize(function() {
         $('.truncate-text').each(function() {
             var maxLength = getMaxLength();
@@ -1334,32 +1397,22 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $.ajax({
-        url: 'http://hallohcga.ppa-ba.net/complain/getteknisi',  // Sesuaikan dengan URL route Anda
+        url: '/complain/getteknisi',  
         method: 'GET',
         success: function(response) {
-            // Log the response data for debugging
-            console.log('Response:', response);
-
-            // Mengosongkan dulu semua option yang ada
             $('#crew_picadd').empty();
-
-            // Menambahkan option default
             $('#crew_picadd').append('<option value="">- Pilih Crew PIC -</option>');
 
-            // Loop untuk menambahkan option berdasarkan data yang didapat
             $.each(response, function(index, user) {
                 $('#crew_picadd').append('<option value="' + user.nama + '">' + user.nama + '</option>');
             });
 
-            // Log the content of the crew_picadd dropdown after adding options
-            console.log('Crew PIC options:', $('#crew_picadd').html());
         },
         error: function() {
             alert('Terjadi kesalahan dalam mengambil data');
         }
     });
 });
-
 
 </script>
 

@@ -53,22 +53,45 @@ class ComplainController extends Controller
 
     }
 
-    // public function getTeknisi()
-    // {
-    //     $teknisi= $this->ComplainRepository->getUserLevel2();
-    //     //dd($teknisi);
-    //     return view('complain.complain', [
-    //         'teknisi' => $teknisi,
-    //     ]);
-
-    // }
 
     public function getTeknisi()
-{
-    $teknisi = $this->ComplainRepository->getUserLevel2();
-//dd($teknisi);
-    return response()->json($teknisi);
-}
+    {
+        $teknisi = $this->ComplainRepository->getUserLevel2();
+        return response()->json($teknisi);
+    }
+
+    // public function create(Request $request)
+    // {
+    //     $userRole = auth()->user()->id_role;
+    //     $data = $request->except('_token');
+
+    //     $request->validate([
+    //         'fotodeviasi_add' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:1024000', // Menambahkan format HEIC/HEIF
+    //     ]);
+
+    //     if ($request->hasFile('fotodeviasi_add') && $request->file('fotodeviasi_add')->isValid()) {
+    //         $image = $request->file('fotodeviasi_add');
+    //         $imageInstance = Image::make($image);
+    //         $imageInstance->encode('jpg', 1);
+    //         $fileName = uniqid() . '.jpg';
+    //         $filePath = public_path('storage/photos/' . $fileName);
+
+    //         $imageInstance->save($filePath);
+
+    //         $data['fotodeviasi_add'] = 'photos/' . $fileName;
+
+    //     } else {
+    //         $data['fotodeviasi_add'] = null;
+    //     }
+
+    //     $result = $this->ComplainRepository->create($data, $userRole);
+
+    //     if ($result) {
+    //         return response()->json(['status' => 'success']);
+    //     } else {
+    //         return response()->json(['status' => 'error']);
+    //     }
+    // }
 
     public function create(Request $request)
     {
@@ -76,16 +99,31 @@ class ComplainController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-            'fotodeviasi_add' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:1024000', // Menambahkan format HEIC/HEIF
+            'fotodeviasi_add' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:1024000', 
         ]);
 
         if ($request->hasFile('fotodeviasi_add') && $request->file('fotodeviasi_add')->isValid()) {
             $image = $request->file('fotodeviasi_add');
             $imageInstance = Image::make($image);
-            $imageInstance->encode('jpg', 1);
+
+            
+            if ($imageInstance->width() > 800) {
+                $imageInstance->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio(); 
+                    $constraint->upsize();
+                });
+            }
+
+            $quality = 100; 
+
+            $imageInstance->encode('jpg', $quality);
+            while (strlen($imageInstance) > 102400) { 
+                $quality -= 5; 
+                $imageInstance->encode('jpg', $quality);
+            }
+
             $fileName = uniqid() . '.jpg';
             $filePath = public_path('storage/photos/' . $fileName);
-
             $imageInstance->save($filePath);
 
             $data['fotodeviasi_add'] = 'photos/' . $fileName;
@@ -260,7 +298,7 @@ class ComplainController extends Controller
 
     protected function sendWhatsAppMessage($no_hp, $message)
     {
-        $apiKey = env('FONNTE_API_KEY'); // Simpan token di .env
+        $apiKey = env('FONNTE_API_KEY');
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -275,7 +313,7 @@ class ComplainController extends Controller
             CURLOPT_POSTFIELDS => array(
                 'target' => $no_hp,
                 'message' => $message,
-                'countryCode' => '62', // opsional
+                'countryCode' => '62', 
             ),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: ' . $apiKey
@@ -327,21 +365,34 @@ class ComplainController extends Controller
             'foto_perbaikan' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:102400', // Menambahkan format HEIC/HEIF
         ]);
 
+    
         if ($request->hasFile('foto_perbaikan') && $request->file('foto_perbaikan')->isValid()) {
-            $image = $request->file('foto_perbaikan');
-            $imageInstance = Image::make($image);
+        $image = $request->file('foto_perbaikan');
+        $imageInstance = Image::make($image);
 
-            $imageInstance->encode('jpg', 1);
-
-            $fileName = uniqid() . '.jpg';
-            $filePath = public_path('storage/photos/' . $fileName);
-
-            $imageInstance->save($filePath);
-
-            $foto_perbaikan = 'photos/' . $fileName;
-        } else {
-            $foto_perbaikan = null;
+        if ($imageInstance->width() > 800) {
+            $imageInstance->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
         }
+
+        $quality = 100; 
+        $imageInstance->encode('jpg', $quality);
+        while (strlen($imageInstance) > 102400) {  
+            $quality -= 5; 
+            $imageInstance->encode('jpg', $quality);
+        }
+
+        $fileName = uniqid() . '.jpg';
+        $filePath = public_path('storage/photos/' . $fileName);
+        $imageInstance->save($filePath);
+
+        $foto_perbaikan = 'photos/' . $fileName;
+    } else {
+        $foto_perbaikan = null;
+    }
+
 
         $result = $this->ComplainRepository->validasicrew(
             $selectedComplainId,
@@ -453,18 +504,32 @@ class ComplainController extends Controller
         if ($request->hasFile('foto_hasil_perbaikan') && $request->file('foto_hasil_perbaikan')->isValid()) {
             $image = $request->file('foto_hasil_perbaikan');
             $imageInstance = Image::make($image);
-
-            $imageInstance->encode('jpg', 1);
-
+        
+            if ($imageInstance->width() > 800) {
+                $imageInstance->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio(); 
+                    $constraint->upsize();
+                });
+            }
+        
+            $quality = 100; 
+        
+            $imageInstance->encode('jpg', $quality);
+            while (strlen($imageInstance) > 102400) { 
+                $quality -= 5; 
+                $imageInstance->encode('jpg', $quality);
+            }
+        
             $fileName = uniqid() . '.jpg';
             $filePath = public_path('storage/photos/' . $fileName);
-
+        
             $imageInstance->save($filePath);
-
+        
             $foto_hasil_perbaikan = 'photos/' . $fileName;
         } else {
             $foto_hasil_perbaikan = null;
         }
+        
 
     $result = $this->ComplainRepository->approval($approvalName, $selectedComplainId, $approval,$foto_hasil_perbaikan, $userId);
 
@@ -480,7 +545,6 @@ class ComplainController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-        // Gunakan filter waktu jika ada
         $query = $this->ComplainRepository->getAllWithDate();
         if ($startDate && $endDate) {
             $query->whereBetween('complain.tanggal', [$startDate, $endDate]);
@@ -488,10 +552,10 @@ class ComplainController extends Controller
 
         $complainData = $query->get();
 
-        return view('http://hallohcga.ppa-ba.net/report/report_complain', [
+        return view('/report/report_complain', [
             'complainData' => $complainData,
-            'startDate' => $startDate,  // Pass start_date to the view
-            'endDate' => $endDate,      // Pass end_date to the view
+            'startDate' => $startDate,  
+            'endDate' => $endDate, 
         ]);
     }
 }

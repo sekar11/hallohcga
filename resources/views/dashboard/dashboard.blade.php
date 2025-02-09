@@ -26,11 +26,12 @@
         {{-- </div> --}}
         <div class="slider-container">
             <div class="slider-wrapper">
-                <img src="assets/img/product-5.jpg" class="slide" alt="Foto 1">
-                <img src="assets/img/product-1.jpg" class="slide" alt="Foto 2">
-                <img src="assets/img/product-2.jpg" class="slide" alt="Foto 3">
-                <img src="assets/img/product-3.jpg" class="slide" alt="Foto 4">
-                <img src="assets/img/product-4.jpg" class="slide" alt="Foto 5">
+                <img src="assets/img/mess.jpg" class="slide" alt="Foto 1">
+                <img src="assets/img/web-1.jpg" class="slide" alt="Foto 2">
+                <img src="assets/img/web-2.jpg" class="slide" alt="Foto 3">
+                <img src="assets/img/web-3.jpg" class="slide" alt="Foto 4">
+                <img src="assets/img/web-4.jpg" class="slide" alt="Foto 5">
+                <img src="assets/img/web-5.jpg" class="slide" alt="Foto 6">
             </div>
             {{-- <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
             <button class="next" onclick="moveSlide(1)">&#10095;</button> --}}
