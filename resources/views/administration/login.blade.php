@@ -54,7 +54,7 @@
               <!-- Gambar dan label akan disembunyikan pada layar kecil melalui CSS -->
               <div class="d-flex justify-content-center py-4 logo-container">
                 <a href="#" class="logo d-flex w-auto">
-                  <img class="loginku" src="assets/img/login.jpg" alt="">
+                  <img class="loginku" src="" alt="">
                 </a>
               </div>
             </div>
