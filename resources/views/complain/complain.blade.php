@@ -1418,48 +1418,53 @@ $(document).ready(function() {
     });
 });
 
-function calculateDaysDifference(dueDate) {
-    const today = new Date().setHours(0, 0, 0, 0); 
-    const due = new Date(dueDate).setHours(0, 0, 0, 0); 
-
-    if (today <= due) {
-      return null; 
-    }
-    return Math.floor((today - due) / (1000 * 3600 * 24)); 
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    let hideDueDateColumn = true;
+document.addEventListener("DOMContentLoaded", function () {
+    let hideDueDateColumn = true; // Untuk mengecek apakah kolom perlu disembunyikan
 
     document.querySelectorAll("#datatable tbody tr").forEach(row => {
-      const dueDateCell = row.querySelector(".due-date");
-      const statusCell = row.querySelector("td:nth-child(11)"); 
-      
-      if (statusCell && statusCell.innerText == "7") {
-        dueDateCell.innerText = "-"; // Jika status 7, isi dengan "-"
-      } else {
+        const dueDateCell = row.querySelector(".due-date"); 
+        const statusCell = row.querySelector("td:nth-child(11)"); // Sesuaikan dengan posisi kolom Status
+
+        if (!dueDateCell) return; // Jika elemen dueDateCell tidak ditemukan, lewati baris ini
+
         const dueDate = dueDateCell.getAttribute("data-due-date");
-        if (dueDate) {
-          const daysLeft = calculateDaysDifference(dueDate);
-          if (daysLeft === null) {
-            dueDateCell.innerText = "-
-          } else {
-            dueDateCell.innerText = `${daysLeft} hari`;
-            hideDueDateColumn = false;
-          }
+
+        if (statusCell && statusCell.innerText.trim() == "7") {
+            dueDateCell.innerText = "-"; // Jika status 7, tampilkan "-"
+        } else if (dueDate) {
+            const daysLeft = calculateDaysDifference(dueDate);
+            if (daysLeft === null) {
+                dueDateCell.innerText = "-"; // Jika due_date belum terlewat, tampilkan "-"
+            } else {
+                dueDateCell.innerText = `${daysLeft} hari`;
+                hideDueDateColumn = false; // Ada tugas tertunda, kolom tidak disembunyikan
+            }
         } else {
-          dueDateCell.innerText = "-"; 
+            dueDateCell.innerText = "-"; // Jika due_date kosong, tampilkan "-"
         }
-      }
     });
 
+    // Jika semua "Tugas Tertunda" kosong atau status 7, sembunyikan kolom
     if (hideDueDateColumn) {
-      document.querySelector(".due-date-header").style.display = "none";
-      document.querySelectorAll(".due-date").forEach(cell => {
-        cell.style.display = "none";
-      });
+        document.querySelector(".due-date-header").style.display = "none";
+        document.querySelectorAll(".due-date").forEach(cell => {
+            cell.style.display = "none";
+        });
     }
-  });
+});
+
+// Fungsi untuk menghitung selisih hari
+function calculateDaysDifference(dueDate) {
+    const today = new Date().setHours(0, 0, 0, 0); // Reset jam ke 00:00 untuk akurasi perhitungan
+    const due = new Date(dueDate).setHours(0, 0, 0, 0);
+
+    if (today <= due) {
+        return null; // Jika due_date masih di masa depan atau hari ini, tidak dihitung
+    }
+
+    return Math.floor((today - due) / (1000 * 3600 * 24)); // Hitung selisih hari dalam satuan hari
+}
+
 </script>
 
 @endsection
