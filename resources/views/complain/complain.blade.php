@@ -554,9 +554,7 @@
                     <th scope="col" class="hide-mobile">Gedung</th>
                     <th scope="col" class="hide-mobile">Lokasi</th>
                     <th scope="col" class="hide-mobile">Permasalahan</th>
-                    @if($ComplainData->pluck('due_date')->filter()->count() && $ComplainData->pluck('status')->filter(fn($status) => $status != 7)->count())
-                        <th scope="col">Tugas Tertunda</th>
-                    @endif
+                    <th scope="col">Tugas Tertunda</th>
                     <th scope="col" class="hide-mobile">Skala</th>
                     <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
@@ -1421,30 +1419,47 @@ $(document).ready(function() {
 });
 
 function calculateDaysDifference(dueDate) {
-    const today = new Date();
-    const due = new Date(dueDate);
+    const today = new Date().setHours(0, 0, 0, 0); 
+    const due = new Date(dueDate).setHours(0, 0, 0, 0); 
+
+    if (today <= due) {
+      return null; 
+    }
     return Math.floor((today - due) / (1000 * 3600 * 24)); 
   }
 
+  document.addEventListener("DOMContentLoaded", function () {
+    let hideDueDateColumn = true;
 
-  document.querySelectorAll('#datatable tbody tr').forEach(row => {
-    const dueDateCell = row.querySelector('.due-date');
-    const statusCell = row.querySelector('td:nth-child(11)'); 
-    
-    if (statusCell && statusCell.innerText == '7') {
-      const index = Array.from(row.children).findIndex(cell => cell.classList.contains('due-date'));
-      if (index !== -1) {
-        row.children[index].style.display = 'none';
+    document.querySelectorAll("#datatable tbody tr").forEach(row => {
+      const dueDateCell = row.querySelector(".due-date");
+      const statusCell = row.querySelector("td:nth-child(11)"); 
+      
+      if (statusCell && statusCell.innerText == "7") {
+        dueDateCell.innerText = "-"; // Jika status 7, isi dengan "-"
+      } else {
+        const dueDate = dueDateCell.getAttribute("data-due-date");
+        if (dueDate) {
+          const daysLeft = calculateDaysDifference(dueDate);
+          if (daysLeft === null) {
+            dueDateCell.innerText = "-
+          } else {
+            dueDateCell.innerText = `${daysLeft} hari`;
+            hideDueDateColumn = false;
+          }
+        } else {
+          dueDateCell.innerText = "-"; 
+        }
       }
-    } else if (dueDateCell) { 
-      const dueDate = dueDateCell.getAttribute('data-due-date');
-      if (dueDate) {
-        const daysLeft = calculateDaysDifference(dueDate); 
-        dueDateCell.innerText = `${daysLeft} hari`; 
-      }
+    });
+
+    if (hideDueDateColumn) {
+      document.querySelector(".due-date-header").style.display = "none";
+      document.querySelectorAll(".due-date").forEach(cell => {
+        cell.style.display = "none";
+      });
     }
   });
-
 </script>
 
 @endsection
