@@ -79,7 +79,7 @@ Class ComplainRepository
 
     public function edit($data, $id, $userRole)
     {
-        $kodeStatus = 1;
+        $kodeStatus = 2;
         $updateData = [];
 
         if (!empty($data['tanggal_add'])) {
@@ -101,7 +101,7 @@ Class ComplainRepository
             $updateData['foto_deviasi'] = $data['foto_deviasi'];
         }
 
-        $updateData['kode_status'] = 1;
+        $updateData['kode_status'] = 2;
         $updateData['created_on'] = now();
 
         if (!empty($updateData)) {
