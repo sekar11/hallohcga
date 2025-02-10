@@ -47,9 +47,8 @@
 
               <h1 class="login-title">LOGIN</h1>
               <h4 class="login-subtitle align-items-center" style="text-align: center; display: flex; justify-content: center; align-items: center;">
-                "Managing General Affairs with Ease and Precision"
+                "Bright Future of PPA"
              </h4>
-
 
               <!-- Gambar dan label akan disembunyikan pada layar kecil melalui CSS -->
               <div class="d-flex justify-content-center py-4 logo-container">
