@@ -803,7 +803,7 @@ $('.view').click(function () {
 });
 
 
-var complainId;
+
 var complainId;
 $('.edit').click(function() {
     complainId = $(this).data('id');
@@ -814,18 +814,37 @@ $('.edit').click(function() {
         url: '/complain/get/' + complainId,
         success: function(response) {
             $('#complainModal').find('#tanggal_add').val(response.tanggal);
-            $('#complainModal').find('#area_add').val(response.area);
-            $('#complainModal').find('#gedung_add').val(response.gedung);
+            $('#complainModal').find('#area_add').val(response.area).trigger('change');
+            setTimeout(function() {
+                $('#complainModal').find('#gedung_add').val(response.gedung);
+            }, 200);
             $('#complainModal').find('#lokasi_add').val(response.lokasi);
             $('#complainModal').find('#permasalahan_add').val(response.permasalahan);
-           //$('#complainModal').find('#fotodeviasi_add').val(response.foto_deviasi);
-
-
+            
             $('#complainModal').attr('data-mode', 'edit');
             $('#complainModal').modal('show');
         },
         error: function(error) {
             console.log(error);
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('#area_add').change(function() {
+        const selectedArea = $(this).val();
+        const gedungSelect = $('#gedung_add');
+
+        gedungSelect.html('<option value="">Pilih Gedung</option>');
+
+        if (selectedArea && gedungOptions[selectedArea]) { 
+            gedungOptions[selectedArea].forEach(function(gedung) {
+                gedungSelect.append('<option value="' + gedung + '">' + gedung + '</option>');
+            });
+
+            gedungSelect.prop('disabled', false);
+        } else {
+            gedungSelect.prop('disabled', true);
         }
     });
 });
@@ -1288,7 +1307,7 @@ $('.approval').click(function() {
 });
 
 
-function updateDueDate() {
+    function updateDueDate() {
         const skala = document.getElementById('skala').value;
         const dueDate = document.getElementById('due_date');
         const today = new Date();
