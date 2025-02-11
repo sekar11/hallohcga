@@ -612,7 +612,6 @@
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    <li><a class="dropdown-item send-link" href="#" data-id="{{ $complain->id }}"><i class="fa-regular fa-paper-plane"></i> Send</a></li>
                     <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal"data-bs-target="#approvalModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
                     <li><a class="dropdown-item validasi" href="#" data-bs-toggle="modal" data-bs-target="#validasiModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-square-check"></i>Validasi GA/GL</a></li>
                     <li><a class="dropdown-item pendingGagl" href="#" data-bs-toggle="modal" data-bs-target="#pendingModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-message"></i>Pending GA/GL</a></li>
@@ -628,35 +627,30 @@
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    <li><a class="dropdown-item send-link" href="#" data-id="{{ $complain->id }}"><i class="fa-regular fa-paper-plane"></i> Send</a></li>
                 </ul>
                 @elseif($complain->kode_status == 1 && auth()->user()->id_role == 3)
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    <li><a class="dropdown-item send-link" href="#" data-id="{{ $complain->id }}"><i class="fa-regular fa-paper-plane"></i> Send</a></li>
                 </ul>
                 @elseif($complain->kode_status == 1 && auth()->user()->id_role == 2)
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    <li><a class="dropdown-item send-link" href="#" data-id="{{ $complain->id }}"><i class="fa-regular fa-paper-plane"></i> Send</a></li>
                 </ul>
                 @elseif($complain->kode_status == 1 && auth()->user()->id_role == 4)
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    <li><a class="dropdown-item send-link" href="#" data-id="{{ $complain->id }}"><i class="fa-regular fa-paper-plane"></i> Send</a></li>
                 </ul>
                 @elseif($complain->kode_status == 9 && in_array(auth()->user()->id_role, [1, 2, 3, 4]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    <li><a class="dropdown-item send-link" href="#" data-id="{{ $complain->id }}"><i class="fa-regular fa-paper-plane"></i> Send</a></li>
                 </ul>
                 @elseif($complain->kode_status == 3  && in_array(auth()->user()->id_role, [2, 4]))
                 <ul class="dropdown-menu">
@@ -1419,32 +1413,32 @@ $(document).ready(function() {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    let hideDueDateColumn = true; // Untuk mengecek apakah kolom perlu disembunyikan
+    let hideDueDateColumn = true;
 
     document.querySelectorAll("#datatable tbody tr").forEach(row => {
         const dueDateCell = row.querySelector(".due-date"); 
-        const statusCell = row.querySelector("td:nth-child(11)"); // Sesuaikan dengan posisi kolom Status
+        const statusCell = row.querySelector("td:nth-child(11)"); 
 
-        if (!dueDateCell) return; // Jika elemen dueDateCell tidak ditemukan, lewati baris ini
+        if (!dueDateCell) return; 
 
         const dueDate = dueDateCell.getAttribute("data-due-date");
 
         if (statusCell && statusCell.innerText.trim() == "7") {
-            dueDateCell.innerText = "-"; // Jika status 7, tampilkan "-"
+            dueDateCell.innerText = "-"; 
         } else if (dueDate) {
             const daysLeft = calculateDaysDifference(dueDate);
             if (daysLeft === null) {
-                dueDateCell.innerText = "-"; // Jika due_date belum terlewat, tampilkan "-"
+                dueDateCell.innerText = "-"; 
             } else {
                 dueDateCell.innerText = `${daysLeft} hari`;
-                hideDueDateColumn = false; // Ada tugas tertunda, kolom tidak disembunyikan
+                hideDueDateColumn = false; 
             }
         } else {
-            dueDateCell.innerText = "-"; // Jika due_date kosong, tampilkan "-"
+            dueDateCell.innerText = "-"; 
         }
     });
 
-    // Jika semua "Tugas Tertunda" kosong atau status 7, sembunyikan kolom
+    
     if (hideDueDateColumn) {
         document.querySelector(".due-date-header").style.display = "none";
         document.querySelectorAll(".due-date").forEach(cell => {
@@ -1453,16 +1447,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Fungsi untuk menghitung selisih hari
+
 function calculateDaysDifference(dueDate) {
-    const today = new Date().setHours(0, 0, 0, 0); // Reset jam ke 00:00 untuk akurasi perhitungan
+    const today = new Date().setHours(0, 0, 0, 0); 
     const due = new Date(dueDate).setHours(0, 0, 0, 0);
 
     if (today <= due) {
-        return null; // Jika due_date masih di masa depan atau hari ini, tidak dihitung
+        return null;
     }
 
-    return Math.floor((today - due) / (1000 * 3600 * 24)); // Hitung selisih hari dalam satuan hari
+    return Math.floor((today - due) / (1000 * 3600 * 24)); 
 }
 
 </script>
