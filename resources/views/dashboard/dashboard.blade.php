@@ -12,29 +12,15 @@
     </div>
 
     <section class="section dashboard">
-        {{-- <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="assets/img/HalloHCGA.png" alt="Foto 1"></div>
-                <div class="swiper-slide"><img src="image2.jpg" alt="Foto 2"></div>
-                <div class="swiper-slide"><img src="image3.jpg" alt="Foto 3"></div>
-                <div class="swiper-slide"><img src="image4.jpg" alt="Foto 4"></div>
-                <div class="swiper-slide"><img src="image5.jpg" alt="Foto 5"></div>
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div> --}}
-        {{-- </div> --}}
         <div class="slider-container">
             <div class="slider-wrapper">
-                <img src="assets/img/mess.jpg" class="slide" alt="Foto 1">
-                <img src="assets/img/web-1.jpg" class="slide" alt="Foto 2">
-                <img src="assets/img/web-2.jpg" class="slide" alt="Foto 3">
-                <img src="assets/img/web-3.jpg" class="slide" alt="Foto 4">
-                <img src="assets/img/web-4.jpg" class="slide" alt="Foto 5">
-                <img src="assets/img/web-5.jpg" class="slide" alt="Foto 6">
+                <img src="assets/img/messbaru.png" class="slide" alt="Foto 1">
+                <img src="assets/img/2.png" class="slide" alt="Foto 2">
+                <img src="assets/img/3.png" class="slide" alt="Foto 3">
+                <img src="assets/img/4.png" class="slide" alt="Foto 4">
+                <img src="assets/img/5.png" class="slide" alt="Foto 5">
             </div>
-            {{-- <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-            <button class="next" onclick="moveSlide(1)">&#10095;</button> --}}
+         
         </div>
         <br>
     <div class="row">
