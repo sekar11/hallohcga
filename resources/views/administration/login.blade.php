@@ -133,7 +133,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-    var images = ['assets/img/mess.jpg', 'assets/img/web-2.jpg', 'assets/img/web-3.jpg','assets/img/web-1.jpg','assets/img/web-5.jpg','assets/img/web-4.jpg'];
+    var images = ['assets/img/mess.jpg', 'assets/img/web-2.jpg', 'assets/img/web-3.jpg','assets/img/web-5.jpg','assets/img/sertif1.jpg','assets/img/sertif2.jpg'];
     var randomImage = images[Math.floor(Math.random() * images.length)];
     document.querySelector('.loginku').src = randomImage;
     });
