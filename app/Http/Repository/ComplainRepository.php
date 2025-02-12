@@ -44,7 +44,7 @@ Class ComplainRepository
     public function getUserLevel2()
     {
         return DB::table('users')
-        ->where('id_role', 2)
+        ->whereIn('id_role', [2, 4])
         ->get();
     }
 
