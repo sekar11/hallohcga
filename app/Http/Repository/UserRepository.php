@@ -81,12 +81,16 @@ class UserRepository
                 ->where('id', $id)
                 ->update([
                     'nrp' => $data['nrp'],
-                    'nama' => $data['nama'],
+                    'nama' => $data['name'],
                     'username' => $data['username'],
                     'email' => $data['email'],
-                    'dept' => $data['dept'],
-                    'no_hp' => $data['no_hp'],
+                    'dept' => $data['departemen'],
                     'perusahaan' => $data['perusahaan'],
+                    'no_hp' => $data['phone_number'],
+                    'baju' => $data['baju'],
+                    'celana' => $data['celana'],
+                    'rompi' => $data['rompi'],
+                    'sepatu' => $data['sepatu'],
                 ]);
 
             return ['status' => 'success'];

@@ -1,6 +1,17 @@
 @extends('include/mainlayout')
 
 @section('content')
+@if(session('alert'))
+    <div class="alert alert-warning" id="alert-box">
+        {{ session('alert') }}
+    </div>
+@endif
+
+@if(session('hide_menu'))
+    <style>
+        #sidebar, #navbar { display: none; }
+    </style>
+@endif
     <div class="pagetitle">
       <h1>Profile</h1>
       <nav>
@@ -101,7 +112,7 @@
                     <div class="row mb-3">
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Perusahaan</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="alamat" type="text" class="form-control" id="alamat" value="{{ auth()->user()->perusahaan }}">
+                        <input name="perusahaan" type="text" class="form-control" id="perusahaan" value="{{ auth()->user()->perusahaan }}">
                       </div>
                     </div>
 
@@ -116,6 +127,34 @@
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="email" type="email" class="form-control" id="email" value="{{ auth()->user()->email }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="baju" class="col-md-4 col-lg-3 col-form-label">Ukuran Baju</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="baju" type="baju" class="form-control" id="baju" value="{{ auth()->user()->baju }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="celana" class="col-md-4 col-lg-3 col-form-label">Ukuran Celana</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="celana" type="celana" class="form-control" id="celana" value="{{ auth()->user()->celana }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="rompi" class="col-md-4 col-lg-3 col-form-label">Ukuran Rompi</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="rompi" type="rompi" class="form-control" id="rompi" value="{{ auth()->user()->rompi }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="sepatu" class="col-md-4 col-lg-3 col-form-label">Ukuran Sepatu</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="sepatu" type="sepatu" class="form-control" id="sepatu" value="{{ auth()->user()->sepatu }}">
                       </div>
                     </div>
 
@@ -182,9 +221,9 @@
 
         </div>
       </div>
-    </section>
-    <script>
+</section>
 
+<script>
     $(document).ready(function() {
         $('#togglePassword1').on('click', function() {
             var passwordField = $('#currentPassword');
@@ -260,43 +299,43 @@
             },
         });
     });
-});
+  });
 
-$(document).ready(function() {
-    $('#btnChangePassword').click(function() {
-        $.ajax({
-            type: 'POST',
-            url: $('#changePasswordForm').attr('action'),
-            data: $('#changePasswordForm').serialize(),
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Password changed successfully!',
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message || 'Failed to change password. Please check your input.',
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while sending the data.',
-                });
-            },
-        });
-    });
-});
+  $(document).ready(function() {
+      $('#btnChangePassword').click(function() {
+          $.ajax({
+              type: 'POST',
+              url: $('#changePasswordForm').attr('action'),
+              data: $('#changePasswordForm').serialize(),
+              success: function(response) {
+                  if (response.status === 'success') {
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Success',
+                          text: 'Password changed successfully!',
+                      }).then(() => {
+                          location.reload();
+                      });
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: response.message || 'Failed to change password. Please check your input.',
+                      });
+                  }
+              },
+              error: function(xhr, status, error) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'An error occurred while sending the data.',
+                  });
+              },
+          });
+      });
+  });
 
 
 
-    </script>
+</script>
 @endsection
