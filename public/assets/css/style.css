@@ -1306,7 +1306,7 @@ h6 {
 }
 
 .loginku {
-  border-radius: 15px; 
+  border-radius: 15px;
   height: auto;
 }
 
@@ -1602,7 +1602,7 @@ hr{
     margin-left: 1rem;
 }
 
-.slider-container {
+/* .slider-container {
     position: relative;
     width: 100%;
     max-width: 100%;
@@ -1619,7 +1619,7 @@ hr{
     width: 100%;
     flex-shrink: 0;
     object-fit: cover;
-}
+} */
 
 /* .prev, .next {
     position: absolute;
@@ -1640,9 +1640,9 @@ hr{
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
-  z-index: 10; 
-  background-color: rgba(0, 0, 0, 0.5); 
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 5px;
   color: white;
@@ -1653,9 +1653,9 @@ hr{
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
-  z-index: 10; 
-  background-color: rgba(0, 0, 0, 0.5); 
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 5px;
   color: white;
@@ -1666,17 +1666,84 @@ hr{
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
-  z-index: 10; 
-  background-color: rgba(0, 0, 0, 0.5); 
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 5px;
   color: white;
 }
 
 #btn-yes-add {
-  position: relative; 
+  position: relative;
 }
+
+/* Sembunyikan gambar mobile di layar besar */
+.mobilee {
+    display: none;
+}
+
+/* Tampilkan gambar mobile dan sembunyikan gambar desktop di layar HP */
+@media (max-width: 768px) {
+    .desktop {
+        display: none !important;
+    }
+    .mobilee {
+        display: block !important;
+    }
+}
+
+/* Tampilkan gambar desktop dan sembunyikan gambar mobile di layar besar */
+@media (min-width: 769px) {
+    .desktop {
+        display: block !important;
+    }
+    .mobilee {
+        display: none !important;
+    }
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.slider-button {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: none; /* Hide by default */
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+
+
 
 
 
