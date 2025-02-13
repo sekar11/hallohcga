@@ -14,16 +14,16 @@
     <section class="section dashboard">
         <div class="slider-container">
             <div class="slider-wrapper">
-                <img src="assets/img/messbaru.png" class="slide desktop" alt="Foto 1">
-                <img src="assets/img/2.png" class="slide desktop" alt="Foto 2">
-                <img src="assets/img/3.png" class="slide desktop" alt="Foto 3">
-                <img src="assets/img/4.png" class="slide desktop" alt="Foto 4">
-                <img src="assets/img/5.png" class="slide desktop" alt="Foto 5">
+                <img src="assets/img/messbaru.png" class="slide" alt="Foto 1">
+                <img src="assets/img/2.png" class="slide" alt="Foto 2">
+                <img src="assets/img/3.png" class="slide" alt="Foto 3">
+                <img src="assets/img/4.png" class="slide" alt="Foto 4">
+                <img src="assets/img/5.png" class="slide" alt="Foto 5">
 
                 <!-- Untuk layar kecil -->
-                <img src="assets/img/sertif1.jpg" class="slide mobilee" alt="Foto HP 1">
+                {{-- <img src="assets/img/sertif1.jpg" class="slide mobilee" alt="Foto HP 1">
                 <img src="assets/img/mess.jpg" class="slide mobilee" alt="Foto HP 2">
-                <img src="assets/img/web-5.jpg" class="slide mobilee" alt="Foto HP 3">
+                <img src="assets/img/web-5.jpg" class="slide mobilee" alt="Foto HP 3"> --}}
             </div>
             <button class="slider-button prev">&#10094;</button>
             <button class="slider-button next">&#10095;</button>

@@ -40,37 +40,37 @@ class UserController extends Controller
         ]);
     }
 
-    
+
     public function loginku(Request $request)
     {
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-    
+
         $username = $request->input('username');
         $password = $request->input('password');
-    
+
         $hashedPassword = sha1($password);
         $user = $this->UserRepository->findUserByCredentials($username, $hashedPassword);
-    
+
         if (!$user) {
             return back()->withErrors(['password' => 'Username atau password salah.']);
         }
-    
+
         Auth::loginUsingId($user->id);
-    
-        if (!$user->baju || !$user->celana || !$user->rompi || !$user->sepatu || $user->password == sha1($user->nrp)) {
-            session()->flash('alert', 'Silakan lengkapi data karyawan dan ubah password sebelum menggunakan aplikasi.');
+
+        if (!$user->baju || !$user->celana || !$user->rompi || !$user->sepatu) {
+            session()->flash('alert', 'Silakan lengkapi data karyawan sebelum menggunakan aplikasi.');
             session()->flash('hide_menu', true);
-    
+
             return redirect('/profile');
         }
 
         session()->forget('hide_menu');
         return ($user->id_role == 1 || $user->id_role == 2) ? redirect('/complain') : redirect('/dashboard');
     }
-    
+
 
     public function showRegistrationForm()
     {
@@ -126,12 +126,22 @@ class UserController extends Controller
 
     public function editProfile($id, Request $request)
     {
-        $data = $request->all();
-        
-        $result = $this->UserRepository->editProfile($data, $id);
+        // Validasi input
+        $validatedData = $request->validate([
+            'baju' => 'required|string|max:100',
+            'sepatu' => 'required|string|max:100',
+            'celana' => 'required|string|max:100',
+            'rompi' => 'required|string|max:100',
+        ]);
+
+        $result = $this->UserRepository->editProfile($validatedData, $id);
+        $user = Auth::user();
 
         if ($result) {
-            return response()->json(['status' => 'success']);
+            return response()->json([
+                'status' => 'success',
+                'id_role' => $user->id_role,
+            ]);
         } else {
             return response()->json(['status' => 'error']);
         }
