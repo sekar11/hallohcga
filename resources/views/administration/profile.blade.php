@@ -58,7 +58,7 @@
                     <div class="col-lg-4 col-md-4 label">Email</div>
                     <div class="col-lg-8 col-md-8">{{ auth()->user()->email }}</div>
                   </div>
-                </div>   
+                </div>
             </div>
           </div>
 
@@ -190,7 +190,7 @@
                                 <i class="bi bi-eye-fill"></i>
                             </button>
                           </div>
-                            
+
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -202,7 +202,7 @@
                                 <i class="bi bi-eye-fill"></i>
                             </button>
                           </div>
-                            
+
                         </div>
                     </div>
                     <div class="text-center">
@@ -280,7 +280,11 @@
                         title: 'Success',
                         text: 'User berhasil di edit!',
                     }).then(() => {
-                        location.reload();
+                        if (response.id_role == 1 || response.id_role == 2) {
+                            window.location.href = '/complain';
+                        } else {
+                            window.location.href = '/dashboard';
+                        }
                     });
                 } else {
                     Swal.fire({
@@ -294,7 +298,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Terjadi kesalahan saat mengirim data.',
+                    text: 'Data Belum dilengkapi, silahkan lengkapi data.',
                 });
             },
         });

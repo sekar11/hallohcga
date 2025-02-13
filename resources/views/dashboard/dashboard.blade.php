@@ -19,9 +19,16 @@
                 <img src="assets/img/3.png" class="slide" alt="Foto 3">
                 <img src="assets/img/4.png" class="slide" alt="Foto 4">
                 <img src="assets/img/5.png" class="slide" alt="Foto 5">
+
+                <!-- Untuk layar kecil -->
+                {{-- <img src="assets/img/sertif1.jpg" class="slide mobilee" alt="Foto HP 1">
+                <img src="assets/img/mess.jpg" class="slide mobilee" alt="Foto HP 2">
+                <img src="assets/img/web-5.jpg" class="slide mobilee" alt="Foto HP 3"> --}}
             </div>
-         
+            <button class="slider-button prev">&#10094;</button>
+            <button class="slider-button next">&#10095;</button>
         </div>
+
         <br>
     <div class="row">
         <!-- Filter Tanggal dan Status -->
@@ -286,39 +293,92 @@
 // });
 
 
-function moveSlide(direction) {
-    currentIndex += direction;
+// function moveSlide(direction) {
+//     currentIndex += direction;
 
-    if (currentIndex < 0) {
-        currentIndex = totalSlides - 1;
-    } else if (currentIndex >= totalSlides) {
-        currentIndex = 0;
+//     if (currentIndex < 0) {
+//         currentIndex = totalSlides - 1;
+//     } else if (currentIndex >= totalSlides) {
+//         currentIndex = 0;
+//     }
+
+//     document.querySelector('.slider-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
+// }
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     let slides = document.querySelectorAll(".slide");
+//     let currentIndex = 0;
+
+//     function showSlide(index) {
+//         slides.forEach((slide, i) => {
+//             slide.style.display = i === index ? "block" : "none";
+//         });
+//     }
+
+//     function nextSlide() {
+//         currentIndex = (currentIndex + 1) % slides.length;
+//         showSlide(currentIndex);
+//     }
+
+//     // Tampilkan slide pertama saat halaman dimuat
+//     showSlide(currentIndex);
+
+//     // Ganti slide setiap 3 detik
+//     setInterval(nextSlide, 3000);
+// });
+
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
+
+const showSlide = (index) => {
+    if (index >= totalSlides) {
+        currentSlide = 0;
+    } else if (index < 0) {
+        currentSlide = totalSlides - 1;
+    } else {
+        currentSlide = index;
     }
+    const sliderWrapper = document.querySelector('.slider-wrapper');
+    sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+    updateNavigationVisibility();
+};
 
-    document.querySelector('.slider-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
-}
+// Tombol navigasi
+prevButton.addEventListener('click', () => showSlide(currentSlide - 1));
+nextButton.addEventListener('click', () => showSlide(currentSlide + 1));
 
-document.addEventListener("DOMContentLoaded", function () {
-    let slides = document.querySelectorAll(".slide");
-    let currentIndex = 0;
+// Memastikan tombol navigasi hanya tampil jika gambar ada yang ditampilkan
+const updateNavigationVisibility = () => {
+    const isMobile = window.innerWidth <= 768;
+    const mobileImages = document.querySelectorAll('.mobilee');
+    const desktopImages = document.querySelectorAll('.desktop');
+    const isAnyMobileVisible = Array.from(mobileImages).some(img => img.style.display !== 'none');
+    const isAnyDesktopVisible = Array.from(desktopImages).some(img => img.style.display !== 'none');
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.style.display = i === index ? "block" : "none";
-        });
+    if ((isMobile && isAnyMobileVisible) || (!isMobile && isAnyDesktopVisible)) {
+        prevButton.style.display = 'block';
+        nextButton.style.display = 'block';
+    } else {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
     }
+};
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    }
+// Menampilkan gambar pertama
+showSlide(currentSlide);
 
-    // Tampilkan slide pertama saat halaman dimuat
-    showSlide(currentIndex);
+// Auto-slide (5 detik)
+setInterval(() => {
+    showSlide(currentSlide + 1);
+}, 5000);
 
-    // Ganti slide setiap 3 detik
-    setInterval(nextSlide, 3000);
-});
+// Memanggil fungsi untuk memeriksa visibilitas tombol saat pertama kali load dan saat resize
+window.addEventListener('resize', updateNavigationVisibility);
+updateNavigationVisibility();
+
 
 
 const ctx = document.getElementById('buildingBarChart').getContext('2d');
