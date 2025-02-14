@@ -129,12 +129,12 @@ class UserController extends Controller
         // Validasi input
         $validatedData = $request->validate([
             'baju' => 'required|string|max:100',
-            'sepatu' => 'required|string|max:100',
-            'celana' => 'required|string|max:100',
-            'rompi' => 'required|string|max:100',
+            'sepatu' => 'nullable|string|max:100',
+            'celana' => 'nullable|string|max:100',
+            'rompi' => 'nullable|string|max:100',
         ]);
 
-        $result = $this->UserRepository->editProfile($validatedData, $id);
+        $result = $this->UserRepository->editProfile($request, $id);
         $user = Auth::user();
 
         if ($result) {
