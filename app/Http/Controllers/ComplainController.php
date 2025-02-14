@@ -536,7 +536,9 @@ class ComplainController extends Controller
         $messageUser .= "{$complain->permasalahan}\n\n";
         $messageUser .= "Keterangan Perbaikan:\n";
         $messageUser .= "{$complain->corrective_action}\n\n";
-        $messageUser .= "- Status: Done\n";
+        $messageUser .= "- Status: Done\n\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
 
         $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
         if (!$responseUser) {
