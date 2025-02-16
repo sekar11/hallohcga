@@ -46,7 +46,7 @@ Class ComplainRepository
             
             if (!$submissionDate) {
                 $complain->status = 'unknown';
-                $complain->badge_class = 'bg-secondary'; /
+                $complain->badge_class = 'bg-secondary'; 
             } 
     
             elseif ($approvalDate && $approvalDate === $submissionDate) {
@@ -63,6 +63,7 @@ Class ComplainRepository
             }
         }
         
+    
         return $data;
     }
 
