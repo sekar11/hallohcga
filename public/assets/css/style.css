@@ -1742,10 +1742,13 @@ hr{
     right: 0;
 }
 
-.table-responsive {
-    overflow-x: auto;
-    white-space: nowrap; /* Mencegah teks turun ke baris baru */
+.truncate-text {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 
 

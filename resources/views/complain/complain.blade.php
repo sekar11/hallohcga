@@ -581,7 +581,11 @@
                     <td class="hide-mobile">{{ $complain->lokasi}}</td>
                     <td class="truncate-text">{{ $complain->permasalahan}}</td>
                     <td>{{ $complain->crew_pic}}</td>
-                    <td class="lama-pengerjaan"></td>
+                    <td class="lama-pengerjaan">
+                        <span class="badge rounded-pill {{ $complain->badge_class }}">
+                            {{ $complain->days_worked }} hari
+                        </span>
+                    </td>
                     <td>{{ $complain->skala ? $complain->skala : '-' }}</td>
                     <td>
                         @if($complain->kode_status == 1)
@@ -715,18 +719,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 <script>
-
-$(document).ready(function() {
-    $('.truncate-text').each(function() {
-        var maxLength = 100;
-        var originalText = $(this).text();
-
-        if (originalText.length > maxLength) {
-            var truncatedText = originalText.substring(0, maxLength) + '...';
-            $(this).text(truncatedText);
-        }
-    });
-});
 
 //view
 var complainId;
@@ -1394,123 +1386,37 @@ function updateDueDate() {
         }
     });
 
+    $(document).ready(function() {
+        $.ajax({
+            url: '/complain/getteknisi',
+            method: 'GET',
+            success: function(response) {
+                $('#crew_picadd').empty();
+                $('#crew_picadd').append('<option value="">- Pilih Crew PIC -</option>');
 
-$(document).ready(function() {
+                $.each(response, function(index, user) {
+                    $('#crew_picadd').append('<option value="' + user.nama + '">' + user.nama + '</option>');
+                });
 
-    function getMaxLength() {
-
-        if (window.matchMedia("(max-width: 576px)").matches) {
-            return 10;
-        }
-        return 50;
-    }
-
-    $('.truncate-text').each(function() {
-        var maxLength = getMaxLength();
-        var originalText = $(this).text();
-
-        if (originalText.length > maxLength) {
-            var truncatedText = originalText.substring(0, maxLength) + '...';
-            $(this).text(truncatedText);
-        }
-    });
-
-    $(window).resize(function() {
-        $('.truncate-text').each(function() {
-            var maxLength = getMaxLength();
-            var originalText = $(this).data('original-text') || $(this).text();
-
-            if (originalText.length > maxLength) {
-                var truncatedText = originalText.substring(0, maxLength) + '...';
-                $(this).text(truncatedText).data('original-text', originalText);
-            } else {
-                $(this).text(originalText);
+            },
+            error: function() {
+                alert('Terjadi kesalahan dalam mengambil data');
             }
         });
     });
-});
-
-$(document).ready(function() {
-    $.ajax({
-        url: '/complain/getteknisi',
-        method: 'GET',
-        success: function(response) {
-            $('#crew_picadd').empty();
-            $('#crew_picadd').append('<option value="">- Pilih Crew PIC -</option>');
-
-            $.each(response, function(index, user) {
-                $('#crew_picadd').append('<option value="' + user.nama + '">' + user.nama + '</option>');
-            });
-
-        },
-        error: function() {
-            alert('Terjadi kesalahan dalam mengambil data');
-        }
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("#datatable tbody tr").forEach(row => {
-        const submissionDateCell = row.querySelector(".submission-date");
-        const dueDateCell = row.querySelector(".due-date");
-        const lamaPengerjaanCell = row.querySelector(".lama-pengerjaan");
-
-        if (!submissionDateCell || !dueDateCell || !lamaPengerjaanCell) return;
-
-        const submissionDate = submissionDateCell.getAttribute("data-submission-date");
-        const dueDate = dueDateCell.getAttribute("data-due-date");
-
-        if (!submissionDate || submissionDate.trim() === "") {
-            lamaPengerjaanCell.innerHTML = `<span class="badge rounded-pill text-bg-secondary">-</span>`;
-            return;
-        }
-
-        const daysWorked = calculateDaysDifference(submissionDate) + 1;
-        let isLate = false;
-        if (dueDate && dueDate.trim() !== "") {
-            isLate = isDueDateExceeded(dueDate);
-        }
-
-        const badge = document.createElement("span");
-        badge.classList.add("badge", "rounded-pill");
-        badge.innerText = `${daysWorked} hari`;
-
-        badge.classList.add(isLate ? "text-bg-danger" : "text-bg-success");
-        lamaPengerjaanCell.innerHTML = "";
-        lamaPengerjaanCell.appendChild(badge);
-    });
-});
-
-function calculateDaysDifference(startDate) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const start = new Date(startDate);
-    start.setHours(0, 0, 0, 0);
-
-    return Math.floor((today - start) / (1000 * 3600 * 24));
-}
-
-function isDueDateExceeded(dueDate) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const due = new Date(dueDate);
-    due.setHours(0, 0, 0, 0);
-
-    return today > due;
-}
-$(document).ready(function() {
-    $('#datatable').DataTable({
-        responsive: true
-    });
-});
 
 
+    // document.addEventListener("DOMContentLoaded", function () {
+    // document.querySelectorAll("table tbody td").forEach(td => {
+    //     td.classList.add("truncate-text");
+    // });
+    // });
 
 
 </script>
 
 @endsection
+
+
 
 
