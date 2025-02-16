@@ -12,23 +12,37 @@ Class ComplainRepository
     public function getAllWithUsername()
     {
         $query = DB::table('complain')
-            ->join('users', 'complain.nrp', '=', 'users.nrp')
-            ->select('complain.*', 'users.nama as nama', 'users.dept as departemen')
-            ->orderBy('created_on', 'desc');
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->orderBy('created_on', 'desc');
 
-        $userRole = auth()->user()->id_role;
+    $userRole = auth()->user()->id_role;
+    $userNrp = auth()->user()->nrp;
+    $userNama = auth()->user()->nama;
+    $userTimPIC = auth()->user()->tim_pic; 
 
-        if ($userRole == 1) {
-            $query->where('complain.nrp', auth()->user()->nrp);
-        }
+    if ($userRole == 1) {
+        $query->where('complain.nrp', $userNrp);
+    }
 
+    if ($userRole == 2) {
+        $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+            $subQuery->where('complain.crew_pic', '=', $userNama)
+                ->orWhere('complain.created_name', '=', $userNrp);
 
-        if ($userRole == 2) {
-            $query->where(function ($subQuery) {
-                $subQuery->where('complain.crew_pic', '=', auth()->user()->nama) // Mengambil semua complain di mana crew_pic adalah nama pengguna
-                    ->orWhere('complain.created_name', '=', auth()->user()->nrp); // Menambahkan complain yang dibuat oleh pengguna
-            });
-        }
+            if (!empty($userTimPIC)) {
+                
+                $teamMembers = DB::table('users')
+                    ->where('tim_pic', '=', $userTimPIC)
+                    ->pluck('nama')
+                    ->toArray(); 
+
+                if (!empty($teamMembers)) {
+                    $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                }
+            }
+        });
+    }
 
         $data = $query->get();
 
@@ -63,7 +77,7 @@ Class ComplainRepository
             }
         }
         
-    
+
         return $data;
     }
 
