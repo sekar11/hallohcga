@@ -22,13 +22,6 @@ Class ComplainRepository
             $query->where('complain.nrp', auth()->user()->nrp);
         }
 
-    // Filter untuk user dengan role 2
-        // if ($userRole == 2) {
-        //     $query->where(function ($subQuery) {
-        //         $subQuery->where('complain.kode_status', 3) // Menampilkan complain dengan status 3
-        //             ->where('complain.crew_pic', '=', auth()->user()->nama); // Memastikan crew_pic cocok dengan nrp pengguna
-        //     })->orWhere('complain.created_name', '=', auth()->user()->nrp); // Menambahkan complain yang dibuat oleh pengguna
-        // }
 
         if ($userRole == 2) {
             $query->where(function ($subQuery) {
@@ -38,6 +31,38 @@ Class ComplainRepository
         }
 
         $data = $query->get();
+
+        foreach ($data as $complain) {
+            $submissionDate = !empty($complain->tanggal) ? strtotime(date('Y-m-d', strtotime($complain->tanggal))) : null;
+            $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+            $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+            $today = strtotime(date('Y-m-d'));
+
+            $endDate = $approvalDate ?? $today;
+        
+            $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+        
+            // var_dump($submissionDate, $approvalDate, $dueDate, $endDate);
+            
+            if (!$submissionDate) {
+                $complain->status = 'unknown';
+                $complain->badge_class = 'bg-secondary'; /
+            } 
+    
+            elseif ($approvalDate && $approvalDate === $submissionDate) {
+                $complain->status = 'ontime';
+                $complain->badge_class = 'bg-success'; 
+            } 
+            elseif ($dueDate && $endDate > $dueDate) {
+                $complain->status = 'late';
+                $complain->badge_class = 'bg-danger'; 
+            } 
+            else {
+                $complain->status = 'ontime';
+                $complain->badge_class = 'bg-success'; 
+            }
+        }
+        
         return $data;
     }
 
