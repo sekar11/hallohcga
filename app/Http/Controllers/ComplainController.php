@@ -66,26 +66,26 @@ class ComplainController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-            'fotodeviasi_add' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:1024000', 
+            'fotodeviasi_add' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:1024000',
         ]);
 
         if ($request->hasFile('fotodeviasi_add') && $request->file('fotodeviasi_add')->isValid()) {
             $image = $request->file('fotodeviasi_add');
             $imageInstance = Image::make($image);
 
-            
+
             if ($imageInstance->width() > 800) {
                 $imageInstance->resize(800, null, function ($constraint) {
-                    $constraint->aspectRatio(); 
+                    $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             }
 
-            $quality = 100; 
+            $quality = 100;
 
             $imageInstance->encode('jpg', $quality);
-            while (strlen($imageInstance) > 102400) { 
-                $quality -= 5; 
+            while (strlen($imageInstance) > 102400) {
+                $quality -= 5;
                 $imageInstance->encode('jpg', $quality);
             }
 
@@ -190,8 +190,32 @@ class ComplainController extends Controller
         $pesanRevisi = $request->input('revisi');
 
         $result = $this->ComplainRepository->revisi($revisiName,$userRole, $selectedComplainId, $pesanRevisi, $userId);
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
 
-    return response()->json(['message' => $result]);
+        if (!$complain || !$complain->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: REVISI\n\n";
+        $messageUser .= "Halo {$complain->nama},\n";
+        $messageUser .= "Terdapat data yang harus di revisi pada complain yang kamu ajukan.\n\n";
+        $messageUser .= "Detail Complain:\n";
+        $messageUser .= "- Lokasi: {$complain->lokasi}\n";
+        $messageUser .= "- Area: {$complain->area}\n";
+        $messageUser .= "- Gedung: {$complain->gedung}\n\n";
+        $messageUser .= "Permasalahan:\n";
+        $messageUser .= "{$complain->permasalahan}\n\n";
+        $messageUser .= "Keterangan Revisi:\n";
+        $messageUser .= "{$complain->revisi_desc_gagl}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
+        return response()->json(['message' => $result]);
     }
 
 
@@ -205,6 +229,31 @@ class ComplainController extends Controller
 
         $result = $this->ComplainRepository->reject($rejectName, $selectedComplainId, $pesanReject, $userId);
 
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
+
+        if (!$complain || !$complain->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: REJECT\n\n";
+        $messageUser .= "Halo {$complain->nama},\n";
+        $messageUser .= "Complain yang kamu ajukan di tolak.\n\n";
+        $messageUser .= "Detail Complain:\n";
+        $messageUser .= "- Lokasi: {$complain->lokasi}\n";
+        $messageUser .= "- Area: {$complain->area}\n";
+        $messageUser .= "- Gedung: {$complain->gedung}\n\n";
+        $messageUser .= "Permasalahan:\n";
+        $messageUser .= "{$complain->permasalahan}\n\n";
+        $messageUser .= "Keterangan Reject:\n";
+        $messageUser .= "{$complain->reject_desc_gagl}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
     return response()->json(['message' => $result]);
     }
 
@@ -218,12 +267,11 @@ class ComplainController extends Controller
         $crew_picadd = $request->input('crew_picadd');
 
         $result = $this->ComplainRepository->validasigagl($selectedComplainId, $kategori, $skala, $due_date, $crew_picadd, $userId);
-        
+
         $crew = $this->ComplainRepository->findByName($crew_picadd);
         if (!$crew) {
             return response()->json(['error' => 'Data crew tidak ditemukan'], 404);
         }
-
 
         $complain = $this->ComplainRepository->findById($selectedComplainId);
         if (!$complain) {
@@ -234,9 +282,9 @@ class ComplainController extends Controller
             return response()->json(['error' => 'Nomor HP crew tidak tersedia'], 400);
         }
 
-        $messageCrew = "Halo $crew->nama,\n";
+        $messageCrew = "STATUS: BELUM DI PROSES,\n";
+        $messageCrew .= "Halo $crew->nama,\n";
         $messageCrew .= "Terdapat pengajuan complain dengan detail sebagai berikut:\n\n";
-        $messageCrew .= "Status Pengerjaan: Belum Diproses\n";
         $messageCrew .= "Tanggal Pengajuan: {$complain->tanggal}\n\n";
         $messageCrew .= "Biodata Karyawan yang mengajukan complain:\n";
         $messageCrew .= "- Nama: {$complain->nama}\n";
@@ -253,9 +301,12 @@ class ComplainController extends Controller
         $messageCrew .= "- Area: {$complain->area}\n";
         $messageCrew .= "- Gedung: {$complain->gedung}\n\n";
         $messageCrew .= "Permasalahan:\n";
-        $messageCrew .= "{$complain->permasalahan}\n";
-
+        $messageCrew .= "{$complain->permasalahan}\n\n";
+        $messageCrew .= "KETERANGAN LEBIH LANJUT\n";
+        $messageCrew .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageCrew .= "https://hallohcga.com/";
         $responseCrew = $this->sendWhatsAppMessage($crew->no_hp, $messageCrew);
+
         if (!$responseCrew) {
             return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Crew'], 500);
         }
@@ -274,6 +325,9 @@ class ComplainController extends Controller
         $messageUser .= "{$complain->permasalahan}\n\n";
         $messageUser .= "- Due Date: {$complain->due_date}\n";
         $messageUser .= "- Crew PIC: {$crew->nama}\n";
+        $messageCrew .= "KETERANGAN LEBIH LANJUT\n";
+        $messageCrew .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageCrew .= "https://hallohcga.com/";
 
         $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
         if (!$responseUser) {
@@ -301,7 +355,7 @@ class ComplainController extends Controller
             CURLOPT_POSTFIELDS => array(
                 'target' => $no_hp,
                 'message' => $message,
-                'countryCode' => '62', 
+                'countryCode' => '62',
             ),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: ' . $apiKey
@@ -337,7 +391,32 @@ class ComplainController extends Controller
 
         $result = $this->ComplainRepository->pendingGagl($revisiName,$userRole, $selectedComplainId, $ketPending, $userId);
 
-    return response()->json(['message' => $result]);
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
+
+        if (!$complain || !$complain->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: PENDING\n\n";
+        $messageUser .= "Halo {$complain->nama},\n";
+        $messageUser .= "Complain yang kamu ajukan sedang dalam status pending.\n\n";
+        $messageUser .= "Detail Complain:\n";
+        $messageUser .= "- Lokasi: {$complain->lokasi}\n";
+        $messageUser .= "- Area: {$complain->area}\n";
+        $messageUser .= "- Gedung: {$complain->gedung}\n\n";
+        $messageUser .= "Permasalahan:\n";
+        $messageUser .= "{$complain->permasalahan}\n\n";
+        $messageUser .= "Keterangan Pending:\n";
+        $messageUser .= "{$complain->pending_gagl}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
+        return response()->json(['message' => $result]);
     }
 
     public function validasicrew(Request $request)
@@ -353,7 +432,7 @@ class ComplainController extends Controller
             'foto_perbaikan' => 'nullable|image|file|mimes:jpeg,png,jpg,gif,heic,heif|max:102400', // Menambahkan format HEIC/HEIF
         ]);
 
-    
+
         if ($request->hasFile('foto_perbaikan') && $request->file('foto_perbaikan')->isValid()) {
         $image = $request->file('foto_perbaikan');
         $imageInstance = Image::make($image);
@@ -365,10 +444,10 @@ class ComplainController extends Controller
             });
         }
 
-        $quality = 100; 
+        $quality = 100;
         $imageInstance->encode('jpg', $quality);
-        while (strlen($imageInstance) > 102400) {  
-            $quality -= 5; 
+        while (strlen($imageInstance) > 102400) {
+            $quality -= 5;
             $imageInstance->encode('jpg', $quality);
         }
 
@@ -380,8 +459,6 @@ class ComplainController extends Controller
     } else {
         $foto_perbaikan = null;
     }
-
-
         $result = $this->ComplainRepository->validasicrew(
             $selectedComplainId,
             $identification,
@@ -401,11 +478,9 @@ class ComplainController extends Controller
             }
 
             $phoneNumber = $employee->no_hp;
-
+            $messageCrew = "STATUS: SUDAH DI PROSES,\n";
             $message = "Halo\n";
-            $message .= "Terdapat pengajuan complain dengan detail sebagai berikut:\n\n";
-
-            $message .= "Status Pengerjaan: Sudah diselesaikan oleh Teknisi/Crew Terkait\n";
+            $message .= "Complain Sudah diselesaikan oleh Teknisi/Crew TerkaitT:\n\n";
             $message .= "Tanggal Pengajuan Complain: {$complain->tanggal}\n\n";
 
             $message .= "Biodata Karyawan yang mengajukan complain:\n";
@@ -431,8 +506,11 @@ class ComplainController extends Controller
             $message .= "Keterangan Pengerjaan:\n";
             $message .= "- Crew PIC: {$complain->crew_pic}\n";
             $message .= "- Identifikasi: {$identification}\n";
-            $message .= "- Tindakan Korektif: {$corrective_action}\n";
+            $message .= "- Tindakan Korektif: {$corrective_action}\n\n";
 
+            $message .= "KETERANGAN LEBIH LANJUT\n";
+            $message .= "SILAHKAN CEK DI PORTAL:\n";
+            $message .= "https://hallohcga.com/";
             $response = $this->sendWhatsAppMessage($phoneNumber, $message);
 
             if (!$response) {
@@ -459,10 +537,35 @@ class ComplainController extends Controller
         $pesanReject = $request->input('reject_crew');
 
         $result = $this->ComplainRepository->rejectcrew($rejectName, $selectedComplainId, $pesanReject, $userId);
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
 
+        if (!$complain || !$complain->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: REJECT BY CREW\n\n";
+        $messageUser .= "Halo {$complain->nama},\n";
+        $messageUser .= "Complain yang kamu ajukan di tolak oleh crew/teknisi terkait.\n\n";
+        $messageUser .= "Detail Complain:\n";
+        $messageUser .= "- Lokasi: {$complain->lokasi}\n";
+        $messageUser .= "- Area: {$complain->area}\n";
+        $messageUser .= "- Gedung: {$complain->gedung}\n\n";
+        $messageUser .= "Permasalahan:\n";
+        $messageUser .= "{$complain->permasalahan}\n\n";
+        $messageUser .= "Keterangan Reject:\n";
+        $messageUser .= "{$complain->reject_desc_crew}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($complain->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
     return response()->json(['message' => $result]);
     }
 
+    //sekar
     public function revisicrew(Request $request)
     {
         $userId = auth()->user()->id;
@@ -472,6 +575,61 @@ class ComplainController extends Controller
         $pesanRevisi = $request->input('revisi_crew');
 
         $result = $this->ComplainRepository->revisicrew($revisiName, $selectedComplainId, $pesanRevisi, $userId);
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
+
+        if ($complain) {
+            $nama = $complain->crew_pic;
+
+            $employee = DB::table('users')->where('nama', $nama)->first();
+            if (!$employee) {
+                return response()->json(['error' => 'Karyawan dengan NRP terkait tidak ditemukan'], 404);
+            }
+
+            $phoneNumber = $employee->no_hp;
+
+            $message = "STATUS: REVISI\n\n";
+            $message .= "Halo {$complain->crew_pic},\n";
+
+            $message .= "Pengerjaan complain yang kamu kerjakan belum sesuai:\n\n";
+
+            $message .= "Tanggal Pengajuan Complain: {$complain->tanggal}\n\n";
+            $message .= "Biodata Karyawan yang mengajukan complain:\n";
+            $message .= "- Nama: {$complain->nama}\n";
+            $message .= "- NRP: {$complain->nrp}\n";
+            $message .= "- No HP: {$complain->no_hp}\n";
+            $message .= "- Departemen: {$complain->dept}\n\n";
+
+            $message .= "Status Complain:\n";
+            $message .= "- Due Date: {$complain->due_date}\n";
+            $message .= "- Kategori: {$complain->kategori}\n";
+            $message .= "- Skala: {$complain->skala}\n\n";
+
+            $message .= "Lokasi Complain:\n";
+            $message .= "- Lokasi: {$complain->lokasi}\n";
+            $message .= "- Area: {$complain->area}\n";
+            $message .= "- Gedung: {$complain->gedung}\n\n";
+
+            $message .= "Permasalahan:\n";
+            $message .= "{$complain->permasalahan}\n\n";
+
+            $message .= "Keterangan Pengerjaan:\n";
+            $message .= "- Crew PIC: {$complain->crew_pic}\n";
+            $message .= "- Identifikasi: {$complain->identification}\n";
+            $message .= "- Tindakan Korektif: {$complain->corrective_action}\n\n";
+            $message .= "Keterangan Revisi:\n";
+            $message .= "{$complain->revisi_desc_crew}\n\n";
+            $message .= "KETERANGAN LEBIH LANJUT\n";
+            $message .= "SILAHKAN CEK DI PORTAL:\n";
+            $message .= "https://hallohcga.com/";
+
+            $response = $this->sendWhatsAppMessage($phoneNumber, $message);
+
+            if (!$response) {
+                return response()->json(['error' => 'Gagal mengirim pesan WhatsApp'], 500);
+            }
+        } else {
+            return response()->json(['error' => 'Data complain tidak ditemukan'], 404);
+        }
 
     return response()->json(['message' => $result]);
     }
@@ -492,41 +650,42 @@ class ComplainController extends Controller
         if ($request->hasFile('foto_hasil_perbaikan') && $request->file('foto_hasil_perbaikan')->isValid()) {
             $image = $request->file('foto_hasil_perbaikan');
             $imageInstance = Image::make($image);
-        
+
             if ($imageInstance->width() > 800) {
                 $imageInstance->resize(800, null, function ($constraint) {
-                    $constraint->aspectRatio(); 
+                    $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             }
-        
-            $quality = 100; 
-        
+
+            $quality = 100;
+
             $imageInstance->encode('jpg', $quality);
-            while (strlen($imageInstance) > 102400) { 
-                $quality -= 5; 
+            while (strlen($imageInstance) > 102400) {
+                $quality -= 5;
                 $imageInstance->encode('jpg', $quality);
             }
-        
+
             $fileName = uniqid() . '.jpg';
             $filePath = public_path('storage/photos/' . $fileName);
-        
+
             $imageInstance->save($filePath);
-        
+
             $foto_hasil_perbaikan = 'photos/' . $fileName;
         } else {
             $foto_hasil_perbaikan = null;
         }
 
         $result = $this->ComplainRepository->approval($approvalName, $selectedComplainId, $approval, $foto_hasil_perbaikan, $userId);
-
+        //sekar
         $complain = $this->ComplainRepository->findById($selectedComplainId);
 
         if (!$complain || !$complain->no_hp) {
             return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
         }
 
-        $messageUser = "Halo {$complain->nama},\n";
+        $messageUser = "STATUS: DONE\n\n";
+        $messageUser .= "Halo {$complain->nama},\n";
         $messageUser .= "Complain yang kamu ajukan telah selesai diproses.\n\n";
         $messageUser .= "Detail Complain:\n";
         $messageUser .= "- Lokasi: {$complain->lokasi}\n";
@@ -536,7 +695,8 @@ class ComplainController extends Controller
         $messageUser .= "{$complain->permasalahan}\n\n";
         $messageUser .= "Keterangan Perbaikan:\n";
         $messageUser .= "{$complain->corrective_action}\n\n";
-        $messageUser .= "- Status: Done\n\n";
+
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
         $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
         $messageUser .= "https://hallohcga.com/";
 
@@ -567,8 +727,8 @@ class ComplainController extends Controller
 
         return view('/report/report_complain', [
             'complainData' => $complainData,
-            'startDate' => $startDate,  
-            'endDate' => $endDate, 
+            'startDate' => $startDate,
+            'endDate' => $endDate,
         ]);
     }
 }
