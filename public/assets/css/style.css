@@ -1742,6 +1742,11 @@ hr{
     right: 0;
 }
 
+.table-responsive {
+    overflow-x: auto;
+    white-space: nowrap; /* Mencegah teks turun ke baris baru */
+}
+
 
 
 

@@ -542,20 +542,22 @@
               </div>
               <!--end::Modal Validasi Crew-->
               <!-- Table with stripped rows -->
-              <div class="container">
+              <div class="table-responsive">
               <table class="table dt_complain responsive-table" id="datatable">
                 <thead>
                   <tr>
                     <th scope="col">No</th>
                     <th scope="col">NRP</th>
                     <th scope="col" class="hide-mobile">Nama</th>
-                    <th scope="col" class="hide-mobile">Tanggal</th>
+                    <th scope="col" >Tanggal</th>
+                    <th scope="col" >Batas<br>Pengerjaan</th>
                     <th scope="col" class="hide-mobile">Area</th>
                     <th scope="col" class="hide-mobile">Gedung</th>
                     <th scope="col" class="hide-mobile">Lokasi</th>
-                    <th scope="col" class="hide-mobile">Permasalahan</th>
-                    <th scope="col">Tugas Tertunda</th>
-                    <th scope="col" class="hide-mobile">Skala</th>
+                    <th scope="col">Permasalahan</th>
+                    <th scope="col">Crew Pic</th>
+                    <th scope="col">Lama<br>Pengerjaan</th>
+                    <th scope="col">Skala</th>
                     <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
                   </tr>
@@ -567,18 +569,20 @@
                     <td>{{ $no + 1 }}</td>
                     <td>{{ $complain->nrp}}</td>
                     <td class="hide-mobile">{{ $complain->nama}}</td>
-                    <td class="hide-mobile">{{ $complain->tanggal}}</td>
+                    <td class="submission-date" data-submission-date="{{ $complain->tanggal }}">
+                        {{ $complain->tanggal }}
+                    </td>
+                    <td class="due-date" data-due-date="{{ $complain->due_date }}">
+                        {{ $complain->due_date }}
+                    </td>
                     <td class="hide-mobile">{{ $complain->area}}</td>
                     {{-- <td class="truncate-text">{{ $complain->informasi}}</td> --}}
                     <td class="hide-mobile">{{ $complain->gedung}}</td>
                     <td class="hide-mobile">{{ $complain->lokasi}}</td>
-                    <td class="hide-mobile">{{ $complain->permasalahan}}</td>
-                    @if($complain->due_date && $complain->kode_status != 7)
-                    <td class="due-date" data-due-date="{{ $complain->due_date }}"></td> 
-                    @else
-                    <td>-</td>
-                    @endif
-                    <td class="hide-mobile">{{ $complain->skala ? $complain->skala : '-' }}</td>
+                    <td class="truncate-text">{{ $complain->permasalahan}}</td>
+                    <td>{{ $complain->crew_pic}}</td>
+                    <td class="lama-pengerjaan"></td>
+                    <td>{{ $complain->skala ? $complain->skala : '-' }}</td>
                     <td>
                         @if($complain->kode_status == 1)
                             <span class="badge rounded-pill text-bg-primary">Create</span>
@@ -735,12 +739,12 @@ $('.view').click(function () {
         // url: '{{ url('/complain/get') }}/' + complainId,
         url: '/complain/get/' + complainId,
         success: function (response) {
-            
+
             function setFieldVisibility(selector, value) {
-                const field = $(selector).closest('.detail'); 
+                const field = $(selector).closest('.detail');
                 if (value) {
                     $(selector).text(value);
-                    field.show(); 
+                    field.show();
                 } else {
                     field.hide();
                 }
@@ -774,18 +778,18 @@ $('.view').click(function () {
             setFieldVisibility('#reject_by_crew', response.reject_by_crew);
             setFieldVisibility('#reject_desc_crew', response.reject_desc_crew);
             function setImageVisibility(imgSelector, labelSelector, imageUrl) {
-            
+
             const imgContainer = $(imgSelector);
             const label = $(labelSelector);
 
             if (!imageUrl) {
-                imgContainer.empty(); 
-                imgContainer.hide(); 
-                label.hide(); 
+                imgContainer.empty();
+                imgContainer.hide();
+                label.hide();
             } else {
                 imgContainer.html('<img src="' + imageUrl + '" alt="" class="img-fluid" />');
-                imgContainer.show(); 
-                label.show(); 
+                imgContainer.show();
+                label.show();
             }
         }
 
@@ -820,7 +824,7 @@ $('.edit').click(function() {
             }, 200);
             $('#complainModal').find('#lokasi_add').val(response.lokasi);
             $('#complainModal').find('#permasalahan_add').val(response.permasalahan);
-            
+
             $('#complainModal').attr('data-mode', 'edit');
             $('#complainModal').modal('show');
         },
@@ -837,7 +841,7 @@ $(document).ready(function() {
 
         gedungSelect.html('<option value="">Pilih Gedung</option>');
 
-        if (selectedArea && gedungOptions[selectedArea]) { 
+        if (selectedArea && gedungOptions[selectedArea]) {
             gedungOptions[selectedArea].forEach(function(gedung) {
                 gedungSelect.append('<option value="' + gedung + '">' + gedung + '</option>');
             });
@@ -855,8 +859,8 @@ $(document).ready(function() {
         var formData = new FormData($('form')[0]);
         formData.append('complain_id', complainId);
 
-        $('#btn-yes-add').hide(); 
-        $('#loading-spinner').show(); 
+        $('#btn-yes-add').hide();
+        $('#loading-spinner').show();
 
         if (mode === 'add') {
             $.ajax({
@@ -891,8 +895,8 @@ $(document).ready(function() {
                     });
                 },
                 complete: function() {
-                
-                    $('#btn-yes-add').show(); 
+
+                    $('#btn-yes-add').show();
                     $('#loading-spinner').hide();
                 }
             });
@@ -929,13 +933,13 @@ $(document).ready(function() {
                     });
                 },
                 complete: function() {
-                    $('#btn-yes-add').show(); 
-                    $('#loading-spinner').hide(); 
+                    $('#btn-yes-add').show();
+                    $('#loading-spinner').hide();
                 }
             });
         }
 
-       
+
     });
 });
 
@@ -1184,10 +1188,10 @@ $(document).ready(function() {
                     });
                 },
                 error: function(error) {
-                    var errorMessage = error.responseJSON && error.responseJSON.message 
-                        ? error.responseJSON.message 
+                    var errorMessage = error.responseJSON && error.responseJSON.message
+                        ? error.responseJSON.message
                         : 'Terjadi kesalahan saat mengirim validasi.';
-                    
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal!',
@@ -1272,15 +1276,15 @@ $('.approval').click(function() {
     $('#btn-yes-approval').off('click').on('click', function() {
         var form = $('.form_approval')[0];
         var formData = new FormData(form);
-        formData.append('complain_id', complainId); 
-        $('#btn-yes-approval').hide(); 
-        $('#loading-spinner-approval').show(); 
+        formData.append('complain_id', complainId);
+        $('#btn-yes-approval').hide();
+        $('#loading-spinner-approval').show();
         $.ajax({
             type: 'POST',
-            url: '/complain/approval', 
+            url: '/complain/approval',
             data: formData,
-            processData: false, 
-            contentType: false, 
+            processData: false,
+            contentType: false,
             success: function(response) {
                 Swal.fire({
                     icon: 'success',
@@ -1298,32 +1302,46 @@ $('.approval').click(function() {
                 });
             },
                 complete: function() {
-                    $('#btn-yes-approval').show(); 
-                    $('#loading-spinner').hide(); 
+                    $('#btn-yes-approval').show();
+                    $('#loading-spinner').hide();
                 }
 
         });
     });
 });
 
+function updateDueDate() {
+    const skala = document.getElementById('skala').value;
+    const dueDate = document.getElementById('due_date');
 
-    function updateDueDate() {
-        const skala = document.getElementById('skala').value;
-        const dueDate = document.getElementById('due_date');
-        const today = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-        if (skala === 'Prioritas') {
-            today.setDate(today.getDate() + 0); 
-        } else if (skala === 'Minor') {
-            today.setDate(today.getDate() + 1); 
-        }else if (skala === 'Mayor') {
-            today.setDate(today.getDate() + 3);
-        }else {
-            dueDate.value = ''; 
-            return;
-        }
-        dueDate.value = today.toISOString().split('T')[0]; 
+    let tambahanHari = 0;
+    if (skala === 'Prioritas') {
+        tambahanHari = 0;
+    } else if (skala === 'Minor') {
+        tambahanHari = 1;
+    } else if (skala === 'Mayor') {
+        tambahanHari = 3;
+    } else {
+        dueDate.value = '';
+        return;
     }
+
+    today.setDate(today.getDate() + tambahanHari);
+
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+    // Update nilai pada input due_date
+    dueDate.value = formattedDate;
+}
+
+
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('due_date').value = '';
@@ -1331,7 +1349,7 @@ $('.approval').click(function() {
 
     const gedungOptions = {
         'Mess': [
-            'A1', 'A2', 'B1', 'B2', 'B3', 'B4', 'B7', 'B8', 'B9', 'B10', 'MASJID ASSALAM', 'KOPPA MART', 'FOOD COURT', 'POS SECURITY', 'WTP', 'STP', 'GUDANG GA', 'OFFICE GA', 'WORKSHOP TRAC', 'WORKSHOP KPM', 'WASHPAD'
+            'A1', 'A2', 'B1', 'B2', 'B3', 'B4', 'B7', 'B8', 'B9', 'B10','C3', 'MASJID ASSALAM', 'KOPPA MART', 'FOOD COURT', 'POS SECURITY', 'WTP', 'STP', 'GUDANG GA', 'OFFICE GA', 'WORKSHOP TRAC', 'WORKSHOP KPM', 'WASHPAD'
         ],
         'Office': [
             'WAREHOUSE', 'GENSET', 'OFFICE PLANT', 'WORKSHOP PLANT', 'KOPPA MART', 'MASJID AL KAUTSAR', 'LIMBAH B3'
@@ -1351,7 +1369,7 @@ $('.approval').click(function() {
         'PITSTOP': [
             'MUSHOLLA', 'WORKSHOP TRACK', 'AKADEMI', 'FABRIKASI', 'TOOLS', 'TYRE', 'TRACKINDO', 'SUPPORT'
         ],
-        'OTHER': []  
+        'OTHER': []
     };
 
     document.getElementById('area_add').addEventListener('change', function() {
@@ -1378,17 +1396,17 @@ $('.approval').click(function() {
 
 
 $(document).ready(function() {
- 
+
     function getMaxLength() {
-        
+
         if (window.matchMedia("(max-width: 576px)").matches) {
-            return 10; 
+            return 10;
         }
         return 50;
     }
 
     $('.truncate-text').each(function() {
-        var maxLength = getMaxLength(); 
+        var maxLength = getMaxLength();
         var originalText = $(this).text();
 
         if (originalText.length > maxLength) {
@@ -1414,7 +1432,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $.ajax({
-        url: '/complain/getteknisi',  
+        url: '/complain/getteknisi',
         method: 'GET',
         success: function(response) {
             $('#crew_picadd').empty();
@@ -1432,53 +1450,67 @@ $(document).ready(function() {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    let hideDueDateColumn = true;
-
     document.querySelectorAll("#datatable tbody tr").forEach(row => {
-        const dueDateCell = row.querySelector(".due-date"); 
-        const statusCell = row.querySelector("td:nth-child(11)"); 
+        const submissionDateCell = row.querySelector(".submission-date");
+        const dueDateCell = row.querySelector(".due-date");
+        const lamaPengerjaanCell = row.querySelector(".lama-pengerjaan");
 
-        if (!dueDateCell) return; 
+        if (!submissionDateCell || !dueDateCell || !lamaPengerjaanCell) return;
 
+        const submissionDate = submissionDateCell.getAttribute("data-submission-date");
         const dueDate = dueDateCell.getAttribute("data-due-date");
 
-        if (statusCell && statusCell.innerText.trim() == "7") {
-            dueDateCell.innerText = "-"; 
-        } else if (dueDate) {
-            const daysLeft = calculateDaysDifference(dueDate);
-            if (daysLeft === null) {
-                dueDateCell.innerText = "-"; 
-            } else {
-                dueDateCell.innerText = `${daysLeft} hari`;
-                hideDueDateColumn = false; 
-            }
-        } else {
-            dueDateCell.innerText = "-"; 
+        if (!submissionDate || submissionDate.trim() === "") {
+            lamaPengerjaanCell.innerHTML = `<span class="badge rounded-pill text-bg-secondary">-</span>`;
+            return;
         }
-    });
 
-    
-    if (hideDueDateColumn) {
-        document.querySelector(".due-date-header").style.display = "none";
-        document.querySelectorAll(".due-date").forEach(cell => {
-            cell.style.display = "none";
-        });
-    }
+        const daysWorked = calculateDaysDifference(submissionDate) + 1;
+        let isLate = false;
+        if (dueDate && dueDate.trim() !== "") {
+            isLate = isDueDateExceeded(dueDate);
+        }
+
+        const badge = document.createElement("span");
+        badge.classList.add("badge", "rounded-pill");
+        badge.innerText = `${daysWorked} hari`;
+
+        badge.classList.add(isLate ? "text-bg-danger" : "text-bg-success");
+        lamaPengerjaanCell.innerHTML = "";
+        lamaPengerjaanCell.appendChild(badge);
+    });
+});
+
+function calculateDaysDifference(startDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
+
+    return Math.floor((today - start) / (1000 * 3600 * 24));
+}
+
+function isDueDateExceeded(dueDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const due = new Date(dueDate);
+    due.setHours(0, 0, 0, 0);
+
+    return today > due;
+}
+$(document).ready(function() {
+    $('#datatable').DataTable({
+        responsive: true
+    });
 });
 
 
-function calculateDaysDifference(dueDate) {
-    const today = new Date().setHours(0, 0, 0, 0); 
-    const due = new Date(dueDate).setHours(0, 0, 0, 0);
 
-    if (today <= due) {
-        return null;
-    }
-
-    return Math.floor((today - due) / (1000 * 3600 * 24)); 
-}
 
 </script>
 
 @endsection
+
 
