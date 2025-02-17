@@ -47,7 +47,7 @@ Class ComplainRepository
         $data = $query->get();
 
         foreach ($data as $complain) {
-            $submissionDate = !empty($complain->tanggal) ? strtotime(date('Y-m-d', strtotime($complain->tanggal))) : null;
+            $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
             $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
             $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
             $today = strtotime(date('Y-m-d'));
