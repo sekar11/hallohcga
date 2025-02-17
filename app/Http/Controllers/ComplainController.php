@@ -478,7 +478,8 @@ class ComplainController extends Controller
             }
 
             $phoneNumber = $employee->no_hp;
-            $messageCrew = "STATUS: SUDAH DI PROSES,\n";
+            
+            $message = "STATUS: SUDAH DI PROSES,\n";
             $message .= "Halo\n";
             $message .= "Complain Sudah diselesaikan oleh Teknisi/Crew TerkaitT:\n\n";
             $message .= "Tanggal Pengajuan Complain: {$complain->tanggal}\n\n";
