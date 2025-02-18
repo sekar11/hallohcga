@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PhAirController;
+
 
 
 Route::get('/', [UserController::class, 'showLoginForm'])->name('login');
@@ -85,6 +87,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/complain/getteknisi', [ComplainController::class, 'getTeknisi'])->name('get.teknisi');
 
-
+    //=============================================== PH AIR ===============================================
+    Route::get('/phair', [PhAirController::class, 'index']);
+    Route::post('/phair/create', [PhAirController::class, 'add'])->name('get.phair');
+    Route::post('/user/delete', [PhAirController::class, 'delete'])->name('delete.phair');
+    Route::get('/phair/get/{id}', [PhAirController::class, 'getEdit'])->name('edit.phair');
+    Route::post('/phair/myedit/{id}', [PhAirController::class, 'edit'])->name('get.phair');
 });
 
