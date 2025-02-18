@@ -1151,12 +1151,12 @@ $('.pendingGagl').click(function() {
     });
 });
 
-// VALIDASI CREW
+
 $(document).ready(function() {
     $('.validasi_crew').click(function() {
         var complainId = $(this).data('id');
 
-        $('#btn-yes-validasi_crew').off('click').on('click', function() {
+        $('#btn-yes-validasi_crew').click(function() {
             var form = $('.form_validasi_crew')[0];
             var formData = new FormData(form);
             formData.append('complain_id', complainId);
@@ -1190,9 +1190,10 @@ $(document).ready(function() {
                         text: errorMessage
                     });
                 },
-                complete: function() { // Memperbaiki kesalahan titik koma
+                complete: function() {
+              
                     $('#btn-yes-validasi_crew').show();
-                    $('#loading-spinner').hide();
+                    $('#loading-spinner-validasi').hide();
                 }
             });
         });

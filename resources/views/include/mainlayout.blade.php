@@ -186,6 +186,15 @@
           </li>
         </ul>
       </li>
+
+      <li class="nav-item">
+          <a class="nav-link " href="/phair">
+          <i class="bi bi-droplet-half"></i>
+
+            <span>Ph Air</span>
+          </a>
+        </li><!-- End Dashboard Nav -->
+      </li>
       @endif
       <!-- End Forms Nav -->
     </ul>
