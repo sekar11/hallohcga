@@ -25,7 +25,7 @@ class PhAirRepository
             )
             ->orderBy('phair.tanggal', 'desc')
             ->get();
-            }
+    }
     
 
     public function delete($phUserId )

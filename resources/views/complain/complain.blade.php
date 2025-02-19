@@ -655,7 +655,7 @@
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
                 </ul>
-                @elseif($complain->kode_status == 9 && in_array(auth()->user()->id_role, [1, 2, 3, 4]))
+                @elseif($complain->kode_status == 9 && in_array(auth()->user()->id_role, [1, 2, 3, 4, 5]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>

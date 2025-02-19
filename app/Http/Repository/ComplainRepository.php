@@ -21,7 +21,7 @@ Class ComplainRepository
     $userNama = auth()->user()->nama;
     $userTimPIC = auth()->user()->tim_pic; 
 
-    if ($userRole == 1) {
+    if ($userRole == 1 || $userRole == 5) {
         $query->where('complain.nrp', $userNrp);
     }
 
