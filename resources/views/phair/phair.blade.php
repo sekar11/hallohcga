@@ -77,7 +77,7 @@
                         @csrf
                             <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal">
+                                <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal" readonly>
                                 <label for="message-text">Tanggal </label>  
                             </div>
                             </div>
@@ -185,6 +185,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 
 <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    const today = new Date().toISOString().split('T')[0]; // Ambil tanggal hari ini dalam format YYYY-MM-DD
+    document.getElementById('tanggal').value = today;
+});
 
 // Jumlah karakter data tabel
 $(document).ready(function() {
