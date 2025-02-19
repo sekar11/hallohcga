@@ -74,6 +74,38 @@
                                         <span id="pending"> </span>
                                     </div>
                                     <div class="detail">
+                                        <label for="revisi_by">Revisi by GA/GL:</label>
+                                        <span id="revisi_by_gagl"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="revisi_desc">Keterangan Revisi by GA/GL:</label>
+                                        <span id="revisi_desc"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="reject_by">Reject by GA/GL:</label>
+                                        <span id="reject_by"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="reject_desc">Keterangan Reject by GA/GL:</label>
+                                        <span id="reject_desc"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="reject_by_crew">Reject by Crew/Teknisi:</label>
+                                        <span id="reject_by_crew"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="reject_desc_crew">Keterangan Reject by Crew/Teknisi:</label>
+                                        <span id="reject_desc_crew"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="revisi_by_crew">Revisi by GA/GL to Crew:</label>
+                                        <span id="revisi_by_crew"> </span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="revisi_desc_crew">Keterangan Revisi  GA/GL to Crew:</label>
+                                        <span id="revisi_desc_crew"> </span>
+                                    </div>
+                                    <div class="detail">
                                         <label for="kategori">Kategori :</label>
                                         <span id="kategori_complain"> </span>
                                     </div>
@@ -101,27 +133,11 @@
                                         <label for="validasi_crew_on">Tanggal Perbaikan :</label>
                                        <span id="validasi_crew_on"></span>
                                     </div>
-
                                     <div class="detail">
                                         <label id="label_foto_perbaikan" for="fotoperbaikan_complain">Foto Perbaikan:</label>
                                         <div id="fotoperbaikan_complain" class="foto-container"> </div>
                                     </div>
-                                     <div class="detail">
-                                        <label for="revisi_by">Revisi by GA/GL:</label>
-                                        <span id="revisi_by_gagl"> </span>
-                                    </div>
-                                    <div class="detail">
-                                        <label for="revisi_desc">Keterangan Revisi by GA/GL:</label>
-                                        <span id="revisi_desc"> </span>
-                                    </div>
-                                    <div class="detail">
-                                        <label for="reject_by">Reject by GA/GL:</label>
-                                        <span id="reject_by"> </span>
-                                    </div>
-                                    <div class="detail">
-                                        <label for="reject_desc">Keterangan Reject by GA/GL:</label>
-                                        <span id="reject_desc"> </span>
-                                    </div>
+                                
                                     <div class="detail">
                                         <label for="approval_desc">Keterangan Approval GA/GL:</label>
                                         <span id="approval_desc"> </span>
@@ -131,23 +147,7 @@
                                         <div id="fotohasilperbaikan_complain" class="foto-container">
                                         </div>
                                     </div>
-                                    <div class="detail">
-                                        <label for="reject_by_crew">Reject by Crew/Teknisi:</label>
-                                        <span id="reject_by_crew"> </span>
-                                    </div>
-                                    <div class="detail">
-                                        <label for="reject_desc_crew">Keterangan Reject by Crew/Teknisi:</label>
-                                        <span id="reject_desc_crew"> </span>
-                                    </div>
-                                    <div class="detail">
-                                        <label for="revisi_by_crew">Revisi by GA/GL to Crew:</label>
-                                        <span id="revisi_by_crew"> </span>
-                                    </div>
-                                    <div class="detail">
-                                        <label for="revisi_desc_crew">Keterangan Revisi  GA/GL to Crew:</label>
-                                        <span id="revisi_desc_crew"> </span>
-                                    </div>
-
+                                
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -177,7 +177,7 @@
                         @csrf
                             <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="date" class="form-control" id="tanggal_add" name="tanggal_add" placeholder="Tanggal">
+                                <input type="date" class="form-control" id="tanggal_add" name="tanggal_add" placeholder="Tanggal" readonly>
                                 <label for="message-text">Tanggal </label>
                             </div>
                             </div>
@@ -214,11 +214,11 @@
                                 <label for="message-text">Lokasi</label>
                             </div>
                             </div>
-                            {{-- //sekar --}}
                             <div class="col-md-8">
                             <div class="form-floating">
                                 <input type="file" class="form-control" id="fotodeviasi_add" name="fotodeviasi_add" placeholder="Foto_Deviasi">
                                 <label for="message-text">Foto Deviasi</span></label>
+                                <small class="text-muted">Unggah gambar dengan format JPG, JPEG, atau PNG, maksimal ukuran 2 MB</small>
                             </div>
                             </div>
                             <div class="col-md-12">
@@ -423,8 +423,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Foto Perbaikan <span style="color:red">*</span></label>
+                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Foto Perbaikan</label>
                                     <input type="file" class="form-control" id="foto_perbaikan" name="foto_perbaikan" placeholder="Unggah Foto Perbaikan" />
+                                    <small class="text-muted extra-small"> Unggah gambar dengan format JPG, JPEG, atau PNG, maksimal ukuran 2 MB</small>
                                 </div>
 
 
@@ -514,7 +515,6 @@
                           <div class="modal-body">
                               <form class="kt-form kt-form--label-right form_approval" action="/complain/validasigagl" method="POST" enctype="multipart/form-data" autocomplete="off">
                                 @csrf
-
                                 <!-- Input Kategori -->
                                 <div class="form-group">
                                     <label for="kategori" class="form-control-label" style="font-size: smaller;">Keterangan <span style="color:red">*</span></label>
@@ -526,6 +526,7 @@
                                 <div class="form-group">
                                     <label for="kategori" class="form-control-label" style="font-size: smaller;">Foto Hasil Perbaikan </label>
                                     <input type="file" class="form-control" id="foto_hasil_perbaikan" name="foto_hasil_perbaikan" placeholder="Unggah Foto Hasil Perbaikan" />
+                                    <small class="text-muted extra-small"> Unggah gambar dengan format JPG, JPEG, atau PNG, maksimal ukuran 2 MB</small>
                                 </div>
 
                             </form>
@@ -720,6 +721,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 <script>
 
+document.addEventListener("DOMContentLoaded", function() {
+    const today = new Date().toISOString().split('T')[0]; // Ambil tanggal hari ini dalam format YYYY-MM-DD
+    document.getElementById('tanggal_add').value = today;
+});
+
 //view
 var complainId;
 $('.view').click(function () {
@@ -866,7 +872,7 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
-                            text: 'complain berhasil di tambahkan!',
+                            text: 'Complain berhasil di tambahkan!',
                         }).then(() => {
                             window.location.href = window.location.href;
                         });
@@ -874,7 +880,7 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'complain gagal di tambahkan.',
+                            text: 'Complain gagal di tambahkan.',
                         });
                     }
                 },
@@ -883,7 +889,7 @@ $(document).ready(function() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Terjadi kesalahan saat mengirim data.',
+                        text: 'Terjadi kesalahan saat mengirim gambar, unggah gambar dengan format JPG, JPEG, atau PNG, maksimal ukuran 2 MB.',
                     });
                 },
                 complete: function() {
