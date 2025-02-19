@@ -1749,6 +1749,11 @@ hr{
   text-overflow: ellipsis;
 }
 
+.extra-small {
+  font-size: 0.7rem; 
+}
+
+
 
 
 
