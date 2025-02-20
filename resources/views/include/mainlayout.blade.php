@@ -12,6 +12,7 @@
   <meta content="" name="keywords">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -43,7 +44,7 @@
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-style/0.17.1/xlsx.full.min.js"></script>
+
 
 
 
@@ -57,11 +58,9 @@
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
   <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.pdf.min.js"></script>
+
 
   <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
 
 
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -141,11 +140,24 @@
        <!-- Menampilkan Dashboard hanya untuk user dengan id_role 0 dan 3 -->
       @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 3 || auth()->user()->id_role == 4)
         <li class="nav-item">
-          <a class="nav-link " href="/dashboard">
-            <i class="bi bi-grid"></i>
-            <span>Dashboard</span>
-          </a>
-        </li><!-- End Dashboard Nav -->
+        <a class="nav-link collapsed" data-bs-target="#forms-dash" data-bs-toggle="collapse" href="#">
+          <i class="bi bi bi-grid"></i><span>Dashboard</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-dash" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/dashboard">
+              <i class="bi bi-circle"></i><span>Digital Complain</span>
+            </a>
+          </li>                   
+        </ul>
+        <ul id="forms-dash" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/dashboard_phair">
+              <i class="bi bi bi-circle"></i><span>Ph Air</span>
+            </a>
+          </li>                   
+        </ul>
+      </li>
       @endif
 
       <li class="nav-item">
@@ -157,7 +169,7 @@
             <a href="/complain">
               <i class="bi bi-circle"></i><span>Digital Complain</span>
             </a>
-          </li>
+          </li>                   
         </ul>
       </li>
       @if(auth()->user()->id_role == 0)

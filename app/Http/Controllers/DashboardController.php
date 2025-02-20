@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Repository\ComplainRepository;
-use App\Http\Repository\AdmpRepository;
+use App\Http\Repository\PhAirRepository;
 use App\Http\Repository\CoachingRepository;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\JsonResponse;
@@ -25,14 +25,14 @@ class DashboardController extends Controller
 {
 
     protected $ComplainRepository;
+    protected $PhRepository;
 
 
-    public function __construct(ComplainRepository $ComplainRepository)
+    public function __construct(ComplainRepository $ComplainRepository, PhAirRepository $PhAirRepository)
     {
         $this->ComplainRepository = $ComplainRepository;
+        $this->PhAirRepository = $PhAirRepository;
     }
-
-
 
     public function getMayorCount()
     {
@@ -105,51 +105,43 @@ class DashboardController extends Controller
     }
 
     public function filterComplain(Request $request)
-{
-    $tanggalAwal = $request->input('tanggal_awal');
-    $tanggalAkhir = $request->input('tanggal_akhir');
+    {
+        $tanggalAwal = $request->input('tanggal_awal');
+        $tanggalAkhir = $request->input('tanggal_akhir');
 
-    $filters = [
-        'total_count' => $this->ComplainRepository->getTotalCount($tanggalAwal, $tanggalAkhir),
-        'progres_count' => $this->ComplainRepository->getProgresCount($tanggalAwal, $tanggalAkhir),
-        'done_count' => $this->ComplainRepository->getDoneCount($tanggalAwal, $tanggalAkhir),
-        'prioritas_count' => $this->ComplainRepository->getPrioritasCount($tanggalAwal, $tanggalAkhir),
-        'mayor_count' => $this->ComplainRepository->getMayorCount($tanggalAwal, $tanggalAkhir),
-        'minor_count' => $this->ComplainRepository->getMinorCount($tanggalAwal, $tanggalAkhir),
-        'pending_count' => $this->ComplainRepository->getPendingCount($tanggalAwal, $tanggalAkhir),
-    ];
+        $filters = [
+            'total_count' => $this->ComplainRepository->getTotalCount($tanggalAwal, $tanggalAkhir),
+            'progres_count' => $this->ComplainRepository->getProgresCount($tanggalAwal, $tanggalAkhir),
+            'done_count' => $this->ComplainRepository->getDoneCount($tanggalAwal, $tanggalAkhir),
+            'prioritas_count' => $this->ComplainRepository->getPrioritasCount($tanggalAwal, $tanggalAkhir),
+            'mayor_count' => $this->ComplainRepository->getMayorCount($tanggalAwal, $tanggalAkhir),
+            'minor_count' => $this->ComplainRepository->getMinorCount($tanggalAwal, $tanggalAkhir),
+            'pending_count' => $this->ComplainRepository->getPendingCount($tanggalAwal, $tanggalAkhir),
+        ];
 
-    return response()->json($filters);
-}
-
-
-
-    public function reportPelatihan(Request $request)
-{
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
-
-
-    // Use separate queries for each repository
-    $pelatihanQuery = $this->ComplainRepository->getAllWithDate();
-
-    // Apply date filter to each query
-    if ($startDate && $endDate) {
-        $pelatihanQuery->whereBetween('waktu', [$startDate, $endDate]);
+        return response()->json($filters);
     }
 
+    public function reportPelatihan(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-    // Retrieve data for each type
-    $pelatihanData = $pelatihanQuery->get();
+        $pelatihanQuery = $this->ComplainRepository->getAllWithDate();
 
-    return view('/dashboard/dashboard', [
-        'pelatihanData' => $pelatihanData,
+        if ($startDate && $endDate) {
+            $pelatihanQuery->whereBetween('waktu', [$startDate, $endDate]);
+        }
 
-        'startDate' => $startDate,
-        'endDate' => $endDate,
+        $pelatihanData = $pelatihanQuery->get();
 
-    ]);
-}
+        return view('/dashboard/dashboard', [
+            'pelatihanData' => $pelatihanData,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+
+        ]);
+    }
 
     public function reportComplain(Request $request)
     {
@@ -171,41 +163,62 @@ class DashboardController extends Controller
         ]);
     }
 
-    // public function getComplainData(Request $request)
-    // {
-    //     $startDate = $request->query('start_date');
-    //     $endDate = $request->query('end_date');
-    //     $status = $request->query('status');
-
-    //     $data = $this->ComplainRepository->getFilteredComplains($startDate, $endDate, $status);
-    //     return response()->json($data);
-    // }
-
     public function getComplainData(Request $request)
-{
-    $startDate = $request->query('start_date');
-    $endDate = $request->query('end_date');
-    $status = $request->query('status');
-    $area = $request->query('area'); // Tambahkan area
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+        $status = $request->query('status');
+        $area = $request->query('area'); // Tambahkan area
 
-    $data = $this->ComplainRepository->getFilteredComplains($startDate, $endDate, $status, $area);
-    return response()->json($data);
-}
-
-
+        $data = $this->ComplainRepository->getFilteredComplains($startDate, $endDate, $status, $area);
+        return response()->json($data);
+    }
 
     public function getComplainDataArea(Request $request)
-{
-    $startDate = $request->query('start_date');
-    $endDate = $request->query('end_date');
-    $status = $request->query('statusarea');
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+        $status = $request->query('statusarea');
 
-    $data = $this->ComplainRepository->getFilteredComplainsArea($startDate, $endDate, $status);
-    return response()->json($data);
-}
+        $data = $this->ComplainRepository->getFilteredComplainsArea($startDate, $endDate, $status);
+        return response()->json($data);
+    }
 
+     //=============================================== DASHBOARD PH AIR ===============================================
 
+     public function phAir(Request $request)
+     {
+         $startDate = $request->input('start_date');
+         $endDate = $request->input('end_date');
+ 
+         $pelatihanQuery = $this->ComplainRepository->getAllWithDate();
+ 
+         if ($startDate && $endDate) {
+             $pelatihanQuery->whereBetween('waktu', [$startDate, $endDate]);
+         }
+ 
+         $pelatihanData = $pelatihanQuery->get();
+ 
+         return view('/dashboard/phair', [
+             'pelatihanData' => $pelatihanData,
+             'startDate' => $startDate,
+             'endDate' => $endDate,
+ 
+         ]);
+     }
 
+     public function getPhAir(Request $request)
+     {
+         $tanggalAwal = $request->input('tanggalAwal');
+         $tanggalAkhir = $request->input('tanggalAkhir');
+     
+         // Debug untuk cek apakah tanggal masuk
+         //dd($tanggalAwal, $tanggalAkhir);
+     
+         $data = $this->PhAirRepository->getPhAirData($tanggalAwal, $tanggalAkhir);
+         return response()->json($data);
+     }
+     
 }
 
 

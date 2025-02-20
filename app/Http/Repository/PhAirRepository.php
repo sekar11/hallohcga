@@ -88,4 +88,25 @@ class PhAirRepository
         }
     }
 
+    public function getPhAirData($tanggalAwal, $tanggalAkhir)
+{
+    $data = DB::table('phair')
+        ->select('lokasi', DB::raw('GROUP_CONCAT(JSON_OBJECT("tanggal", tanggal, "ph", ph)) as data'))
+        ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+        ->groupBy('lokasi')
+        ->orderBy('lokasi', 'asc')
+        ->get();
+
+    // Konversi JSON string ke array PHP
+    return $data->map(function ($item) {
+        $item->data = json_decode("[" . $item->data . "]", true); // Tambahkan [] agar valid JSON array
+        return $item;
+    });
+}
+
+    
+    
+
+
+
 }
