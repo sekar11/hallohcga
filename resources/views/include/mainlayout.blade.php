@@ -137,7 +137,6 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-       <!-- Menampilkan Dashboard hanya untuk user dengan id_role 0 dan 3 -->
       @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 3 || auth()->user()->id_role == 4)
         <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-dash" data-bs-toggle="collapse" href="#">
@@ -172,6 +171,7 @@
           </li>                   
         </ul>
       </li>
+      
       @if(auth()->user()->id_role == 0)
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">

@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     //=============================================== PROFILE ===============================================
     Route::get('/profile', [UserController::class, 'profile'])->name('get.profile');
     Route::post('/profile/create', [UserController::class, 'register'])->name('get.pelatihan');
-    Route::post('/user/delete', [UserController::class, 'delete'])->name('delete.user');
+    //Route::post('/user/delete', [UserController::class, 'delete'])->name('delete.user');
     Route::get('/user/get/{id}', [UserController::class, 'getEdit'])->name('edit.user');
     Route::post('/profile/myedit/{id}', [UserController::class, 'editProfile'])->name('get.user');
 
@@ -90,8 +90,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //=============================================== PH AIR ===============================================
     Route::get('/phair', [PhAirController::class, 'index']);
-    Route::post('/phair/create', [PhAirController::class, 'add'])->name('get.phair');
-    Route::post('/user/delete', [PhAirController::class, 'delete'])->name('delete.phair');
+    Route::post('/phair/create', [PhAirController::class, 'add'])->name('add.phair');
+    Route::post('/phair/delete', [PhAirController::class, 'delete'])->name('delete.phair');
     Route::get('/phair/get/{id}', [PhAirController::class, 'getEdit'])->name('edit.phair');
     Route::post('/phair/myedit/{id}', [PhAirController::class, 'edit'])->name('get.phair');
 });
