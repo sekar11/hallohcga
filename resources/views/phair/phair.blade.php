@@ -40,17 +40,49 @@
                                         <span id="name-view"></span>
                                     </div>
                                     <div class="detail">
-                                        <label for="lokasi">Lokasi:</label>
-                                        <span id="lokasi-view"></span>
+                                        <label for="lokasi">Tanggal:</label>
+                                        <span id="tanggal-view"></span>
                                     </div>
                                     <div class="detail">
-                                        <label for="area">Area:</label>
-                                        <span id="area-view"></span>
+                                        <label for="area">MESS:</label>
+                                        <span id="mess-view"></span>
                                     </div>
                                    
                                     <div class="detail">
-                                        <label for="ph">Ph Air:</label>
-                                        <span id="ph-view"></span>
+                                        <label for="ph">WT:</label>
+                                        <span id="wt-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">WTP:</label>
+                                        <span id="wtp-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">STP:</label>
+                                        <span id="stp-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">PIT 1:</label>
+                                        <span id="pit1-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">PIT 2:</label>
+                                        <span id="pit2-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">PIT 3:</label>
+                                        <span id="pit3-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">Workshop:</label>
+                                        <span id="workshop-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">Warehouse:</label>
+                                        <span id="warehouse-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="ph">Office Plant:</label>
+                                        <span id="office-view"></span>
                                     </div>
                     
                                 </div>
@@ -73,43 +105,43 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                        <form class="row g-3 needs-validation" method="POST" action="/user/create">
+                        <form class="row g-3 needs-validation">
                         @csrf
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal" readonly>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal" readonly onfocus="this.blur();">
                                 <label for="message-text">Tanggal </label>  
                             </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                             <div class="form-floating">
                                 <select class="form-control" id="lokasi" name="lokasi">
                                     <option value="">Pilih Lokasi</option>
-                                    <option value="Mess">MESS</option>
+                                    <option value="MESS">MESS</option>
                                     <option value="WT">WT</option>
                                     <option value="WTP">WTP</option>
                                     <option value="STP">STP</option>
-                                    <option value="PIT 1">PIT 1</option>
-                                    <option value="PIT 2">PIT 2</option>
-                                    <option value="PIT 3">PIT 3</option>
-                                    <option value="Workshop">Workshop</option>
-                                    <option value="Warehouse">Warehouse</option>
-                                    <option value="Office Plant">Office Plant</option>
+                                    <option value="PIT_1">PIT 1</option>
+                                    <option value="PIT_2">PIT 2</option>
+                                    <option value="PIT_3">PIT 3</option>
+                                    <option value="WORKSHOP">Workshop</option>
+                                    <option value="WAREHOUSE">Warehouse</option>
+                                    <option value="OFFICE_PLANT">Office Plant</option>
                                 </select>
                                 <label for="lokasi">Lokasi</label>
                             </div>
                             </div>
 
-                            <div class="col-md-6">
-                            <div class="form-floating">
+                            <!-- <div class="col-md-6"> -->
+                            <!-- <div class="form-floating">
                                 <select class="form-control" id="area" name="area">
                                     <option value="">Pilih Area</option>
 
                                 </select>
                                 <label for="area">Area</label>
-                            </div>
-                            </div>
-                            <div class="col-md-6">
+                            </div> -->
+                            <!-- </div> -->
+                            <div class="col-md-12">
                              <div class="form-floating">
                                 <input type="text" class="form-control" id="ph" name="ph" placeholder="ph">
                                 <label for="message-text">Ph Air </label>
@@ -135,9 +167,17 @@
                     <th scope="col">NRP</th>
                     <th scope="col">Nama Crew</th>
                     <th scope="col">Tanggal</th>
-                    <th scope="col">Lokasi</th>
-                    <th scope="col">Area</th>
-                    <th scope="col">Ph Air</th>
+                    <th scope="col">Mess</th>
+                    <th scope="col">WT</th>
+                    <th scope="col">WTP</th>
+                    <th scope="col">STP</th>
+                    <th scope="col">PIT 1</th>
+                    <th scope="col">PIT 2</th>
+                    <th scope="col">PIT 3</th>
+                    <th scope="col">Workshop</th>
+                    <th scope="col">Warehouse</th>
+                    <th scope="col">Office Plant</th>
+
                     <th scope="col">Aksi</th>
                   </tr>
                 </thead>
@@ -149,15 +189,22 @@
                     <td>{{ $ph->nrp }}</td>
                     <td>{{ $ph->nama }}</td>
                     <td>{{ $ph->tanggal }}</td>
-                    <td>{{ $ph->lokasi }}</td>
-                    <td>{{ $ph->area}}</td>
-                    <td>{{ $ph->ph }}</td>
+                    <td>{{ $ph->MESS}}</td>
+                    <td>{{ $ph->WT }}</td>
+                    <td>{{ $ph->WTP }}</td>
+                    <td>{{ $ph->STP }}</td>
+                    <td>{{ $ph->PIT_1 }}</td>
+                    <td>{{ $ph->PIT_2}}</td>
+                    <td>{{ $ph->PIT_3}}</td>
+                    <td>{{ $ph->WORKSHOP}}</td>
+                    <td>{{ $ph->WAREHOUSE }}</td>
+                    <td>{{ $ph->OFFICE_PLANT }}</td>
                     <td>  
                     <div class="dropdown">
                     <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $ph->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#phModal" data-id="{{ $ph->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $ph->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                         <li><a class="dropdown-item delete" href="#" data-id="{{ $ph->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                     </ul>
                 
@@ -204,28 +251,41 @@ $(document).ready(function() {
     });
 });
 
-//VIEW sekar
-var phAirId; 
+var phAirId;
 $('.view').click(function() {
     phAirId = $(this).data('id');
-     $('#viewuserModal').attr('data-mode', 'edit');
-    
+    console.log(`ID yang diklik: ${phAirId}`);
+
+    $('#viewuserModal').attr('data-mode', 'view');
+
+    var url = "{{ route('edit.phair', ':id') }}".replace(':id', phAirId);
+
     $.ajax({
         type: 'GET',
-        url: '{{ url('/phair/get') }}/' + phAirId,
+        url: url,
         success: function(response) {
             $('#viewuserModal').find('#nrp-view').text(response.nrp);
             $('#viewuserModal').find('#name-view').text(response.nama);
-            $('#viewuserModal').find('#lokasi-view').text(response.lokasi);
-            $('#viewuserModal').find('#area-view').text(response.area);
-            $('#viewuserModal').find('#ph-view').text(response.ph);
+            $('#viewuserModal').find('#tanggal-view').text(response.tanggal);
+            $('#viewuserModal').find('#mess-view').text(response.MESS);
+            $('#viewuserModal').find('#wt-view').text(response.WT);
+            $('#viewuserModal').find('#wtp-view').text(response.WTP);
+            $('#viewuserModal').find('#stp-view').text(response.STP);
+            $('#viewuserModal').find('#pit1-view').text(response.PIT_1);
+            $('#viewuserModal').find('#pit2-view').text(response.PIT_2);
+            $('#viewuserModal').find('#pit3-view').text(response.PIT_3);
+            $('#viewuserModal').find('#workshop-view').text(response.WORKSHOP);
+            $('#viewuserModal').find('#warehouse-view').text(response.WAREHOUSE);
+            $('#viewuserModal').find('#office-view').text(response.OFFICE_PLANT);
+
             $('#viewuserModal').modal('show');
         },
         error: function(error) {
-            
+            console.error("Error:", error.responseText);
         }
     });
 });
+;
 
 //EDIT
 var phAirId; 
@@ -240,9 +300,9 @@ $('.edit').click(function() {
         
             $('#userModal #tanggal').val(response.tanggal);
             $('#userModal #lokasi').val(response.lokasi);
-            $('#userModal').find('#lokasi').val(response.lokasi).trigger('change');
+            $('#userModal').find('#lokasi').val(response.mess).trigger('change');
             setTimeout(function() {
-                $('#userModal').find('#area').val(response.area);
+                $('#userModal').find('#ph').val(response.mess);
             }, 200);
             $('#userModal #area').val(response.area);
             $('#userModal #ph').val(response.ph);
@@ -281,9 +341,11 @@ $('#btn-yes-add').click(function() {
                     });
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Data gagal di tambahkan.',
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil di tambahkan!',
+                    }).then(() => {
+                       location.reload()
                     });
                 }
             },
@@ -305,9 +367,11 @@ $('#btn-yes-add').click(function() {
                     });
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Data gagal di edit.',
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil di edit!',
+                    }).then(() => {
+                        location.reload()
                     });
                 }
             },

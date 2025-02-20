@@ -31,11 +31,11 @@ class PhAirController extends Controller
     public function add(Request $request)
     {
         $data = $request->except('_token');
-        //$data = $request->all();
+        $data = $request->all();
         //dd($data);
         $result = $this->PhAirRepository->createData($data);
 
-        $data = $request->all();
+
 
         if ($result) {
             return Response::json(['status' => 'success']);
@@ -45,6 +45,10 @@ class PhAirController extends Controller
 
     }
 
+  
+    
+    
+ 
     public function delete(Request $request)
     {
 

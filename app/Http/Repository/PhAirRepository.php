@@ -9,21 +9,72 @@ class PhAirRepository
 
     public function createData(array $data)
     {
-        $data['nrp'] = auth()->user()->nrp;
-        $phAir = DB::table('phair')->insertGetId($data);
+    try {
+        $nrp = auth()->user()->nrp;
+        $tanggal = $data['tanggal'];
+        $lokasi = $data['lokasi'];
+        $ph = intval($data['ph']); 
 
-        return $phAir;
+        $existingRecord = DB::table('ph_air')->whereDate('tanggal', $tanggal)->first();
+
+        if ($existingRecord) {
+            $oldPh = $existingRecord->$lokasi;
+
+            if ($oldPh !== null) {
+                $newPh = intval(round(($oldPh + $ph) / 2));
+            } else {
+                $newPh = $ph;
+            }
+
+            $update = DB::table('ph_air')
+                ->where('id', $existingRecord->id)
+                ->update([$lokasi => $newPh]);
+
+            if ($update) {
+                return $existingRecord->id;
+            } else {
+                throw new \Exception("Gagal mengupdate data.");
+            }
+        } else {
+            $newData = [
+                'nrp' => $nrp,
+                'tanggal' => $tanggal,
+                'MESS' => null,
+                'WT' => null,
+                'WTP' => null,
+                'STP' => null,
+                'PIT_1' => null,
+                'PIT_2' => null,
+                'PIT_3' => null,
+                'WORKSHOP' => null,
+                'WAREHOUSE' => null,
+                'OFFICE_PLANT' => null,
+                $lokasi => $ph
+            ];
+
+            $insertId = DB::table('ph_air')->insertGetId($newData);
+
+            if ($insertId) {
+                return $insertId;
+            } else {
+                throw new \Exception("Gagal menyimpan data.");
+            }
+        }
+    } catch (\Exception $e) {
+        \Log::error("Error Repository: " . $e->getMessage());
+        return false;
+    }
     }
 
     public function getData()
     {
-        return DB::table('phair')
-            ->join('users', 'phair.nrp', '=', 'users.nrp')
+        return DB::table('ph_air')
+            ->join('users', 'ph_air.nrp', '=', 'users.nrp')
             ->select(
-                'phair.*',
+                'ph_air.*',
                 'users.nama'
             )
-            ->orderBy('phair.tanggal', 'desc')
+            ->orderBy('ph_air.tanggal', 'desc')
             ->get();
     }
     
@@ -31,7 +82,7 @@ class PhAirRepository
     public function delete($phUserId )
     {
         try {
-            DB::table('phair')->where('id', $phUserId )->delete();
+            DB::table('ph_air')->where('id', $phUserId )->delete();
             return 'Data Berhasil dihapus.';
         } catch (\Exception $e) {
             return 'Gagal menghapus data: ' . $e->getMessage();
@@ -40,13 +91,13 @@ class PhAirRepository
 
     public function getById($id)
     {
-        $data = DB::table('phair')
-            ->join('users', 'phair.nrp', '=', 'users.nrp')
+        $data = DB::table('ph_air')
+            ->join('users', 'ph_air.nrp', '=', 'users.nrp')
                 ->select(
-                    'phair.*',
+                    'ph_air.*',
                     'users.nama'
                 )
-            ->where('phair.id', $id)
+            ->where('ph_air.id', $id)
             ->first();
 
         return $data;
@@ -54,13 +105,29 @@ class PhAirRepository
 
     public function edit($data, $id)
     {
-        return DB::table('phair')
-            ->where('id', $id)
-            ->update([
-                'lokasi' => $data['lokasi'],
-                'area' => $data['area'] ?? null,
-                'ph' => $data['ph'],
-            ]);
+        try {
+            $lokasi = $data['lokasi'];
+            $ph = intval($data['ph']);
+
+            $existingRecord = DB::table('ph_air')->where('id', $id)->first();
+
+            if (!$existingRecord) {
+                throw new \Exception("Data tidak ditemukan untuk ID: $id");
+            }
+            
+            $update = DB::table('ph_air')
+                ->where('id', $id)
+                ->update([$lokasi => $ph]);
+
+            if ($update) {
+                return true;
+            } else {
+                throw new \Exception("Gagal memperbarui data.");
+            }
+        } catch (\Exception $e) {
+            \Log::error("Error Repository (Edit Data): " . $e->getMessage());
+            return false;
+        }
     }
 
     public function editProfile($data, $id)
@@ -86,6 +153,46 @@ class PhAirRepository
         } catch (\Exception $e) {
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
+    }
+
+    public function getPhAirData($tanggalAwal, $tanggalAkhir)
+    {
+        $data = DB::table('ph_air')
+            ->select(
+                'tanggal',
+                DB::raw('MAX(MESS) as MESS'),
+                DB::raw('MAX(WT) as WT'),
+                DB::raw('MAX(WTP) as WTP'),
+                DB::raw('MAX(STP) as STP'),
+                DB::raw('MAX(PIT_1) as PIT_1'),
+                DB::raw('MAX(PIT_2) as PIT_2'),
+                DB::raw('MAX(PIT_3) as PIT_3'),
+                DB::raw('MAX(WORKSHOP) as WORKSHOP'),
+                DB::raw('MAX(WAREHOUSE) as WAREHOUSE'),
+                DB::raw('MAX(OFFICE_PLANT) as OFFICE_PLANT')
+            )
+            ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+            ->groupBy('tanggal')
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        return $data->map(function ($item) {
+            return [
+                'tanggal' => $item->tanggal,
+                'lokasi' => [
+                    'MESS' => $item->MESS,
+                    'WT' => $item->WT,
+                    'WTP' => $item->WTP,
+                    'STP' => $item->STP,
+                    'PIT_1' => $item->PIT_1,
+                    'PIT_2' => $item->PIT_2,
+                    'PIT_3' => $item->PIT_3,
+                    'WORKSHOP' => $item->WORKSHOP,
+                    'WAREHOUSE' => $item->WAREHOUSE,
+                    'OFFICE_PLANT' => $item->OFFICE_PLANT,
+                ]
+            ];
+        });
     }
 
 }

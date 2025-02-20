@@ -21,15 +21,19 @@ Route::group(['middleware' => 'auth'], function () {
         return view('complain/complain');
     });
 
+    //=============================================== DASHBOARD ===============================================
     Route::get('/dashboard', [DashboardController::class, 'reportPelatihan'])->name('dashboard.pelatihan');
     Route::post('/dashboard/search', [DashboardController::class, 'reportPelatihan']);
 
+    Route::get('/dashboard_phair', [DashboardController::class, 'phAir']);
+    Route::post('/get-ph-air', [DashboardController::class, 'getPhAir']);
+
+    //=============================================== COMPLAIN ===============================================
     Route::get('/complain', [ComplainController::class, 'index'])->name('get.complain');
     Route::post('/complain/create', [ComplainController::class, 'create'])->name('get.complain');
     Route::get('/complain/get/{id}', [ComplainController::class, 'getEdit'])->name('edit.complain');
     Route::post('/complain/myedit/{id}', [ComplainController::class, 'edit'])->name('get.complain');
     Route::post('/complain/send-data', [ComplainController::class, 'send'])->name('send.complain');
-    // Route::post('/complain/exportoword/{id}', [ComplainController::class, 'exportToWord'])->name('export.complain');
     Route::post('/complain/validasigagl', [ComplainController::class, 'validasigagl'])->name('reject.complain');
     Route::post('/complain/validasicrew', [ComplainController::class, 'validasicrew'])->name('reject.complain');
     Route::post('/complain/revisi', [ComplainController::class, 'revisi'])->name('revisi.complain');
@@ -39,9 +43,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/complain/revisicrew', [ComplainController::class, 'revisicrew'])->name('reject.complain');
     Route::post('/complain/delete', [ComplainController::class, 'delete'])->name('delete.complain');
     Route::post('/complain/approval', [ComplainController::class, 'approval'])->name('reject.complain');
-    // Route::post('/complain/get_user_info', [ComplainController::class, 'getUserInfo'])->name('get_user_info.complain');
-    // Route::get('/complain/get_user', [ComplainController::class, 'getUser'])->name('get.user.complain');
-    // Route::get('/complain_pdf', [ComplainController::class, 'exportPDF'])->name('cetak.complain');
 
     //=============================================== USER ===============================================
     Route::get('/user', [UserController::class, 'index'])->name('get.user');
@@ -53,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     //=============================================== PROFILE ===============================================
     Route::get('/profile', [UserController::class, 'profile'])->name('get.profile');
     Route::post('/profile/create', [UserController::class, 'register'])->name('get.pelatihan');
-    Route::post('/user/delete', [UserController::class, 'delete'])->name('delete.user');
+    //Route::post('/user/delete', [UserController::class, 'delete'])->name('delete.user');
     Route::get('/user/get/{id}', [UserController::class, 'getEdit'])->name('edit.user');
     Route::post('/profile/myedit/{id}', [UserController::class, 'editProfile'])->name('get.user');
 
@@ -89,8 +90,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //=============================================== PH AIR ===============================================
     Route::get('/phair', [PhAirController::class, 'index']);
-    Route::post('/phair/create', [PhAirController::class, 'add'])->name('get.phair');
-    Route::post('/user/delete', [PhAirController::class, 'delete'])->name('delete.phair');
+    Route::post('/phair/create', [PhAirController::class, 'add'])->name('add.phair');
+    Route::post('/phair/delete', [PhAirController::class, 'delete'])->name('delete.phair');
     Route::get('/phair/get/{id}', [PhAirController::class, 'getEdit'])->name('edit.phair');
     Route::post('/phair/myedit/{id}', [PhAirController::class, 'edit'])->name('get.phair');
 });
