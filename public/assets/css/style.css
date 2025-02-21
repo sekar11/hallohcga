@@ -1750,8 +1750,21 @@ hr{
 }
 
 .extra-small {
-  font-size: 0.7rem; 
+  font-size: 0.7rem;
 }
+
+.chart-container {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+}
+
+canvas {
+    width: 100% !important;
+    height: 300px !important; /* Sesuaikan tinggi agar tetap terbaca */
+}
+
+
 
 
 

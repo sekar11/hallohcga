@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard_phair', [DashboardController::class, 'phAir']);
     Route::post('/get-ph-air', [DashboardController::class, 'getPhAir']);
+    Route::post('/get-ph-air-per', [DashboardController::class, 'getPhAirPer']);
 
     //=============================================== COMPLAIN ===============================================
     Route::get('/complain', [ComplainController::class, 'index'])->name('get.complain');

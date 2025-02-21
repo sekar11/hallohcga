@@ -31,7 +31,7 @@ class DashboardController extends Controller
     public function __construct(ComplainRepository $ComplainRepository, PhAirRepository $PhAirRepository)
     {
         $this->ComplainRepository = $ComplainRepository;
-        $this->PhAirRepository = $PhAirRepository;
+        $this->PhRepository = $PhAirRepository;
     }
 
     public function getMayorCount()
@@ -190,20 +190,20 @@ class DashboardController extends Controller
      {
          $startDate = $request->input('start_date');
          $endDate = $request->input('end_date');
- 
+
          $pelatihanQuery = $this->ComplainRepository->getAllWithDate();
- 
+
          if ($startDate && $endDate) {
              $pelatihanQuery->whereBetween('waktu', [$startDate, $endDate]);
          }
- 
+
          $pelatihanData = $pelatihanQuery->get();
- 
+
          return view('/dashboard/phair', [
              'pelatihanData' => $pelatihanData,
              'startDate' => $startDate,
              'endDate' => $endDate,
- 
+
          ]);
      }
 
@@ -211,14 +211,38 @@ class DashboardController extends Controller
      {
          $tanggalAwal = $request->input('tanggalAwal');
          $tanggalAkhir = $request->input('tanggalAkhir');
-     
+
          // Debug untuk cek apakah tanggal masuk
          //dd($tanggalAwal, $tanggalAkhir);
-     
-         $data = $this->PhAirRepository->getPhAirData($tanggalAwal, $tanggalAkhir);
+
+         $data = $this->PhRepository->getPhAirData($tanggalAwal, $tanggalAkhir);
          return response()->json($data);
      }
-     
+
+    //  public function getPhAirPer(Request $request)
+    //  {
+    //      $tanggalAwal = $request->input('tanggalAwal');
+    //      $tanggalAkhir = $request->input('tanggalAkhir');
+    //      $lokasi = $request->input('lokasi');
+
+    //      $data = $this->PhRepository->getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi);
+    //      //dd($data);
+    //      return response()->json($data);
+    //  }
+
+    public function getPhAirPer(Request $request)
+{
+    $tanggalAwal = $request->input('tanggalAwal');
+    $tanggalAkhir = $request->input('tanggalAkhir');
+    $lokasi = $request->input('lokasi');
+
+    $data = $this->PhRepository->getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi);
+
+    return response()->json($data);
+}
+
+
+
 }
 
 
