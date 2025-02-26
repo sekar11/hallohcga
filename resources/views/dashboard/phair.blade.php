@@ -33,7 +33,7 @@
                         </div>
                         <div class="card p-3 mt-3">
                             <div class="chart-container">
-                                <canvas id="phChart"></canvas>
+                                <canvas id="phChart" style="width: 100%; height: 300px;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="card p-3 mt-3">
                             <div class="chart-container">
-                                <canvas id="phChartWeek"></canvas>
+                                <canvas id="phChartWeek" style="width: 100%; height: 300px;"></canvas>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@
                         </div>
                         <div class="card p-3 mt-3">
                             <div class="chart-container">
-                                <canvas id="phChartPer"></canvas>
+                                <canvas id="phChartPer" style="width: 100%; height: 300px;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="card p-3 mt-3">
                             <div class="chart-container">
-                                <canvas id="phChartWeekPer"></canvas>
+                                <canvas id="phChartWeekPer" style="width: 100%; height: 300px;"></canvas>
                             </div>
                         </div>
 
@@ -238,7 +238,8 @@ function updatePhChart(data) {
             scales: {
                 x: {
                     title: { display: true, text: "Lokasi" },
-                    ticks: { display: window.innerWidth > 768 } // Sembunyikan label jika layar kecil
+                    ticks: { display: window.innerWidth > 768 }
+                     // Sembunyikan label jika layar kecil
                 },
                 y: {
                     min: 0, max: 14,
@@ -398,7 +399,14 @@ function updatePhChartPer(response) {
             maintainAspectRatio: false,
             scales: {
                 x: { title: { display: true, text: "Tanggal" } },
-                y: { min: 0, max: 14, title: { display: true, text: "pH Air" } }
+                y: {
+                    min: 0,
+                    max: 14,
+                    title: { display: true, text: "pH Air" },
+                    ticks: {
+                        stepSize: 1 // Menampilkan angka 1,2,3, ... 14 di sumbu Y
+                    }
+                }
             },
             plugins: { legend: { display: true } }
         }
