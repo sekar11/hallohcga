@@ -324,7 +324,7 @@ function redirectToTotalComplain() {
 }
 
 function redirectToPrioritasComplain() {
-    window.location.href = "/complain?status=total";
+    window.location.href = "/complain?status=prioritas";
 }
 
 let currentSlide = 0;
