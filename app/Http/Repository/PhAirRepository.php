@@ -13,7 +13,7 @@ class PhAirRepository
         $nrp = auth()->user()->nrp;
         $tanggal = $data['tanggal'];
         $lokasi = $data['lokasi'];
-        $ph = intval($data['ph']); 
+        $ph = intval($data['ph']);
 
         $existingRecord = DB::table('ph_air')->whereDate('tanggal', $tanggal)->first();
 
@@ -61,7 +61,7 @@ class PhAirRepository
             }
         }
     } catch (\Exception $e) {
-        \Log::error("Error Repository: " . $e->getMessage());
+
         return false;
     }
     }
@@ -77,7 +77,7 @@ class PhAirRepository
             ->orderBy('ph_air.tanggal', 'desc')
             ->get();
     }
-    
+
 
     public function delete($phUserId )
     {
@@ -114,7 +114,7 @@ class PhAirRepository
             if (!$existingRecord) {
                 throw new \Exception("Data tidak ditemukan untuk ID: $id");
             }
-            
+
             $update = DB::table('ph_air')
                 ->where('id', $id)
                 ->update([$lokasi => $ph]);
@@ -125,7 +125,6 @@ class PhAirRepository
                 throw new \Exception("Gagal memperbarui data.");
             }
         } catch (\Exception $e) {
-            \Log::error("Error Repository (Edit Data): " . $e->getMessage());
             return false;
         }
     }
@@ -194,5 +193,49 @@ class PhAirRepository
             ];
         });
     }
+
+//     public function getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi)
+// {
+//     $data = DB::table('ph_air')
+//         ->select('tanggal', DB::raw("MAX($lokasi) as pH"))
+//         ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+//         ->groupBy('tanggal')
+//         ->orderBy('tanggal', 'asc')
+//         ->get();
+
+//     return $data->map(function ($item) {
+//         return [
+//             'tanggal' => $item->tanggal,
+//             'pH' => $item->pH,
+//         ];
+//     });
+// }
+
+public function getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi)
+{
+    $data = DB::table('ph_air')
+        ->select('tanggal', DB::raw("MAX($lokasi) as pH"))
+        ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+        ->groupBy('tanggal')
+        ->orderBy('tanggal', 'asc')
+        ->get();
+
+    // Hitung rata-rata pH dari semua data yang diambil
+    $rataRata = $data->avg('pH');
+
+    return [
+        'dataHarian' => $data->map(function ($item) {
+            return [
+                'tanggal' => $item->tanggal,
+                'pH' => $item->pH,
+            ];
+        }),
+        'rataRata' => round($rataRata, 2) // Bulatkan ke 2 desimal
+    ];
+}
+
+
+
+
 
 }
