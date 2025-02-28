@@ -32,16 +32,42 @@ class ComplainController extends Controller
         $this->ComplainRepository = $ComplainRepository;
     }
 
-    public function index()
-    {
-        $ComplainData = $this->ComplainRepository->getAllWithUsername();
-        $nrpOptions = User::select('nrp')->distinct()->get();
+    // public function index()
+    // {
+    //     $ComplainData = $this->ComplainRepository->getAllWithUsername();
+    //     $nrpOptions = User::select('nrp')->distinct()->get();
 
-        return view('/complain/complain', [
-            'ComplainData' => $ComplainData,
-            'nrpOptions' => $nrpOptions,
-        ]);
+    //     return view('/complain/complain', [
+    //         'ComplainData' => $ComplainData,
+    //         'nrpOptions' => $nrpOptions,
+    //     ]);
+    // }
+
+    public function index(Request $request)
+{
+    $status = $request->query('status');
+
+    if ($status == 'on-progress') {
+        $ComplainData = $this->ComplainRepository->getOnProgressComplains();
+    } else if ($status == 'done') {
+        $ComplainData = $this->ComplainRepository->getOnProgressDoneComplains();
     }
+    else if ($status == 'mayor') {
+        $ComplainData = $this->ComplainRepository->getOnProgressMayorComplains();
+    }
+    else {
+        $ComplainData = $this->ComplainRepository->getAllWithUsername();
+    }
+
+
+    $nrpOptions = User::select('nrp')->distinct()->get();
+
+    return view('/complain/complain', [
+        'ComplainData' => $ComplainData,
+        'nrpOptions' => $nrpOptions,
+    ]);
+}
+
 
     public function showForm()
     {
