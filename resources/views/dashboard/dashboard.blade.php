@@ -54,7 +54,7 @@
 
         <!-- Sales Card -->
         <div class="col-xxl-4 col-md-3">
-            <div class="card info-card sales-card">
+            <div class="card info-card sales-card" onclick="redirectToTotalComplain()">
             <div class="card-body">
                 <h5 class="card-title">Jumlah Complain</h5>
                 <div class="d-flex align-items-center">
@@ -70,7 +70,7 @@
         </div><!-- End Sales Card -->
 
         <!-- Sales Card -->
-        <div class="col-xxl-4 col-md-3">
+        <!-- <div class="col-xxl-4 col-md-3">
             <div class="card info-card sales-card">
             <div class="card-body">
                 <h5 class="card-title">On-Progress</h5>
@@ -84,11 +84,28 @@
             </div>
             </div>
             </div>
-        </div><!-- End Sales Card -->
+        </div>End Sales Card -->
+
+        <div class="col-xxl-4 col-md-3">
+            <div class="card info-card saless-card" onclick="redirectToComplain()">
+                <div class="card-body">
+                    <h5 class="card-title">On-Progress</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="progresCount">Loading...</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Sales Card -->
         <div class="col-xxl-4 col-md-3">
-            <div class="card info-card sales-card">
+            <div class="card info-card sales-card" onclick="redirectToDoneComplain()">
             <div class="card-body">
                 <h5 class="card-title">Done</h5>
                 <div class="d-flex align-items-center">
@@ -106,7 +123,7 @@
 
         <!-- Revenue Card -->
         <div class="col-xxl-4 col-md-3">
-            <div class="card info-card revenue-card">
+            <div class="card info-card revenue-card" onclick="redirectToPrioritasComplain()">
             <div class="card-body">
                 <h5 class="card-title">Complain Prioritas</h5>
                 <div class="d-flex align-items-center">
@@ -123,7 +140,7 @@
 
         <!-- Customers Card -->
         <div class="col-xxl-4 col-xl-3">
-            <div class="card info-card customers-card">
+            <div class="card info-card customers-card" onclick="redirectToMayorComplain()">
             <div class="card-body">
                 <h5 class="card-title">Complain Mayor</h5>
                 <div class="d-flex align-items-center">
@@ -139,7 +156,7 @@
         </div><!-- End Customers Card -->
             <!-- Customers Card -->
             <div class="col-xxl-4 col-xl-3">
-                <div class="card info-card customers-card">
+                <div class="card info-card customers-card" onclick="redirectToMinorComplain()">
                 <div class="card-body">
                     <h5 class="card-title">Complain Minor</h5>
                     <div class="d-flex align-items-center">
@@ -156,7 +173,7 @@
 
         <!-- Customers Card -->
         <div class="col-xxl-4 col-xl-3">
-            <div class="card info-card cost-card">
+            <div class="card info-card cost-card" onclick="redirectToPendingComplain()">
             <div class="card-body">
                 <h5 class="card-title">Complain Pending</h5>
                 <div class="d-flex align-items-center">
@@ -276,56 +293,39 @@
     </section>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+
 <script>
-// document.addEventListener("DOMContentLoaded", function () {
-//     let sliderWrapper = document.querySelector(".slider-wrapper");
-//     let slides = document.querySelectorAll(".slide");
-//     let currentIndex = 0;
 
-//     function nextSlide() {
-//         currentIndex = (currentIndex + 1) % slides.length;
-//         sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-//     }
+function redirectToComplain() {
+    window.location.href = "/complain?status=on-progress";
+}
 
-//     setInterval(nextSlide, 3000);
-// });
+function redirectToDoneComplain() {
+    window.location.href = "/complain?status=done";
+}
 
+function redirectToMayorComplain() {
+    window.location.href = "/complain?status=mayor";
+}
 
-// function moveSlide(direction) {
-//     currentIndex += direction;
+function redirectToMinorComplain() {
+    window.location.href = "/complain?status=minor";
+}
 
-//     if (currentIndex < 0) {
-//         currentIndex = totalSlides - 1;
-//     } else if (currentIndex >= totalSlides) {
-//         currentIndex = 0;
-//     }
+function redirectToPendingComplain() {
+    window.location.href = "/complain?status=pending";
+}
 
-//     document.querySelector('.slider-wrapper').style.transform = `translateX(-${currentIndex * 100}%)`;
-// }
+function redirectToTotalComplain() {
+    window.location.href = "/complain?status=total";
+}
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     let slides = document.querySelectorAll(".slide");
-//     let currentIndex = 0;
-
-//     function showSlide(index) {
-//         slides.forEach((slide, i) => {
-//             slide.style.display = i === index ? "block" : "none";
-//         });
-//     }
-
-//     function nextSlide() {
-//         currentIndex = (currentIndex + 1) % slides.length;
-//         showSlide(currentIndex);
-//     }
-
-//     // Tampilkan slide pertama saat halaman dimuat
-//     showSlide(currentIndex);
-
-//     // Ganti slide setiap 3 detik
-//     setInterval(nextSlide, 3000);
-// });
+function redirectToPrioritasComplain() {
+    window.location.href = "/complain?status=prioritas";
+}
 
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
@@ -816,6 +816,14 @@ $.ajax({
     })
     .catch(error => console.error('Error:', error));
 });
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     document.querySelector('.info-card.saless-card').addEventListener('click', function() {
+//         window.location.href = "/complain?status=on-progress";
+//     });
+// });
+
+
 
 </script>
 

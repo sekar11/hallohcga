@@ -168,7 +168,7 @@ class DashboardController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
         $status = $request->query('status');
-        $area = $request->query('area'); // Tambahkan area
+        $area = $request->query('area'); 
 
         $data = $this->ComplainRepository->getFilteredComplains($startDate, $endDate, $status, $area);
         return response()->json($data);
@@ -211,35 +211,20 @@ class DashboardController extends Controller
      {
          $tanggalAwal = $request->input('tanggalAwal');
          $tanggalAkhir = $request->input('tanggalAkhir');
-
-         // Debug untuk cek apakah tanggal masuk
-         //dd($tanggalAwal, $tanggalAkhir);
-
          $data = $this->PhRepository->getPhAirData($tanggalAwal, $tanggalAkhir);
          return response()->json($data);
      }
 
-    //  public function getPhAirPer(Request $request)
-    //  {
-    //      $tanggalAwal = $request->input('tanggalAwal');
-    //      $tanggalAkhir = $request->input('tanggalAkhir');
-    //      $lokasi = $request->input('lokasi');
-
-    //      $data = $this->PhRepository->getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi);
-    //      //dd($data);
-    //      return response()->json($data);
-    //  }
-
     public function getPhAirPer(Request $request)
-{
-    $tanggalAwal = $request->input('tanggalAwal');
-    $tanggalAkhir = $request->input('tanggalAkhir');
-    $lokasi = $request->input('lokasi');
+    {
+        $tanggalAwal = $request->input('tanggalAwal');
+        $tanggalAkhir = $request->input('tanggalAkhir');
+        $lokasi = $request->input('lokasi');
 
-    $data = $this->PhRepository->getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi);
+        $data = $this->PhRepository->getPhAirDataPer($tanggalAwal, $tanggalAkhir, $lokasi);
 
-    return response()->json($data);
-}
+        return response()->json($data);
+    }
 
 
 

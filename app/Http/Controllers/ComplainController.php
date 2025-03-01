@@ -32,9 +32,46 @@ class ComplainController extends Controller
         $this->ComplainRepository = $ComplainRepository;
     }
 
-    public function index()
+    // public function index()
+    // {
+    //     $ComplainData = $this->ComplainRepository->getAllWithUsername();
+    //     $nrpOptions = User::select('nrp')->distinct()->get();
+
+    //     return view('/complain/complain', [
+    //         'ComplainData' => $ComplainData,
+    //         'nrpOptions' => $nrpOptions,
+    //     ]);
+    // }
+
+    public function index(Request $request)
     {
-        $ComplainData = $this->ComplainRepository->getAllWithUsername();
+        $status = $request->query('status');
+
+        if ($status == 'on-progress') {
+            $ComplainData = $this->ComplainRepository->getOnProgressComplains();
+        } else if ($status == 'done') {
+            $ComplainData = $this->ComplainRepository->getOnProgressDoneComplains();
+        }
+        else if ($status == 'mayor') {
+            $ComplainData = $this->ComplainRepository->getOnProgressMayorComplains();
+        }
+        else if ($status == 'minor') {
+            $ComplainData = $this->ComplainRepository->getOnProgressMinorComplains();
+        }
+        else if ($status == 'prioritas') {
+            $ComplainData = $this->ComplainRepository->getOnProgressPrioritasComplains();
+        }
+        else if ($status == 'pending') {
+            $ComplainData = $this->ComplainRepository->getOnProgressPendingComplains();
+        }
+        else if ($status == 'total') {
+            $ComplainData = $this->ComplainRepository->getAllWithUsername();
+        }
+        else {
+            $ComplainData = $this->ComplainRepository->getAllWithUsername();
+        }
+
+
         $nrpOptions = User::select('nrp')->distinct()->get();
 
         return view('/complain/complain', [
@@ -42,6 +79,7 @@ class ComplainController extends Controller
             'nrpOptions' => $nrpOptions,
         ]);
     }
+
 
     public function showForm()
     {
@@ -478,7 +516,7 @@ class ComplainController extends Controller
             }
 
             $phoneNumber = $employee->no_hp;
-            
+
             $message = "STATUS: SUDAH DI PROSES,\n";
             $message .= "Halo\n";
             $message .= "Complain Sudah diselesaikan oleh Teknisi/Crew TerkaitT:\n\n";

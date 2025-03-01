@@ -137,7 +137,7 @@
                                         <label id="label_foto_perbaikan" for="fotoperbaikan_complain">Foto Perbaikan:</label>
                                         <div id="fotoperbaikan_complain" class="foto-container"> </div>
                                     </div>
-                                
+
                                     <div class="detail">
                                         <label for="approval_desc">Keterangan Approval GA/GL:</label>
                                         <span id="approval_desc"> </span>
@@ -147,7 +147,7 @@
                                         <div id="fotohasilperbaikan_complain" class="foto-container">
                                         </div>
                                     </div>
-                                
+
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -804,8 +804,6 @@ $('.view').click(function () {
     });
 });
 
-
-
 var complainId;
 $('.edit').click(function() {
     complainId = $(this).data('id');
@@ -1062,112 +1060,156 @@ $(document).ready(function() {
     });
 });
 
-
 //REJECT GAGL
+// $('.reject').click(function() {
+//     var complainId = $(this).data('id');
+//     $('#btn-yes-reject').click(function() {
+//         var data = $('.form_reject').serialize();
+
+//         $.ajax({
+//             type: 'POST',
+//             // url: '/complain/reject?complain_id=' + complainId,
+//             url: '/complain/reject?complain_id=' + complainId,
+//             data: data,
+//             success: function(response) {
+//                 Swal.fire({
+//                 icon: 'success',
+//                 title: 'Sukses!',
+//                 text: response.message
+//                 }).then(() => {
+//                        location.reload();
+//                    });
+//             },
+//             error: function(error) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Gagal!',
+//                     text: 'Terjadi kesalahan saat mengirim revisi.'
+//                 });
+//             }
+//         });
+//     });
+// });
+
 $('.reject').click(function() {
     var complainId = $(this).data('id');
-    $('#btn-yes-reject').click(function() {
-        var data = $('.form_reject').serialize();
+    $('#rejectModalgagl').data('complainId', complainId);
+});
 
-        $.ajax({
-            type: 'POST',
-            // url: '/complain/reject?complain_id=' + complainId,
-            url: '/complain/reject?complain_id=' + complainId,
-            data: data,
-            success: function(response) {
-                Swal.fire({
+$('#btn-yes-reject').click(function() {
+    var btn = $(this);
+    btn.prop('disabled', true)
+    var complainId = $('#rejectModalgagl').data('complainId');
+    var data = $('.form_reject').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/reject?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
                 icon: 'success',
                 title: 'Sukses!',
                 text: response.message
-                }).then(() => {
-                       location.reload();
-                   });
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim revisi.'
-                });
-            }
-        });
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim revisi.'
+            });
+            btn.prop('disabled', false);
+        }
     });
 });
+
 
 //VALIDASI GAGL
 $('.validasi').click(function() {
     var complainId = $(this).data('id');
-    $('#btn-yes-validasi').click(function() {
-        var data = $('.form_validasi').serialize();
+    $('#validasiModalgagl').data('complainId', complainId);
+});
 
-        $.ajax({
-            type: 'POST',
-            // url: '/complain/validasigagl?complain_id=' + complainId,
-            url: '/complain/validasigagl?complain_id=' + complainId,
-            data: data,
-            success: function(response) {
-                Swal.fire({
+$('#btn-yes-validasi').click(function() {
+    var complainId = $('#validasiModalgagl').data('complainId');
+    var btn = $(this);
+    btn.prop('disabled', true);
+    var data = $('.form_validasi').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/validasigagl?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
                 icon: 'success',
                 title: 'Sukses!',
                 text: response.message
-                }).then(() => {
-                      location.reload();
-                  });
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim data.'
-                });
-            }
-        });
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim data.'
+            });
+            btn.prop('disabled', false);
+        }
     });
 });
 
-
-//PENDING GAGL
 $('.pendingGagl').click(function() {
     var complainId = $(this).data('id');
+    $('#pendingModalgagl').data('complainId', complainId);
+});
 
-    $('#btn-yes-pendingGagl').click(function() {
-        var data = $('.form_pendingGagl').serialize();
-        $.ajax({
-            type: 'POST',
-            // url: '/complain/pendingGagl?complain_id=' + complainId,
-            url: '/complain/pendingGagl?complain_id=' + complainId,
-            data: data,
-            success: function(response) {
-                Swal.fire({
+$('#btn-yes-pendingGagl').click(function() {
+    var complainId = $('#pendingModalgagl').data('complainId');
+    var btn = $(this);
+    btn.prop('disabled', true);
+    var data = $('.form_pendingGagl').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/pendingGagl?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
                 icon: 'success',
                 title: 'Sukses!',
                 text: response.message
-                }).then(() => {
-                       location.reload()
-                });
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim revisi.'
-                });
-            }
-        });
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim revisi.'
+            });
+            btn.prop('disabled', false); // Aktifkan kembali tombol jika terjadi error
+        }
     });
 });
-
 
 $(document).ready(function() {
     $('.validasi_crew').click(function() {
         var complainId = $(this).data('id');
+        $('#validasiCrewModal').data('complainId', complainId);
 
-        $('#btn-yes-validasi_crew').click(function() {
+        $('#btn-yes-validasi_crew').off('click').on('click', function() {
             var form = $('.form_validasi_crew')[0];
             var formData = new FormData(form);
             formData.append('complain_id', complainId);
 
-            $('#btn-yes-validasi_crew').hide();
+            var btn = $(this);
+            btn.prop('disabled', true); // Nonaktifkan tombol
             $('#loading-spinner-validasi').show();
 
             $.ajax({
@@ -1195,10 +1237,10 @@ $(document).ready(function() {
                         title: 'Gagal!',
                         text: errorMessage
                     });
+
+                    btn.prop('disabled', false);
                 },
                 complete: function() {
-              
-                    $('#btn-yes-validasi_crew').show();
                     $('#loading-spinner-validasi').hide();
                 }
             });
@@ -1206,65 +1248,75 @@ $(document).ready(function() {
     });
 });
 
-//REJECT crew
+
 $('.rejectcrew').click(function() {
     var complainId = $(this).data('id');
-    $('#btn-yes-reject_crew').click(function() {
-        var data = $('.form_reject_crew').serialize();
+    $('#rejectCrewModalgagl').data('complainId', complainId);
+});
 
-        $.ajax({
-            type: 'POST',
-            url: '/complain/rejectcrew?complain_id=' + complainId,
-            //url: '/complain/rejectcrew?complain_id=' + complainId,
-            data: data,
-            success: function(response) {
-                Swal.fire({
+$('#btn-yes-reject_crew').click(function() {
+    var complainId = $('#rejectCrewModalgagl').data('complainId');
+    var btn = $(this);
+    btn.prop('disabled', true);
+
+    var data = $('.form_reject_crew').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/rejectcrew?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
                 icon: 'success',
                 title: 'Sukses!',
                 text: response.message
-                }).then(() => {
-                       location.reload();
-                   });
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim revisi.'
-                });
-            }
-        });
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim revisi.'
+            });
+            btn.prop('disabled', false);
+        }
     });
 });
 
-//Revisi crew
 $('.revisicrew').click(function() {
     var complainId = $(this).data('id');
-    $('#btn-yes-revisi_crew').click(function() {
-        var data = $('.form_revisi_crew').serialize();
+    $('#revisiCrewModalgagl').data('complainId', complainId);
+});
 
-        $.ajax({
-            type: 'POST',
-            //url: '/complain/revisicrew?complain_id=' + complainId,
-            url: '/complain/revisicrew?complain_id=' + complainId,
-            data: data,
-            success: function(response) {
-                Swal.fire({
+$('#btn-yes-revisi_crew').click(function() {
+    var btn = $(this);
+    btn.prop('disabled', true); // Nonaktifkan tombol
+    var complainId = $('#revisiCrewModalgagl').data('complainId');
+    var data = $('.form_revisi_crew').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/revisicrew?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
                 icon: 'success',
                 title: 'Sukses!',
                 text: response.message
-                }).then(() => {
-                       location.reload();
-                   });
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim revisi.'
-                });
-            }
-        });
+            }).then(function() {
+                location.reload();
+            });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim revisi.'
+            });
+            btn.prop('disabled', false); // Aktifkan kembali tombol jika terjadi error
+        }
     });
 });
 
@@ -1339,9 +1391,6 @@ function updateDueDate() {
     // Update nilai pada input due_date
     dueDate.value = formattedDate;
 }
-
-
-
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('due_date').value = '';
     });
@@ -1411,14 +1460,6 @@ function updateDueDate() {
             }
         });
     });
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    // document.querySelectorAll("table tbody td").forEach(td => {
-    //     td.classList.add("truncate-text");
-    // });
-    // });
-
 
 </script>
 

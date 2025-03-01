@@ -207,55 +207,151 @@ function fetchPhAirData() {
     .catch(error => console.error('Error fetching data:', error));
 }
 
+// function updatePhChart(data) {
+//     const ctx = document.getElementById('phChart').getContext('2d');
+//     const locations = ["MESS", "WT", "WTP", "STP"];
+
+//     let tanggalSet = new Set();
+//     data.forEach(item => tanggalSet.add(item.tanggal));
+//     tanggalSet = [...tanggalSet];
+
+//     const datasets = tanggalSet.map(tanggal => ({
+//         label: `Tanggal ${tanggal}`,
+//         data: locations.map(lokasi => data.find(d => d.tanggal === tanggal)?.lokasi[lokasi] ?? null),
+//         borderColor: getRandomColor(),
+//         borderWidth: 2,
+//         fill: false,
+//         tension: 0
+//     }));
+
+//     if (phChart) phChart.destroy();
+
+//     phChart = new Chart(ctx, {
+//         type: 'line',
+//         data: {
+//             labels: locations,
+//             datasets: datasets
+//         },
+//         options: {
+//             responsive: true,
+//             maintainAspectRatio: false,
+//             scales: {
+//                 x: {
+//                     title: { display: true, text: "Lokasi" },
+//                     ticks: { display: window.innerWidth > 768 }
+//                      // Sembunyikan label jika layar kecil
+//                 },
+//                 y: {
+//                     min: 0, max: 14,
+//                     title: { display: true, text: "pH Air" }
+//                 }
+//             },
+//             plugins: { legend: { display: true } }
+//         }
+//     });
+
+//     // Perbarui grafik saat layar di-resize
+//     window.addEventListener("resize", function() {
+//         phChart.options.scales.x.ticks.display = window.innerWidth > 768;
+//         phChart.update();
+//     });
+// }
+
+// Plugin kustom untuk menggambar garis putus-putus pada nilai 8.5 dan 6.5
+Chart.register({
+  id: 'dashedLines',
+  afterDraw: chart => {
+    const { ctx, scales: { x, y } } = chart;
+    ctx.save();
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    [8.5, 6.5].forEach(val => {
+      const yPos = y.getPixelForValue(val);
+      ctx.beginPath();
+      ctx.moveTo(x.left, yPos);
+      ctx.lineTo(x.right, yPos);
+      ctx.stroke();
+    });
+    ctx.restore();
+  }
+});
+
 function updatePhChart(data) {
-    const ctx = document.getElementById('phChart').getContext('2d');
-    const locations = ["MESS", "WT", "WTP", "STP"];
+  const ctx = document.getElementById('phChart').getContext('2d');
+  const locations = ["MESS", "WT", "WTP", "STP"];
 
-    let tanggalSet = new Set();
-    data.forEach(item => tanggalSet.add(item.tanggal));
-    tanggalSet = [...tanggalSet];
+  const tanggalSet = [...new Set(data.map(item => item.tanggal))];
 
-    const datasets = tanggalSet.map(tanggal => ({
-        label: `Tanggal ${tanggal}`,
-        data: locations.map(lokasi => data.find(d => d.tanggal === tanggal)?.lokasi[lokasi] ?? null),
-        borderColor: getRandomColor(),
-        borderWidth: 2,
+  const datasets = tanggalSet.map(tanggal => ({
+    label: `Tanggal ${tanggal}`,
+    data: locations.map(lokasi => data.find(d => d.tanggal === tanggal)?.lokasi[lokasi] ?? null),
+    borderColor: getRandomColor(),
+    borderWidth: 2,
+    fill: false,
+    tension: 0
+  }));
+
+  const dashedDatasetTop = {
+        label: "Batas Atas (8.5)",
+        data: Array(locations.length).fill(8.5),
+        borderColor: 'black',
+        borderWidth: 1,
+        borderDash: [5, 5],
+        pointRadius: 0,
         fill: false,
         tension: 0
-    }));
+    };
 
-    if (phChart) phChart.destroy();
+    const dashedDatasetBottom = {
+        label: "Batas Bawah (6.5)",
+        data: Array(locations.length).fill(6.5),
+        borderColor: 'black',
+        borderWidth: 1,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        fill: false,
+        tension: 0
+    };
 
-    phChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: locations,
-            datasets: datasets
+    const allDatasets = [...datasets, dashedDatasetTop, dashedDatasetBottom];
+
+
+  if (phChart) phChart.destroy();
+
+  phChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: locations,
+      datasets: allDatasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: { display: true, text: "Lokasi" },
+          ticks: { display: window.innerWidth > 768 }
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    title: { display: true, text: "Lokasi" },
-                    ticks: { display: window.innerWidth > 768 }
-                     // Sembunyikan label jika layar kecil
-                },
-                y: {
-                    min: 0, max: 14,
-                    title: { display: true, text: "pH Air" }
-                }
-            },
-            plugins: { legend: { display: true } }
+        y: {
+          min: 0,
+          max: 14,
+          title: { display: true, text: "pH Air" }
         }
-    });
+      },
+      plugins: {
+        legend: { display: true }
+        // Plugin 'dashedLines' akan otomatis dijalankan
+      }
+    }
+  });
 
-    // Perbarui grafik saat layar di-resize
-    window.addEventListener("resize", function() {
-        phChart.options.scales.x.ticks.display = window.innerWidth > 768;
-        phChart.update();
-    });
+  window.addEventListener("resize", function() {
+    phChart.options.scales.x.ticks.display = window.innerWidth > 768;
+    phChart.update();
+  });
 }
+
 
 function fetchPhAirDataWeek() {
     const tanggalAwalWeek = document.getElementById('tanggalAwalWeek').value;
@@ -284,7 +380,7 @@ function fetchPhAirDataWeek() {
 
 function updatePhChartWeek(data) {
     const ctx = document.getElementById('phChartWeek').getContext('2d');
-    const locations = ["PIT_1", "PIT_2","PIT_3", "WORKSHOP", "WAREHOUSE", "OFFICE_PLANT"];
+    const locations = ["PIT_1", "PIT_2", "PIT_3", "WORKSHOP", "WAREHOUSE", "OFFICE_PLANT"];
 
     let tanggalSet = new Set();
     data.forEach(item => tanggalSet.add(item.tanggal));
@@ -299,13 +395,37 @@ function updatePhChartWeek(data) {
         tension: 0
     }));
 
+    const dashedDatasetTop = {
+        label: "Batas Atas (8.5)",
+        data: Array(locations.length).fill(8.5),
+        borderColor: 'black',
+        borderWidth: 1,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        fill: false,
+        tension: 0
+    };
+
+    const dashedDatasetBottom = {
+        label: "Batas Bawah (6.5)",
+        data: Array(locations.length).fill(6.5),
+        borderColor: 'black',
+        borderWidth: 1,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        fill: false,
+        tension: 0
+    };
+
+    const allDatasets = [...datasets, dashedDatasetTop, dashedDatasetBottom];
+
     if (phChartWeek) phChartWeek.destroy();
 
     phChartWeek = new Chart(ctx, {
         type: 'line',
         data: {
             labels: locations,
-            datasets: datasets
+            datasets: allDatasets
         },
         options: {
             responsive: true,
@@ -313,10 +433,11 @@ function updatePhChartWeek(data) {
             scales: {
                 x: {
                     title: { display: true, text: "Lokasi" },
-                    ticks: { display: window.innerWidth > 768 } // Sembunyikan label jika layar kecil
+                    ticks: { display: window.innerWidth > 768 }
                 },
                 y: {
-                    min: 0, max: 14,
+                    min: 0,
+                    max: 14,
                     title: { display: true, text: "pH Air" }
                 }
             },
@@ -324,12 +445,12 @@ function updatePhChartWeek(data) {
         }
     });
 
-    // Perbarui grafik saat layar di-resize
     window.addEventListener("resize", function() {
         phChartWeek.options.scales.x.ticks.display = window.innerWidth > 768;
         phChartWeek.update();
     });
 }
+
 
 function fetchPhAirDataPer() {
     const tanggalAwal = document.getElementById('tanggalAwalPer').value;
@@ -391,6 +512,24 @@ function updatePhChartPer(response) {
                     borderWidth: 2,
                     borderDash: [5, 5], // Garis putus-putus
                     fill: false
+                },
+                {
+                    label: "Batas Atas (8.5)",
+                    data: Array(labels.length).fill(8.5),
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0
+                },
+                {
+                    label: "Batas Bawah (6.5)",
+                    data: Array(labels.length).fill(6.5),
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0
                 }
             ]
         },
@@ -478,6 +617,24 @@ function updatePhChartWeekPer(response) {
                     borderWidth: 2,
                     borderDash: [5, 5], // Garis putus-putus
                     fill: false
+                },
+                {
+                    label: "Batas Atas (8.5)",
+                    data: Array(labels.length).fill(8.5),
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0
+                },
+                {
+                    label: "Batas Bawah (6.5)",
+                    data: Array(labels.length).fill(6.5),
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0
                 }
             ]
         },

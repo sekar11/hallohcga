@@ -19,7 +19,7 @@ Class ComplainRepository
     $userRole = auth()->user()->id_role;
     $userNrp = auth()->user()->nrp;
     $userNama = auth()->user()->nama;
-    $userTimPIC = auth()->user()->tim_pic; 
+    $userTimPIC = auth()->user()->tim_pic;
 
     if ($userRole == 1 || $userRole == 5) {
         $query->where('complain.nrp', $userNrp);
@@ -31,11 +31,11 @@ Class ComplainRepository
                 ->orWhere('complain.created_name', '=', $userNrp);
 
             if (!empty($userTimPIC)) {
-                
+
                 $teamMembers = DB::table('users')
                     ->where('tim_pic', '=', $userTimPIC)
                     ->pluck('nama')
-                    ->toArray(); 
+                    ->toArray();
 
                 if (!empty($teamMembers)) {
                     $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
@@ -53,30 +53,30 @@ Class ComplainRepository
             $today = strtotime(date('Y-m-d'));
 
             $endDate = $approvalDate ?? $today;
-        
+
             $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
-        
+
             // var_dump($submissionDate, $approvalDate, $dueDate, $endDate);
-            
+
             if (!$submissionDate) {
                 $complain->status = 'unknown';
-                $complain->badge_class = 'bg-secondary'; 
-            } 
-    
+                $complain->badge_class = 'bg-secondary';
+            }
+
             elseif ($approvalDate && $approvalDate === $submissionDate) {
                 $complain->status = 'ontime';
-                $complain->badge_class = 'bg-success'; 
-            } 
+                $complain->badge_class = 'bg-success';
+            }
             elseif ($dueDate && $endDate > $dueDate) {
                 $complain->status = 'late';
-                $complain->badge_class = 'bg-danger'; 
-            } 
+                $complain->badge_class = 'bg-danger';
+            }
             else {
                 $complain->status = 'ontime';
-                $complain->badge_class = 'bg-success'; 
+                $complain->badge_class = 'bg-success';
             }
         }
-        
+
 
         return $data;
     }
@@ -103,7 +103,7 @@ Class ComplainRepository
 
         return DB::table('complain')->insert([
             'nrp' => auth()->user()->nrp,
-            'tanggal' => $data['tanggal_add'] ?? null, 
+            'tanggal' => $data['tanggal_add'] ?? null,
             'area' => $data['area_add'] ?? null,
             'gedung' => $data['gedung_add'] ?? null,
             'lokasi' => $data['lokasi_add'] ?? null,
@@ -545,7 +545,7 @@ public function getFilteredComplainsStatus($startDate, $endDate)
         return DB::table('complain')
             ->leftJoin('users', 'complain.nrp', '=', 'users.nrp')
             ->where('complain.id', $id)
-            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama') 
+            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama')
             ->first();
     }
 
@@ -554,8 +554,437 @@ public function getFilteredComplainsStatus($startDate, $endDate)
         return DB::table('complain')
             ->leftJoin('users', 'complain.nrp', '=', 'users.nrp')
             ->where('complain.id', $id)
-            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama') 
+            ->select('complain.*', 'users.dept as dept', 'users.no_hp as no_hp', 'users.email as email', 'users.perusahaan as perusahaan', 'users.nama as nama')
             ->first();
     }
+
+    public function getOnProgressComplains()
+    {
+        $userRole = auth()->user()->id_role;
+        $userNrp = auth()->user()->nrp;
+        $userNama = auth()->user()->nama;
+        $userTimPIC = auth()->user()->tim_pic;
+
+        $query = DB::table('complain')
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->where('complain.kode_status', '!=', '7') // Hanya mengambil keluhan yang statusnya bukan 7
+        ->orderBy('complain.created_on', 'desc');
+
+        if ($userRole == 1 || $userRole == 5) {
+            $query->where('complain.nrp', $userNrp);
+        }
+
+        if ($userRole == 2) {
+            $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+                $subQuery->where('complain.crew_pic', '=', $userNama)
+                    ->orWhere('complain.created_name', '=', $userNrp);
+
+                if (!empty($userTimPIC)) {
+
+                    $teamMembers = DB::table('users')
+                        ->where('tim_pic', '=', $userTimPIC)
+                        ->pluck('nama')
+                        ->toArray();
+
+                    if (!empty($teamMembers)) {
+                        $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                    }
+                }
+            });
+        }
+
+            $data = $query->get();
+
+            foreach ($data as $complain) {
+                $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
+                $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+                $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+                $today = strtotime(date('Y-m-d'));
+
+                $endDate = $approvalDate ?? $today;
+
+                $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+
+                if (!$submissionDate) {
+                    $complain->status = 'unknown';
+                    $complain->badge_class = 'bg-secondary';
+                }
+
+                elseif ($approvalDate && $approvalDate === $submissionDate) {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+                elseif ($dueDate && $endDate > $dueDate) {
+                    $complain->status = 'late';
+                    $complain->badge_class = 'bg-danger';
+                }
+                else {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+            }
+
+
+        return $data;
+    }
+
+    public function getOnProgressDoneComplains()
+    {
+        $userRole = auth()->user()->id_role;
+        $userNrp = auth()->user()->nrp;
+        $userNama = auth()->user()->nama;
+        $userTimPIC = auth()->user()->tim_pic;
+
+        $query = DB::table('complain')
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->where('complain.kode_status', '=', '7') // Hanya mengambil keluhan yang statusnya bukan 7
+        ->orderBy('complain.created_on', 'desc');
+
+        if ($userRole == 1 || $userRole == 5) {
+            $query->where('complain.nrp', $userNrp);
+        }
+
+        if ($userRole == 2) {
+            $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+                $subQuery->where('complain.crew_pic', '=', $userNama)
+                    ->orWhere('complain.created_name', '=', $userNrp);
+
+                if (!empty($userTimPIC)) {
+
+                    $teamMembers = DB::table('users')
+                        ->where('tim_pic', '=', $userTimPIC)
+                        ->pluck('nama')
+                        ->toArray();
+
+                    if (!empty($teamMembers)) {
+                        $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                    }
+                }
+            });
+        }
+
+            $data = $query->get();
+
+            foreach ($data as $complain) {
+                $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
+                $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+                $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+                $today = strtotime(date('Y-m-d'));
+
+                $endDate = $approvalDate ?? $today;
+
+                $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+
+                if (!$submissionDate) {
+                    $complain->status = 'unknown';
+                    $complain->badge_class = 'bg-secondary';
+                }
+
+                elseif ($approvalDate && $approvalDate === $submissionDate) {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+                elseif ($dueDate && $endDate > $dueDate) {
+                    $complain->status = 'late';
+                    $complain->badge_class = 'bg-danger';
+                }
+                else {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+            }
+
+
+            return $data;
+    }
+
+    public function getOnProgressMayorComplains()
+    {
+        $userRole = auth()->user()->id_role;
+        $userNrp = auth()->user()->nrp;
+        $userNama = auth()->user()->nama;
+        $userTimPIC = auth()->user()->tim_pic;
+
+        $query = DB::table('complain')
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->where('skala', 'Mayor') // Hanya mengambil keluhan yang statusnya bukan 7
+        ->orderBy('complain.created_on', 'desc');
+
+        if ($userRole == 1 || $userRole == 5) {
+            $query->where('complain.nrp', $userNrp);
+        }
+
+        if ($userRole == 2) {
+            $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+                $subQuery->where('complain.crew_pic', '=', $userNama)
+                    ->orWhere('complain.created_name', '=', $userNrp);
+
+                if (!empty($userTimPIC)) {
+
+                    $teamMembers = DB::table('users')
+                        ->where('tim_pic', '=', $userTimPIC)
+                        ->pluck('nama')
+                        ->toArray();
+
+                    if (!empty($teamMembers)) {
+                        $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                    }
+                }
+            });
+        }
+
+            $data = $query->get();
+
+            foreach ($data as $complain) {
+                $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
+                $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+                $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+                $today = strtotime(date('Y-m-d'));
+
+                $endDate = $approvalDate ?? $today;
+
+                $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+
+                if (!$submissionDate) {
+                    $complain->status = 'unknown';
+                    $complain->badge_class = 'bg-secondary';
+                }
+
+                elseif ($approvalDate && $approvalDate === $submissionDate) {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+                elseif ($dueDate && $endDate > $dueDate) {
+                    $complain->status = 'late';
+                    $complain->badge_class = 'bg-danger';
+                }
+                else {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+            }
+
+
+            return $data;
+    }
+
+    public function getOnProgressMinorComplains()
+    {
+        $userRole = auth()->user()->id_role;
+        $userNrp = auth()->user()->nrp;
+        $userNama = auth()->user()->nama;
+        $userTimPIC = auth()->user()->tim_pic;
+
+        $query = DB::table('complain')
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->where('skala', 'Minor') // Hanya mengambil keluhan yang statusnya bukan 7
+        ->orderBy('complain.created_on', 'desc');
+
+        if ($userRole == 1 || $userRole == 5) {
+            $query->where('complain.nrp', $userNrp);
+        }
+
+        if ($userRole == 2) {
+            $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+                $subQuery->where('complain.crew_pic', '=', $userNama)
+                    ->orWhere('complain.created_name', '=', $userNrp);
+
+                if (!empty($userTimPIC)) {
+
+                    $teamMembers = DB::table('users')
+                        ->where('tim_pic', '=', $userTimPIC)
+                        ->pluck('nama')
+                        ->toArray();
+
+                    if (!empty($teamMembers)) {
+                        $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                    }
+                }
+            });
+        }
+
+            $data = $query->get();
+
+            foreach ($data as $complain) {
+                $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
+                $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+                $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+                $today = strtotime(date('Y-m-d'));
+
+                $endDate = $approvalDate ?? $today;
+
+                $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+
+                if (!$submissionDate) {
+                    $complain->status = 'unknown';
+                    $complain->badge_class = 'bg-secondary';
+                }
+
+                elseif ($approvalDate && $approvalDate === $submissionDate) {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+                elseif ($dueDate && $endDate > $dueDate) {
+                    $complain->status = 'late';
+                    $complain->badge_class = 'bg-danger';
+                }
+                else {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+            }
+
+
+            return $data;
+    }
+
+    public function getOnProgressPrioritasComplains()
+    {
+        $userRole = auth()->user()->id_role;
+        $userNrp = auth()->user()->nrp;
+        $userNama = auth()->user()->nama;
+        $userTimPIC = auth()->user()->tim_pic;
+
+        $query = DB::table('complain')
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->where('skala', 'Prioritas')
+        ->orderBy('complain.created_on', 'desc');
+
+        if ($userRole == 1 || $userRole == 5) {
+            $query->where('complain.nrp', $userNrp);
+        }
+
+        if ($userRole == 2) {
+            $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+                $subQuery->where('complain.crew_pic', '=', $userNama)
+                    ->orWhere('complain.created_name', '=', $userNrp);
+
+                if (!empty($userTimPIC)) {
+
+                    $teamMembers = DB::table('users')
+                        ->where('tim_pic', '=', $userTimPIC)
+                        ->pluck('nama')
+                        ->toArray();
+
+                    if (!empty($teamMembers)) {
+                        $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                    }
+                }
+            });
+        }
+
+            $data = $query->get();
+
+            foreach ($data as $complain) {
+                $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
+                $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+                $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+                $today = strtotime(date('Y-m-d'));
+
+                $endDate = $approvalDate ?? $today;
+
+                $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+
+                if (!$submissionDate) {
+                    $complain->status = 'unknown';
+                    $complain->badge_class = 'bg-secondary';
+                }
+
+                elseif ($approvalDate && $approvalDate === $submissionDate) {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+                elseif ($dueDate && $endDate > $dueDate) {
+                    $complain->status = 'late';
+                    $complain->badge_class = 'bg-danger';
+                }
+                else {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+            }
+
+
+            return $data;
+    }
+
+    public function getOnProgressPendingComplains()
+    {
+        $userRole = auth()->user()->id_role;
+        $userNrp = auth()->user()->nrp;
+        $userNama = auth()->user()->nama;
+        $userTimPIC = auth()->user()->tim_pic;
+
+        $query = DB::table('complain')
+        ->join('users', 'complain.nrp', '=', 'users.nrp')
+        ->select('complain.*', 'users.nama as nama', 'users.dept as departemen', 'users.tim_pic')
+        ->where('skala', 'Pending')
+        ->orderBy('complain.created_on', 'desc');
+
+        if ($userRole == 1 || $userRole == 5) {
+            $query->where('complain.nrp', $userNrp);
+        }
+
+        if ($userRole == 2) {
+            $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
+                $subQuery->where('complain.crew_pic', '=', $userNama)
+                    ->orWhere('complain.created_name', '=', $userNrp);
+
+                if (!empty($userTimPIC)) {
+
+                    $teamMembers = DB::table('users')
+                        ->where('tim_pic', '=', $userTimPIC)
+                        ->pluck('nama')
+                        ->toArray();
+
+                    if (!empty($teamMembers)) {
+                        $subQuery->orWhereIn('complain.crew_pic', $teamMembers);
+                    }
+                }
+            });
+        }
+
+            $data = $query->get();
+
+            foreach ($data as $complain) {
+                $submissionDate = !empty($complain->created_on) ? strtotime(date('Y-m-d', strtotime($complain->created_on))) : null;
+                $dueDate = !empty($complain->due_date) ? strtotime(date('Y-m-d', strtotime($complain->due_date))) : null;
+                $approvalDate = !empty($complain->approval_on) ? strtotime(date('Y-m-d', strtotime($complain->approval_on))) : null;
+                $today = strtotime(date('Y-m-d'));
+
+                $endDate = $approvalDate ?? $today;
+
+                $complain->days_worked = $submissionDate ? floor(($endDate - $submissionDate) / (60 * 60 * 24)) + 1 : '-';
+
+                if (!$submissionDate) {
+                    $complain->status = 'unknown';
+                    $complain->badge_class = 'bg-secondary';
+                }
+
+                elseif ($approvalDate && $approvalDate === $submissionDate) {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+                elseif ($dueDate && $endDate > $dueDate) {
+                    $complain->status = 'late';
+                    $complain->badge_class = 'bg-danger';
+                }
+                else {
+                    $complain->status = 'ontime';
+                    $complain->badge_class = 'bg-success';
+                }
+            }
+
+
+            return $data;
+    }
+
+
+
 
 }
