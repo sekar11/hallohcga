@@ -530,9 +530,10 @@
                                     <input type="hidden" name="rating" id="ratingValue">
                                 </form>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="submit" class="btn btn-warning" id="btn-yesulang">Ajukan Kembali Complain</button>
+                                <button type="submit" class="btn btn-primary" id="btn-yesrating">Selesaikan Complain</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" id="btn-yesrating">Kirim</button>
                             </div>
                         </div>
                     </div>
@@ -1328,6 +1329,37 @@ $('#btn-yesrating').click(function() {
                 icon: 'error',
                 title: 'Gagal!',
                 text: 'Terjadi kesalahan saat mengirim revisi.'
+            });
+            btn.prop('disabled', false);
+        }
+    });
+});
+
+$('#btn-yesulang').click(function() {
+    var complainId = $('#rating').data('complainId');
+    var btn = $(this);
+    btn.prop('disabled', true);
+
+    var data = $('.form_rating').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/ulangComplain?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: response.message
+            }).then(() => {
+                            window.location.href = window.location.href; // Reload halaman
+                        });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim data.'
             });
             btn.prop('disabled', false);
         }

@@ -296,6 +296,21 @@ Class ComplainRepository
         return 'Data Berhasil di "Rating"';
     }
 
+    public function ulangComplain($rating, $selectedComplainId, $pesanRating, $userId)
+    {
+
+        DB::table('complain')
+            ->where('id', $selectedComplainId)
+            ->update([
+                'rating' => $rating,
+                'kode_status' => 2,
+                'created_on' => now(),
+                'desc_rating' => $pesanRating
+            ]);
+
+        return 'Data Complain diajukan Kembali';
+    }
+
     public function revisicrew($revisiName, $selectedComplainId, $pesanRevisi, $userId)
     {
 

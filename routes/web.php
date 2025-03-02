@@ -45,7 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/complain/delete', [ComplainController::class, 'delete'])->name('delete.complain');
     Route::post('/complain/approval', [ComplainController::class, 'approval'])->name('reject.complain');
     Route::post('/complain/rating', [ComplainController::class, 'rating'])->name('rating.complain');
-    
+    Route::post('/complain/ulangComplain', [ComplainController::class, 'ulangComplain'])->name('ulang.complain');
+
     //=============================================== USER ===============================================
     Route::get('/user', [UserController::class, 'index'])->name('get.user');
     Route::post('/user/create', [UserController::class, 'register'])->name('get.user');
