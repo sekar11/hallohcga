@@ -1801,6 +1801,11 @@ th:nth-child(14), td:nth-child(14) {
     white-space: nowrap;
 }
 
+.modal-footer button {
+    width: auto;
+}
+
+
 
 
 
