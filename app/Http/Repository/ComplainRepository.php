@@ -283,6 +283,19 @@ Class ComplainRepository
         return 'Data Complain Berhasil di "Reject"';
     }
 
+    public function rating($rating, $selectedComplainId, $pesanRating, $userId)
+    {
+
+        DB::table('complain')
+            ->where('id', $selectedComplainId)
+            ->update([
+                'rating' => $rating,
+                'desc_rating' => $pesanRating
+            ]);
+
+        return 'Data Berhasil di "Rating"';
+    }
+
     public function revisicrew($revisiName, $selectedComplainId, $pesanRevisi, $userId)
     {
 

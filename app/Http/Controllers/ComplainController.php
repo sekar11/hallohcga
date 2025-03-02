@@ -604,6 +604,21 @@ class ComplainController extends Controller
     return response()->json(['message' => $result]);
     }
 
+    public function rating(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $userRole = auth()->user()->id_role;
+        $rating = $request->input('rating');
+        $selectedComplainId = $request->input('complain_id');
+        $pesanRating = $request->input('rating-text');
+
+        $result = $this->ComplainRepository->rating($rating, $selectedComplainId, $pesanRating, $userId);
+        //dd($result);
+        $complain = $this->ComplainRepository->findById($selectedComplainId);
+
+        return response()->json(['message' => $result]);
+    }
+
     //sekar
     public function revisicrew(Request $request)
     {
@@ -734,6 +749,9 @@ class ComplainController extends Controller
         $messageUser .= "{$complain->permasalahan}\n\n";
         $messageUser .= "Keterangan Perbaikan:\n";
         $messageUser .= "{$complain->corrective_action}\n\n";
+
+        $messageUser .= "SILAHKAN BERIKAN RATING UNTUK COMPLAIN YANG TELAH KAMU AJUKAN.\n";
+        $messageUser .= "- Dengan klik button aksi -> pilih aksi rating\n\n";
 
         $messageUser .= "KETERANGAN LEBIH LANJUT\n";
         $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
