@@ -56,18 +56,16 @@
                                     </div>
                                     <div class="detail">
                                         <label for="lokasi_complain">Lokasi:</label>
-                                       <span id="lokasi_complain" class="info-text"></span>
+                                        <span id="lokasi_complain" class="info-text"></span>
                                     </div>
                                     <div class="detail">
                                         <label for="permasalahan_complain">Permasalahan:</label>
-                                       <span id="permasalahan_complain"></span>
+                                        <span id="permasalahan_complain"></span>
                                     </div>
 
                                     <div class="detail">
                                         <label id="label_foto_deviasi" for="fotodeviasi_complain">Foto Deviasi:</label>
-                                        <div id="fotodeviasi_complain" class="foto-container">
-
-                                        </div>
+                                        <div id="fotodeviasi_complain" class="foto-container"></div>
                                     </div>
                                     <div class="detail">
                                         <label for="pending">Keterangan Pending :</label>
@@ -137,7 +135,6 @@
                                         <label id="label_foto_perbaikan" for="fotoperbaikan_complain">Foto Perbaikan:</label>
                                         <div id="fotoperbaikan_complain" class="foto-container"> </div>
                                     </div>
-
                                     <div class="detail">
                                         <label for="approval_desc">Keterangan Approval GA/GL:</label>
                                         <span id="approval_desc"> </span>
@@ -146,6 +143,10 @@
                                         <label id="label_foto_hasil_perbaikan" for="fotohasilperbaikan_complain">Foto Hasil Perbaikan by GA/GL:</label>
                                         <div id="fotohasilperbaikan_complain" class="foto-container">
                                         </div>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="rating_desc">Keterangan Rating Pengguna:</label>
+                                        <span id="rating_desc"> </span>
                                     </div>
 
                                 </div>
@@ -503,6 +504,41 @@
               </div>
               <!--end::Modal Revisi crew-->
 
+              <!-- Begin::Modal Rating Sekar-->
+                <div class="modal fade" id="rating" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ratingModalLabel">Beri Rating</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_rating" action="/complain/rating" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="message-text" class="form-control-label">Pesan <span style="color:red">*</span></label>
+                                        <textarea class="form-control" id="rating-text" name="rating-text" rows="8"></textarea>
+                                    </div>
+
+                                    <div class="rating-stars">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                    <input type="hidden" name="rating" id="ratingValue">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btn-yesrating">Kirim</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End::Modal Rating -->
+
               <!--begin::Modal Done GA/GL-->
               <div class="modal fade modal_validasi" id="approvalModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -560,6 +596,7 @@
                     <th scope="col">Lama<br>Pengerjaan</th>
                     <th scope="col">Skala</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Rating</th>
                     <th scope="col">Aksi</th>
                   </tr>
                 </thead>
@@ -613,6 +650,12 @@
                             <span class="badge rounded-pill bg-danger">Unknown Status</span>
                         @endif
                     </td>
+                    <td class="rating" data-rating="{{ $complain->rating }}">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <i class="fa fa-star starcolumn"
+                               style="color: {{ $i <= $complain->rating ? '#ffcc00' : '#ccc' }};"></i>
+                        @endfor
+                    </td>
                     <td>
                 <div class="dropdown">
                 <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
@@ -629,13 +672,18 @@
                     <li><a class="dropdown-item rejectcrew" href="#" data-bs-toggle="modal" data-bs-target="#rejectCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-circle-xmark"></i>Reject Crew</a></li>
                     <li><a class="dropdown-item revisicrew" href="#" data-bs-toggle="modal" data-bs-target="#revisiCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-message"></i>Revisi Crew</a></li>
                     <li><a class="dropdown-item validasi_crew" href="#" data-bs-toggle="modal" data-bs-target="#validasiCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-square-check"></i>Follow Up Crew</a></li>
-
+                    <li><a class="dropdown-item rating" href="#" data-bs-toggle="modal" data-bs-target="#rating" data-id="{{ $complain->id }}"><i class="fa-solid fa-star"></i>Rating</a></li>
                 </ul>
                 @elseif($complain->kode_status == 1 && auth()->user()->id_role == 1)
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                </ul>
+                @elseif($complain->kode_status == 7 && in_array(auth()->user()->id_role, [1, 2]))
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
+                    <li><a class="dropdown-item rating" href="#" data-bs-toggle="modal" data-bs-target="#rating" data-id="{{ $complain->id }}"><i class="fa-solid fa-star"></i>Rating</a></li>
                 </ul>
                 @elseif($complain->kode_status == 1 && auth()->user()->id_role == 3)
                 <ul class="dropdown-menu">
@@ -722,7 +770,7 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", function() {
-    const today = new Date().toISOString().split('T')[0]; // Ambil tanggal hari ini dalam format YYYY-MM-DD
+    const today = new Date().toISOString().split('T')[0];
     document.getElementById('tanggal_add').value = today;
 });
 
@@ -769,6 +817,7 @@ $('.view').click(function () {
             setFieldVisibility('#reject_by', response.reject_by);
             setFieldVisibility('#reject_desc', response.reject_desc_gagl);
             setFieldVisibility('#approval_desc', response.approval_desc);
+            setFieldVisibility('#rating_desc', response.desc_rating);
             //new
             setFieldVisibility('#jam_kirim', response.send_on);
             setFieldVisibility('#revisi_by_crew', response.revisi_by_crew);
@@ -1249,6 +1298,42 @@ $(document).ready(function() {
 });
 
 
+$('.rating').click(function() {
+    var complainId = $(this).data('id');
+    $('#rating').data('complainId', complainId);
+});
+
+$('#btn-yesrating').click(function() {
+    var complainId = $('#rating').data('complainId');
+    var btn = $(this);
+    btn.prop('disabled', true);
+
+    var data = $('.form_rating').serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/complain/rating?complain_id=' + complainId,
+        data: data,
+        success: function(response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: response.message
+            }).then(() => {
+                            window.location.href = window.location.href; // Reload halaman
+                        });
+        },
+        error: function(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim revisi.'
+            });
+            btn.prop('disabled', false);
+        }
+    });
+});
+
 $('.rejectcrew').click(function() {
     var complainId = $(this).data('id');
     $('#rejectCrewModalgagl').data('complainId', complainId);
@@ -1362,35 +1447,35 @@ $('.approval').click(function() {
 });
 
 function updateDueDate() {
-    const skala = document.getElementById('skala').value;
-    const dueDate = document.getElementById('due_date');
+            const skala = document.getElementById('skala').value;
+            const dueDate = document.getElementById('due_date');
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-    let tambahanHari = 0;
-    if (skala === 'Prioritas') {
-        tambahanHari = 0;
-    } else if (skala === 'Minor') {
-        tambahanHari = 1;
-    } else if (skala === 'Mayor') {
-        tambahanHari = 3;
-    } else {
-        dueDate.value = '';
-        return;
+            let tambahanHari = 0;
+            if (skala === 'Prioritas') {
+                tambahanHari = 0;
+            } else if (skala === 'Minor') {
+                tambahanHari = 1;
+            } else if (skala === 'Mayor') {
+                tambahanHari = 3;
+            } else {
+                dueDate.value = '';
+                return;
+            }
+
+            today.setDate(today.getDate() + tambahanHari);
+
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+            const dd = String(today.getDate()).padStart(2, '0');
+
+            const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+            // Update nilai pada input due_date
+            dueDate.value = formattedDate;
     }
-
-    today.setDate(today.getDate() + tambahanHari);
-
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-    const dd = String(today.getDate()).padStart(2, '0');
-
-    const formattedDate = `${yyyy}-${mm}-${dd}`;
-
-    // Update nilai pada input due_date
-    dueDate.value = formattedDate;
-}
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('due_date').value = '';
     });
@@ -1458,6 +1543,90 @@ function updateDueDate() {
             error: function() {
                 alert('Terjadi kesalahan dalam mengambil data');
             }
+        });
+    });
+
+    $(document).ready(function() {
+        $(".dropdown-item.rating").click(function() {
+            var complaintId = $(this).data("id");
+            $("#complaint_id").val(complaintId);
+        });
+
+        $("#submitRating").click(function(e) {
+            e.preventDefault();
+
+            var complaintId = $("#complaint_id").val();
+            var rating = $("input[name='rating']:checked").val();
+            var message = $("#message").val();
+
+            if (!rating) {
+                alert("Silakan pilih rating!");
+                return;
+            }
+
+            $.ajax({
+                url: '/complain/revisicrew?complain_id=' + complainId,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    complaint_id: complaintId,
+                    rating: rating,
+                    message: message
+                },
+                beforeSend: function() {
+                    $("#loading-spinner").show();
+                },
+                success: function(response) {
+                    alert(response.message);
+                    $("#ratingModal").modal("hide");
+                },
+                error: function(xhr) {
+                    alert("Terjadi kesalahan, coba lagi.");
+                },
+                complete: function() {
+                    $("#loading-spinner").hide();
+                }
+            });
+        });
+
+        $("#loading-spinner").hide();
+    });
+
+    $(document).ready(function () {
+        $(".star").on("mouseover", function () {
+            let value = $(this).data("value");
+            $(".star").css("color", "#ccc");
+            $(".star").each(function () {
+                if ($(this).data("value") <= value) {
+                    $(this).css("color", "#ffcc00");
+                }
+            });
+        });
+
+        $(".star").on("click", function () {
+            let value = $(this).data("value");
+
+            $("#ratingValue").val(value);
+            $(".star").removeClass("selected").css("color", "#ccc");
+            $(".star").each(function () {
+                if ($(this).data("value") <= value) {
+                    $(this).addClass("selected").css("color", "#ffcc00");
+                }
+            });
+        });
+
+        $(".rating-stars").on("mouseleave", function () {
+            let selectedValue = $("#ratingValue").val();
+            $(".star").css("color", "#ccc");
+            $(".star").each(function () {
+                if ($(this).data("value") <= selectedValue) {
+                    $(this).css("color", "#ffcc00");
+                }
+            });
+        });
+
+        $("#btn-yesrating").click(function () {
+            $("#form_rating").submit();
         });
     });
 
