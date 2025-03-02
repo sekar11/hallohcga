@@ -1766,6 +1766,12 @@ hr{
     cursor: pointer;
 }
 
+@media (max-width: 767px) {
+    .rating-stars {
+      font-size: 50px;
+    }
+  }
+
 .star {
     color: #ccc;
     padding: 5px;
@@ -1783,16 +1789,16 @@ hr{
 }
 
 .starcolumn {
-    font-size: 9px;
+    font-size: 8px;
     cursor: pointer;
     /* margin-right: 2px; Spasi antar bintang */
 }
 
 th:nth-child(14), td:nth-child(14) {
-    min-width: 60px;
-    max-width: 60px;
+    min-width: 70px;
+    max-width: 70px;
     text-align: center;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 
