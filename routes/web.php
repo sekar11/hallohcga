@@ -6,8 +6,7 @@ use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PhAirController;
-
-
+use App\Http\Controllers\CateringController;
 
 Route::get('/', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/', [UserController::class, 'loginku']);
@@ -87,8 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/export', [ReportController::class, 'exportExcel'])->name('report.export');
     Route::get('/report-complain', [ComplainController::class, 'report'])->name('report.complain');
-    Route::post('/report-complain/search', [ComplainController::class, 'report']);
-
+    Route::post('/report-complain/search', [ComplainController::class, 'report']);  
     Route::get('/complain/getteknisi', [ComplainController::class, 'getTeknisi'])->name('get.teknisi');
 
     //=============================================== PH AIR ===============================================
@@ -97,5 +95,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/phair/delete', [PhAirController::class, 'delete'])->name('delete.phair');
     Route::get('/phair/get/{id}', [PhAirController::class, 'getEdit'])->name('edit.phair');
     Route::post('/phair/myedit/{id}', [PhAirController::class, 'edit'])->name('get.phair');
+
+    //=============================================== MK Catering  ===============================================
+    //Route::get('/catering', [CateringController::class, 'index'])->name('get.catering');
+    //Route::post('/catering/create', [CateringController::class, 'store'])->name('catering.store');
+    Route::post('/catering/delete', [CateringController::class, 'delete'])->name('delete.catering');
+    Route::get('/catering/get/{id}', [CateringController::class, 'getEdit'])->name('edit.catering');
+    Route::post('/catering/myedit/{id}', [CateringController::class, 'edit'])->name('get.catering');
+
+    Route::get('/catering', [CateringController::class, 'create'])->name('catering.catering');
+    Route::post('/catering/store', [CateringController::class, 'store'])->name('catering.store');
+
 });
 
