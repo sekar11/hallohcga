@@ -147,15 +147,22 @@
             <a href="/dashboard">
               <i class="bi bi-circle"></i><span>Digital Complain</span>
             </a>
-          </li>                   
+          </li>
         </ul>
         <ul id="forms-dash" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/dashboard_phair">
               <i class="bi bi bi-circle"></i><span>Ph Air</span>
             </a>
-          </li>                   
+          </li>
         </ul>
+        <ul id="forms-dash" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="/dashboard_catering">
+                <i class="bi bi bi-circle"></i><span>MK Catering</span>
+              </a>
+            </li>
+          </ul>
       </li>
       @endif
 
@@ -168,24 +175,11 @@
             <a href="/complain">
               <i class="bi bi-circle"></i><span>Digital Complain</span>
             </a>
-          </li>                   
-        </ul>
-      </li>
-      
-      @if(auth()->user()->id_role == 0)
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="/report-complain">
-              <i class="bi bi-circle"></i><span>Digital Complain</span>
-            </a>
           </li>
         </ul>
       </li>
 
+      @if(auth()->user()->id_role == 0)
        <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-user" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -202,12 +196,50 @@
       <li class="nav-item">
           <a class="nav-link " href="/phair">
           <i class="bi bi-droplet-half"></i>
-
             <span>Ph Air</span>
           </a>
-        </li><!-- End Dashboard Nav -->
+        </li>
       </li>
       @endif
+
+      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6 || auth()->user()->id_role == 7 )
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#ga-request" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-bar-chart"></i><span>GA Request</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="ga-request" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#add-catering" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-circle"></i><span>MK Catering </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="add-catering" class="nav-content collapse">
+                        @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6)
+                            <li>
+                                <a href="/catering">
+                                    <i class="bi bi-dash"></i><span>Add Data Mekilo</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if(auth()->user()->id_role == 0)
+                            <li>
+                                <a href="/lapcateringdept">
+                                    <i class="bi bi-dash"></i><span>Laporan Mekilo Departemen</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 7)
+                            <li>
+                                <a href="/lapcatering">
+                                    <i class="bi bi-dash"></i><span>Laporan Catering</span>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        @endif
+
 
       @if(auth()->user()->id_role == 5)
       <li class="nav-item">

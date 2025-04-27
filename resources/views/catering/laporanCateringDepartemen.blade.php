@@ -18,10 +18,34 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"><i class="fa-solid fa-square-poll-vertical"></i> MK Catering</h5>
-              <button type="button" class="btn bi bi-plus btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#cateringModal"> Add MK Catering Reguler</button>
-              <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exportModal"><i class="fas fa-file-excel"></i> Export Data</button>
+              <br>
 
-                <!-- Modal View Data -->
+              <form method="GET" action="{{ route('lapcateringdept.lapcateringdept') }}" class="mb-3 form-responsive">
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date', now()->addDay()->format('Y-m-d')) }}">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date', now()->addDay()->format('Y-m-d')) }}">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id="departemen" name="departemen">
+                            <option value="HCGA" selected>Pilih Area</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary bi bi-plus btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#cateringModal">
+                            Add MK Catering Reguler
+                        </button>
+                    </div>
+                </div>
+               </form>
+
+              <!-- Modal View Data -->
                 <div class="modal fade modal-view" id="viewcateringModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -35,7 +59,7 @@
                                         <tr>
                                             <th>Waktu</th>
                                             <th>Tempat</th>
-                                            <th>Man Power</th>
+                                            <th>Kategori</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
@@ -60,28 +84,29 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
-                        @if(in_array(auth()->user()->tim_pic, [
+                        @if(in_array(request('departemen'), [
                             'COE', 'HCGA', 'ENG', 'SHE', 'FALOG', 'PROD', 'PLANT',
-                            'A1', 'C3', 'MESS_MEICU', 'MESS_PUTRI','MARBOT',
-                            'B1', 'B2', 'B3', 'B4', 'B5',
-                            'B6', 'B7', 'B8', 'B9', 'B10', 'AMM',
+                            'Mess A1', 'Mess C3', 'MESS_MEICU', 'Mess Putri', 'MARBOT',
+                            'Mess B1', 'Mess B2', 'Mess B3', 'Mess B4', 'Mess MB5',
+                            'Mess B6', 'Mess B7', 'Mess B8', 'Mess B9', 'Mess B10', 'AMM',
                         ]))
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="copyPreviousData">
-                                <label class="form-check-label" for="copyPreviousData">
-                                    Apakah data sama seperti sebelumnya?
-                                </label>
-                            </div>
-                        </div>
+
                         <form id="cateringForm" class="row g-3 needs-validation">
                             @csrf
+
                             <input type="hidden" name="table_name" value="{{ $tableName ?? '' }}">
-
+                            <input type="hidden" name="departemen" value="{{ request('departemen') }}">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="copyPreviousData">
+                                    <label class="form-check-label" for="copyPreviousData">
+                                        Apakah data sama seperti sebelumnya?
+                                    </label>
+                                </div>
+                            </div>
                             @php
-                                $userTeam = auth()->user()->tim_pic;
-
+                               // $userTeam = auth()->user()->tim_pic;
+                               $userTeam = request('departemen');
                                 $customLabels = [
                                     'COE' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
@@ -120,7 +145,7 @@
                                         'warehouse_pldp' => ['label' => 'PLDP', 'name' => 'warehouse_pldp', 'type' => 'text','category' => 'Warehouse'],
                                         'pitcontrol' => ['label' => 'PIT CONTROL', 'name' => 'pitcontrol', 'type' => 'text','category' => 'CSA PIT 3'],
                                         'gl_civil' => ['label' => 'GL CIVIL', 'name' => 'gl_civil', 'type' => 'text','category' => 'Mess Tambang'],
-                                        'vendor_jmi' => ['label' => 'Vendor JMI', 'name' => 'vendor_jmi', 'type' => 'text','category' => 'Vendor JMI'],
+                                        'vendor_jmi' => ['label' => 'Vendor JMI', 'name' => 'vendor_jmi', 'type' => 'text','category' => 'CSA HRM'],
                                         'visitor' => ['label' => 'Vendor/Tamu', 'name' => 'visitor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
                                     ],
                                     'SHE' => [
@@ -238,12 +263,11 @@
                                         'bagong' => ['label' => 'Bagong', 'name' => 'bagong', 'type' => 'text', 'category' => 'OFFICE GA MEICU'],
                                         'visitor_meicu' => ['label' => 'Visitor Meicu', 'name' => 'visitor_meicu', 'type' => 'text', 'category' => 'OFFICE GA MEICU'],
                                         'vendor_meicu' => ['label' => 'Vendor Meicu', 'name' => 'vendor_meicu', 'type' => 'text', 'category' => 'OFFICE GA MEICU'],
-
                                         'test_praktek' => ['label' => 'Test Praktek', 'name' => 'test_praktek', 'type' => 'text', 'category' => 'TEST PRAKTEK'],
                                         'marbot' => ['label' => 'Marbot', 'name' => 'marbot', 'type' => 'text', 'category' => 'MARBOT'],
                                         'laundry' => ['label' => 'Laundry', 'name' => 'laundry', 'type' => 'text', 'category' => 'LAUNDRY KARTIKA'],
                                         'security_laundry' => ['label' => 'Security Laundry', 'name' => 'security_laundry', 'type' => 'text', 'category' => 'LAUNDRY KARTIKA'],
-                                        'security_pit1' => ['label' => 'Security Pit 2', 'name' => 'security_pit1', 'type' => 'text', 'category' => 'SECURITY'],
+                                        'security_pit1' => ['label' => 'Security Pit 1', 'name' => 'security_pit1', 'type' => 'text', 'category' => 'SECURITY'],
                                         'security_pit3' => ['label' => 'Security Pit 3', 'name' => 'security_pit3', 'type' => 'text', 'category' => 'SECURITY'],
                                         'security_anjungan' => ['label' => 'Security Anjungan', 'name' => 'security_anjungan', 'type' => 'text', 'category' => 'SECURITY'],
                                         'test_praktek_csapit' => ['label' => 'Test Praktek CSA PIT 1', 'name' => 'test_praktek_csapit', 'type' => 'text', 'category' => 'TEST PRAKTEK CSA PIT 1'],
@@ -323,7 +347,7 @@
                                         'mess_b10' => ['label' => 'Mess B10', 'name' => 'mess_b10', 'type' => 'text', 'category' => 'AMM'],
                                         'spare_amm' => ['label' => 'Spare AMM', 'name' => 'spare_amm', 'type' => 'text', 'category' => 'AMM']
                                     ],
-                                    'MESS_PUTRI' => [
+                                    'Mess Putri' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
                                         'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan Pagi', 'Tambahan Siang', 'Tambahan Sore','Tambahan Malam'], 'category' => 'Waktu'],
                                         'mess_gl' => ['label' => 'GL', 'name' => 'mess_gl', 'type' => 'text', 'category' => 'Mess'],
@@ -348,9 +372,9 @@
                                         'test_praktek' => ['label' => 'Test Praktek', 'name' => 'test_praktek', 'type' => 'text', 'category' => 'Umum'],
                                         'magang' => ['label' => 'Magang', 'name' => 'magang', 'type' => 'text', 'category' => 'Umum'],
                                     ],
-                                    'C3' => array_merge([
+                                    'Mess C3' => array_merge([
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
-                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan Pagi', 'Tambahan Siang', 'Tambahan Sore','Tambahan Malam'], 'category' => 'Waktu'],
+                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Silahkan Pilih Waktu', 'Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan'], 'category' => 'Waktu'],
                                         'rebusan_c3' => ['label' => 'Rebusan', 'name' => 'rebusan_c3', 'type' => 'text', 'category' => 'Tambahan'],
                                         'spare_c3' => ['label' => 'Spare', 'name' => 'spare_c3', 'type' => 'text', 'category' => 'Tambahan'],
                                         'visitor_c3' => ['label' => 'Visitor', 'name' => 'visitor_c3', 'type' => 'text', 'category' => 'Tambahan']
@@ -360,9 +384,9 @@
                                         return $carry;
                                     }, [])
                                     ),
-                                    'A1' => array_merge([
+                                    'Mess A1' => array_merge([
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
-                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan Pagi', 'Tambahan Siang', 'Tambahan Sore','Tambahan Malam'], 'category' => 'Waktu'],
+                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Silahkan Pilih Waktu', 'Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan'], 'category' => 'Waktu'],
                                         'rebusan_a1' => ['label' => 'Rebusan', 'name' => 'rebusan_a1', 'type' => 'text', 'category' => 'Tambahan'],
                                         'spare_a1' => ['label' => 'Spare', 'name' => 'spare_a1', 'type' => 'text', 'category' => 'Tambahan'],
                                         'visitor_a1' => ['label' => 'Visitor', 'name' => 'visitor_a1', 'type' => 'text', 'category' => 'Tambahan']
@@ -373,15 +397,14 @@
                                     }, [])
                                     ),
 
-
                                 ];
 
                                 $customLabels += array_combine(
-                                    array_map(fn($b) => "B$b", range(1, 10)),
+                                    array_map(fn($b) => "Mess B$b", range(1, 10)),
                                     array_fill(0, 10, array_merge(
                                         [
                                             'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
-                                            'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan Pagi', 'Tambahan Siang', 'Tambahan Sore','Tambahan Malam'], 'category' => 'Waktu'],
+                                            'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Silahkan Pilih Waktu', 'Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan'], 'category' => 'Waktu'],
                                         ],
                                         array_combine(
                                             array_map(fn($i) => "kamar_$i", range(1, 32)),
@@ -448,92 +471,129 @@
                 </div>
                 {{-- End Modal Add --}}
 
-                <!-- Modal -->
-                <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ url('/export-dept') }}" method="GET">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="tanggal_export" class="form-label">Pilih Tanggal:</label>
-                                        <input type="date" name="tanggal_export" class="form-control" required>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-success">Export</button>
-                                    </div>
-                                </form>
+
+              <!--begin::Modal Revisi GA GL-->
+              <div class="modal fade modal_revisi" id="revisiModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Revisi Complain</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="kt-form kt-form--label-right form_revisi" action="/catering/revisi"  method="POST" enctype="multipart/form-data" autocomplete="off">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="message-text" class="form-control-label">Pesan Revisi <span style="color:red">*</span></label>
+                                    <textarea class="form-control" id="revisi" name="revisi" rows="8"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn-yes-revisi">Kirim</button>
+                            <div id="loading-spinner" >
+                                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!--end::Modal Revisi-->
+
+             <!--begin::Modal Done GA/GL-->
+             <div class="modal fade modal_validasi" id="approvalModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Approval</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="kt-form kt-form--label-right form_approval" action="/catering/validasigagl" method="POST" enctype="multipart/form-data" autocomplete="off">
+                              @csrf
+                              <!-- Input Kategori -->
+                              <div class="form-group">
+                                  <label for="kategori" class="form-control-label" style="font-size: smaller;">Keterangan <span style="color:red">*</span></label>
+                                  <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
+                              </div>
+
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn-yes-approval">Kirim</button>
+                            <div id="loading-spinner-approval" >
+                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal Validasi Crew-->
 
               <!-- Table with stripped rows -->
               <div class="table-responsive">
-              <table class="table dt_catering responsive" id="datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Tanggal</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col" class="hide-mobile">Waktu</th>
-                    <th scope="col" class="hide-mobile">Total</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {{-- //sekar --}}
-                @foreach($cateringData as $no => $catering)
-                <tr>
-                    <td>{{ $no + 1 }}</td>
-                    <td>{{ $catering->tanggal }}</td>
-                    <td>{{ $catering->created_name }}</td>
-                    <td class="hide-mobile">{{ $catering->waktu}}</td>
-                    <td class="hide-mobile">{{ $catering->total}}</td>
-                    <td>
-                        @if($catering->status == 1)
-                            <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
-                        @elseif($catering->status == 2)
-                            <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
-                        @elseif($catering->status == 3)
-                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
-                        @endif
-                    <td>
-                    <div class="dropdown">
-                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                    @if(auth()->user()->id_role == 0)
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                        <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
-                    </ul>
-                    @elseif(in_array($catering->status, [1]) && auth()->user()->id_role == 6)
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    </ul>
-                    @elseif(in_array($catering->status, [3]) && auth()->user()->id_role == 6)
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                        <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
-                    </ul>
-                    @else
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                    </ul>
-                    @endif
-                </tr>
-                @endforeach 
+                <table class="table dt_catering responsive" id="datatable">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                            <th scope="col">No</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Waktu</th>
+                            <th scope="col">Total Order</th>
+                            <th scope="col">Total Order Sebelumnya</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($cateringData as $no => $catering)
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="rowCheckbox" value="{{ $catering->id }}">
+                            </td>
+                            <td>{{ $no + 1 }}</td>
+                            <td>{{ $catering->tanggal }}</td>
+                            <td>{{ $catering->created_name }}</td>
+                            <td>{{ $catering->waktu}}</td>
+                            <td>{{ $catering->total}}</td>
+                            <td>{{ $catering->total_hari_sebelumnya}}</td>
+                            <td>
+                                @if($catering->status == 1)
+                                    <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                @elseif($catering->status == 2)
+                                    <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                @elseif($catering->status == 3)
+                                    <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i> View</a></li>
+                                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
+                                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                        <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal" data-bs-target="#approvalModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
+                                        <li><a class="dropdown-item revisi" href="#" data-bs-toggle="modal" data-bs-target="#revisiModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                        <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tombol Approval -->
+            <button id="btnApproveSelected" class="btn btn-danger mt-3">Approve Selected</button>
 
               </tbody>
               </table>
@@ -556,54 +616,75 @@
 
 <script>
 
-$(document).ready(function() {
-    $("#exportModal form").on("submit", function(event) {
-        event.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+    // Set tanggal default ke besok jika tidak ada nilai request
+    let startDateInput = document.getElementById("start_date");
+    let endDateInput = document.getElementById("end_date");
 
-        let tanggal = $("input[name='tanggal_export']").val();
+    if (!startDateInput.value) {
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        let tomorrowStr = tomorrow.toISOString().split('T')[0];
 
-        if (!tanggal) {
-            Swal.fire({
-                icon: "warning",
-                title: "Oops...",
-                text: "Harap pilih tanggal!"
-            });
-            return;
+        startDateInput.value = tomorrowStr;
+        endDateInput.value = tomorrowStr;
+    }
+
+    // Isi dropdown departemen
+    const departemenList = [
+        "COE", "HCGA", "ENG", "FALOG", "PROD", "PLANT", "SHE","MARBOT",
+        "Mess Putri", "MESS_MEICU", "Mess A1", "Mess C3",
+        "Mess B1", "Mess B2", "Mess B3", "Mess B4", "Mess B5",
+        "Mess B6", "Mess B7", "Mess B8", "Mess B9", "Mess B10", "AMM"
+    ];
+
+    const select = document.getElementById("departemen");
+    let selectedDepartemen = "{{ request('departemen', 'HCGA') }}"; // Ambil dari request atau default ke HCGA
+
+    select.innerHTML = ""; // Kosongkan dulu
+
+    departemenList.forEach(dept => {
+        const option = document.createElement("option");
+        option.value = dept;
+        option.textContent = dept;
+        if (dept === selectedDepartemen) {
+            option.selected = true;
         }
+        select.appendChild(option);
+    });
+});
 
-        let url = `/export-dept?tanggal=${tanggal}`;
 
-        fetch(url, { method: 'GET' })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => { throw err; });
-                }
-                window.location.href = url;
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Gagal Ekspor",
-                    text: error.message || "Data tidak ditemukan untuk tanggal yang dipilih."
-                });
-            });
+$(document).ready(function() {
+    $('.truncate-text').each(function() {
+        var maxLength = 100;
+        var originalText = $(this).text();
+
+        if (originalText.length > maxLength) {
+            var truncatedText = originalText.substring(0, maxLength) + '...';
+            $(this).text(truncatedText);
+        }
     });
 });
 
 $(document).ready(function () {
     $('.view').click(function () {
         let cateringId = $(this).data('id');
+        let departemen = $('#departemen').val();
 
         $.ajax({
             type: 'GET',
-            url: '{{ url('/catering/get') }}/' + cateringId,
+            url: '{{ url('/lapcateringdept/get') }}/' + cateringId,
+            data: {
+                departemen: departemen
+            },
             success: function (response) {
                 if (response.error) {
                     alert(response.error);
                     return;
                 }
 
-                let userTeam = "{{ auth()->user()->tim_pic }}";
+                let userTeam = departemen; // Gunakan departemen yang dipilih user
                 let customLabels = {
                     'COE': {
                         'TANGGAL': ['tanggal'],
@@ -669,7 +750,7 @@ $(document).ready(function () {
                         'OFFICE GA MESS TAMBANG': ['admin_ga', 'gl_ga', 'electrical_ga', 'driver_mess', 'carpenter', 'gardener', 'bagong', 'visitor', 'vendor'],
                         'MEKANIK TRAC': ['mekanic_trac'],
                         'POS SECURITY MESS TAMBANG': ['security_pos', 'security_patrol', 'driver_lv_cuti'],
-                        'MESS TAMBANG': ['helper_mess', 'driver_bus', 'driver_bus_jumat_mess'],
+                        'MESS TAMBANG': ['helper_mess', 'driver_bus','driver_bus_jumat_mess'],
                         'OFFICE GA MEICU': ['admin_ga_meicu', 'gl_ga_meicu', 'security_meicu', 'driver_meicu', 'cv_ade', 'helper_meicu','bagong', 'vendor_meicu'],
                         'LAUNDRY KARTIKA': ['laundry', 'security_laundry'],
                         'SECURITY' : ['security_pit1', 'security_pit3', 'security_anjungan'],
@@ -693,7 +774,13 @@ $(document).ready(function () {
                         'CSA PIT 1': ['skill_up_lt'],
                         'Vendor/Tamu': ['visitor']
                     },
-                    'A1': {
+                    'MARBOT': {
+                        'TANGGAL': ['tanggal'],
+                        'REVISI': ['revisi_desc'],
+                        'TOTAL': ['total'],
+                        'LAUNDRY KARTIKA': ['marbot', 'total_laundry', 'security_laundry']
+                    },
+                    'Mess A1': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
@@ -705,7 +792,7 @@ $(document).ready(function () {
                         ],
                         'TAMBAHAN': ['rebusan_a1','spare_a1','visitor_a1'],
                     },
-                    'C3': {
+                    'Mess C3': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
@@ -715,7 +802,7 @@ $(document).ready(function () {
                         ],
                         'TAMBAHAN': ['rebusan_c3','spare_c3','visitor_c3'],
                     },
-                   'AMM': {
+                    'AMM': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
@@ -724,7 +811,7 @@ $(document).ready(function () {
                             'mess_b6', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_amm'
                         ],
                     },
-                    'MESS_PUTRI': {
+                    'Mess Putri': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
@@ -744,14 +831,12 @@ $(document).ready(function () {
                         'REBUSAN': ['rebusan_ruko1', 'rebusan_ruko2', 'rebusan_ruko3', 'rebusan_ruko4', 'rebusan_ruko5'],
                         'UMUM': ['test_praktek', 'magang']
                     }
-
                 };
 
                 // Loop untuk menambahkan B1 sampai B10
                 for (let i = 1; i <= 10; i++) {
-                    customLabels[`B${i}`] = {
+                    customLabels[`Mess B${i}`] = {
                         'TANGGAL': ['tanggal'],
-                        'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
                         'KAMAR': Array.from({ length: 38 }, (_, j) => `kamar_${j + 1}`),
                         'TAMBAHAN': ['rebusan', 'spare','visitor'],
@@ -778,7 +863,6 @@ $(document).ready(function () {
                     'spare_csapit3': 'Spare',
                     'gl_officecsapit1': 'GL',
                     'admin_officecsapit1': 'Admin',
-                    'vendor': 'Vendor/Tamu',
                     // HCGA
                     'admin_ga_plant': 'ADMIN GA',
                     'helper_plant': 'HELPER',
@@ -792,8 +876,6 @@ $(document).ready(function () {
                     'security_meicu': 'SECURITY',
                     'driver_meicu': 'DRIVER',
                     'helper_meicu': 'HELPER',
-
-                    'revisi_desc': 'KETERANGAN REVISI',
                 };
 
                 let viewContainer = $('#viewDataContainer');
@@ -808,13 +890,14 @@ $(document).ready(function () {
                             rows.push({
                                 waktu: response['waktu'] ?? '-',
                                 category: category,
-                                tempat: placeLabels[field] || formatLabel(field),
+                                tempat: field,
                                 total: response[field] ?? '-'
                             });
                         }
                     });
                 }
 
+                // Kelompokkan berdasarkan Waktu
                 let mergedData = {};
                 rows.forEach(row => {
                     let key = row.waktu;
@@ -824,6 +907,7 @@ $(document).ready(function () {
                     mergedData[key].push(row);
                 });
 
+                // Render tabel dengan merge row untuk kolom Waktu
                 Object.keys(mergedData).forEach(waktu => {
                     let group = mergedData[waktu];
                     let firstRow = true;
@@ -832,10 +916,12 @@ $(document).ready(function () {
                     group.forEach((row, rowIndex) => {
                         let tr = `<tr>`;
 
+                        // Merge kolom Waktu hanya pada baris pertama grup
                         if (firstRow) {
                             tr += `<td rowspan="${totalRowSpan}">${row.waktu}</td>`;
                         }
 
+                        // Merge kolom Kategori hanya pada perubahan kategori dalam grup
                         if (rowIndex === 0 || row.category !== group[rowIndex - 1].category) {
                             let categoryCount = group.filter(item => item.category === row.category).length;
                             tr += `<td rowspan="${categoryCount}">${row.category}</td>`;
@@ -867,23 +953,26 @@ function formatLabel(text) {
 var cateringId;
 $('.edit').click(function() {
     cateringId = $(this).data('id');
+    let departemen = $('#departemen').val();
+    console.log(departemen);
     $('#cateringModal').attr({
-    'data-mode': 'edit',
-    'data-id': cateringId
+        'data-mode': 'edit',
+        'data-id': cateringId
     });
-
-    $('#copyPreviousData').closest('.form-check').hide();
 
     $.ajax({
         type: 'GET',
-        url: '{{ url('/catering/get') }}/' + cateringId,
+        url: '/lapcateringdept/get/' + cateringId,
+        data: { departemen: departemen },
         success: function(response) {
             if (response.error) {
                 alert(response.error);
                 return;
             }
 
-            let userTeam = "{{ auth()->user()->tim_pic }}";
+            console.log('Response Data:', response);
+
+            let userTeam = departemen;
 
             let customLabels = {
                 'COE': {
@@ -968,11 +1057,7 @@ $('.edit').click(function() {
                     'driver_survey' : 'driver_survey',
                     'gl_survey' : 'gl_survey',
                     'magang' : 'magang',
-                    'warehouse_pldp' : 'warehouse_pldp',
-                    'CSA PIT 3' : 'pitstop',
-                    'Vendor JMI' : 'vendor_jmi',
-                    'Mess Tambang' : 'gl_civil',
-                    'visitor': 'visitor'
+                    'warehouse_pldp' : 'warehouse_pldp'
                 },
                 'SHE': {
                     'tanggal': 'tanggal',
@@ -1102,22 +1187,6 @@ $('.edit').click(function() {
                     'backup_opp': 'backup_opp',
                     'visitor': 'visitor'
                 },
-                'A1': {
-                    'tanggal': 'tanggal',
-                    'waktu': 'waktu',
-                    'rebusan_a1': 'rebusan_a1',
-                    'spare_a1': 'spare_a1',
-                    'visitor_a1': 'visitor_a1',
-                    ...Object.fromEntries(Array.from({ length: 38 }, (_, i) => [`kamar_${i + 1}`, `kamar_${i + 1}`]))
-                },
-                'C3': {
-                    'tanggal': 'tanggal',
-                    'waktu': 'waktu',
-                    'rebusan_c3': 'rebusan_c3',
-                    'spare_c3': 'spare_c3',
-                    'visitor_c3': 'visitor_c3',
-                    ...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [`kamar_${i + 1}`, `kamar_${i + 1}`]))
-                },
                 'MARBOT': {
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
@@ -1125,6 +1194,22 @@ $('.edit').click(function() {
                     'marbot': 'marbot',
                     'total_laundry': 'total_laundry',
                     'security_laundry': 'security_laundry'
+                },
+                'Mess A1': {
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'rebusan_a1': 'rebusan_a1',
+                    'spare_a1': 'spare_a1',
+                    'visitor_a1': 'visitor_a1',
+                    ...Object.fromEntries(Array.from({ length: 38 }, (_, i) => [`kamar_${i + 1}`, `kamar_${i + 1}`]))
+                },
+                'Mess C3': {
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'rebusan_c3': 'rebusan_c3',
+                    'spare_c3': 'spare_c3',
+                    'visitor_c3': 'visitor_c3',
+                    ...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [`kamar_${i + 1}`, `kamar_${i + 1}`]))
                 },
                 'AMM': {
                     'tanggal': 'tanggal',
@@ -1141,7 +1226,7 @@ $('.edit').click(function() {
                     'mess_b10': 'mess_b10',
                     'spare_amm': 'spare_amm',
                 },
-                'MESS_PUTRI': {
+                'Mess Putri' : {
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'total': 'total',
@@ -1168,11 +1253,10 @@ $('.edit').click(function() {
                     'test_praktek': 'test_praktek',
                     'magang': 'magang',
                 }
-
             };
 
             for (let i = 1; i <= 10; i++) {
-                customLabels[`B${i}`] = {
+                customLabels[`Mess B${i}`] = {
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'rebusan': 'rebusan',
@@ -1184,33 +1268,34 @@ $('.edit').click(function() {
 
             let selectedFields = customLabels[userTeam] || {};
 
+            if ($.isEmptyObject(selectedFields)) {
+                console.error('Departemen tidak ditemukan dalam customLabels:', userTeam);
+                return;
+            }
+
             $('#cateringModal input, #cateringModal select').val('');
 
-            // Loop untuk mengisi input sesuai dengan response dari database
             for (let field in selectedFields) {
                 let inputId = selectedFields[field];
                 let value = response[field] ?? '';
 
-                // Jika input bertipe select, set nilai terpilih
                 if ($('#' + inputId).is('select')) {
-                    $('#' + inputId).val(value);
+                    $('#' + inputId).val(value).trigger('change');
                 } else {
                     $('#' + inputId).val(value);
                 }
             }
 
-            // Check if the modal is in "edit" mode, and hide the checkbox
-            if ($('#cateringModal').attr('data-mode') === 'edit') {
-                // Hide checkboxes here by targeting them by class or ID
-                $('#cateringModal .checkbox-class').hide(); // Replace '.checkbox-class' with the actual class or ID
-            }
             $('#cateringModal').modal('show');
         },
-        error: function() {
-            alert('Gagal mengambil data!');
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+            console.error('Response Text:', xhr.responseText);
+            alert('Gagal mengambil data! Cek console untuk detail.');
         }
     });
 });
+
 
 function setDropdownSelected(selector, value) {
     $(selector).val(value);
@@ -1244,71 +1329,73 @@ $('#copyPreviousData').change(function() {
                 let userTeam = "{{ auth()->user()->tim_pic }}";
                 let customLabels = {
                     'COE': {
-                        'waktu': 'waktu',
-                        'section': 'section',
-                        'tamu_ho': 'tamu_ho',
-                        'gl_ss6': 'gl_ss6',
-                        'mpss6_glss6': 'mpss6_glss6',
-                        'mpss6_sysdev': 'mpss6_sysdev',
-                        'mpss6_driver': 'mpss6_driver',
-                        'mpict_glict': 'mpict_glict',
-                        'mpict_engineer': 'mpict_engineer',
-                        'mpict_driver': 'mpict_driver',
-                        'mpccr_admccr': 'mpccr_admccr',
-                        'mpccr_asstmoco': 'mpccr_asstmoco',
-                        'mpccr_glmoco': 'mpccr_glmoco',
-                        'mpccr_driver': 'mpccr_driver',
-                        'mpccr_admccr_pit': 'mpccr_admccr_pit',
-                        'visitor': 'visitor'
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'section': 'section',
+                    'tamu_ho': 'tamu_ho',
+                    'gl_ss6': 'gl_ss6',
+                    'mpss6_glss6': 'mpss6_glss6',
+                    'mpss6_sysdev': 'mpss6_sysdev',
+                    'mpss6_driver': 'mpss6_driver',
+                    'mpict_glict': 'mpict_glict',
+                    'mpict_engineer': 'mpict_engineer',
+                    'mpict_driver': 'mpict_driver',
+                    'mpccr_admccr': 'mpccr_admccr',
+                    'mpccr_asstmoco': 'mpccr_asstmoco',
+                    'mpccr_glmoco': 'mpccr_glmoco',
+                    'mpccr_driver': 'mpccr_driver',
+                    'mpccr_admccr_pit': 'mpccr_admccr_pit',
+                    'visitor': 'visitor'
                     },
                     'HCGA': {
-                        'waktu': 'waktu',
-                        'pjo': 'pjo',
-                        'sect_head': 'sect_head',
-                        'gl_hc': 'gl_hc',
-                        'admin_hc': 'admin_hc',
-                        'admin_ga_plant': 'admin_ga_plant',
-                        'helper_plant': 'helper_plant',
-                        'security_plant': 'security_plant',
-                        'alpen': 'alpen',
-                        'driver_plant': 'driver_plant',
-                        'security_spbi': 'security_spbi',
-                        'admin_ga': 'admin_ga',
-                        'gl_ga': 'gl_ga',
-                        'electrical_ga': 'electrical_ga',
-                        'driver_mess': 'driver_mess',
-                        'carpenter': 'carpenter',
-                        'gardener': 'gardener',
-                        'mekanic_trac': 'mekanic_trac',
-                        'security_pos': 'security_pos',
-                        'security_patrol': 'security_patrol',
-                        'driver_lv_cuti': 'driver_lv_cuti',
-                        'helper_mess': 'helper_mess',
-                        'admin_ga_meicu': 'admin_ga_meicu',
-                        'gl_ga_meicu': 'gl_ga_meicu',
-                        'security_meicu': 'security_meicu',
-                        'driver_meicu': 'driver_meicu',
-                        'cv_ade': 'cv_ade',
-                        'helper_meicu': 'helper_meicu',
-                        'laundry': 'laundry',
-                        'visitor': 'visitor',
-                        'sertifikasi_hcga': 'sertifikasi_hcga',
-                        'driver_bus_jumat': 'driver_bus_jumat',
-                        'admin_spbi': 'admin_spbi',
-                        'driver_bus': 'driver_bus',
-                        'test_praktek': 'test_praktek',
-                        'security_laundry': 'security_laundry',
-                        'security_pit1' : 'security_pit1',
-                        'security_pit3' : 'security_pit3',
-                        'security_anjungan' : 'security_anjungan',
-                        'marbot': 'marbot',
-                        'test_praktek_csapit': 'test_praktek_csapit',
-                        'bagong': 'bagong',
-                        'vendor_meicu': 'vendor_meicu',
-                        'visitor_meicu': 'visitor_meicu',
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'pjo': 'pjo',
+                    'sect_head': 'sect_head',
+                    'gl_hc': 'gl_hc',
+                    'admin_hc': 'admin_hc',
+                    'admin_ga_plant': 'admin_ga_plant',
+                    'helper_plant': 'helper_plant',
+                    'security_plant': 'security_plant',
+                    'alpen': 'alpen',
+                    'driver_plant': 'driver_plant',
+                    'security_spbi': 'security_spbi',
+                    'admin_ga': 'admin_ga',
+                    'gl_ga': 'gl_ga',
+                    'electrical_ga': 'electrical_ga',
+                    'driver_mess': 'driver_mess',
+                    'carpenter': 'carpenter',
+                    'gardener': 'gardener',
+                    'mekanic_trac': 'mekanic_trac',
+                    'security_pos': 'security_pos',
+                    'security_patrol': 'security_patrol',
+                    'driver_lv_cuti': 'driver_lv_cuti',
+                    'helper_mess': 'helper_mess',
+                    'admin_ga_meicu': 'admin_ga_meicu',
+                    'gl_ga_meicu': 'gl_ga_meicu',
+                    'security_meicu': 'security_meicu',
+                    'driver_meicu': 'driver_meicu',
+                    'cv_ade': 'cv_ade',
+                    'helper_meicu': 'helper_meicu',
+                    'laundry': 'laundry',
+                    'visitor': 'visitor',
+                    'sertifikasi_hcga': 'sertifikasi_hcga',
+                    'driver_bus_jumat': 'driver_bus_jumat',
+                    'driver_bus_jumat_mess': 'driver_bus_jumat_mess',
+                    'admin_spbi': 'admin_spbi',
+                    'driver_bus': 'driver_bus',
+                    'test_praktek': 'test_praktek',
+                    'security_laundry': 'security_laundry',
+                    'security_pit1' : 'security_pit1',
+                    'security_pit3' : 'security_pit3',
+                    'security_anjungan' : 'security_anjungan',
+                    'marbot': 'marbot',
+                    'test_praktek_csapit': 'test_praktek_csapit',
+                    'bagong': 'bagong',
+                    'vendor_meicu': 'vendor_meicu',
+                    'visitor_meicu': 'visitor_meicu',
                     },
                     'ENG' : {
-                        'tanggal' : 'tanggal',
                         'waktu' : 'waktu',
                         'dept_head' : 'dept_head',
                         'sect_head' : 'sect_head',
@@ -1323,55 +1410,54 @@ $('#copyPreviousData').change(function() {
                         'gl_survey' : 'gl_survey',
                         'magang' : 'magang',
                         'warehouse_pldp' : 'warehouse_pldp',
-                        'CSA PIT 3' : 'pitstop',
-                        'Vendor JMI' : 'vendor_jmi',
-                        'Mess Tambang' : 'gl_civil',
                         'visitor': 'visitor'
                     },
                     'SHE': {
-                        'waktu': 'waktu',
-                        'dept_head': 'dept_head',
-                        'sect_head': 'sect_head',
-                        'gl_k3': 'gl_k3',
-                        'dokter': 'dokter',
-                        'gl_ert': 'gl_ert',
-                        'gl_ko': 'gl_ko',
-                        'medic': 'medic',
-                        'ert': 'ert',
-                        'admin': 'admin',
-                        'sample_makan': 'sample_makan',
-                        'helper_hcga': 'helper_hcga',
-                        'crew_she': 'crew_she',
-                        'magang': 'magang',
-                        'driver': 'driver',
-                        'grounded': 'grounded',
-                        'spare': 'spare',
-                        'kontainer_medic': 'kontainer_medic',
-                        'visitor': 'visitor'
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'dept_head': 'dept_head',
+                    'sect_head': 'sect_head',
+                    'gl_k3': 'gl_k3',
+                    'dokter': 'dokter',
+                    'gl_ert': 'gl_ert',
+                    'gl_ko': 'gl_ko',
+                    'medic': 'medic',
+                    'ert': 'ert',
+                    'admin': 'admin',
+                    'sample_makan': 'sample_makan',
+                    'helper_hcga': 'helper_hcga',
+                    'crew_she': 'crew_she',
+                    'magang': 'magang',
+                    'driver': 'driver',
+                    'grounded': 'grounded',
+                    'spare': 'spare',
+                    'kontainer_medic': 'kontainer_medic',
+                    'visitor': 'visitor'
                     },
                     'FALOG': {
-                        'waktu': 'waktu',
-                        'dept_head': 'dept_head',
-                        'sect_head': 'sect_head',
-                        'gl_fa': 'gl_fa',
-                        'admin_fa': 'admin_fa',
-                        'gl_logistik': 'gl_logistik',
-                        'admin_logistik': 'admin_logistik',
-                        'swi': 'swi',
-                        'vendor': 'vendor',
-                        'spare': 'spare',
-                        'pldp': 'pldp',
-                        'koperasi_mess': 'koperasi_mess',
-                        'mechanic_koperasi': 'mechanic_koperasi',
-                        'koperasi_office': 'koperasi_office',
-                        'opt_fuel_truck': 'opt_fuel_truck',
-                        'fuelman': 'fuelman',
-                        'gl': 'gl',
-                        'admin_fuel': 'admin_fuel',
-                        'spare_csa': 'spare_csa',
-                        'driver_fa_log': 'driver_fa_log',
-                        'driverlv_fuel': 'driverlv_fuel',
-                        'visitor': 'visitor'
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'dept_head': 'dept_head',
+                    'sect_head': 'sect_head',
+                    'gl_fa': 'gl_fa',
+                    'admin_fa': 'admin_fa',
+                    'gl_logistik': 'gl_logistik',
+                    'admin_logistik': 'admin_logistik',
+                    'swi': 'swi',
+                    'vendor': 'vendor',
+                    'spare': 'spare',
+                    'pldp': 'pldp',
+                    'koperasi_mess': 'koperasi_mess',
+                    'mechanic_koperasi': 'mechanic_koperasi',
+                    'koperasi_office': 'koperasi_office',
+                    'opt_fuel_truck': 'opt_fuel_truck',
+                    'fuelman': 'fuelman',
+                    'gl': 'gl',
+                    'admin_fuel': 'admin_fuel',
+                    'spare_csa': 'spare_csa',
+                    'driver_fa_log': 'driver_fa_log',
+                    'driverlv_fuel': 'driverlv_fuel',
+                    'visitor': 'visitor'
                     },
                     'PROD': {
                     'tanggal': 'tanggal',
@@ -1402,56 +1488,58 @@ $('#copyPreviousData').change(function() {
                     'spare_pitstop': 'spare_pitstop',
                     'vendor': 'vendor'
                     },
-                    'PLANT': {
-                        'waktu': 'waktu',
-                        'dept_head': 'dept_head',
-                        'sect_head': 'sect_head',
-                        'dept_head_pitstop': 'dept_head_pitstop',
-                        'sect_head_pitstop': 'sect_head_pitstop',
-                        'new_office': 'new_office',
-                        'sect_head_plant': 'sect_head_plant',
-                        'siswa_magang': 'siswa_magang',
-                        'base_control': 'base_control',
-                        'wheel_ps': 'wheel_ps',
-                        'track': 'track',
-                        'support': 'support',
-                        'tyre': 'tyre',
-                        'fabrikasi': 'fabrikasi',
-                        'tool_room': 'tool_room',
-                        'pldp': 'pldp',
-                        'fmdp_track': 'fmdp_track',
-                        'fmdp_wheel': 'fmdp_wheel',
-                        'fmdp_support': 'fmdp_support',
-                        'gmi_mercy': 'gmi_mercy',
-                        'mastratech': 'mastratech',
-                        'trakindo': 'trakindo',
-                        'siswa_magang_pitstop': 'siswa_magang_pitstop',
-                        'new_hire': 'new_hire',
-                        'mutasi': 'mutasi',
-                        'driver': 'driver',
-                        'spare': 'spare',
-                        'congkelman_apn': 'congkelman_apn',
-                        'training': 'training',
-                        'vendor_plant_pitstop': 'vendor_plant_pitstop',
-                        'office_pitstop': 'office_pitstop',
-                        'plant_engineer': 'plant_engineer',
-                        'skill_up_lt': 'skill_up_lt',
-                        'wheel_ws_workshop': 'wheel_ws_workshop',
-                        'fabrikasi_workshop': 'fabrikasi_workshop',
-                        'planner': 'planner',
-                        'plant_engineer_workshop': 'plant_engineer_workshop',
-                        'mastratech_workshop': 'mastratech_workshop',
-                        'fmdp_ws_workshop': 'fmdp_ws_workshop',
-                        'siswa_magang_ws': 'siswa_magang_ws',
-                        'driver_workshop': 'driver_workshop',
-                        'gmi': 'gmi',
-                        'swi': 'swi',
-                        'track_ws': 'track_ws',
-                        'spare_workshop': 'spare_workshop',
-                        'helper_workshop': 'helper_workshop',
-                        'trakindo_workshop': 'trakindo_workshop',
-                        'backup_opp': 'backup_opp',
-                        'visitor': 'visitor'
+                    'PLANT':
+                    {
+                    'tanggal': 'tanggal',
+                    'waktu': 'waktu',
+                    'dept_head': 'dept_head',
+                    'sect_head': 'sect_head',
+                    'dept_head_pitstop': 'dept_head_pitstop',
+                    'sect_head_pitstop': 'sect_head_pitstop',
+                    'new_office': 'new_office',
+                    'sect_head_plant': 'sect_head_plant',
+                    'siswa_magang': 'siswa_magang',
+                    'base_control': 'base_control',
+                    'wheel_ps': 'wheel_ps',
+                    'track': 'track',
+                    'support': 'support',
+                    'tyre': 'tyre',
+                    'fabrikasi': 'fabrikasi',
+                    'tool_room': 'tool_room',
+                    'pldp': 'pldp',
+                    'fmdp_track': 'fmdp_track',
+                    'fmdp_wheel': 'fmdp_wheel',
+                    'fmdp_support': 'fmdp_support',
+                    'gmi_mercy': 'gmi_mercy',
+                    'mastratech': 'mastratech',
+                    'trakindo': 'trakindo',
+                    'siswa_magang_pitstop': 'siswa_magang_pitstop',
+                    'new_hire': 'new_hire',
+                    'mutasi': 'mutasi',
+                    'driver': 'driver',
+                    'spare': 'spare',
+                    'congkelman_apn': 'congkelman_apn',
+                    'training': 'training',
+                    'vendor_plant_pitstop': 'vendor_plant_pitstop',
+                    'office_pitstop': 'office_pitstop',
+                    'plant_engineer': 'plant_engineer',
+                    'skill_up_lt': 'skill_up_lt',
+                    'wheel_ws_workshop': 'wheel_ws_workshop',
+                    'fabrikasi_workshop': 'fabrikasi_workshop',
+                    'planner': 'planner',
+                    'plant_engineer_workshop': 'plant_engineer_workshop',
+                    'mastratech_workshop': 'mastratech_workshop',
+                    'fmdp_ws_workshop': 'fmdp_ws_workshop',
+                    'siswa_magang_ws': 'siswa_magang_ws',
+                    'driver_workshop': 'driver_workshop',
+                    'gmi': 'gmi',
+                    'swi': 'swi',
+                    'track_ws': 'track_ws',
+                    'spare_workshop': 'spare_workshop',
+                    'helper_workshop': 'helper_workshop',
+                    'trakindo_workshop': 'trakindo_workshop',
+                    'backup_opp': 'backup_opp',
+                    'visitor': 'visitor'
                     },
                     'A1': {
                         'waktu': 'waktu',
@@ -1474,21 +1562,7 @@ $('#copyPreviousData').change(function() {
                         'total_laundry': 'total_laundry',
                         'security_laundry': 'security_laundry'
                     },
-                    'AMM': {
-                        'tanggal': 'tanggal',
-                        'waktu': 'waktu',
-                        'mess_b1': 'mess_b1',
-                        'mess_b2': 'mess_b2',
-                        'mess_b3': 'mess_b3',
-                        'mess_b4': 'mess_b4',
-                        'mess_b5': 'mess_b5',
-                        'mess_b6': 'mess_b6',
-                        'mess_b7': 'mess_b7',
-                        'mess_b8': 'mess_b8',
-                        'mess_b9': 'mess_b9',
-                        'mess_b10': 'mess_b10',
-                        'spare_amm': 'spare_amm',
-                    },
+
                     'MESS_PUTRI': {
                         'waktu': 'waktu',
                         'total': 'total',
@@ -1499,6 +1573,7 @@ $('#copyPreviousData').change(function() {
                         'helper_mess': 'helper_mess'
                     },
                     'MESS_MEICU': {
+                        'tanggal': 'tanggal',
                         'waktu': 'waktu',
                         'total': 'total',
                         'ruko_1': 'ruko_1',
@@ -1552,8 +1627,9 @@ $('#copyPreviousData').change(function() {
 });
 
 $(document).ready(function() {
-
     $(document).on('click', '#btn-yes-add', function(event) {
+        //event.preventDefault();
+
         var $modal = $('#cateringModal');
         var mode = $modal.data('mode') || 'add';
         let cateringId = $('#cateringModal').attr('data-id');
@@ -1567,11 +1643,23 @@ $(document).ready(function() {
             return;
         }
 
-        var formData = $('#cateringForm').serialize();
+       // var formData = $('#cateringForm').serialize();
+
+       var departemen = $('#departemen').val();
+        if (!departemen) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Filter Departemen terlebih dahulu!',
+            });
+            return;
+        }
+
+        var formData = $('#cateringForm').serialize() + '&departemen=' + encodeURIComponent(departemen);
 
         var url = mode === 'edit'
-            ? `{{ url("/catering/myedit") }}/${cateringId}`
-            : `{{ route("catering.store") }}`;
+            ? `{{ url("/lapcateringdept/myedit") }}/${cateringId}`
+            : `{{ route("lapcateringdept.store") }}`;
 
         $.ajax({
             type: 'POST',
@@ -1587,10 +1675,14 @@ $(document).ready(function() {
                         icon: 'success',
                         title: 'Success',
                         text: mode === 'edit' ? 'Catering berhasil diperbarui!' : 'Catering berhasil ditambahkan!',
-                    }).then(() => {
-                        // Bersihkan modal sebelum refresh
-                        window.location.href = window.location.href;
-                    });
+                    // }).then(() => {
+                    //     $('#cateringModal').modal('hide');
+                    //     $('#cateringModal').find('input, textarea, select').val('');
+
+                    // });
+                }).then(() => {
+                       location.reload();
+                   });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -1619,6 +1711,8 @@ document.querySelectorAll('.delete').forEach(function(link) {
    link.addEventListener('click', function(event) {
        event.preventDefault();
        var cateringId = this.getAttribute('data-id');
+       let departemen = $('#departemen').val();
+       console.log(departemen);
 
        Swal.fire({
            title: 'Konfirmasi',
@@ -1653,14 +1747,174 @@ document.querySelectorAll('.delete').forEach(function(link) {
    });
 });
 
+// VALIDASI crew sekar
+$('.approval').click(function() {
+    var cateringId = $(this).data('id');
+    var selectedDepartemen = $('#departemen').val();
+    console.log(selectedDepartemen);
+
+    $('#btn-yes-approval').off('click').on('click', function() {
+        var form = $('.form_approval')[0];
+        var formData = new FormData(form);
+        formData.append('catering_id', cateringId);
+        formData.append('departemen', selectedDepartemen); // Kirim departemen yang dipilih
+
+        $('#btn-yes-approval').hide();
+        $('#loading-spinner-approval').show();
+
+        $.ajax({
+            type: 'POST',
+            url: '/lapcateringdept/approval',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: response.message
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengirim data.'
+                });
+            },
+            complete: function() {
+                $('#btn-yes-approval').show();
+                $('#loading-spinner-approval').hide();
+            }
+        });
+    });
+});
+
+//REVISI GAGL
+$(document).ready(function() {
+    $('.revisi').click(function() {
+        var cateringId = $(this).data('id');
+        var selectedDepartemen = $('#departemen').val();
+        console.log(cateringId)
+
+        $('#btn-yes-revisi').off('click').on('click', function() {
+            var data = $('.form_revisi').serialize();
+            data += '&departemen=' + encodeURIComponent(selectedDepartemen);
+
+            $('#btn-yes-revisi').hide();
+            $('#loading-spinner').show();
+
+            $.ajax({
+                type: 'POST',
+                url: '/lapcateringdept/revisi?catering_id=' + cateringId,
+                data: data,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Terjadi kesalahan saat mengirim revisi.'
+                    });
+                },
+                complete: function() {
+                    $('#btn-yes-revisi').show();
+                    $('#loading-spinner').hide();
+                }
+            });
+        });
+    });
+});
+
+$(document).ready(function() {
+    // Jika checkbox header dicentang, semua checkbox di baris ikut dicentang
+    $('#selectAll').change(function() {
+        $('.rowCheckbox').prop('checked', $(this).prop('checked'));
+    });
+
+    // Jika ada perubahan pada checkbox baris, update status checkbox header
+    $('.rowCheckbox').change(function() {
+        if ($('.rowCheckbox:checked').length == $('.rowCheckbox').length) {
+            $('#selectAll').prop('checked', true);
+        } else {
+            $('#selectAll').prop('checked', false);
+        }
+    });
+
+    // Klik tombol Approve Selected
+    $('#btnApproveSelected').click(function() {
+        let selectedIds = [];
+        let departemen = $('#departemen').val(); // Ambil nilai departemen dari input form
+
+        $('.rowCheckbox:checked').each(function() {
+            selectedIds.push($(this).val());
+        });
+
+        if (selectedIds.length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tidak Ada Data Terpilih',
+                text: 'Silakan pilih data yang ingin di-approve.'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data yang dipilih akan disetujui!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Approve!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/lapcateringdept/approve-selected',
+                    data: {
+                        ids: selectedIds,
+                        departemen: departemen, // Kirim juga departemen
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: response.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat meng-approve data.'
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
 //SEND
 $(document).ready(function() {
     $('.send').click(function(e) {
         e.preventDefault();
 
         var cateringId = $(this).data('id');
-        var selectedDepartemen = "{{ auth()->user()->tim_pic }}";
-        console.log(`cateringId: ${cateringId}`);
+        var selectedDepartemen =  $('#departemen').val();;
 
         Swal.fire({
             title: 'Kirim Revisi?',
@@ -1673,7 +1927,7 @@ $(document).ready(function() {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'POST',
-                    url: '/catering/send',
+                    url: '/lapcateringdept/send',
                     data: {
                         catering_id: cateringId,
                         departemen: selectedDepartemen,
@@ -1703,6 +1957,10 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
+
 
 </script>
 
