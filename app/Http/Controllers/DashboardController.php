@@ -5,33 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Repository\ComplainRepository;
 use App\Http\Repository\PhAirRepository;
-use App\Http\Repository\CoachingRepository;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Http\JsonResponse;
-use App\Models\User;
-use PhpOffice\PhpWord\TemplateProcessor;
-use PhpParser\Node\Stmt\Return_;
-use Barryvdh\DomPDF\Facade as PDFFacade;
-use Barryvdh\DomPDF\PDF as DomPDFPDF;
-use PhpOffice\PhpWord\Writer\PDF as WriterPDF;
-use PhpOffice\PhpWord\Writer\PDF\DomPDF;
-use PhpOffice\PhpWord\IOFactory;
-use Mpdf\Mpdf;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use PhpOffice\PhpWord\Writer\PDF\MPDF as PDFMPDF;
+use App\Http\Repository\CateringRepository;
+use App\Http\Repository\LapCateringDeptRepository;
+use App\Http\Repository\LapCateringRepository;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
 
     protected $ComplainRepository;
     protected $PhRepository;
+    protected $CateringRepository;
+    protected $LapCateringRepository;
+    protected $LapCateringDeptRepository;
 
-
-    public function __construct(ComplainRepository $ComplainRepository, PhAirRepository $PhAirRepository)
+    public function __construct(ComplainRepository $ComplainRepository, PhAirRepository $PhAirRepository, CateringRepository $CateringRepository, LapCateringRepository $LapCateringRepository, LapCateringDeptRepository $LapCateringDeptRepository )
     {
         $this->ComplainRepository = $ComplainRepository;
         $this->PhRepository = $PhAirRepository;
+        $this -> CateringRepository = $CateringRepository;
+        $this -> LapCateringRepository = $LapCateringRepository;
+        $this ->LapCateringDeptRepository = $LapCateringDeptRepository;
     }
 
     public function getMayorCount()
@@ -168,7 +162,7 @@ class DashboardController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
         $status = $request->query('status');
-        $area = $request->query('area'); 
+        $area = $request->query('area');
 
         $data = $this->ComplainRepository->getFilteredComplains($startDate, $endDate, $status, $area);
         return response()->json($data);
@@ -184,7 +178,7 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 
-     //=============================================== DASHBOARD PH AIR ===============================================
+    //=============================================== DASHBOARD PH AIR ===============================================
 
      public function phAir(Request $request)
      {
@@ -226,6 +220,109 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 
+    //=============================================== DASHBOARD MK CATERING ===============================================
+
+    public function mkCatering(Request $request)
+    {
+         $startDate = $request->input('start_date');
+         $endDate = $request->input('end_date');
+
+         $pelatihanQuery = $this->ComplainRepository->getAllWithDate();
+
+         if ($startDate && $endDate) {
+             $pelatihanQuery->whereBetween('waktu', [$startDate, $endDate]);
+         }
+
+         $pelatihanData = $pelatihanQuery->get();
+
+         return view('/dashboard/mk_dashboard', [
+             'pelatihanData' => $pelatihanData,
+             'startDate' => $startDate,
+             'endDate' => $endDate,
+
+         ]);
+    }
+
+    public function getPlanActualOrderData(Request $request)
+    {
+        $departemen = $request->departemen ?? 'HCGA'; // default: hcga
+        $tanggalAwal = $request->tanggalAwal ?? Carbon::now()->startOfMonth()->toDateString(); // default: tanggal 1 bulan ini
+        $tanggalAkhir = $request->tanggalAkhir ?? Carbon::now()->toDateString();
+
+        $result = $this->CateringRepository->getGrafikDailyDept($departemen, $tanggalAwal, $tanggalAkhir);
+
+        return response()->json($result);
+    }
+
+    public function getPlanActualOrderDataMess(Request $request)
+    {
+
+        $mess = $request->input('mess');
+        $tanggalAwal = $request->tanggalAwal ?? Carbon::now()->startOfMonth()->toDateString(); // default: tanggal 1 bulan ini
+        $tanggalAkhir = $request->tanggalAkhir ?? Carbon::now()->toDateString();
+
+        $result = $this->CateringRepository->getGrafikDailyMess($mess, $tanggalAwal, $tanggalAkhir);
+
+        return response()->json($result);
+    }
+
+    public function getPlanActualOrderDataMonthly(Request $request)
+    {
+        //dd($request->all());
+        $departemen = $request->input('departemenMonthly');
+        $bulanAwal = $request->input('bulanAwal');
+        $bulanAkhir = $request->input('bulanAkhir');
+        $tahun = $request->input('tahun');
+
+        $result = $this->CateringRepository->getGrafikMonthlyDept($departemen, $bulanAwal, $bulanAkhir, $tahun);
+
+        return response()->json($result);
+    }
+
+    public function getPlanActualOrderDataMonthlyAllDept(Request $request)
+    {
+        //dd($request->all());
+        $bulan = $request->input('bulanDept');
+        $tahun = $request->input('tahunAllDept');
+
+        $result = $this->CateringRepository->getGrafikMonthlyAllDept($bulan, $tahun);
+
+        return response()->json($result);
+    }
+
+    public function getPlanActualOrderDataMonthlyMess(Request $request)
+    {
+        $mess = $request->input('messMonthly');
+        $bulanAwal = $request->input('bulanAwalMess');
+        $bulanAkhir = $request->input('bulanAkhirMess');
+        $tahun = $request->input('tahunMess');
+
+        $result = $this->CateringRepository->getGrafikMonthlyMess($mess, $bulanAwal, $bulanAkhir, $tahun);
+
+        return response()->json($result);
+    }
+
+    public function getPlanActualOrderDataMonthlyAllMess(Request $request)
+    {
+        //
+        $bulan = $request->input('bulanMess');
+        $tahun = $request->input('tahunAllMess');
+
+        $result = $this->CateringRepository->getGrafikMonthlyAllMess($bulan, $tahun);
+
+        return response()->json($result);
+    }
+
+    public function getPlanActualOrderDataAllCost(Request $request)
+    {
+        //dd($request->all());
+        $tanggalAwal = $request->tanggalAwalAllCost ?? Carbon::now()->startOfMonth()->toDateString(); // default: tanggal 1 bulan ini
+        $tanggalAkhir = $request->tanggalAkhirAllCost ?? Carbon::now()->toDateString();
+
+        $result = $this->CateringRepository->getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir);
+
+        return response()->json($result);
+    }
 
 
 }

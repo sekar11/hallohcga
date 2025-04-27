@@ -6,8 +6,9 @@ use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PhAirController;
-
-
+use App\Http\Controllers\CateringController;
+use App\Http\Controllers\LapCateringDeptController;
+use App\Http\Controllers\LapCateringController;
 
 Route::get('/', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/', [UserController::class, 'loginku']);
@@ -21,13 +22,39 @@ Route::group(['middleware' => 'auth'], function () {
         return view('complain/complain');
     });
 
-    //=============================================== DASHBOARD ===============================================
+    //=============================================== Dashboard Digital Complain===============================================
+    Route::get('/complain/mayor-count', [DashboardController::class, 'getMayorCount']);
+    Route::get('/complain/minor-count', [DashboardController::class, 'getMinorCount']);
+    Route::get('/complain/prioritas-count', [DashboardController::class, 'getPrioritasCount']);
+    Route::get('/complain/pending-count', [DashboardController::class, 'getPendingCount']);
+    Route::get('/complain/total-count', [DashboardController::class, 'getTotalCount']);
+    Route::get('/complain/progres-count', [DashboardController::class, 'getProgresCount']);
+    Route::get('/complain/done-count', [DashboardController::class, 'getDoneCount']);
+    Route::get('/api/complains', [DashboardController::class, 'getComplainData']);
+    Route::get('/api/complainsarea', [DashboardController::class, 'getComplainDataArea']);
+    Route::get('/api/complainscategory', [DashboardController::class, 'getComplainDataArea']);
+    Route::get('/api/complainsstatus', [DashboardController::class, 'getComplainDataStatus']);
+    Route::get('/api/complainsscale', [DashboardController::class, 'getComplainDataScale']);
+    Route::post('/filter-complain', [DashboardController::class, 'filterComplain']);
+
+    //=============================================== DASHBOARD PH AIR===============================================
     Route::get('/dashboard', [DashboardController::class, 'reportPelatihan'])->name('dashboard.pelatihan');
     Route::post('/dashboard/search', [DashboardController::class, 'reportPelatihan']);
 
     Route::get('/dashboard_phair', [DashboardController::class, 'phAir']);
     Route::post('/get-ph-air', [DashboardController::class, 'getPhAir']);
     Route::post('/get-ph-air-per', [DashboardController::class, 'getPhAirPer']);
+
+    //=============================================== DASHBOARD MK CATERING===============================================
+    Route::get('/dashboard_catering', [DashboardController::class, 'mkCatering']);
+    Route::post('/get-daily-dept', [DashboardController::class, 'getPlanActualOrderData']);
+    Route::post('/get-daily-mess', [DashboardController::class, 'getPlanActualOrderDataMess']);
+    Route::post('/get-monthly-dept', [DashboardController::class, 'getPlanActualOrderDataMonthly']);
+    Route::post('/get-monthly-all-dept', [DashboardController::class, 'getPlanActualOrderDataMonthlyAllDept']);
+    Route::post('/get-monthly-mess', [DashboardController::class, 'getPlanActualOrderDataMonthlyMess']);
+    Route::post('/get-monthly-all-mess', [DashboardController::class, 'getPlanActualOrderDataMonthlyAllMess']);
+
+    Route::post('/get-daily-allcost-dept', [DashboardController::class, 'getPlanActualOrderDataAllCost']);
 
     //=============================================== COMPLAIN ===============================================
     Route::get('/complain', [ComplainController::class, 'index'])->name('get.complain');
@@ -66,29 +93,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/changepassword', [UserController::class, 'changePassword']);
     });
 
-    //=============================================== Dashboard ===============================================
-    Route::get('/complain/mayor-count', [DashboardController::class, 'getMayorCount']);
-    Route::get('/complain/minor-count', [DashboardController::class, 'getMinorCount']);
-    Route::get('/complain/prioritas-count', [DashboardController::class, 'getPrioritasCount']);
-    Route::get('/complain/pending-count', [DashboardController::class, 'getPendingCount']);
-    Route::get('/complain/total-count', [DashboardController::class, 'getTotalCount']);
-    Route::get('/complain/progres-count', [DashboardController::class, 'getProgresCount']);
-    Route::get('/complain/done-count', [DashboardController::class, 'getDoneCount']);
-    Route::get('/api/complains', [DashboardController::class, 'getComplainData']);
-    Route::get('/api/complainsarea', [DashboardController::class, 'getComplainDataArea']);
-    Route::get('/api/complainscategory', [DashboardController::class, 'getComplainDataArea']);
-    Route::get('/api/complainsstatus', [DashboardController::class, 'getComplainDataStatus']);
-    Route::get('/api/complainsscale', [DashboardController::class, 'getComplainDataScale']);
-
-    Route::post('/filter-complain', [DashboardController::class, 'filterComplain']);
-
-
     //=============================================== REPORT ===============================================
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report/export', [ReportController::class, 'exportExcel'])->name('report.export');
     Route::get('/report-complain', [ComplainController::class, 'report'])->name('report.complain');
     Route::post('/report-complain/search', [ComplainController::class, 'report']);
-
     Route::get('/complain/getteknisi', [ComplainController::class, 'getTeknisi'])->name('get.teknisi');
 
     //=============================================== PH AIR ===============================================
@@ -97,5 +106,45 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/phair/delete', [PhAirController::class, 'delete'])->name('delete.phair');
     Route::get('/phair/get/{id}', [PhAirController::class, 'getEdit'])->name('edit.phair');
     Route::post('/phair/myedit/{id}', [PhAirController::class, 'edit'])->name('get.phair');
+
+    //=============================================== MK Catering Add ===============================================
+    Route::post('/catering/delete', [CateringController::class, 'delete'])->name('delete.catering');
+    Route::get('/catering/get/{id}', [CateringController::class, 'getEdit'])->name('edit.catering');
+    Route::post('/catering/myedit/{id}', [CateringController::class, 'edit'])->name('get.catering');
+    Route::get('/catering', [CateringController::class, 'create'])->name('catering.catering');
+    Route::post('/catering/store', [CateringController::class, 'store'])->name('catering.store');
+    Route::get('/catering/getPrevious', [CateringController::class, 'getPrevious'])->name('catering.cateringprevious');
+    Route::post('/catering/send', [CateringController::class, 'sendRevisi'])->name('send.revisi');
+
+    //=============================================== Laporan MK Catering Dept ===============================================
+    Route::post('/lapcateringdept/delete', [LapCateringDeptController::class, 'delete'])->name('delete.lapcateringdept');
+    Route::get('/lapcateringdept/get/{id}', [LapCateringDeptController::class, 'getEdit'])->name('edit.lapcateringdept');
+    Route::post('/lapcateringdept/myedit/{id}', [LapCateringDeptController::class, 'edit'])->name('get.lapcateringdept');
+    Route::get('/lapcateringdept', [LapCateringDeptController::class, 'create'])->name('lapcateringdept.lapcateringdept');
+    Route::post('/lapcateringdept/store', [LapCateringDeptController::class, 'store'])->name('lapcateringdept.store');
+    Route::post('/lapcateringdept/approval', [LapCateringDeptController::class, 'approval'])->name('approval.catering');
+    Route::post('/lapcateringdept/revisi', [LapCateringDeptController::class, 'revisi'])->name('revisi.catering');
+    Route::post('/lapcateringdept/send', [LapCateringDeptController::class, 'sendRevisi'])->name('send.revisi');
+    
+    Route::post('/lapcateringdept/approve-selected', [LapCateringDeptController::class, 'approvalAll'])->name('approvalAll.catering');
+
+    //=============================================== Laporan Catering ===============================================
+    Route::post('/lapcatering/delete', [LapCateringController::class, 'delete'])->name('delete.lapcatering');
+    Route::get('/lapcatering/get/{id}', [LapCateringController::class, 'getEdit'])->name('edit.lapcatering');
+    Route::post('/lapcatering/myedit/{id}', [LapCateringController::class, 'edit'])->name('get.lapcatering');
+    Route::get('/lapcatering', [LapCateringController::class, 'index'])->name('lapcatering.index');
+    Route::post('/lapcatering/store', [LapCateringController::class, 'store'])->name('lapcatering.store');
+    Route::post('/lapcatering/approval', [LapCateringController::class, 'approval'])->name('approval.catering');
+    Route::post('/lapcatering/revisi', [LapCateringController::class, 'revisi'])->name('revisi.catering');
+
+    Route::post('/lapcatering/approve-selected', [LapCateringController::class, 'approvalAll'])->name('approvalAll.catering');
+    Route::get('/lapcatering/export-excel', [LapCateringController::class, 'exportExcel']);
+    Route::get('/lapcatering/export-daily', [LapCateringController::class, 'exportDaily']);
+
+    Route::get('/invoice', [LapCateringController::class, 'indexInvoice'])->name('invoice.index');
+    Route::get('/invoice/export', [LapCateringController::class, 'exportWord'])->name('invoice.export');
+
+    Route::get('/export-dept', [CateringController::class, 'exportData']);
+
 });
 

@@ -428,8 +428,6 @@
                                     <input type="file" class="form-control" id="foto_perbaikan" name="foto_perbaikan" placeholder="Unggah Foto Perbaikan" />
                                     <small class="text-muted extra-small"> Unggah gambar dengan format JPG, JPEG, atau PNG, maksimal ukuran 2 MB</small>
                                 </div>
-
-
                             </form>
                           </div>
                           <div class="modal-footer">
@@ -580,7 +578,7 @@
               </div>
               <!--end::Modal Validasi Crew-->
               <!-- Table with stripped rows -->
-              <div class="table-responsive">
+              <div class="">
               <table class="table dt_complain responsive-table" id="datatable">
                 <thead>
                   <tr>
@@ -681,7 +679,7 @@
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
                 </ul>
-                @elseif($complain->kode_status == 7 && in_array(auth()->user()->id_role, [1, 2]))
+                @elseif($complain->kode_status == 7 && in_array(auth()->user()->id_role, [1, 2, 3, 5, 6, 7]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item rating" href="#" data-bs-toggle="modal" data-bs-target="#rating" data-id="{{ $complain->id }}"><i class="fa-solid fa-star"></i>Rating</a></li>
@@ -704,25 +702,25 @@
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
                 </ul>
-                @elseif($complain->kode_status == 9 && in_array(auth()->user()->id_role, [1, 2, 3, 4, 5]))
+                @elseif($complain->kode_status == 9 && in_array(auth()->user()->id_role, [1, 2, 3, 4, 5, 6, 7]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#complainModal" data-id="{{ $complain->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                     <li><a class="dropdown-item delete" href="#" data-id="{{ $complain->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
                 </ul>
-                @elseif($complain->kode_status == 3  && in_array(auth()->user()->id_role, [2, 4]))
+                @elseif($complain->kode_status == 3  && in_array(auth()->user()->id_role, [2, 4, 7]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item rejectcrew" href="#" data-bs-toggle="modal" data-bs-target="#rejectCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-circle-xmark"></i>Reject Crew</a></li>
                     <li><a class="dropdown-item validasi_crew" href="#" data-bs-toggle="modal" data-bs-target="#validasiCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-square-check"></i>Follow Up Crew</a></li>
                 </ul>
-                 @elseif($complain->kode_status == 5 && in_array(auth()->user()->id_role, [2, 4]))
+                 @elseif($complain->kode_status == 5 && in_array(auth()->user()->id_role, [2, 4 , 7]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item rejectcrew" href="#" data-bs-toggle="modal" data-bs-target="#rejectCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-circle-xmark"></i>Reject Crew</a></li>
                     <li><a class="dropdown-item validasi_crew" href="#" data-bs-toggle="modal" data-bs-target="#validasiCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-square-check"></i>Follow Up Crew</a></li>
                 </ul>
-                @elseif($complain->kode_status == 10 && in_array(auth()->user()->id_role, [2, 4]))
+                @elseif($complain->kode_status == 10 && in_array(auth()->user()->id_role, [2, 4, 7]))
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewComplainModal" data-id="{{ $complain->id }}"><i class="fa fa-expand"></i>View</a></li>
                     <li><a class="dropdown-item rejectcrew" href="#" data-bs-toggle="modal" data-bs-target="#rejectCrewModalgagl" data-id="{{ $complain->id }}"><i class="fa-regular fa-circle-xmark"></i>Reject Crew</a></li>

@@ -13,7 +13,7 @@ class PhAirRepository
         $nrp = auth()->user()->nrp;
         $tanggal = $data['tanggal'];
         $lokasi = $data['lokasi'];
-        $ph = intval($data['ph']);
+        $ph = $data['ph'];
 
         $existingRecord = DB::table('ph_air')->whereDate('tanggal', $tanggal)->first();
 
@@ -21,7 +21,7 @@ class PhAirRepository
             $oldPh = $existingRecord->$lokasi;
 
             if ($oldPh !== null) {
-                $newPh = intval(round(($oldPh + $ph) / 2));
+                $newPh = ($oldPh + $ph) / 2;
             } else {
                 $newPh = $ph;
             }
@@ -107,7 +107,7 @@ class PhAirRepository
     {
         try {
             $lokasi = $data['lokasi'];
-            $ph = intval($data['ph']);
+            $ph = $data['ph'];
 
             $existingRecord = DB::table('ph_air')->where('id', $id)->first();
 

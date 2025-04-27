@@ -1805,15 +1805,56 @@ th:nth-child(14), td:nth-child(14) {
     width: auto;
 }
 
+@media (max-width: 768px) {
+    .form-responsive .row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 
+    .form-responsive .col-md-2,
+    .form-responsive .col-md-4 {
+        width: 100% !important;
+        text-align: center;
+    }
 
+    .form-responsive button {
+        width: 100%;
+    }
 
+    .form-responsive .d-flex {
+        justify-content: center !important;
+    }
+}
 
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
 
+    .button-group button,
+    .button-group a {
+        width: 100%;
+        text-align: center;
+    }
+}
+#totalSummary {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
 
+#totalPlan, #totalActual, #totalTambahan {
+    text-align: left;
+}
 
+#totalCost, #totalCostMess, #totalSisa{
+    text-align: center;
+    border: 2px solid red;
+    padding: 8px;
+    border-radius: 2px;
 
-
-
-
-
+}
