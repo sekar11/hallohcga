@@ -191,6 +191,7 @@ class LapCateringController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
+                'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'helper_survey' => 'helper_survey',
@@ -380,7 +381,12 @@ class LapCateringController extends Controller
     {
         $month = $request->input('month');
         $year = $request->input('year');
-        $catering = strtoupper($request->input('catering_export') ?? auth()->user()->tim_pic);
+
+        if (auth()->user()->id_role == 7) {
+            $catering = strtoupper(auth()->user()->tim_pic);
+        } else {
+            $catering = strtoupper($request->input('catering_export'));
+        }
 
         $data = $this->LapCateringRepository->getCateringFitri($month, $year, $catering);
 
@@ -443,7 +449,7 @@ class LapCateringController extends Controller
             'siang_mess_b8'                   => 34,
             'siang_mess_b9'                   => 35,
             'siang_mess_b10'                  => 36,
-            'spare_amm'                           => 37, // SPARE
+            'spare_amm'                       => 37, // SPARE
             'siang_container_ga_mess'         => 38,
             'siang_electrical_ga'             => 39,
             'siang_helper_mess'               => 40,
@@ -657,7 +663,14 @@ class LapCateringController extends Controller
         if (!$tanggal) {
             return response()->json(['status' => 'error', 'message' => 'Tanggal tidak ditemukan.'], 400);
         }
-        $userTeam = strtoupper($request->query('catering_export') ?? auth()->user()->tim_pic);
+        //$userTeam = strtoupper($request->query('catering_export') ?? auth()->user()->tim_pic);
+
+        if (auth()->user()->id_role == 7) {
+            $userTeam = strtoupper(auth()->user()->tim_pic);
+        } else {
+            $$userTeam = strtoupper($request->input('catering_export'));
+        }
+
         $jenisExport = strtoupper($request->input('jenis_data'));
 
         $templateMapping = [

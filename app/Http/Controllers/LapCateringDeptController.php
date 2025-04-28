@@ -148,6 +148,7 @@ class LapCateringDeptController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
+                'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'driver_survey' => 'driver_survey',
@@ -499,6 +500,7 @@ class LapCateringDeptController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
+                'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'driver_survey' => 'driver_survey',
@@ -813,6 +815,7 @@ class LapCateringDeptController extends Controller
     public function approvalAll(Request $request)
     {
         $departemen = $request->input('departemen');
+        //dd($departemen);
         $approvalName = auth()->user()->nama;
         $selectedComplainIds = $request->input('ids', []);
         $approval = 'ok';

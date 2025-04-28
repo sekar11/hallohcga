@@ -165,7 +165,7 @@
           </ul>
       </li>
       @endif
-
+      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 1 || auth()->user()->id_role == 2  || auth()->user()->id_role == 3 || auth()->user()->id_role == 4)
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-pel" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Digital Complain</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -178,6 +178,7 @@
           </li>
         </ul>
       </li>
+      @endif
 
       @if(auth()->user()->id_role == 0)
        <li class="nav-item">

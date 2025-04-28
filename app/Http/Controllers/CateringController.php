@@ -149,6 +149,7 @@ class CateringController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
+                'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'helper_survey' => 'helper_survey',
@@ -502,6 +503,7 @@ class CateringController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
+                'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'driver_survey' => 'driver_survey',
@@ -742,6 +744,7 @@ class CateringController extends Controller
 
     public function delete(Request $request)
     {
+
         $selectedUserId = $request->input('catering_id');
         $userTeam = auth()->user()->tim_pic;
         $tableMapping = [
@@ -785,9 +788,23 @@ class CateringController extends Controller
 
         return response()->json(['message' => $result]);
     }
-    public function getEdit($id)
+
+    // public function getEdit($id)
+    // {
+    //     $data = $this->CateringRepository->getById($id);
+
+    //     if (!$data) {
+    //         return response()->json(['error' => 'Data tidak ditemukan'], 404);
+    //     }
+
+    //     return response()->json($data);
+    // }
+
+    public function getEdit(Request $request, $id)
     {
-        $data = $this->CateringRepository->getById($id);
+        $departemen = $request->input('departemen', 'HCGA');
+
+        $data = $this->CateringRepository->getById($id, $departemen);
 
         if (!$data) {
             return response()->json(['error' => 'Data tidak ditemukan'], 404);
@@ -816,8 +833,9 @@ class CateringController extends Controller
 
     public function exportData(Request $request)
     {
+        //dd($request->all());
         $userTeam = auth()->user()->tim_pic;
-        $tanggal = $request->query('tanggal');
+        $tanggal = $request->query('tanggal_export');
 
         if (!$tanggal) {
             return response()->json(['status' => 'error', 'message' => 'Tanggal tidak ditemukan.'], 400);

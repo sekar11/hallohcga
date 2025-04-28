@@ -114,7 +114,7 @@
                                         'section' => ['label' => 'Section Head', 'name' => 'section', 'type' => 'text','category' => 'Office Plant'],
                                         'tamu_ho' => ['label' => 'TAMU HO', 'name' => 'tamu_ho', 'type' => 'text','category' => 'Office Plant'],
                                         'gl_ss6' => ['label' => 'GL SS6', 'name' => 'gl_ss6','type' => 'text', 'category' => 'Office Plant'],
-                                        'mpccr_admccr' => ['label' => 'Adm CCR', 'name' => 'mpccr_admccr', 'type' => 'text','category' => 'Office Plant'],
+                                        'mpccr_admccr' => ['label' => 'Admin', 'name' => 'mpccr_admccr', 'type' => 'text','category' => 'Office Plant'],
                                         'mpccr_asstmoco' => ['label' => 'Asst. Moco', 'name' => 'mpccr_asstmoco', 'type' => 'text','category' => 'Office Plant'],
                                         'mpccr_glmoco' => ['label' => 'GL Moco', 'name' => 'mpccr_glmoco', 'type' => 'text','category' => 'Office Plant'],
                                         'mpccr_driver' => ['label' => 'Driver CCR', 'name' => 'mpccr_driver', 'type' => 'text','category' => 'Office Plant'],
@@ -130,19 +130,20 @@
                                     'ENG' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
                                         'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Siang','Malam','Tambahan Siang','Tambahan Malam'], 'category' => 'Waktu'],
-                                        'dept_head' => ['label' => 'Dept Head', 'name' => 'dept_head','type' => 'text', 'category' => 'Office'],
-                                        'sect_head' => ['label' => 'Section', 'name' => 'sect_head','type' => 'text', 'category' => 'Office'],
-                                        'gl_eng' => ['label' => 'GL', 'name' => 'gl_eng','type' => 'text', 'category' => 'Office'],
-                                        'driver' => ['label' => 'Driver', 'name' => 'driver','type' => 'text', 'category' => 'Office'],
-                                        'crew_ssr' => ['label' => 'Crew SSR', 'name' => 'crew_ssr','type' => 'text', 'category' => 'Office'],
-                                        'office_pldp' => ['label' => 'PLDP', 'name' => 'office_pldp','type' => 'text', 'category' => 'Office'],
+                                        'dept_head' => ['label' => 'Dept Head', 'name' => 'dept_head','type' => 'text', 'category' => 'Office Plant'],
+                                        'sect_head' => ['label' => 'Section', 'name' => 'sect_head','type' => 'text', 'category' => 'Office Plant'],
+                                        'gl_eng' => ['label' => 'GL', 'name' => 'gl_eng','type' => 'text', 'category' => 'Office Plant'],
+                                        'driver' => ['label' => 'Driver', 'name' => 'driver','type' => 'text', 'category' => 'Office Plant'],
+                                        'crew_ssr' => ['label' => 'Crew SSR', 'name' => 'crew_ssr','type' => 'text', 'category' => 'Office Plant'],
+                                        'office_pldp' => ['label' => 'PLDP', 'name' => 'office_pldp','type' => 'text', 'category' => 'Office Plant'],
+                                        'admin_office' => ['label' => 'Admin', 'name' => 'admin_office','type' => 'text', 'category' => 'Office Plant'],
                                         'drill' => ['label' => 'Drill & PIT Control', 'name' => 'drill','type' => 'text', 'category' => 'CSA PIT 2'],
                                         'driver_drill' => ['label' => 'Driver Drill & PIT Control', 'name' => 'driver_drill', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'driver_survey' => ['label' => 'Driver Survey', 'name' => 'driver_survey', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'helper_survey' => ['label' => 'Driver Survey', 'name' => 'helper_survey', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'gl_survey' => ['label' => 'GL Surver', 'name' => 'gl_survey', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'magang' => ['label' => 'Magang', 'name' => 'magang', 'type' => 'text','category' => 'CSA PIT 2'],
-                                        'warehouse_pldp' => ['label' => 'PLDP', 'name' => 'warehouse_pldp', 'type' => 'text','category' => 'Warehouse'],
+                                        'warehouse_pldp' => ['label' => 'PLDP', 'name' => 'warehouse_pldp', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'pitcontrol' => ['label' => 'PIT CONTROL', 'name' => 'pitcontrol', 'type' => 'text','category' => 'CSA PIT 3'],
                                         'gl_civil' => ['label' => 'GL CIVIL', 'name' => 'gl_civil', 'type' => 'text','category' => 'Mess Tambang'],
                                         'vendor_jmi' => ['label' => 'Vendor JMI', 'name' => 'vendor_jmi', 'type' => 'text','category' => 'CSA HRM'],
@@ -198,22 +199,27 @@
                                     'PROD' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
                                         'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Siang','Malam','Tambahan Siang','Tambahan Malam'], 'category' => 'Waktu'],
-                                        'dept_sect_officeplant' => ['label' => 'Dept. Head/ Sect. Head', 'name' => 'dept_sect_officeplant', 'type' => 'text', 'category' => 'Office PLANT'],
+
                                         'admin_officeplant' => ['label' => 'Admin', 'name' => 'admin_officeplant', 'type' => 'text', 'category' => 'Office PLANT'],
-                                        'gl_officecsapit1' => ['label' => 'GL', 'name' => 'gl_officecsapit1', 'type' => 'text', 'category' => 'Office CSA PIT 1'],
-                                        'admin_officecsapit1' => ['label' => 'Admin', 'name' => 'admin_officecsapit1', 'type' => 'text', 'category' => 'Office CSA PIT 1'],
-                                        'dept_sect_csapit1' => ['label' => 'Dept. Head/ Sect. Head', 'name' => 'dept_sect_csapit1', 'type' => 'text', 'category' => 'CSA PIT 1'],
+
+                                        'dept_sect_officeplant' => ['label' => 'Dept. Head', 'name' => 'dept_sect_officeplant', 'type' => 'text', 'category' => 'Anjungan CSA PIT 1'],
+                                        'dept_sect_csapit1' => ['label' => 'Sect. Head', 'name' => 'dept_sect_csapit1', 'type' => 'text', 'category' => 'Anjungan CSA PIT 1'],
+
+                                        // 'gl_officecsapit1' => ['label' => 'GL', 'name' => 'gl_officecsapit1', 'type' => 'text', 'category' => 'Office CSA PIT 1'],
+                                        // 'admin_officecsapit1' => ['label' => 'Admin', 'name' => 'admin_officecsapit1', 'type' => 'text', 'category' => 'Office CSA PIT 1'],
                                         'operator_csapit1' => ['label' => 'Operator', 'name' => 'operator_csapit1', 'type' => 'text', 'category' => 'CSA PIT 1'],
                                         'gl_csapit1' => ['label' => 'GL', 'name' => 'gl_csapit1', 'type' => 'text', 'category' => 'CSA PIT 1'],
                                         'spare_csapit1' => ['label' => 'Spare', 'name' => 'spare_csapit1', 'type' => 'text', 'category' => 'CSA PIT 1'],
                                         'admin_csapit1' => ['label' => 'Admin', 'name' => 'admin_csapit1', 'type' => 'text', 'category' => 'CSA PIT 1'],
                                         'skillup_csapit1' => ['label' => 'CSA PIT 1 Skill Up', 'name' => 'skillup_csapit1', 'type' => 'text', 'category' => 'CSA PIT 1'],
-                                        'dept_sect_csapit2' => ['label' => 'Dept. Head/ Sect. Head', 'name' => 'dept_sect_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
+
+                                        'dept_sect_csapit2' => ['label' => 'Sect. Head', 'name' => 'dept_sect_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'operator_csapit2' => ['label' => 'Operator', 'name' => 'operator_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'gl_csapit2' => ['label' => 'GL', 'name' => 'gl_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'spare_csapit2' => ['label' => 'Spare', 'name' => 'spare_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'driverlv_csapit2' => ['label' => 'Driver LV', 'name' => 'driverlv_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
-                                        'dept_sect_csapit3' => ['label' => 'Dept. Head/ Sect. Head', 'name' => 'dept_sect_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
+
+                                        'dept_sect_csapit3' => ['label' => 'Sect. Head', 'name' => 'dept_sect_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
                                         'operator_csapit3' => ['label' => 'Operator', 'name' => 'operator_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
                                         'gl_csapit3' => ['label' => 'GL', 'name' => 'gl_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
                                         'spare_csapit3' => ['label' => 'Spare', 'name' => 'spare_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
@@ -700,9 +706,9 @@ $(document).ready(function () {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
-                        'Office' : ['dept_head', 'sect_head', 'gl_eng', 'driver', 'crew_ssr', 'office_pldp'],
-                        'CSA PIT 2' : ['drill', 'driver_drill','helper_survey', 'driver_survey', 'gl_survey', 'magang'],
-                        'Warehouse' : ['warehouse_pldp'],
+                        'Office' : ['dept_head', 'sect_head', 'gl_eng', 'driver', 'crew_ssr', 'office_pldp', 'admin_office'],
+                        'CSA PIT 2' : ['drill', 'driver_drill','helper_survey', 'driver_survey', 'gl_survey', 'magang', 'warehouse_pldp'],
+                        //'Warehouse' : ['warehouse_pldp'],
                         'CSA PIT 3' : ['pitstop'],
                         'Mess Tambang' : ['gl_civil'],
                         'Vendor JMI' : ['vendor_jmi'],
@@ -732,9 +738,10 @@ $(document).ready(function () {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
-                        'Office PlANT': ['dept_sect_officeplant', 'admin_officeplant'],
-                        'Office CSA PIT 1': ['gl_officecsapit1', 'admin_officecsapit1'],
-                        'CSA PIT 1': ['dept_sect_csapit1', 'operator_csapit1', 'gl_csapit1', 'spare_csapit1', 'admin_csapit1', 'skillup_csapit1',],
+                        'Office PlANT': ['admin_officeplant'],
+                        'Anjungan CSA PIT 1': ['dept_sect_officeplant', 'dept_sect_csapit1'],
+                        //'Office CSA PIT 1': ['gl_officecsapit1', 'admin_officecsapit1'],
+                        'CSA PIT 1': ['operator_csapit1', 'gl_csapit1', 'spare_csapit1', 'admin_csapit1', 'skillup_csapit1',],
                         'CSA PIT 2': ['dept_sect_csapit2', 'operator_csapit2', 'gl_csapit2', 'spare_csapit2'],
                         'CSA PIT 3': ['dept_sect_csapit3', 'operator_csapit3', 'gl_csapit3', 'spare_csapit3'],
                         'CSA HRM': [ 'operator_csahrm', 'gl_csahrm', 'spare_csahrm'],
@@ -876,6 +883,11 @@ $(document).ready(function () {
                     'security_meicu': 'SECURITY',
                     'driver_meicu': 'DRIVER',
                     'helper_meicu': 'HELPER',
+
+                    //COE
+                    'mpccr_admccr' : 'ADMIN',
+
+                    'warehouse_pldp' : 'PLDP'
                 };
 
                 let viewContainer = $('#viewDataContainer');
@@ -1051,6 +1063,7 @@ $('.edit').click(function() {
                     'driver' : 'driver',
                     'crew_ssr' : 'crew_ssr',
                     'office_pldp' : 'office_pldp',
+                    'admin_office' : 'admin_office',
                     'drill' : 'drill',
                     'driver_drill' : 'driver_drill',
                     'helper_survey' : 'helper_survey',
@@ -1403,6 +1416,7 @@ $('#copyPreviousData').change(function() {
                         'driver' : 'driver',
                         'crew_ssr' : 'crew_ssr',
                         'office_pldp' : 'office_pldp',
+                        'admin_office' : 'admin_office',
                         'drill' : 'drill',
                         'driver_drill' : 'driver_drill',
                         'helper_survey' : 'helper_survey',
@@ -1724,7 +1738,8 @@ document.querySelectorAll('.delete').forEach(function(link) {
        }).then((result) => {
            if (result.isConfirmed) {
                axios.post('{{ route('delete.catering') }}', {
-                   catering_id: cateringId
+                   catering_id: cateringId,
+                   departemen: departemen
                })
                .then(function (response) {
                    Swal.fire({
