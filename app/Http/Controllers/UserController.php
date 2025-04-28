@@ -68,7 +68,17 @@ class UserController extends Controller
         }
 
         session()->forget('hide_menu');
-        return ($user->id_role == 1 || $user->id_role == 2 || $user->id_role == 5) ? redirect('/complain') : redirect('/dashboard');
+        // return ($user->id_role == 1 || $user->id_role == 2 || $user->id_role == 5 || $user->id_role == 6 || $user->id_role == 7) ? redirect('/complain') : redirect('/dashboard');
+        if ($user->id_role == 6) {
+            return redirect('/catering');
+        } elseif (in_array($user->id_role, [1, 2, 5])) {
+            return redirect('/complain');
+        } elseif (in_array($user->id_role, [7])) {
+            return redirect('/lapcatering');
+        } else {
+            return redirect('/dashboard');
+        }
+
     }
 
 

@@ -125,7 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/lapcateringdept/approval', [LapCateringDeptController::class, 'approval'])->name('approval.catering');
     Route::post('/lapcateringdept/revisi', [LapCateringDeptController::class, 'revisi'])->name('revisi.catering');
     Route::post('/lapcateringdept/send', [LapCateringDeptController::class, 'sendRevisi'])->name('send.revisi');
-    
+
     Route::post('/lapcateringdept/approve-selected', [LapCateringDeptController::class, 'approvalAll'])->name('approvalAll.catering');
 
     //=============================================== Laporan Catering ===============================================
@@ -137,7 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/lapcatering/approval', [LapCateringController::class, 'approval'])->name('approval.catering');
     Route::post('/lapcatering/revisi', [LapCateringController::class, 'revisi'])->name('revisi.catering');
 
-    Route::post('/lapcatering/approve-selected', [LapCateringController::class, 'approvalAll'])->name('approvalAll.catering');
+    //Route::post('/lapcatering/approve-selected', [LapCateringController::class, 'approvalAll'])->name('approvalAll.catering');
     Route::get('/lapcatering/export-excel', [LapCateringController::class, 'exportExcel']);
     Route::get('/lapcatering/export-daily', [LapCateringController::class, 'exportDaily']);
 
