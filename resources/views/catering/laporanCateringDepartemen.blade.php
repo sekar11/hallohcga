@@ -86,9 +86,7 @@
                     <div class="modal-body">
                         @if(in_array(request('departemen'), [
                             'COE', 'HCGA', 'ENG', 'SHE', 'FALOG', 'PROD', 'PLANT',
-                            'Mess A1', 'Mess C3', 'MESS_MEICU', 'Mess Putri', 'MARBOT',
-                            'Mess B1', 'Mess B2', 'Mess B3', 'Mess B4', 'Mess MB5',
-                            'Mess B6', 'Mess B7', 'Mess B8', 'Mess B9', 'Mess B10', 'AMM',
+                            'Mess A1', 'Mess C3', 'MESS_MEICU', 'Mess Putri','MESS','AMM'
                         ]))
 
                         <form id="cateringForm" class="row g-3 needs-validation">
@@ -229,7 +227,7 @@
                                         'driverlv_pitstop' => ['label' => 'Driver', 'name' => 'driverlv_pitstop', 'type' => 'text', 'category' => 'CSA PITSTOP AKADEMI'],
                                         'gl_pitstop' => ['label' => 'GL', 'name' => 'gl_pitstop', 'type' => 'text', 'category' => 'CSA PITSTOP AKADEMI'],
                                         'spare_pitstop' => ['label' => 'Spare', 'name' => 'spare_pitstop', 'type' => 'text', 'category' => 'CSA PITSTOP AKADEMI'],
-                                        'vendor' => ['label' => 'Vendor/Tamu', 'name' => 'vendor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
+                                        'visitor' => ['label' => 'Vendor/Tamu', 'name' => 'visitor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
                                     ],
                                     'HCGA' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
@@ -352,6 +350,37 @@
                                         'mess_b9' => ['label' => 'Mess B9', 'name' => 'mess_b9', 'type' => 'text', 'category' => 'AMM'],
                                         'mess_b10' => ['label' => 'Mess B10', 'name' => 'mess_b10', 'type' => 'text', 'category' => 'AMM'],
                                         'spare_amm' => ['label' => 'Spare AMM', 'name' => 'spare_amm', 'type' => 'text', 'category' => 'AMM']
+                                    ],
+                                    'MESS' => [
+                                        'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
+                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi', 'Siang', 'Sore', 'Malam', 'Tambahan Pagi', 'Tambahan Siang', 'Tambahan Sore', 'Tambahan Malam'], 'category' => 'Waktu'],
+                                        'mess_a1' => ['label' => 'Mess A1', 'name' => 'mess_a1', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_a2' => ['label' => 'Mess A2', 'name' => 'mess_a2', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_c3' => ['label' => 'Mess C3', 'name' => 'mess_c3', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b1' => ['label' => 'Mess B1', 'name' => 'mess_b1', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b2' => ['label' => 'Mess B2', 'name' => 'mess_b2', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b3' => ['label' => 'Mess B3', 'name' => 'mess_b3', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b4' => ['label' => 'Mess B4', 'name' => 'mess_b4', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b5' => ['label' => 'Mess B5', 'name' => 'mess_b5', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b6' => ['label' => 'Mess B6', 'name' => 'mess_b6', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b7' => ['label' => 'Mess B7', 'name' => 'mess_b7', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b8' => ['label' => 'Mess B8', 'name' => 'mess_b8', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b9' => ['label' => 'Mess B9', 'name' => 'mess_b9', 'type' => 'text', 'category' => 'MK'],
+                                        'mess_b10' => ['label' => 'Mess B10', 'name' => 'mess_b10', 'type' => 'text', 'category' => 'MK'],
+                                        'rebusan_a1' => ['label' => 'Rebusan A1', 'name' => 'rebusan_a1', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_a2' => ['label' => 'Rebusan A2', 'name' => 'rebusan_a2', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_c3' => ['label' => 'Rebusan C3', 'name' => 'rebusan_c3', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b1' => ['label' => 'Rebusan B1', 'name' => 'rebusan_b1', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b2' => ['label' => 'Rebusan B2', 'name' => 'rebusan_b2', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b3' => ['label' => 'Rebusan B3', 'name' => 'rebusan_b3', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b4' => ['label' => 'Rebusan B4', 'name' => 'rebusan_b4', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b5' => ['label' => 'Rebusan B5', 'name' => 'rebusan_b5', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b6' => ['label' => 'Rebusan B6', 'name' => 'rebusan_b6', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b7' => ['label' => 'Rebusan B7', 'name' => 'rebusan_b7', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b8' => ['label' => 'Rebusan B8', 'name' => 'rebusan_b8', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b9' => ['label' => 'Rebusan B9', 'name' => 'rebusan_b9', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'rebusan_b10' => ['label' => 'Rebusan B10', 'name' => 'rebusan_b10', 'type' => 'text', 'category' => 'REBUSAN'],
+                                        'spare_mess' => ['label' => 'Spare', 'name' => 'spare_mess', 'type' => 'text', 'category' => 'MK Spare']
                                     ],
                                     'Mess Putri' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
@@ -554,6 +583,7 @@
                             <th scope="col">Waktu</th>
                             <th scope="col">Total Order</th>
                             <th scope="col">Total Order Sebelumnya</th>
+                            <th scope="col">Visitor</th>
                             <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -570,6 +600,7 @@
                             <td>{{ $catering->waktu}}</td>
                             <td>{{ $catering->total}}</td>
                             <td>{{ $catering->total_hari_sebelumnya}}</td>
+                            <td>{{ $catering->visitor}}</td>
                             <td>
                                 @if($catering->status == 1)
                                     <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
@@ -638,10 +669,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Isi dropdown departemen
     const departemenList = [
-        "COE", "HCGA", "ENG", "FALOG", "PROD", "PLANT", "SHE","MARBOT",
-        "Mess Putri", "MESS_MEICU", "Mess A1", "Mess C3",
-        "Mess B1", "Mess B2", "Mess B3", "Mess B4", "Mess B5",
-        "Mess B6", "Mess B7", "Mess B8", "Mess B9", "Mess B10", "AMM"
+        "COE", "HCGA", "ENG", "FALOG", "PROD", "PLANT", "SHE",
+        "Mess Putri", "MESS_MEICU","AMM", "MESS"
     ];
 
     const select = document.getElementById("departemen");
@@ -746,7 +775,7 @@ $(document).ready(function () {
                         'CSA PIT 3': ['dept_sect_csapit3', 'operator_csapit3', 'gl_csapit3', 'spare_csapit3'],
                         'CSA HRM': [ 'operator_csahrm', 'gl_csahrm', 'spare_csahrm'],
                         'CSA PITSTOP AKADEMIN': [ 'driverlv_pitstop', 'gl_pitstop', 'spare_pitstop'],
-                        'Vendor/Tamu': ['vendor']
+                        'Vendor/Tamu': ['visitor']
                     },
                     'HCGA': {
                         'TANGGAL': ['tanggal'],
@@ -815,7 +844,20 @@ $(document).ready(function () {
                         'TOTAL': ['total'],
                         'AMM': [
                             'mess_b1', 'mess_b2', 'mess_b3', 'mess_b4', 'mess_b5',
-                            'mess_b6', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_amm'
+                            'mess_b6', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_amm',
+                        ],
+                    },
+                    'MESS': {
+                        'TANGGAL': ['tanggal'],
+                        'REVISI': ['revisi_desc'],
+                        'TOTAL': ['total'],
+                        'MK': [
+                            'mess_a1','mess_a2','mess_c3','mess_b1', 'mess_b2', 'mess_b3', 'mess_b4', 'mess_b5',
+                            'mess_b6', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_mess',
+                        ],
+                        'REBUSAN': [
+                            'rebusan_b1', 'rebusan_b2', 'rebusan_b3', 'rebusan_b4', 'rebusan_b5',
+                            'rebusan_b6', 'rebusan_b7', 'rebusan_b8', 'rebusan_b9', 'rebusan_b10','rebusan_a1','rebusan_a2','rebusan_c3'
                         ],
                     },
                     'Mess Putri': {
@@ -1146,7 +1188,7 @@ $('.edit').click(function() {
                     'driverlv_pitstop': 'driverlv_pitstop',
                     'gl_pitstop': 'gl_pitstop',
                     'spare_pitstop': 'spare_pitstop',
-                    'vendor': 'vendor'
+                    'visitor': 'visitor'
                 },
                 'PLANT': {
                     'tanggal': 'tanggal',
@@ -1239,6 +1281,37 @@ $('.edit').click(function() {
                     'mess_b10': 'mess_b10',
                     'spare_amm': 'spare_amm',
                 },
+                'MESS': {
+                        'tanggal': 'tanggal',
+                        'waktu': 'waktu',
+                        'mess_a1': 'mess_a1',
+                        'mess_a2': 'mess_a2',
+                        'mess_c3': 'mess_c3',
+                        'mess_b1': 'mess_b1',
+                        'mess_b2': 'mess_b2',
+                        'mess_b3': 'mess_b3',
+                        'mess_b4': 'mess_b4',
+                        'mess_b5': 'mess_b5',
+                        'mess_b6': 'mess_b6',
+                        'mess_b7': 'mess_b7',
+                        'mess_b8': 'mess_b8',
+                        'mess_b9': 'mess_b9',
+                        'mess_b10': 'mess_b10',
+                        'spare_mess': 'spare_mess',
+                        'rebusan_b1': 'rebusan_b1',
+                        'rebusan_b2': 'rebusan_b2',
+                        'rebusan_b3': 'rebusan_b3',
+                        'rebusan_b4': 'rebusan_b4',
+                        'rebusan_b5': 'rebusan_b5',
+                        'rebusan_b6': 'rebusan_b6',
+                        'rebusan_b7': 'rebusan_b7',
+                        'rebusan_b8': 'rebusan_b8',
+                        'rebusan_b9': 'rebusan_b9',
+                        'rebusan_b10': 'rebusan_b10',
+                        'rebusan_a1': 'rebusan_a1',
+                        'rebusan_a2': 'rebusan_a2',
+                        'rebusan_c3': 'rebusan_c3',
+                    },
                 'Mess Putri' : {
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
@@ -1500,7 +1573,7 @@ $('#copyPreviousData').change(function() {
                     'driverlv_pitstop': 'driverlv_pitstop',
                     'gl_pitstop': 'gl_pitstop',
                     'spare_pitstop': 'spare_pitstop',
-                    'vendor': 'vendor'
+                    'visitor': 'visitor'
                     },
                     'PLANT':
                     {
@@ -1737,7 +1810,7 @@ document.querySelectorAll('.delete').forEach(function(link) {
            cancelButtonText: 'Batal'
        }).then((result) => {
            if (result.isConfirmed) {
-               axios.post('{{ route('delete.catering') }}', {
+               axios.post('{{ route('delete.lapcateringdept') }}', {
                    catering_id: cateringId,
                    departemen: departemen
                })

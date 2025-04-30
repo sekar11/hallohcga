@@ -27,6 +27,7 @@ class CateringRepository
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -70,6 +71,7 @@ class CateringRepository
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -128,6 +130,7 @@ class CateringRepository
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -219,6 +222,7 @@ class CateringRepository
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -270,6 +274,7 @@ class CateringRepository
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -350,6 +355,7 @@ class CateringRepository
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {

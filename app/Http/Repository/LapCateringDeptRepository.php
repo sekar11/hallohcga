@@ -26,6 +26,7 @@ class LapCateringDeptRepository
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -73,6 +74,7 @@ class LapCateringDeptRepository
             ->select(
                 't1.id',
                 't1.tanggal',
+                't1.visitor',
                 't1.created_name',
                 't1.waktu',
                 't1.status',
@@ -124,6 +126,7 @@ class LapCateringDeptRepository
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
 
         ];
 
@@ -215,6 +218,7 @@ class LapCateringDeptRepository
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -255,6 +259,7 @@ class LapCateringDeptRepository
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -295,6 +300,7 @@ class LapCateringDeptRepository
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -336,6 +342,7 @@ class LapCateringDeptRepository
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
