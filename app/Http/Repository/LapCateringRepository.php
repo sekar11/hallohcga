@@ -658,13 +658,13 @@ class LapCateringRepository
                 ],
             ],
             'wastu' => [
+                'MK PAGI MESS C 3(DH & SH)' => [
+                    'MESS DH & PJO - MESS SECTION HEAD' => 'pagi_kamar_c3',
+                ],
                 'MK SIANG MESS PUTRI TALANG JAWA' => [
                         'MESS GL PUTRI TALANG JAWA' => 'siang_mess_gl',
                         'MESS ADMIN PUTRI TALANG JAWA' => 'siang_mess_admin',
                         'HELPER MESS PUTRI' => 'siang_helper_mess',
-                    ],
-                'MK PAGI MESS C 3(DH & SH)' => [
-                    'MESS DH & PJO - MESS SECTION HEAD' => 'pagi_kamar_c3',
                 ],
                 'MK SIANG MESS C3 (DH & SH)' => [
                     'MESS DPET/SECT HEAD' => 'siang_kamar_c3',
@@ -693,6 +693,7 @@ class LapCateringRepository
                 ],
                 'MK SIANG MESS TAMBANG' => [
                     'RENCANA MESS GL A1' => 'siang_kamar_a1',
+                    'RENCANA MESS GL A1' => 'siang_kamar_a2',
                     'Rencana Mess B1' => 'siang_kamar_b1',
                     'Rencana Mess B2' => 'siang_kamar_b2',
                     'Rencana Mess B3' => 'siang_kamar_b3',
@@ -805,7 +806,7 @@ class LapCateringRepository
                     'REBUSAN R3'         => 'pagi_rebusan_ruko3',
                     'REBUSAN R4-R5'      => 'pagi_rebusan_ruko45',
                     'VISITOR'            => 'pagi_visitor_hcga',
-                    'MAGANG UGM'         => 'pagi_magang_meicu',
+                    'MAGANG'         => 'pagi_magang_meicu',
                 ],
                 'MK PAGI OFFICE PLANT' => [
                     'VENDOR JMI' => 'pagi_vendor_jmi',
@@ -816,6 +817,7 @@ class LapCateringRepository
                 ],
                 'MK PAGI MESS TAMBANG' => [
                     'Mess Tambang GL A1' => 'pagi_kamar_a1',
+                    'Mess Tambang GL A2' => 'pagi_kamar_a2',
                     'Mess Tambang B1'    => 'pagi_kamar_b1',
                     'Mess Tambang B2'    => 'pagi_kamar_b2',
                     'Mess Tambang B3'    => 'pagi_kamar_b3',
@@ -825,6 +827,7 @@ class LapCateringRepository
                     'Mess Tambang B9'    => 'pagi_kamar_b9',
                     'Mess Tambang B10'   => 'pagi_kamar_b10',
                     'REBUSAN GL A1'      => 'pagi_rebusan_a1',
+                    'REBUSAN GL A2'      => 'pagi_rebusan_a2',
                     'REBUSAN B1'         => 'pagi_rebusan_b1',
                     'REBUSAN B2'         => 'pagi_rebusan_b2',
                     'REBUSAN B3'         => 'pagi_rebusan_b3',
@@ -851,7 +854,7 @@ class LapCateringRepository
                     'Helper Meicu'       => 'sore_helper_meicu',
                     'Bagong'             => 'sore_bagong',
                     'TES PRAKTEK'        => 'sore_test_praktek',
-                    'MAGANG UGM'         => 'sore_magang_meicu',
+                    'MAGANG'         => 'sore_magang_meicu',
                 ],
                 'MK SORE OFFICE PLANT' => [
                     'VENDOR JMI (ENG)' => 'siang_vendor_jmi',
@@ -1011,6 +1014,7 @@ class LapCateringRepository
                 ],
                 'MK SIANG MESS TAMBANG' => [
                     'RENCANA MESS GL A1' => 'siang_kamar_a1',
+                    'RENCANA MESS GL A2' => 'siang_kamar_a2',
                     'Rencana Mess B1' => 'siang_kamar_b1',
                     'Rencana Mess B2' => 'siang_kamar_b2',
                     'Rencana Mess B3' => 'siang_kamar_b3',
@@ -1124,7 +1128,7 @@ class LapCateringRepository
                     'REBUSAN R3'         => 'pagi_rebusan_ruko3',
                     'REBUSAN R4-R5'      => 'pagi_rebusan_ruko45',
                     'VISITOR'            => 'pagi_visitor_hcga',
-                    'MAGANG UGM'         => 'pagi_magang_meicu',
+                    'MAGANG'             => 'pagi_magang_meicu',
                 ],
                 'MK PAGI OFFICE PLANT' => [
                     'VENDOR JMI' => 'pagi_vendor_jmi',
@@ -1135,6 +1139,7 @@ class LapCateringRepository
                 ],
                 'MK PAGI MESS TAMBANG' => [
                     'Mess Tambang GL A1' => 'pagi_kamar_a1',
+                    'Mess Tambang GL A2' => 'pagi_kamar_a2',
                     'Mess Tambang B1'    => 'pagi_kamar_b1',
                     'Mess Tambang B2'    => 'pagi_kamar_b2',
                     'Mess Tambang B3'    => 'pagi_kamar_b3',
@@ -1144,6 +1149,7 @@ class LapCateringRepository
                     'Mess Tambang B9'    => 'pagi_kamar_b9',
                     'Mess Tambang B10'   => 'pagi_kamar_b10',
                     'REBUSAN GL A1'      => 'pagi_rebusan_a1',
+                    'REBUSAN GL A2'      => 'pagi_rebusan_a2',
                     'REBUSAN B1'         => 'pagi_rebusan_b1',
                     'REBUSAN B2'         => 'pagi_rebusan_b2',
                     'REBUSAN B3'         => 'pagi_rebusan_b3',
@@ -1170,7 +1176,7 @@ class LapCateringRepository
                     'Helper Meicu'       => 'sore_helper_meicu',
                     'Bagong'             => 'sore_bagong',
                     'TES PRAKTEK'        => 'sore_test_praktek',
-                    'MAGANG UGM'         => 'sore_magang_meicu',
+                    'MAGANG'         => 'sore_magang_meicu',
                 ],
                 'MK SORE OFFICE PLANT' => [
                     'VENDOR JMI (ENG)' => 'sore_vendor_jmi',

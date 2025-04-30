@@ -668,7 +668,7 @@ class LapCateringController extends Controller
         if (auth()->user()->id_role == 7) {
             $userTeam = strtoupper(auth()->user()->tim_pic);
         } else {
-            $$userTeam = strtoupper($request->input('catering_export'));
+            $userTeam = strtoupper($request->input('catering_export'));
         }
 
         $jenisExport = strtoupper($request->input('jenis_data'));

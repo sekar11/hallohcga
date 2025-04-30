@@ -38,6 +38,7 @@ class CateringController extends Controller
             'A1' => 'mk_mess_a1',
             'C3' => 'mk_mess_c3',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
             'MESS_MEICU' => 'mk_mess_meicu',
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
@@ -236,7 +237,7 @@ class CateringController extends Controller
                 'driverlv_pitstop' => 'driverlv_pitstop',
                 'gl_pitstop' => 'gl_pitstop',
                 'spare_pitstop' => 'spare_pitstop',
-                'vendor' => 'vendor',
+                'visitor' => 'visitor',
             ],
             'PLANT' => [
                 'tanggal' => 'tanggal',
@@ -304,6 +305,37 @@ class CateringController extends Controller
                 'mess_b9' => 'mess_b9',
                 'mess_b10' => 'mess_b10',
                 'spare_amm'=> 'spare_amm',
+            ],
+            'MESS' => [
+                'tanggal' => 'tanggal',
+                'waktu' => 'waktu',
+                'mess_a1' => 'mess_a1',
+                'mess_a2' => 'mess_a2',
+                'mess_c3' => 'mess_c3',
+                'mess_b1' => 'mess_b1',
+                'mess_b2' => 'mess_b2',
+                'mess_b3' => 'mess_b3',
+                'mess_b4' => 'mess_b4',
+                'mess_b5' => 'mess_b5',
+                'mess_b6' => 'mess_b6',
+                'mess_b7' => 'mess_b7',
+                'mess_b8' => 'mess_b8',
+                'mess_b9' => 'mess_b9',
+                'mess_b10' => 'mess_b10',
+                'rebusan_b1' => 'rebusan_b1',
+                'rebusan_b2' => 'rebusan_b2',
+                'rebusan_b3' => 'rebusan_b3',
+                'rebusan_b4' => 'rebusan_b4',
+                'rebusan_b5' => 'rebusan_b5',
+                'rebusan_b6' => 'rebusan_b6',
+                'rebusan_b7' => 'rebusan_b7',
+                'rebusan_b8' => 'rebusan_b8',
+                'rebusan_b9' => 'rebusan_b9',
+                'rebusan_b10' => 'rebusan_b10',
+                'rebusan_a1' => 'rebusan_a1',
+                'rebusan_a2' => 'rebusan_a2',
+                'rebusan_c3' => 'rebusan_c3',
+                'spare_mess'=> 'spare_mess',
             ],
             'MESS_PUTRI' => [
                 'tanggal' => 'tanggal',
@@ -410,6 +442,7 @@ class CateringController extends Controller
             'A1' => 'mk_mess_a1',
             'C3' => 'mk_mess_c3',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
             'MESS_MEICU' => 'mk_mess_meicu',
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
@@ -589,7 +622,7 @@ class CateringController extends Controller
                 'driverlv_pitstop' => 'driverlv_pitstop',
                 'gl_pitstop' => 'gl_pitstop',
                 'spare_pitstop' => 'spare_pitstop',
-                'vendor' => 'vendor',
+                'visitor' => 'visitor',
             ],
             'PLANT' => [
                 'tanggal' => 'tanggal',
@@ -657,6 +690,37 @@ class CateringController extends Controller
                 'mess_b9' => 'mess_b9',
                 'mess_b10' => 'mess_b10',
                 'spare_amm'=> 'spare_amm',
+            ],
+           'MESS' => [
+                'tanggal' => 'tanggal',
+                'waktu' => 'waktu',
+                'mess_a1' => 'mess_a1',
+                'mess_a2' => 'mess_a2',
+                'mess_c3' => 'mess_c3',
+                'mess_b1' => 'mess_b1',
+                'mess_b2' => 'mess_b2',
+                'mess_b3' => 'mess_b3',
+                'mess_b4' => 'mess_b4',
+                'mess_b5' => 'mess_b5',
+                'mess_b6' => 'mess_b6',
+                'mess_b7' => 'mess_b7',
+                'mess_b8' => 'mess_b8',
+                'mess_b9' => 'mess_b9',
+                'mess_b10' => 'mess_b10',
+                'rebusan_b1' => 'rebusan_b1',
+                'rebusan_b2' => 'rebusan_b2',
+                'rebusan_b3' => 'rebusan_b3',
+                'rebusan_b4' => 'rebusan_b4',
+                'rebusan_b5' => 'rebusan_b5',
+                'rebusan_b6' => 'rebusan_b6',
+                'rebusan_b7' => 'rebusan_b7',
+                'rebusan_b8' => 'rebusan_b8',
+                'rebusan_b9' => 'rebusan_b9',
+                'rebusan_b10' => 'rebusan_b10',
+                'rebusan_a1' => 'rebusan_a1',
+                'rebusan_a2' => 'rebusan_a2',
+                'rebusan_c3' => 'rebusan_c3',
+                'spare_mess'=> 'spare_mess',
             ],
             'MESS_PUTRI' => [
                 'tanggal' => 'tanggal',
@@ -757,6 +821,7 @@ class CateringController extends Controller
             'A1' => 'mk_mess_a1',
             'C3' => 'mk_mess_c3',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
             'MESS_MEICU' => 'mk_mess_meicu',
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
@@ -835,7 +900,7 @@ class CateringController extends Controller
     {
         //dd($request->all());
         $userTeam = auth()->user()->tim_pic;
-        $tanggal = $request->query('tanggal_export');
+        $tanggal = $request->query('tanggal');
 
         if (!$tanggal) {
             return response()->json(['status' => 'error', 'message' => 'Tanggal tidak ditemukan.'], 400);
@@ -855,6 +920,7 @@ class CateringController extends Controller
             'MESS_PUTRI' => 'template_mess_putri.docx',
             'MARBOT' => 'template_marbot.docx',
             'AMM' => 'template_amm.docx',
+            'MESS' => 'template_mess.docx',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -877,6 +943,7 @@ class CateringController extends Controller
             $userTeam === 'A1' => 'mk_mess_a1',
             $userTeam === 'C3' => 'mk_mess_c3',
             $userTeam === 'AMM' => 'mk_mess_amm',
+            $userTeam === 'MESS' => 'mk_mess',
             str_starts_with($userTeam, 'B') => 'mk_mess_' . strtolower($userTeam),
             default => 'mk_' . strtolower($userTeam),
         };

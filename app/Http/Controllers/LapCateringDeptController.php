@@ -21,7 +21,7 @@ class LapCateringDeptController extends Controller
 
     public function create(Request $request)
     {
-
+        //dd($request->all());
         $startDate = $request->input('start_date', now()->addDay()->format('Y-m-d'));
         $endDate = $request->input('end_date', now()->addDay()->format('Y-m-d'));
         $selectedDept = $request->input('departemen', 'HCGA');
@@ -44,6 +44,7 @@ class LapCateringDeptController extends Controller
             'Mess C3' => 'mk_mess_c3',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -59,7 +60,7 @@ class LapCateringDeptController extends Controller
         $columns = Schema::getColumnListing($tableName);
 
         $cateringData = $this->LapCateringDeptRepository->getData($tableName, $startDate, $endDate);
-
+        //dd($cateringData);
         return view('catering.laporanCateringDepartemen', compact('columns', 'tableName', 'cateringData', 'startDate', 'endDate', 'selectedDept'));
     }
 
@@ -232,7 +233,7 @@ class LapCateringDeptController extends Controller
                 'driverlv_pitstop' => 'driverlv_pitstop',
                 'gl_pitstop' => 'gl_pitstop',
                 'spare_pitstop' => 'spare_pitstop',
-                'vendor' => 'vendor',
+                'visitor' => 'visitor',
             ],
             'PLANT' => [
                 'tanggal' => 'tanggal',
@@ -307,6 +308,37 @@ class LapCateringDeptController extends Controller
                 'mess_b9' => 'mess_b9',
                 'mess_b10' => 'mess_b10',
                 'spare_amm'=> 'spare_amm',
+            ],
+            'MESS' => [
+                'tanggal' => 'tanggal',
+                'waktu' => 'waktu',
+                'mess_a1' => 'mess_a1',
+                'mess_a2' => 'mess_a2',
+                'mess_c3' => 'mess_c3',
+                'mess_b1' => 'mess_b1',
+                'mess_b2' => 'mess_b2',
+                'mess_b3' => 'mess_b3',
+                'mess_b4' => 'mess_b4',
+                'mess_b5' => 'mess_b5',
+                'mess_b6' => 'mess_b6',
+                'mess_b7' => 'mess_b7',
+                'mess_b8' => 'mess_b8',
+                'mess_b9' => 'mess_b9',
+                'mess_b10' => 'mess_b10',
+                'rebusan_b1' => 'rebusan_b1',
+                'rebusan_b2' => 'rebusan_b2',
+                'rebusan_b3' => 'rebusan_b3',
+                'rebusan_b4' => 'rebusan_b4',
+                'rebusan_b5' => 'rebusan_b5',
+                'rebusan_b6' => 'rebusan_b6',
+                'rebusan_b7' => 'rebusan_b7',
+                'rebusan_b8' => 'rebusan_b8',
+                'rebusan_b9' => 'rebusan_b9',
+                'rebusan_b10' => 'rebusan_b10',
+                'rebusan_a1' => 'rebusan_a1',
+                'rebusan_a2' => 'rebusan_a2',
+                'rebusan_c3' => 'rebusan_c3',
+                'spare_mess'=> 'spare_mess',
             ],
             'Mess Putri' => [
                 'tanggal' => 'tanggal',
@@ -410,6 +442,7 @@ class LapCateringDeptController extends Controller
             'Mess Putri' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
@@ -584,7 +617,7 @@ class LapCateringDeptController extends Controller
                 'driverlv_pitstop' => 'driverlv_pitstop',
                 'gl_pitstop' => 'gl_pitstop',
                 'spare_pitstop' => 'spare_pitstop',
-                'vendor' => 'vendor',
+                'visitor' => 'visitor',
             ],
             'PLANT' => [
                 'tanggal' => 'tanggal',
@@ -659,6 +692,37 @@ class LapCateringDeptController extends Controller
                 'mess_b9' => 'mess_b9',
                 'mess_b10' => 'mess_b10',
                 'spare_amm' => 'spare_amm',
+            ],
+            'MESS' => [
+                'tanggal' => 'tanggal',
+                'waktu' => 'waktu',
+                'mess_a1' => 'mess_a1',
+                'mess_a2' => 'mess_a2',
+                'mess_c3' => 'mess_c3',
+                'mess_b1' => 'mess_b1',
+                'mess_b2' => 'mess_b2',
+                'mess_b3' => 'mess_b3',
+                'mess_b4' => 'mess_b4',
+                'mess_b5' => 'mess_b5',
+                'mess_b6' => 'mess_b6',
+                'mess_b7' => 'mess_b7',
+                'mess_b8' => 'mess_b8',
+                'mess_b9' => 'mess_b9',
+                'mess_b10' => 'mess_b10',
+                'rebusan_b1' => 'rebusan_b1',
+                'rebusan_b2' => 'rebusan_b2',
+                'rebusan_b3' => 'rebusan_b3',
+                'rebusan_b4' => 'rebusan_b4',
+                'rebusan_b5' => 'rebusan_b5',
+                'rebusan_b6' => 'rebusan_b6',
+                'rebusan_b7' => 'rebusan_b7',
+                'rebusan_b8' => 'rebusan_b8',
+                'rebusan_b9' => 'rebusan_b9',
+                'rebusan_b10' => 'rebusan_b10',
+                'rebusan_a1' => 'rebusan_a1',
+                'rebusan_a2' => 'rebusan_a2',
+                'rebusan_c3' => 'rebusan_c3',
+                'spare_mess'=> 'spare_mess',
             ],
             'Mess Putri' => [
                 'tanggal' => 'tanggal',
@@ -739,8 +803,9 @@ class LapCateringDeptController extends Controller
 
     public function delete(Request $request)
     {
+
         $selectedUserId = $request->input('catering_id');
-        $userTeam = auth()->user()->tim_pic;
+        $userTeam = request('departemen');
         $tableMapping = [
             'COE' => 'mk_coe',
             'HCGA' => 'mk_hcga',
@@ -753,6 +818,7 @@ class LapCateringDeptController extends Controller
             'MESS_MEICU' => 'mk_mess_meicu',
             'Mess Putri' => 'mk_mess_putri',
             'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
         ];
 
         foreach (range(1, 10) as $i) {
