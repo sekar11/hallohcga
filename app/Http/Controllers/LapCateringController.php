@@ -98,6 +98,7 @@ class LapCateringController extends Controller
                 'MK SIANG DEPTHEAD & PJO' => ['Dept.Head ENG ★(Office Plant)', 'TAMU HO COE ★(Office Plant)', 'PJO ★(Office Plant)', 'Dept.Head Produksi ★(CSA PIT 1)', 'Dept Head SHE ★(CSA PIT 1)', 'Dept.Head PLANT ★(WORKSHOP)', 'Dept.Head PLANT ★(PITSTOP)'],
                 'OFFICE PLANT SIANG' => ['Driver Bus Jum\'atan', 'COE OFFICE ( CCR,MOCO)', 'SectHead COE', 'PLANT', 'Section Head PLANT', 'SECURITY PATROL', 'HCGA', 'Section Head HCGA', 'DRIVER HCGA (88,01)', 'SERTIFIKASI HCGA', 'Produksi', 'Driver Engineering', 'Sect.Head ENG', 'Engineering'],
                 'MK SORE MESS DH & SH (PPA RESIDANCE)' => ['MESS DH & PJO', 'MESS SECTION HEAD'],
+                
 
             ],
 
@@ -513,7 +514,14 @@ class LapCateringController extends Controller
             'malam_security_pit1'             => 100,
             'malam_security_pit3'             => 101,
             'malam_security_anjungan'         => 102,
-            'malam_security_laundry'          => 103
+            'malam_security_laundry'          => 103,
+            'malam_security_plant'        => 105,
+            'malam_security_patrol'       => 106,
+            'malam_base_control'          => 107,
+            'malam_eng_plant'             => 108,
+            'malam_coe_office'            => 109,
+
+
         ];
 
         $lokasiMappingBintang = [
