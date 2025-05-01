@@ -287,68 +287,6 @@ class LapCateringRepository
         return 'Data Complain berhasil di "Revisi"';
     }
 
-    // public function getCateringFitri($month, $year, $catering)
-    // {
-    //     // Mapping tabel berdasarkan catering
-    //     $cateringTables = [
-    //         'FITRI' => 'catering_fitri',
-    //         'WASTU' => 'catering_wastu',
-    //         'BINTANG' => 'catering_bintang'
-    //     ];
-
-    //     // Mapping kolom berdasarkan catering
-    //     $cateringColumns = [
-    //         'FITRI' => [
-    //             'tanggal' => 'tanggal',
-    //             'produksi_pit_1' => 'prod_csa_pit1',
-    //             'section_head_anjungan_pit_1' => 'section_head_pit1',
-    //             'prod_pit2' => 'prod_pit2',
-    //             'sect_head_produksi_pit_2' => 'section_head_pit2'
-    //         ],
-    //         'WASTU' => [
-    //             'tanggal' => 'tgl',
-    //             'produksi_pit_1' => 'pit1_prod',
-    //             'section_head_anjungan_pit_1' => 'pit1_head',
-    //             'prod_pit2' => 'pit2_prod',
-    //             'sect_head_produksi_pit_2' => 'pit2_head'
-    //         ],
-    //         'BINTANG' => [
-    //             'tanggal' => 'date',
-    //             'produksi_pit_1' => 'p1_prod',
-    //             'section_head_anjungan_pit_1' => 'p1_sect_head',
-    //             'prod_pit2' => 'p2_prod',
-    //             'sect_head_produksi_pit_2' => 'p2_sect_head'
-    //         ]
-    //     ];
-
-    //     // Pastikan catering tersedia dalam mapping
-    //     if (!isset($cateringTables[$catering]) || !isset($cateringColumns[$catering])) {
-    //         return collect(); // Return collection kosong jika catering tidak valid
-    //     }
-
-    //     // Ambil tabel dan kolom yang sesuai
-    //     $table = $cateringTables[$catering];
-    //     $columns = $cateringColumns[$catering];
-
-    //     // Bangun query dengan kolom yang sesuai
-    //     $query = DB::table($table)
-    //         ->select(DB::raw("DATE({$columns['tanggal']}) as tanggal"));
-
-    //     // Tambahkan kolom SUM hanya jika tersedia di mapping
-    //     foreach ($columns as $alias => $colName) {
-    //         if ($alias !== 'tanggal') {
-    //             $query->addSelect(DB::raw("SUM($colName) as $alias"));
-    //         }
-    //     }
-
-    //     // Tambahkan filter bulan dan tahun
-    //     $query->whereMonth($columns['tanggal'], $month)
-    //         ->whereYear($columns['tanggal'], $year)
-    //         ->groupBy(DB::raw("DATE({$columns['tanggal']})"));
-
-    //     return $query->get();
-    // }
-
     public function getCateringFitri($month, $year, $catering)
     {
         $cateringTables = [
@@ -468,7 +406,11 @@ class LapCateringRepository
                 'malam_security_pit3' => 'malam_security_pit3',
                 'malam_security_anjungan' => 'malam_security_anjungan',
                 'malam_security_laundry' => 'malam_security_laundry',
-
+                'malam_security_plant'       => 'malam_security_plant',
+                'malam_security_patrol'      => 'malam_security_patrol',
+                'malam_base_control'         => 'malam_base_control',
+                'malam_eng_plant'            => 'malam_eng_plant',
+                'malam_coe_office'           => 'malam_coe_office',
 
             ],
             'BINTANG' => [
@@ -637,7 +579,6 @@ class LapCateringRepository
         return $result->get();
     }
 
-
     public function getCateringData($date, $categories, $cateringName)
     {
         $tableName = 'catering_' . strtolower($cateringName);
@@ -756,7 +697,6 @@ class LapCateringRepository
                     'MESS DH & PJO - MESS SECTION HEAD' => 'sore_kamar_c3',
 
                 ],
-                'SNACK TAMBANG MALAM' => [],
                 'MK TAMBANG MALAM' => [
                     'Plant Pitstop' => 'malam_plant_pitstop',
                     'DRIVER PLANT PITSTOP' => 'malam_driver_plant',
@@ -788,6 +728,13 @@ class LapCateringRepository
                     'Security Pit 3' => 'malam_security_pit3', // BELUM
                     'Security anjungan' => 'malam_security_anjungan', // BELUM
                     'SECURITY LAUNDRY KARTIKA' => 'malam_security_laundry',
+                ],
+                'SNACK OFFICE PLANT MALAM' => [
+                    'Security'             => 'malam_security_plant',
+                    'SECURITY PATROL'      => 'malam_security_patrol',
+                    'PLANT'                => 'malam_base_control',
+                    'ENGINEERING'          => 'malam_eng_plant',
+                    'COE - CCR'            => 'malam_coe_office',
                 ],
             ],
             'bintang' => [
@@ -965,19 +912,6 @@ class LapCateringRepository
                     'PRODUKSI CSA HRM SKILL UP (ACADEMY)' => 'prod_csahrm',
                 ],
             ],
-            // 'wastu' => [
-            //     'MK SIANG MESS PUTRI TALANG JAWA' => [
-            //             'MESS GL PUTRI TALANG JAWA' => 'siang_mess_gl',
-            //             'MESS ADMIN PUTRI TALANG JAWA' => 'siang_mess_admin',
-            //             'HELPER MESS PUTRI' => 'siang_helper_mess',
-            //         ],
-            //     'MK PAGI MESS C 3(DH & SH)' => [
-            //         'MESS DH & PJO - MESS SECTION HEAD' => 'pagi_kamar_c3',
-            //     ],
-            //     'MK SIANG MESS C1 (DH & SH)' => [
-            //         'MESS SECTION HEAD' => 'pagi_kamar_c3',
-            //     ],
-            // ],
             'wastu' => [
                 'MK PAGI MESS C 3(DH & SH)' => [
                     'MESS DH & PJO - MESS SECTION HEAD' => 'pagi_kamar_c3',
@@ -1077,7 +1011,6 @@ class LapCateringRepository
                     'MESS DH & PJO - MESS SECTION HEAD' => 'sore_kamar_c3',
 
                 ],
-                'SNACK TAMBANG MALAM' => [],
                 'MK TAMBANG MALAM' => [
                     'Plant Pitstop' => 'malam_plant_pitstop',
                     'DRIVER PLANT PITSTOP' => 'malam_driver_plant',
@@ -1109,6 +1042,13 @@ class LapCateringRepository
                     'Security Pit 3' => 'malam_security_pit3', // BELUM
                     'Security anjungan' => 'security_anjungan', // BELUM
                     'SECURITY LAUNDRY KARTIKA' => 'malam_security_laundry',
+                ],
+                'SNACK OFFICE PLANT MALAM' => [
+                    'Security'             => 'malam_security_plant',
+                    'SECURITY PATROL'      => 'malam_security_patrol',
+                    'PLANT'                => 'malam_base_control',
+                    'ENGINEERING'          => 'malam_eng_plant',
+                    'COE - CCR'            => 'malam_coe_office',
                 ],
             ],
 
