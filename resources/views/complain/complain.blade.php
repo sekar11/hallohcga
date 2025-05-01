@@ -578,8 +578,8 @@
               </div>
               <!--end::Modal Validasi Crew-->
               <!-- Table with stripped rows -->
-              <div class="">
-              <table class="table dt_complain responsive-table" id="datatable">
+              <div class="table-responsive">
+              <table class="table dt_complain responsive" id="datatable">
                 <thead>
                   <tr>
                     <th scope="col">No</th>
