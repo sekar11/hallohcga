@@ -249,8 +249,8 @@
                                         'marbot' => ['label' => 'Marbot', 'name' => 'marbot', 'type' => 'text', 'category' => 'MARBOT'],
                                         'laundry' => ['label' => 'Laundry', 'name' => 'laundry', 'type' => 'text', 'category' => 'LAUNDRY KARTIKA'],
                                         'security_laundry' => ['label' => 'Security Laundry', 'name' => 'security_laundry', 'type' => 'text', 'category' => 'LAUNDRY KARTIKA'],
-                                        'security_pit1' => ['label' => 'Security Pit 2', 'name' => 'security_pit1', 'type' => 'text', 'category' => 'SECURITY'],
-                                        'security_pit3' => ['label' => 'Security Pit 3', 'name' => 'security_pit3', 'type' => 'text', 'category' => 'SECURITY'],
+                                        'security_pit1' => ['label' => 'Security PIT 2 ROSELA', 'name' => 'security_pit1', 'type' => 'text', 'category' => 'SECURITY'],
+                                        'security_pit3' => ['label' => 'Security PIT 3', 'name' => 'security_pit3', 'type' => 'text', 'category' => 'SECURITY'],
                                         'security_anjungan' => ['label' => 'Security Anjungan', 'name' => 'security_anjungan', 'type' => 'text', 'category' => 'SECURITY'],
                                         'test_praktek_csapit' => ['label' => 'Test Praktek CSA PIT 1', 'name' => 'test_praktek_csapit', 'type' => 'text', 'category' => 'TEST PRAKTEK CSA PIT 1'],
                                         'visitor' => ['label' => 'Vendor/Tamu', 'name' => 'visitor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
@@ -484,6 +484,161 @@
                 </div>
                 </div>
                 {{-- End Modal Add --}}
+
+                <!-- Modal Add SNACK-->
+                <div class="modal fade modal_add_snack" id="cateringSnackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="btn-add">Add Snack</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{-- <input type="hidden" name="_token" value="{{{ csrf_token() }}}" /> --}}
+                            <input type="hidden" name="id" id="id"/>
+                            <form class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
+                            @csrf
+                                <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="tanggal_add_snack" name="tanggal_add_snack" placeholder="Tanggal" readonly>
+                                    <label for="message-text">Tanggal </label>
+                                </div>
+                                </div>
+                                <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="snack_biasa_add" name="snack_biasa_add" placeholder="Snack Biasa">
+                                    <label for="message-text">Snack Biasa</label>
+                                </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="snack_spesial_add" name="snack_spesial_add" placeholder="Snack Spesial">
+                                        <label for="message-text">Snack Spesial</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="parcel_buah_add" name="parcel_buah_add" placeholder="Parcel">
+                                        <label for="message-text">Parcel Buah Biasa</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="parcel_spesial_add" name="parcel_spesial_add" placeholder="Parcel">
+                                        <label for="message-text">Parcel Buah Spesial</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="pempek_add" name="pempek_add" placeholder="Pempek">
+                                        <label for="message-text">Pempek</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="kopi_add" name="kopi_add" placeholder="Kopi">
+                                        <label for="message-text">Kopi Iglo</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="jahe_add" name="jahe_add" placeholder="Jahe">
+                                        <label for="message-text">Wedang Jahe Iglo</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="jahe_add" name="teh_add" placeholder="Teh">
+                                        <label for="message-text">Teh Iglo</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="aqua_cup_add" name="aqua_cup_add" placeholder="Aqua">
+                                        <label for="message-text">Aqua Cup 220 ml</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="aqua_330_add" name="aqua_330_add" placeholder="Aqua">
+                                        <label for="message-text">Aqua Botol 330 ml</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="aqua_660_add" name="aqua_660_add" placeholder="Aqua">
+                                        <label for="message-text">Aqua Botol 660 ml</label>
+                                    </div>
+                                </div>
+                                @if(auth()->user()->tim_pic == 'PROD')
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="bubur_add" name="bubur_add" placeholder="Bubur">
+                                        <label for="message-text">Bubur Jubaidah</label>
+                                    </div>
+                                </div>
+                                @endif
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-yes-add-snack">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <div id="loading-spinner" >
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- End Modal Add --}}
+
+                <!--Modal Add MK Spesial-->
+                <div class="modal fade modal_add_spesial" id="cateringSpesialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add MK Spesial</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="kt-form kt-form--label-right form_validasi"method="POST" enctype="multipart/form-data" autocomplete="off">
+                            @csrf
+
+                              <!-- Input Kategori -->
+                              <div class="col-md-12">
+                                <div class="form-floating">
+                                  <label for="kategori" class="form-control"</label>
+                                  <select class="form-control" id="spesial_add" name="spesial_add">
+                                      <option value="">- Pilih Mk Spesial -</option>
+                                      <option value="prasmanan">Prasmanan</option>
+                                      <option value="ayam_bakar">Civil</option>
+                                      <option value="nasi_liwet">MEP</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="jumlah_spesial_add" name="jumlah_spesial_add" placeholder="Jumlah">
+                                    <label for="message-text">Jumlah</label>
+                                </div>
+
+                               </div>
+
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn-yes-jumlah-spesial">Kirim</button>
+                            <div id="loading-spinner" >
+                                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal Revisi-->
 
                 <!-- Modal -->
                 <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
@@ -843,6 +998,8 @@ $(document).ready(function () {
                     'admin_ga_meicu': 'ADMIN GA',
                     'gl_ga_meicu': 'GL GA',
                     'security_meicu': 'SECURITY',
+                    'security_pit1': 'SECURITY PIT 2 ROSELA',
+                    'security_pit3': 'SECURITY PIT 3',
                     'driver_meicu': 'DRIVER',
                     'helper_meicu': 'HELPER',
 

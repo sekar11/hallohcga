@@ -271,8 +271,8 @@
                                         'marbot' => ['label' => 'Marbot', 'name' => 'marbot', 'type' => 'text', 'category' => 'MARBOT'],
                                         'laundry' => ['label' => 'Laundry', 'name' => 'laundry', 'type' => 'text', 'category' => 'LAUNDRY KARTIKA'],
                                         'security_laundry' => ['label' => 'Security Laundry', 'name' => 'security_laundry', 'type' => 'text', 'category' => 'LAUNDRY KARTIKA'],
-                                        'security_pit1' => ['label' => 'Security Pit 1', 'name' => 'security_pit1', 'type' => 'text', 'category' => 'SECURITY'],
-                                        'security_pit3' => ['label' => 'Security Pit 3', 'name' => 'security_pit3', 'type' => 'text', 'category' => 'SECURITY'],
+                                        'security_pit1' => ['label' => 'Security PIT 2 ROSELA', 'name' => 'security_pit1', 'type' => 'text', 'category' => 'SECURITY'],
+                                        'security_pit3' => ['label' => 'Security PIT 3', 'name' => 'security_pit3', 'type' => 'text', 'category' => 'SECURITY'],
                                         'security_anjungan' => ['label' => 'Security Anjungan', 'name' => 'security_anjungan', 'type' => 'text', 'category' => 'SECURITY'],
                                         'test_praktek_csapit' => ['label' => 'Test Praktek CSA PIT 1', 'name' => 'test_praktek_csapit', 'type' => 'text', 'category' => 'TEST PRAKTEK CSA PIT 1'],
                                         'visitor' => ['label' => 'Vendor/Tamu', 'name' => 'visitor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
@@ -923,6 +923,8 @@ $(document).ready(function () {
                     'admin_ga_meicu': 'ADMIN GA',
                     'gl_ga_meicu': 'GL GA',
                     'security_meicu': 'SECURITY',
+                    'security_pit1': 'SECURITY PIT 2 ROSELA',
+                    'security_pit3': 'SECURITY PIT 3',
                     'driver_meicu': 'DRIVER',
                     'helper_meicu': 'HELPER',
 
@@ -944,7 +946,7 @@ $(document).ready(function () {
                             rows.push({
                                 waktu: response['waktu'] ?? '-',
                                 category: category,
-                                tempat: field,
+                                tempat: placeLabels[field] || formatLabel(field),
                                 total: response[field] ?? '-'
                             });
                         }
