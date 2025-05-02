@@ -391,7 +391,7 @@ class LapCateringController extends Controller
 
         $data = $this->LapCateringRepository->getCateringFitri($month, $year, $catering);
 
-        $templatePath = storage_path("app/public/{$catering}.xlsx");
+        $templatePath = resource_path("template/{$catering}.xlsx");
         if (!file_exists($templatePath)) {
             return response()->json(['error' => 'Template not found'], 404);
         }
@@ -704,7 +704,7 @@ class LapCateringController extends Controller
             ], 404);
         }
 
-        $templatePath = storage_path("app/public/" . $templateMapping[$jenisExport][$userTeam]);
+        $templatePath = resource_path("template/" . $templateMapping[$jenisExport][$userTeam]);
 
         // Cek apakah file template ada
         if (!file_exists($templatePath)) {
@@ -828,7 +828,7 @@ class LapCateringController extends Controller
         $totalHarga = 0;
 
         // Path ke template Word
-        $templatePath = storage_path('app/public/invoice_preview.docx');
+        $templatePath = resource_path('template/invoice_preview.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
 
         // Set nilai bulan dan tahun
@@ -890,7 +890,7 @@ class LapCateringController extends Controller
 
         $totalHarga = 0;
 
-        $templatePath = storage_path('app/public/invoice_preview.docx');
+        $templatePath = resource_path('template/invoice_preview.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
 
         $templateProcessor->setValue('bulan', date('F', mktime(0, 0, 0, $month, 1)));
@@ -909,7 +909,7 @@ class LapCateringController extends Controller
 
         $templateProcessor->setValue('total_harga', number_format($totalHarga, 0, ',', '.'));
 
-        $outputPath = storage_path("app/public/invoice_preview.docx");
+        $outputPath = resource_path("template/invoice_preview.docx");
         if (file_exists($outputPath)) {
             unlink($outputPath);
         }

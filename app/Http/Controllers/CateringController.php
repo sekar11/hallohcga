@@ -150,7 +150,7 @@ class CateringController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
-                'admin_office' => 'admin_office',
+                //'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'helper_survey' => 'helper_survey',
@@ -931,7 +931,7 @@ class CateringController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Template tidak ditemukan untuk tim ini.'], 404);
         }
 
-        $templatePath = storage_path("app/public/" . $templateMapping[$userTeam]);
+        $templatePath = resource_path("template/" . $templateMapping[$userTeam]);
 
         if (!file_exists($templatePath)) {
             return response()->json(['status' => 'error', 'message' => 'Template tidak ditemukan.'], 404);
@@ -992,21 +992,39 @@ class CateringController extends Controller
         }
 
         // Gunakan default 0 jika tidak ada data (pastikan kolom tetap terisi)
+        // foreach (array_merge($mainTimes, $extraTimes) as $waktu) {
+        //     foreach ($columns as $column => $_) {
+        //         $key = "{$waktu}_{$column}";
+        //         $value = $dataByWaktu[$key] ?? '-';
+        //         $templateProcessor->setValue($key, ($value === null || $value === '') ? '-' : $value);
+        //     }
+        // }
+
         foreach (array_merge($mainTimes, $extraTimes) as $waktu) {
             foreach ($columns as $column => $_) {
                 $key = "{$waktu}_{$column}";
                 $value = $dataByWaktu[$key] ?? '-';
-                $templateProcessor->setValue($key, ($value === null || $value === '') ? '-' : $value);
+                $templateProcessor->setValue($key, in_array($value, [null, '', 0], true) ? '-' : $value);
             }
         }
 
+        // foreach ($columns as $column => $_) {
+        //     $value = $totals[$column] ?? '-';
+        //     $templateProcessor->setValue("total_{$column}", ($value === null || $value === '') ? '-' : $value);
+        // }
+
         foreach ($columns as $column => $_) {
             $value = $totals[$column] ?? '-';
-            $templateProcessor->setValue("total_{$column}", ($value === null || $value === '') ? '-' : $value);
+            $templateProcessor->setValue("total_{$column}", in_array($value, [null, '', 0], true) ? '-' : $value);
         }
 
+
+        // $totalSemua = array_sum($totals);
+        // $templateProcessor->setValue("total_semua", ($totalSemua === null || $totalSemua === '') ? '-': $totalSemua);
+
         $totalSemua = array_sum($totals);
-        $templateProcessor->setValue("total_semua", ($totalSemua === null || $totalSemua === '') ? '-': $totalSemua);
+        $templateProcessor->setValue("total_semua", ($totalSemua === 0) ? '-' : $totalSemua);
+
 
         $templateProcessor->setValue('tanggal', $tanggal);
 
