@@ -9,7 +9,8 @@ class UserRepository
 
     public function createUser(array $data)
     {
-        $data['password'] = Hash::make('PPA123@');;
+        $password = hash('sha256', $data['username']);
+        $data['password'] = $password;
         $data['id_role'] = (int) $data['id_role'];
         $userId = DB::table('users')->insertGetId($data);
 
