@@ -325,9 +325,53 @@ class LapCateringDeptRepository
         return 'Data Complain berhasil di "Revisi"';
     }
 
+    public function findById($selectedComplainId, $departemen)
+    {
+        $tableMappings = [
+            'COE' => 'mk_coe',
+            'HCGA' => 'mk_hcga',
+            'ENG' => 'mk_eng',
+            'SHE' => 'mk_she',
+            'FALOG' => 'mk_falog',
+            'PROD' => 'mk_prod',
+            'PLANT' => 'mk_plant',
+            'Mess Putri' => 'mk_mess_putri',
+            'MESS_MEICU' => 'mk_mess_meicu',
+            'Mess A1' => 'mk_mess_a1',
+            'Mess C3' => 'mk_mess_c3',
+            'MARBOT' => 'mk_marbot',
+            'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
+        ];
+
+        foreach (range(1, 10) as $i) {
+            $tableMappings["Mess B$i"] = "mk_mess_b{$i}";
+        }
+
+        $table = $tableMappings[$departemen] ?? null;
+
+        if (!$table) {
+            return 'Departemen tidak valid';
+        }
+
+        return DB::table($table)
+            ->leftJoin('users', $table.'.created_name', '=', 'users.nama')
+            ->where($table.'.id', $selectedComplainId)
+            ->select(
+                $table.'.*',
+                'users.dept as dept',
+                'users.no_hp as no_hp',
+                'users.email as email',
+                'users.perusahaan as perusahaan',
+                'users.nama as nama'
+            )
+            ->first();
+    }
+
+
     public function sendRevisi($selectedComplainId, $departemen)
     {
-//dd($departemen);
+
         $tableMappings = [
             'COE' => 'mk_coe',
             'HCGA' => 'mk_hcga',

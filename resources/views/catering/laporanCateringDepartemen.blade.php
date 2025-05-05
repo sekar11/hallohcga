@@ -138,7 +138,7 @@
                                         'drill' => ['label' => 'Drill & PIT Control', 'name' => 'drill','type' => 'text', 'category' => 'CSA PIT 2'],
                                         'driver_drill' => ['label' => 'Driver Drill & PIT Control', 'name' => 'driver_drill', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'driver_survey' => ['label' => 'Driver Survey', 'name' => 'driver_survey', 'type' => 'text','category' => 'CSA PIT 2'],
-                                        'helper_survey' => ['label' => 'Driver Survey', 'name' => 'helper_survey', 'type' => 'text','category' => 'CSA PIT 2'],
+                                        'helper_survey' => ['label' => 'Helper Survey', 'name' => 'helper_survey', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'gl_survey' => ['label' => 'GL Surver', 'name' => 'gl_survey', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'magang' => ['label' => 'Magang', 'name' => 'magang', 'type' => 'text','category' => 'CSA PIT 2'],
                                         'warehouse_pldp' => ['label' => 'PLDP', 'name' => 'warehouse_pldp', 'type' => 'text','category' => 'CSA PIT 2'],
