@@ -150,7 +150,7 @@ class CateringController extends Controller
                 'driver' => 'driver',
                 'crew_ssr' => 'crew_ssr',
                 'office_pldp' => 'office_pldp',
-                //'admin_office' => 'admin_office',
+                'admin_office' => 'admin_office',
                 'drill' => 'drill',
                 'driver_drill' => 'driver_drill',
                 'helper_survey' => 'helper_survey',
@@ -420,18 +420,84 @@ class CateringController extends Controller
 
         $insert = DB::table($table)->insert($data);
 
+        $waktu = strtolower($request->input('waktu'));
+        if (strpos($waktu, 'tambahan') !== false) {
+            $pesan = "STATUS : MK TAMBAHAN!\n\n";
+            $pesan .= "Departemen: {$userTeam}\n\n";
+            $pesan .= "Tanggal: {$request->input('tanggal')}\n\n";
+            $pesan .= "Terdapat data Mekilo Reguler yang baru ditambahkah oleh Departemen {$userTeam}\n\n";
+
+            $pesan .= "KETERANGAN LEBIH LANJUT\n";
+            $pesan .= "SILAHKAN CEK DI PORTAL:\n";
+            $pesan .= "https://hallohcga.com/";
+
+            $nomorTujuan = [
+                '082181777455',
+                '082177968433',
+                '082177451148'
+            ];
+
+            // Kirim ke semua nomor
+            foreach ($nomorTujuan as $nomor) {
+                $this->sendWhatsAppMessage($nomor, $pesan);
+            }
+        }
+
         if ($insert) {
             return response()->json(['status' => 'success']);
         } else {
             return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
         }
+
+    }
+
+    protected function sendWhatsAppMessage($no_hp, $message)
+    {
+        $apiKey = env('FONNTE_API_KEY');
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => $no_hp,
+                'message' => $message,
+                'countryCode' => '62',
+            ),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: ' . $apiKey
+            ),
+
+        ));
+
+        //curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+
+        $response = curl_exec($curl);
+        $error_msg = null;
+
+        if (curl_errno($curl)) {
+            $error_msg = curl_error($curl);
+        }
+        curl_close($curl);
+
+        if ($error_msg) {
+            throw new \Exception("cURL Error: $error_msg");
+        }
+
+        return json_decode($response, true);
     }
 
     public function edit(Request $request, $id)
     {
         $userTeam = auth()->user()->tim_pic;
 
-       $tableMapping = [
+        $tableMapping = [
             'COE' => 'mk_coe',
             'HCGA' => 'mk_hcga',
             'ENG' => 'mk_eng',
@@ -842,28 +908,38 @@ class CateringController extends Controller
         return response()->json(['message' => $result]);
     }
 
+
     public function sendRevisi(Request $request)
     {
-        //dd($request->all());
         $departemen = $request->input('departemen', 'HCGA');
         $selectedComplainId = $request->input('catering_id');
 
-
         $result = $this->CateringRepository->sendRevisi($selectedComplainId, $departemen);
+
+        $messageUser = "STATUS: REVISION IS DONE\n\n";
+
+        $messageUser = "DEPARTEMEN: $departemen\n\n";
+
+        $messageUser .= "Halo Admin HCGA\n\n";
+        $messageUser .= "Revisi data telah diselesaikan oleh departemen $departemen .\n\n";
+
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $nomorTujuan = [
+            '082181777455',
+            '082177968433',
+            '082177451148'
+        ];
+
+        // Kirim ke semua nomor
+        foreach ($nomorTujuan as $nomor) {
+            $this->sendWhatsAppMessage($nomor, $messageUser);
+        }
 
         return response()->json(['message' => $result]);
     }
-
-    // public function getEdit($id)
-    // {
-    //     $data = $this->CateringRepository->getById($id);
-
-    //     if (!$data) {
-    //         return response()->json(['error' => 'Data tidak ditemukan'], 404);
-    //     }
-
-    //     return response()->json($data);
-    // }
 
     public function getEdit(Request $request, $id)
     {

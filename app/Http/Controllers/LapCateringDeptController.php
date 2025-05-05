@@ -220,6 +220,8 @@ class LapCateringDeptController extends Controller
                 'operator_csapit2' => 'operator_csapit2',
                 'gl_csapit2' => 'gl_csapit2',
                 'spare_csapit2' => 'spare_csapit2',
+                'admin_csapit2'=> 'admin_csapit2',
+                'driverlv_csapit2'=> 'driverlv_csapit2',
                 'operator_csapit3' => 'operator_csapit3',
                 'gl_csapit3' => 'gl_csapit3',
                 'spare_csapit3' => 'spare_csapit3',
@@ -604,6 +606,8 @@ class LapCateringDeptController extends Controller
                 'operator_csapit2' => 'operator_csapit2',
                 'gl_csapit2' => 'gl_csapit2',
                 'spare_csapit2' => 'spare_csapit2',
+                'admin_csapit2'=> 'admin_csapit2',
+                'driverlv_csapit2'=> 'driverlv_csapit2',
                 'operator_csapit3' => 'operator_csapit3',
                 'gl_csapit3' => 'gl_csapit3',
                 'spare_csapit3' => 'spare_csapit3',
@@ -857,8 +861,72 @@ class LapCateringDeptController extends Controller
         $pesanRevisi = $request->input('revisi');
 
         $result = $this->LapCateringDeptRepository->revisi($revisiName, $selectedComplainId, $pesanRevisi, $departemen);
+        $mkreguler = $this->LapCateringDeptRepository->findById($selectedComplainId, $departemen);
 
+        if (!$mkreguler || !$mkreguler->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: REVISI\n\n";
+        $messageUser .= "Halo {$mkreguler->nama},\n";
+        $messageUser .= "Terdapat data yang harus di revisi pada mekilo reguler yang kamu ajukan.\n\n";
+        $messageUser .= "Detail Data:\n";
+        $messageUser .= "- Tanggal: {$mkreguler->tanggal}\n";
+        $messageUser .= "- Waktu: {$mkreguler->waktu}\n";
+        $messageUser .= "Keterangan Revisi:\n";
+        $messageUser .= "{$mkreguler->revisi_desc}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($mkreguler->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
         return response()->json(['message' => $result]);
+        //return response()->json(['message' => $result]);
+    }
+
+    protected function sendWhatsAppMessage($no_hp, $message)
+    {
+        $apiKey = env('FONNTE_API_KEY');
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => $no_hp,
+                'message' => $message,
+                'countryCode' => '62',
+            ),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: ' . $apiKey
+            ),
+
+        ));
+
+        //curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+
+        $response = curl_exec($curl);
+        $error_msg = null;
+
+        if (curl_errno($curl)) {
+            $error_msg = curl_error($curl);
+        }
+        curl_close($curl);
+
+        if ($error_msg) {
+            throw new \Exception("cURL Error: $error_msg");
+        }
+
+        return json_decode($response, true);
     }
 
     public function approval(Request $request)

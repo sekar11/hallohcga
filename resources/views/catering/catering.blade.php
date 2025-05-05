@@ -1187,9 +1187,9 @@ $('.edit').click(function() {
                     'gl_survey' : 'gl_survey',
                     'magang' : 'magang',
                     'warehouse_pldp' : 'warehouse_pldp',
-                    'CSA PIT 3' : 'pitstop',
-                    'Vendor JMI' : 'vendor_jmi',
-                    'Mess Tambang' : 'gl_civil',
+                    'pitcontrol' : 'pitcontrol',
+                    'vendor_jmi' : 'vendor_jmi',
+                    'gl_civil' : 'gl_civil',
                     'visitor': 'visitor'
                 },
                 'SHE': {
