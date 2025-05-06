@@ -1036,7 +1036,7 @@ class CateringController extends Controller
 
         $excludedColumns = ['id', 'tanggal', 'waktu', 'status', 'create_at', 'created_name',
             'approval_by', 'approval_on', 'approval_desc',
-            'revisi_by', 'revisi_on', 'revisi_desc'];
+            'revisi_by', 'revisi_on', 'revisi_desc', 'visitor'];
 
         $dataByWaktu = [];
         $totals = [];
