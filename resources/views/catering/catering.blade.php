@@ -304,7 +304,7 @@
                                         'track_ws' => ['label' => 'Track WS', 'name' => 'track_ws', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'spare_workshop' => ['label' => 'Spare', 'name' => 'spare_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'helper_workshop' => ['label' => 'Helper', 'name' => 'helper_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
-                                        'trakindo_workshop' => ['label' => 'Trakindo', 'name' => 'trakindo_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
+                                        'trakindo_workshop' => ['label' => 'Indoparta', 'name' => 'trakindo_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'backup_opp' => ['label' => 'Backup OPP', 'name' => 'backup_opp', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'visitor' => ['label' => 'Vendor/Tamu', 'name' => 'visitor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
                                     ],
@@ -1010,7 +1010,10 @@ $(document).ready(function () {
                     'mpccr_admccr' : 'Admin',
 
                     //ENG
-                    'warehouse_pldp' : 'PLDP'
+                    'warehouse_pldp' : 'PLDP',
+
+                    //PLANT
+                    'trakindo_workshop' : 'INDOPARTA'
                 };
 
                 let viewContainer = $('#viewDataContainer');
