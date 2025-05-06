@@ -883,6 +883,7 @@ class CateringController extends Controller
             'ENG' => 'mk_eng',
             'FALOG' => 'mk_falog',
             'PROD' => 'mk_prod',
+            'SHE' => 'mk_she',
             'PLANT' => 'mk_plant',
             'A1' => 'mk_mess_a1',
             'C3' => 'mk_mess_c3',

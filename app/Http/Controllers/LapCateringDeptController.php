@@ -815,6 +815,7 @@ class LapCateringDeptController extends Controller
             'HCGA' => 'mk_hcga',
             'ENG' => 'mk_eng',
             'FALOG' => 'mk_falog',
+            'SHE' => 'mk_she',
             'PROD' => 'mk_prod',
             'PLANT' => 'mk_plant',
             'Mess A1' => 'mk_mess_a1',
