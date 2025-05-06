@@ -972,9 +972,149 @@ class CateringController extends Controller
         return response()->json($data);
     }
 
+    // public function exportData(Request $request)
+    // {
+    //     //dd($request->all());
+    //     $userTeam = auth()->user()->tim_pic;
+    //     $tanggal = $request->query('tanggal');
+
+    //     if (!$tanggal) {
+    //         return response()->json(['status' => 'error', 'message' => 'Tanggal tidak ditemukan.'], 400);
+    //     }
+
+    //     $templateMapping = [
+    //         'COE' => 'template_coe.docx',
+    //         'HCGA' => 'template_hcga.docx',
+    //         'ENG' => 'template_eng.docx',
+    //         'SHE' => 'template_she.docx',
+    //         'FALOG' => 'template_falog.docx',
+    //         'PROD' => 'template_prod.docx',
+    //         'PLANT' => 'template_plant.docx',
+    //         'A1' => 'template_a1.docx',
+    //         'C3' => 'template_c3.docx',
+    //         'MESS_MEICU' => 'template_mess_meicu.docx',
+    //         'MESS_PUTRI' => 'template_mess_putri.docx',
+    //         'MARBOT' => 'template_marbot.docx',
+    //         'AMM' => 'template_amm.docx',
+    //         'MESS' => 'template_mess.docx',
+    //     ];
+
+    //     foreach (range(1, 10) as $i) {
+    //         $templateMapping["B$i"] = "template_b{$i}.docx";
+    //     }
+
+    //     if (!isset($templateMapping[$userTeam])) {
+    //         return response()->json(['status' => 'error', 'message' => 'Template tidak ditemukan untuk tim ini.'], 404);
+    //     }
+
+    //     $templatePath = resource_path("template/" . $templateMapping[$userTeam]);
+
+    //     if (!file_exists($templatePath)) {
+    //         return response()->json(['status' => 'error', 'message' => 'Template tidak ditemukan.'], 404);
+    //     }
+
+    //     $tableName = match (true) {
+    //         $userTeam === 'MESS_MEICU' => 'mk_mess_meicu',
+    //         $userTeam === 'MESS_PUTRI' => 'mk_mess_putri',
+    //         $userTeam === 'A1' => 'mk_mess_a1',
+    //         $userTeam === 'C3' => 'mk_mess_c3',
+    //         $userTeam === 'AMM' => 'mk_mess_amm',
+    //         $userTeam === 'MESS' => 'mk_mess',
+    //         str_starts_with($userTeam, 'B') => 'mk_mess_' . strtolower($userTeam),
+    //         default => 'mk_' . strtolower($userTeam),
+    //     };
+
+    //     $dataList = DB::table($tableName)
+    //         ->where('status', 2)
+    //         ->whereDate('tanggal', $tanggal)
+    //         ->get();
+
+    //     $templateProcessor = new TemplateProcessor($templatePath);
+
+    //     $mainTimes = ['Siang', 'Pagi', 'Malam', 'Sore'];
+    //     $extraTimes = ['Tambahan Siang', 'Tambahan Pagi', 'Tambahan Malam', 'Tambahan Sore'];
+
+    //     $excludedColumns = ['id', 'tanggal', 'waktu', 'status', 'create_at', 'created_name',
+    //         'approval_by', 'approval_on', 'approval_desc',
+    //         'revisi_by', 'revisi_on', 'revisi_desc', 'visitor'];
+
+    //     $dataByWaktu = [];
+    //     $totals = [];
+    //     $columns = [];
+
+    //     if (!$dataList->isEmpty()) {
+    //         foreach ($dataList as $data) {
+    //             $waktu = $data->waktu;
+    //             $rowData = (array) $data;
+
+    //             $filteredData = array_diff_key($rowData, array_flip($excludedColumns));
+
+    //             foreach ($filteredData as $key => $value) {
+    //                 $columns[$key] = true;
+
+    //                 $dataByWaktu["{$waktu}_{$key}"] = ($dataByWaktu["{$waktu}_{$key}"] ?? 0) + ($value ?? 0);
+
+    //                 foreach ($mainTimes as $mainTime) {
+    //                     if ($waktu === "Tambahan {$mainTime}") {
+    //                         $dataByWaktu["{$mainTime}_{$key}"] = ($dataByWaktu["{$mainTime}_{$key}"] ?? 0) + ($value ?? 0);
+    //                     }
+    //                 }
+
+    //                 if (is_numeric($value)) {
+    //                     $totals[$key] = ($totals[$key] ?? 0) + $value;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     // Gunakan default 0 jika tidak ada data (pastikan kolom tetap terisi)
+    //     // foreach (array_merge($mainTimes, $extraTimes) as $waktu) {
+    //     //     foreach ($columns as $column => $_) {
+    //     //         $key = "{$waktu}_{$column}";
+    //     //         $value = $dataByWaktu[$key] ?? '-';
+    //     //         $templateProcessor->setValue($key, ($value === null || $value === '') ? '-' : $value);
+    //     //     }
+    //     // }
+
+    //     foreach (array_merge($mainTimes, $extraTimes) as $waktu) {
+    //         foreach ($columns as $column => $_) {
+    //             $key = "{$waktu}_{$column}";
+    //             $value = $dataByWaktu[$key] ?? '-';
+    //             $templateProcessor->setValue($key, in_array($value, [null, '', 0], true) ? '-' : $value);
+    //         }
+    //     }
+
+    //     // foreach ($columns as $column => $_) {
+    //     //     $value = $totals[$column] ?? '-';
+    //     //     $templateProcessor->setValue("total_{$column}", ($value === null || $value === '') ? '-' : $value);
+    //     // }
+
+    //     foreach ($columns as $column => $_) {
+    //         $value = $totals[$column] ?? '-';
+    //         $templateProcessor->setValue("total_{$column}", in_array($value, [null, '', 0], true) ? '-' : $value);
+    //     }
+
+
+    //     // $totalSemua = array_sum($totals);
+    //     // $templateProcessor->setValue("total_semua", ($totalSemua === null || $totalSemua === '') ? '-': $totalSemua);
+
+    //     $totalSemua = array_sum($totals);
+    //     $templateProcessor->setValue("total_semua", ($totalSemua === 0) ? '-' : $totalSemua);
+
+
+    //     $templateProcessor->setValue('tanggal', $tanggal);
+
+    //     $formattedDate = date('Y-m-d', strtotime($tanggal));
+    //     $fileName = "{$formattedDate}_Laporan_Order_MK_Reguler_{$userTeam}.docx";
+    //     $filePath = storage_path("app/public/$fileName");
+
+    //     $templateProcessor->saveAs($filePath);
+
+    //     return response()->download($filePath)->deleteFileAfterSend(true);
+    // }
+
     public function exportData(Request $request)
     {
-        //dd($request->all());
         $userTeam = auth()->user()->tim_pic;
         $tanggal = $request->query('tanggal');
 
@@ -1041,6 +1181,7 @@ class CateringController extends Controller
         $dataByWaktu = [];
         $totals = [];
         $columns = [];
+        $visitorByWaktu = [];
 
         if (!$dataList->isEmpty()) {
             foreach ($dataList as $data) {
@@ -1064,17 +1205,13 @@ class CateringController extends Controller
                         $totals[$key] = ($totals[$key] ?? 0) + $value;
                     }
                 }
+
+                // Simpan visitor berdasarkan waktu
+                if (!empty($data->visitor)) {
+                    $visitorByWaktu[$waktu][] = $data->visitor;
+                }
             }
         }
-
-        // Gunakan default 0 jika tidak ada data (pastikan kolom tetap terisi)
-        // foreach (array_merge($mainTimes, $extraTimes) as $waktu) {
-        //     foreach ($columns as $column => $_) {
-        //         $key = "{$waktu}_{$column}";
-        //         $value = $dataByWaktu[$key] ?? '-';
-        //         $templateProcessor->setValue($key, ($value === null || $value === '') ? '-' : $value);
-        //     }
-        // }
 
         foreach (array_merge($mainTimes, $extraTimes) as $waktu) {
             foreach ($columns as $column => $_) {
@@ -1084,25 +1221,27 @@ class CateringController extends Controller
             }
         }
 
-        // foreach ($columns as $column => $_) {
-        //     $value = $totals[$column] ?? '-';
-        //     $templateProcessor->setValue("total_{$column}", ($value === null || $value === '') ? '-' : $value);
-        // }
-
         foreach ($columns as $column => $_) {
             $value = $totals[$column] ?? '-';
             $templateProcessor->setValue("total_{$column}", in_array($value, [null, '', 0], true) ? '-' : $value);
         }
 
-
-        // $totalSemua = array_sum($totals);
-        // $templateProcessor->setValue("total_semua", ($totalSemua === null || $totalSemua === '') ? '-': $totalSemua);
-
         $totalSemua = array_sum($totals);
         $templateProcessor->setValue("total_semua", ($totalSemua === 0) ? '-' : $totalSemua);
 
-
+        // Set tanggal ke template
         $templateProcessor->setValue('tanggal', $tanggal);
+
+        // Proses gabungan visitor Siang & Tambahan Siang, Malam & Tambahan Malam
+        foreach ($mainTimes as $mainTime) {
+            $visitorsUtama = $visitorByWaktu[$mainTime] ?? [];
+            $visitorsTambahan = $visitorByWaktu["Tambahan {$mainTime}"] ?? [];
+
+            $gabunganVisitor = array_merge($visitorsUtama, $visitorsTambahan);
+            $visitorStr = !empty($gabunganVisitor) ? implode(", ", $gabunganVisitor) : '-';
+
+            $templateProcessor->setValue("{$mainTime}_visitor", $visitorStr);
+        }
 
         $formattedDate = date('Y-m-d', strtotime($tanggal));
         $fileName = "{$formattedDate}_Laporan_Order_MK_Reguler_{$userTeam}.docx";
@@ -1112,6 +1251,7 @@ class CateringController extends Controller
 
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
+
 
 
 
