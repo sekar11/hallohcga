@@ -326,7 +326,7 @@
                                         'track_ws' => ['label' => 'Track WS', 'name' => 'track_ws', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'spare_workshop' => ['label' => 'Spare', 'name' => 'spare_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'helper_workshop' => ['label' => 'Helper', 'name' => 'helper_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
-                                        'trakindo_workshop' => ['label' => 'Trakindo', 'name' => 'trakindo_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
+                                        'trakindo_workshop' => ['label' => 'Indoparta', 'name' => 'trakindo_workshop', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'backup_opp' => ['label' => 'Backup OPP', 'name' => 'backup_opp', 'type' => 'text', 'category' => 'WORKSHOP'],
                                         'visitor' => ['label' => 'Vendor/Tamu', 'name' => 'visitor', 'type' => 'text', 'category' => 'Vendor/Tamu'],
                                     ],
@@ -556,7 +556,7 @@
                                   <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
                               </div>
 
-                          </form>
+                        </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -689,7 +689,6 @@ document.addEventListener("DOMContentLoaded", function () {
         select.appendChild(option);
     });
 });
-
 
 $(document).ready(function() {
     $('.truncate-text').each(function() {
@@ -931,7 +930,9 @@ $(document).ready(function () {
                     //COE
                     'mpccr_admccr' : 'ADMIN',
 
-                    'warehouse_pldp' : 'PLDP'
+                    'warehouse_pldp' : 'PLDP',
+
+                    'trakindo_workshop' : 'INDOPARTA'
                 };
 
                 let viewContainer = $('#viewDataContainer');
