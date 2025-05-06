@@ -613,8 +613,8 @@
                                   <select class="form-control" id="spesial_add" name="spesial_add">
                                       <option value="">- Pilih Mk Spesial -</option>
                                       <option value="prasmanan">Prasmanan</option>
-                                      <option value="ayam_bakar">Civil</option>
-                                      <option value="nasi_liwet">MEP</option>
+                                      <option value="ayam_bakar">Ayam Bakar</option>
+                                      <option value="nasi_liwet">Nasi Liwet</option>
                                   </select>
                                 </div>
                               </div>
@@ -638,8 +638,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--end::Modal Revisi-->
+                </div>
+                <!--end::Modal MK Spesial-->
 
                 <!-- Modal -->
                 <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
@@ -835,9 +835,9 @@ $(document).ready(function () {
                         'WAREHOUSE': ['dept_head', 'sect_head', 'gl_fa', 'admin_fa','gl_logistik', 'admin_logistik', 'swi', 'vendor','spare', 'pldp','driver_fa_log'],
                         'KOPPA MART MESS TAMBANG': ['koperasi_mess'],
                         'WORKSHOP KOPERASI MESS TAMBANG': ['mechanic_koperasi'],
-                        'FALOG': ['koperasi_office'],
-                        'KOPPA MART OFFICE': ['opt_fuel_truck'],
-                        'CSA FUEL': ['fuelman', 'gl', 'admin_fuel', 'spare_csa', 'driverlv_fuel'],
+                        'KOPPA MART OFFICE': ['koperasi_office'],
+                        // 'FALOG':,
+                        'CSA FUEL': ['opt_fuel_truck','fuelman', 'gl', 'admin_fuel', 'spare_csa', 'driverlv_fuel'],
                         'Vendor/Tamu': ['visitor']
                     },
                     'PROD': {
