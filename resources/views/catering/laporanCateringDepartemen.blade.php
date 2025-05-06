@@ -759,9 +759,8 @@ $(document).ready(function () {
                         'WAREHOUSE': ['dept_head', 'sect_head', 'gl_fa', 'admin_fa','gl_logistik', 'admin_logistik', 'swi', 'vendor','spare', 'pldp','driver_fa_log'],
                         'KOPPA MART MESS TAMBANG': ['koperasi_mess'],
                         'WORKSHOP KOPERASI MESS TAMBANG': ['mechanic_koperasi'],
-                        'FALOG': ['koperasi_office'],
-                        'KOPPA MART OFFICE': ['opt_fuel_truck'],
-                        'CSA FUEL': ['fuelman', 'gl', 'admin_fuel', 'spare_csa', 'driverlv_fuel'],
+                        'KOPPA MART OFFICE': ['koperasi_office'],
+                        'CSA FUEL': ['opt_fuel_truck','fuelman', 'gl', 'admin_fuel', 'spare_csa', 'driverlv_fuel'],
                         'Vendor/Tamu': ['visitor']
                     },
                     'PROD': {
