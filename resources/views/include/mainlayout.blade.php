@@ -181,6 +181,13 @@
       @endif
 
       @if(auth()->user()->id_role == 0)
+      <li class="nav-item">
+        <a class="nav-link " href="/report">
+        <i class="bi bi-file-earmark-text"></i>
+          <span>Laporan Digital Complain</span>
+        </a>
+      </li>
+    </li>
        <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-user" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
