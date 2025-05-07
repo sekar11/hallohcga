@@ -883,7 +883,7 @@ $(document).ready(function () {
                                     'plant_engineer'],
                         'WORKSHOP': ['dept_head', 'sect_head', 'wheel_ws_workshop', 'fabrikasi_workshop', 'planner', 'plant_engineer_workshop',
                                     'mastratech_workshop', 'fmdp_ws_workshop', 'siswa_magang_ws', 'driver_workshop', 'gmi', 'swi', 'track_ws',
-                                    'spare_workshop', 'helper_workshop', 'trakindo_workshop'],
+                                    'spare_workshop', 'helper_workshop', 'trakindo_workshop','backup_opp'],
                         'CSA PIT 1': ['skill_up_lt'],
                         'Vendor/Tamu': ['visitor']
                     },
