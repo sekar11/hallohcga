@@ -104,7 +104,7 @@
                                     ],
                                     'ENG' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
-                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Siang','Malam','Tambahan Siang','Tambahan Malam'], 'category' => 'Waktu'],
+                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi','Siang','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Malam'], 'category' => 'Waktu'],
                                         'dept_head' => ['label' => 'Dept Head', 'name' => 'dept_head','type' => 'text', 'category' => 'Office Plant'],
                                         'sect_head' => ['label' => 'Section', 'name' => 'sect_head','type' => 'text', 'category' => 'Office Plant'],
                                         'gl_eng' => ['label' => 'GL', 'name' => 'gl_eng','type' => 'text', 'category' => 'Office Plant'],
