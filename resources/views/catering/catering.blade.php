@@ -815,7 +815,7 @@ $(document).ready(function () {
                         'Office Plant' : ['dept_head', 'sect_head', 'gl_eng', 'driver', 'crew_ssr', 'office_pldp', 'admin_office'],
                         'CSA PIT 2' : ['drill', 'driver_drill','helper_survey', 'driver_survey', 'gl_survey', 'magang', 'warehouse_pldp'],
                         //'Warehouse' : ['warehouse_pldp'],
-                        'CSA PIT 3' : ['pitstop'],
+                        'CSA PIT 3' : ['pitcontrol'],
                         'Mess Tambang' : ['gl_civil'],
                         'Vendor JMI' : ['vendor_jmi'],
                         'Vendor/Tamu': ['visitor']

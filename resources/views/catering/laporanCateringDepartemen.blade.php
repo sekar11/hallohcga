@@ -127,7 +127,7 @@
                                     ],
                                     'ENG' => [
                                         'tanggal' => ['label' => 'Tanggal', 'name' => 'tanggal', 'type' => 'date', 'category' => 'Waktu'],
-                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Siang','Malam','Tambahan Siang','Tambahan Malam'], 'category' => 'Waktu'],
+                                        'waktu' => ['label' => 'Waktu', 'name' => 'waktu', 'type' => 'select', 'options' => ['Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam'], 'category' => 'Waktu'],
                                         'dept_head' => ['label' => 'Dept Head', 'name' => 'dept_head','type' => 'text', 'category' => 'Office Plant'],
                                         'sect_head' => ['label' => 'Section', 'name' => 'sect_head','type' => 'text', 'category' => 'Office Plant'],
                                         'gl_eng' => ['label' => 'GL', 'name' => 'gl_eng','type' => 'text', 'category' => 'Office Plant'],
@@ -738,7 +738,7 @@ $(document).ready(function () {
                         'Office' : ['dept_head', 'sect_head', 'gl_eng', 'driver', 'crew_ssr', 'office_pldp', 'admin_office'],
                         'CSA PIT 2' : ['drill', 'driver_drill','helper_survey', 'driver_survey', 'gl_survey', 'magang', 'warehouse_pldp'],
                         //'Warehouse' : ['warehouse_pldp'],
-                        'CSA PIT 3' : ['pitstop'],
+                        'CSA PIT 3' : ['pitcontrol'],
                         'Mess Tambang' : ['gl_civil'],
                         'Vendor JMI' : ['vendor_jmi'],
                         'Vendor/Tamu': ['visitor']
