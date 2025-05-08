@@ -297,15 +297,22 @@ class LapCateringRepository
 
         $cateringColumns = [
             'FITRI' => [
-                'tanggal'                         => 'tanggal',
-                'prod_csa_pit1'                   => 'prod_csa_pit1',
-                'section_head_pit1'               => 'section_head_pit1',
-                'prod_pit2'                       => 'prod_pit2',
-                'driver_lv_pit_2'                 => 'driver_lv_pit2',
-                'sect_head_produksi_pit_2'        => 'section_head_pit2',
-                'prod_pit3'                       => 'prod_pit3',
-                'produksi_pitstop'                => 'prod_pitstop',
-                'produksi_csahrm_skillup'         => 'prod_csahrm'
+                'tanggal'                          => 'tanggal',
+                'prod_csa_pit1'                    => 'prod_csa_pit1',
+                'prod_skillup_csapit1'             => 'prod_skillup_csapit1',
+                'section_head_pit1'                => 'section_head_pit1',
+                'prod_pit2'                        => 'prod_pit2',
+                'driver_lv_pit2'                   => 'driver_lv_pit2',
+                'section_head_pit2'                => 'section_head_pit2',
+                'eng_drill'                         => 'eng_drill',
+                'eng_csapit2'                      => 'eng_csapit2',
+                'eng_driver_csapit2'               => 'eng_driver_csapit2',
+                'eng_vendor_jmi'                   => 'eng_vendor_jmi',
+                'hcga_security_rosela'             => 'hcga_security_rosela',
+                'prod_pitstop'                     => 'prod_pitstop',
+                'prod_csahrm'                      => 'prod_csahrm',
+                // 'prod_pit3'                        => 'prod_pit3',
+
             ],
             'WASTU' => [
                 'tanggal' => 'tanggal',
@@ -590,10 +597,16 @@ class LapCateringRepository
                 'Makan Tambang Siang' => [
                     'Produksi CSA PIT 1'                  => 'prod_csa_pit1',
                     'Section Head Anjungan pit 1'         => 'section_head_pit1',
+                    'Produksi CSA PIT 1 Akademi Skill up' => 'prod_skillup_csapit1',
                     'Prod PIT 2'                          => 'prod_pit2',
-                    'Prod PIT 3'                          => 'prod_pit3',
+                    // 'Prod PIT 3'                          => 'prod_pit3',
                     'DRIVER LV PRODUKSI PIT 2'            => 'driver_lv_pit2',
                     'Sect. Head Produksi PIT 2'           => 'section_head_pit2',
+                    'ENG CSA PIT 2 DRILL & BLAST'         => 'eng_drill',
+                    'Eng CSA Pit 2'                       => 'eng_csapit2',
+                    'DRIVER ENG CSA PIT 2T'               => 'eng_driver_csapit2',
+                    'ENG CSA HRM (Vendor JMI)'            => 'eng_vendor_jmi',
+                    'HCGA CSA PIT 2 ROSELA (SECURITY)'    => 'hcga_security_rosela',
                     'PRODUKSI PITSTOP (Di Tulis ODP)'     => 'prod_pitstop',
                     'PRODUKSI CSA HRM SKILL UP (ACADEMY)' => 'prod_csahrm',
                 ],
@@ -900,14 +913,20 @@ class LapCateringRepository
 
         // Mapping kategori per catering
         $categoryMapping = [
-            'fitri' => [
+         'fitri' => [
                 'Makan Tambang Siang' => [
                     'Produksi CSA PIT 1'                  => 'prod_csa_pit1',
+                    'Produksi CSA PIT 1 Akademi Skill up' => 'prod_skillup_csapit1',
                     'Section Head Anjungan pit 1'         => 'section_head_pit1',
                     'Prod PIT 2'                          => 'prod_pit2',
-                    'Prod PIT 3'                          => 'prod_pit3',
+                    // 'Prod PIT 3'                          => 'prod_pit3',
                     'DRIVER LV PRODUKSI PIT 2'            => 'driver_lv_pit2',
                     'Sect. Head Produksi PIT 2'           => 'section_head_pit2',
+                    'ENG CSA PIT 2 DRILL & BLAST'         => 'eng_drill',
+                    'Eng CSA Pit 2'                       => 'eng_csapit2',
+                    'DRIVER ENG CSA PIT 2T'               => 'eng_driver_csapit2',
+                    'ENG CSA HRM (Vendor JMI)'            => 'eng_vendor_jmi',
+                    'HCGA CSA PIT 2 ROSELA (SECURITY)'    => 'hcga_security_rosela',
                     'PRODUKSI PITSTOP (Di Tulis ODP)'     => 'prod_pitstop',
                     'PRODUKSI CSA HRM SKILL UP (ACADEMY)' => 'prod_csahrm',
                 ],
