@@ -783,7 +783,6 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function () {
     let customLabels = {
                     'COE': {
                         'TANGGAL': ['tanggal'],
@@ -1007,6 +1006,7 @@ $(document).ready(function () {
     return text.replace(/_/g, ' ').toUpperCase();
     }
 
+    var cateringId;
     $('.view').click(function () {
         let cateringId = $(this).data('id');
 
@@ -1085,7 +1085,7 @@ $(document).ready(function () {
             }
         });
     });
-});
+
 
 var cateringId;
 $('.edit').click(function() {

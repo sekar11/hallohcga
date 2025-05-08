@@ -702,7 +702,7 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function () {
+
     let customLabels = {
                     'COE': {
                         'TANGGAL': ['tanggal'],
@@ -921,7 +921,8 @@ $(document).ready(function () {
                 function formatLabel(text) {
                     return text.replace(/_/g, ' ').toUpperCase();
                 }
-
+    $.ajaxSetup({ cache: false });
+    var cateringId;
     $('.view').click(function () {
         let cateringId = $(this).data('id');
         let departemen = $('#departemen').val();
@@ -930,7 +931,8 @@ $(document).ready(function () {
             type: 'GET',
             url: '{{ url('/lapcateringdept/get') }}/' + cateringId,
             data: {
-                departemen: departemen
+                departemen: departemen,
+                _: new Date().getTime()
             },
             success: function (response) {
                 if (response.error) {
@@ -1007,7 +1009,7 @@ $(document).ready(function () {
             }
         });
     });
-});
+
 
 
 var cateringId;
