@@ -784,20 +784,7 @@ $(document).ready(function() {
 });
 
 $(document).ready(function () {
-    $('.view').click(function () {
-        let cateringId = $(this).data('id');
-
-        $.ajax({
-            type: 'GET',
-            url: '{{ url('/catering/get') }}/' + cateringId,
-            success: function (response) {
-                if (response.error) {
-                    alert(response.error);
-                    return;
-                }
-
-                let userTeam = "{{ auth()->user()->tim_pic }}";
-                let customLabels = {
+    let customLabels = {
                     'COE': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
@@ -1016,8 +1003,26 @@ $(document).ready(function () {
                     'trakindo_workshop' : 'INDOPARTA'
                 };
 
+    function formatLabel(text) {
+    return text.replace(/_/g, ' ').toUpperCase();
+    }
+
+    $('.view').click(function () {
+        let cateringId = $(this).data('id');
+
+        $.ajax({
+            type: 'GET',
+            url: '{{ url('/catering/get') }}/' + cateringId + '?_=' + new Date().getTime(),
+            cache: false,
+            success: function (response) {
+                if (response.error) {
+                    alert(response.error);
+                    return;
+                }
+
+                let userTeam = "{{ auth()->user()->tim_pic }}";
                 let viewContainer = $('#viewDataContainer');
-                viewContainer.html('');
+                viewContainer.html(''); // clear data lama
 
                 let categoryData = customLabels[userTeam] || {};
                 let rows = [];
@@ -1035,6 +1040,7 @@ $(document).ready(function () {
                     });
                 }
 
+                // Grouping by waktu
                 let mergedData = {};
                 rows.forEach(row => {
                     let key = row.waktu;
@@ -1044,6 +1050,7 @@ $(document).ready(function () {
                     mergedData[key].push(row);
                 });
 
+                // Build table rows
                 Object.keys(mergedData).forEach(waktu => {
                     let group = mergedData[waktu];
                     let firstRow = true;
@@ -1079,10 +1086,6 @@ $(document).ready(function () {
         });
     });
 });
-
-function formatLabel(text) {
-    return text.replace(/_/g, ' ').toUpperCase();
-}
 
 var cateringId;
 $('.edit').click(function() {

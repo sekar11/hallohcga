@@ -703,24 +703,7 @@ $(document).ready(function() {
 });
 
 $(document).ready(function () {
-    $('.view').click(function () {
-        let cateringId = $(this).data('id');
-        let departemen = $('#departemen').val();
-
-        $.ajax({
-            type: 'GET',
-            url: '{{ url('/lapcateringdept/get') }}/' + cateringId,
-            data: {
-                departemen: departemen
-            },
-            success: function (response) {
-                if (response.error) {
-                    alert(response.error);
-                    return;
-                }
-
-                let userTeam = departemen; // Gunakan departemen yang dipilih user
-                let customLabels = {
+    let customLabels = {
                     'COE': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
@@ -935,6 +918,29 @@ $(document).ready(function () {
                     'trakindo_workshop' : 'INDOPARTA'
                 };
 
+                function formatLabel(text) {
+                    return text.replace(/_/g, ' ').toUpperCase();
+                }
+
+    $('.view').click(function () {
+        let cateringId = $(this).data('id');
+        let departemen = $('#departemen').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '{{ url('/lapcateringdept/get') }}/' + cateringId,
+            data: {
+                departemen: departemen
+            },
+            success: function (response) {
+                if (response.error) {
+                    alert(response.error);
+                    return;
+                }
+
+                let userTeam = departemen; // Gunakan departemen yang dipilih user
+
+
                 let viewContainer = $('#viewDataContainer');
                 viewContainer.html('');
 
@@ -1003,9 +1009,6 @@ $(document).ready(function () {
     });
 });
 
-function formatLabel(text) {
-    return text.replace(/_/g, ' ').toUpperCase();
-}
 
 var cateringId;
 $('.edit').click(function() {
