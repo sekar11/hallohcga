@@ -98,8 +98,6 @@ class LapCateringController extends Controller
                 'MK SIANG DEPTHEAD & PJO' => ['Dept.Head ENG ★(Office Plant)', 'TAMU HO COE ★(Office Plant)', 'PJO ★(Office Plant)', 'Dept.Head Produksi ★(CSA PIT 1)', 'Dept Head SHE ★(CSA PIT 1)', 'Dept.Head PLANT ★(WORKSHOP)', 'Dept.Head PLANT ★(PITSTOP)'],
                 'OFFICE PLANT SIANG' => ['Driver Bus Jum\'atan', 'COE OFFICE ( CCR,MOCO)', 'SectHead COE', 'PLANT', 'Section Head PLANT', 'SECURITY PATROL', 'HCGA', 'Section Head HCGA', 'DRIVER HCGA (88,01)', 'SERTIFIKASI HCGA', 'Produksi', 'Driver Engineering', 'Sect.Head ENG', 'Engineering'],
                 'MK SORE MESS DH & SH (PPA RESIDANCE)' => ['MESS DH & PJO', 'MESS SECTION HEAD'],
-                
-
             ],
 
            'bintang' => [
@@ -408,12 +406,17 @@ class LapCateringController extends Controller
         $lokasiMappingFitri = [
             'prod_csa_pit1'                   => 2,
             'section_head_pit1'               => 3,
-            'prod_pit2'                       => 4,
-            'driver_lv_pit_2'                 => 5,
-            'sect_head_produksi_pit_2'        => 6,
-            'prod_pit3'                       => 7,
-            'produksi_pitstop'                => 8,
-            'produksi_csahrm_skillup'         => 9
+            'prod_skillup_csapit1'            => 4,
+            'prod_pit2'                       => 5,
+            'driver_lv_pit2'                  => 6,
+            'section_head_pit2'               => 7,
+            'eng_drill'                       => 8,
+            'eng_csapit2'                     => 9,
+            'eng_driver_csapit2'              => 10,
+            'eng_vendor_jmi'                  => 11,
+            'hcga_security_rosela'            => 12,
+            'prod_pitstop'                    => 13,
+            'prod_csahrm'                     => 14,
         ];
 
         $lokasiMappingWastu = [
