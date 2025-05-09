@@ -304,15 +304,13 @@ class LapCateringRepository
                 'prod_pit2'                        => 'prod_pit2',
                 'driver_lv_pit2'                   => 'driver_lv_pit2',
                 'section_head_pit2'                => 'section_head_pit2',
-                'eng_drill'                         => 'eng_drill',
+                'eng_drill'                        => 'eng_drill',
                 'eng_csapit2'                      => 'eng_csapit2',
                 'eng_driver_csapit2'               => 'eng_driver_csapit2',
                 'eng_vendor_jmi'                   => 'eng_vendor_jmi',
                 'hcga_security_rosela'             => 'hcga_security_rosela',
                 'prod_pitstop'                     => 'prod_pitstop',
                 'prod_csahrm'                      => 'prod_csahrm',
-                // 'prod_pit3'                        => 'prod_pit3',
-
             ],
             'WASTU' => [
                 'tanggal' => 'tanggal',
@@ -446,9 +444,6 @@ class LapCateringRepository
                 'pagi_rebusan_b3'              => 'pagi_rebusan_b3',
                 'pagi_kamar_b4'                => 'pagi_kamar_b4',
                 'pagi_rebusan_b4'              => 'pagi_rebusan_b4',
-                'pagi_kamar_b5'                => 'pagi_kamar_b5',
-                'pagi_rebusan_b5'              => 'pagi_rebusan_b5',
-                'pagi_kamar_b6'                => 'pagi_kamar_b6',
                 'pagi_rebusan_b6'              => 'pagi_rebusan_b6',
                 'pagi_kamar_b7'                => 'pagi_kamar_b7',
                 'pagi_rebusan_b7'              => 'pagi_rebusan_b7',
@@ -522,9 +517,7 @@ class LapCateringRepository
                 'sore_rebusan_b3'              => 'sore_rebusan_b3',
                 'sore_kamar_b4'                => 'sore_kamar_b4',
                 'sore_rebusan_b4'              => 'sore_rebusan_b4',
-                'sore_kamar_b5'                => 'sore_kamar_b5',
-                'sore_rebusan_b5'              => 'sore_rebusan_b5',
-                'sore_kamar_b6'                => 'sore_kamar_b6',
+
                 'sore_rebusan_b6'              => 'sore_rebusan_b6',
                 'sore_kamar_b7'                => 'sore_kamar_b7',
                 'sore_rebusan_b7'              => 'sore_rebusan_b7',
@@ -1346,7 +1339,7 @@ class LapCateringRepository
         return $summary;
     }
 
-    //=============================================== DASHBOARD CATERING ===============================================
+    //===================================================== DASHBOARD CATERING ===============================================
 
 
 }

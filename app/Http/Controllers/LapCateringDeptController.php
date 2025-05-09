@@ -303,8 +303,7 @@ class LapCateringDeptController extends Controller
                 'mess_b2' => 'mess_b2',
                 'mess_b3' => 'mess_b3',
                 'mess_b4' => 'mess_b4',
-                'mess_b5' => 'mess_b5',
-                'mess_b6' => 'mess_b6',
+
                 'mess_b7' => 'mess_b7',
                 'mess_b8' => 'mess_b8',
                 'mess_b9' => 'mess_b9',
@@ -321,8 +320,7 @@ class LapCateringDeptController extends Controller
                 'mess_b2' => 'mess_b2',
                 'mess_b3' => 'mess_b3',
                 'mess_b4' => 'mess_b4',
-                'mess_b5' => 'mess_b5',
-                'mess_b6' => 'mess_b6',
+
                 'mess_b7' => 'mess_b7',
                 'mess_b8' => 'mess_b8',
                 'mess_b9' => 'mess_b9',
@@ -331,8 +329,6 @@ class LapCateringDeptController extends Controller
                 'rebusan_b2' => 'rebusan_b2',
                 'rebusan_b3' => 'rebusan_b3',
                 'rebusan_b4' => 'rebusan_b4',
-                'rebusan_b5' => 'rebusan_b5',
-                'rebusan_b6' => 'rebusan_b6',
                 'rebusan_b7' => 'rebusan_b7',
                 'rebusan_b8' => 'rebusan_b8',
                 'rebusan_b9' => 'rebusan_b9',
@@ -689,8 +685,7 @@ class LapCateringDeptController extends Controller
                 'mess_b2' => 'mess_b2',
                 'mess_b3' => 'mess_b3',
                 'mess_b4' => 'mess_b4',
-                'mess_b5' => 'mess_b5',
-                'mess_b6' => 'mess_b6',
+
                 'mess_b7' => 'mess_b7',
                 'mess_b8' => 'mess_b8',
                 'mess_b9' => 'mess_b9',
@@ -707,8 +702,8 @@ class LapCateringDeptController extends Controller
                 'mess_b2' => 'mess_b2',
                 'mess_b3' => 'mess_b3',
                 'mess_b4' => 'mess_b4',
-                'mess_b5' => 'mess_b5',
-                'mess_b6' => 'mess_b6',
+
+
                 'mess_b7' => 'mess_b7',
                 'mess_b8' => 'mess_b8',
                 'mess_b9' => 'mess_b9',
@@ -717,8 +712,7 @@ class LapCateringDeptController extends Controller
                 'rebusan_b2' => 'rebusan_b2',
                 'rebusan_b3' => 'rebusan_b3',
                 'rebusan_b4' => 'rebusan_b4',
-                'rebusan_b5' => 'rebusan_b5',
-                'rebusan_b6' => 'rebusan_b6',
+
                 'rebusan_b7' => 'rebusan_b7',
                 'rebusan_b8' => 'rebusan_b8',
                 'rebusan_b9' => 'rebusan_b9',

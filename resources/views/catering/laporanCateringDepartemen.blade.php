@@ -344,8 +344,6 @@
                                         'mess_b2' => ['label' => 'Mess B2', 'name' => 'mess_b2', 'type' => 'text', 'category' => 'AMM'],
                                         'mess_b3' => ['label' => 'Mess B3', 'name' => 'mess_b3', 'type' => 'text', 'category' => 'AMM'],
                                         'mess_b4' => ['label' => 'Mess B4', 'name' => 'mess_b4', 'type' => 'text', 'category' => 'AMM'],
-                                        'mess_b5' => ['label' => 'Mess B5', 'name' => 'mess_b5', 'type' => 'text', 'category' => 'AMM'],
-                                        'mess_b6' => ['label' => 'Mess B6', 'name' => 'mess_b6', 'type' => 'text', 'category' => 'AMM'],
                                         'mess_b7' => ['label' => 'Mess B7', 'name' => 'mess_b7', 'type' => 'text', 'category' => 'AMM'],
                                         'mess_b8' => ['label' => 'Mess B8', 'name' => 'mess_b8', 'type' => 'text', 'category' => 'AMM'],
                                         'mess_b9' => ['label' => 'Mess B9', 'name' => 'mess_b9', 'type' => 'text', 'category' => 'AMM'],
@@ -362,8 +360,7 @@
                                         'mess_b2' => ['label' => 'Mess B2', 'name' => 'mess_b2', 'type' => 'text', 'category' => 'MK'],
                                         'mess_b3' => ['label' => 'Mess B3', 'name' => 'mess_b3', 'type' => 'text', 'category' => 'MK'],
                                         'mess_b4' => ['label' => 'Mess B4', 'name' => 'mess_b4', 'type' => 'text', 'category' => 'MK'],
-                                        'mess_b5' => ['label' => 'Mess B5', 'name' => 'mess_b5', 'type' => 'text', 'category' => 'MK'],
-                                        'mess_b6' => ['label' => 'Mess B6', 'name' => 'mess_b6', 'type' => 'text', 'category' => 'MK'],
+
                                         'mess_b7' => ['label' => 'Mess B7', 'name' => 'mess_b7', 'type' => 'text', 'category' => 'MK'],
                                         'mess_b8' => ['label' => 'Mess B8', 'name' => 'mess_b8', 'type' => 'text', 'category' => 'MK'],
                                         'mess_b9' => ['label' => 'Mess B9', 'name' => 'mess_b9', 'type' => 'text', 'category' => 'MK'],
@@ -375,8 +372,7 @@
                                         'rebusan_b2' => ['label' => 'Rebusan B2', 'name' => 'rebusan_b2', 'type' => 'text', 'category' => 'REBUSAN'],
                                         'rebusan_b3' => ['label' => 'Rebusan B3', 'name' => 'rebusan_b3', 'type' => 'text', 'category' => 'REBUSAN'],
                                         'rebusan_b4' => ['label' => 'Rebusan B4', 'name' => 'rebusan_b4', 'type' => 'text', 'category' => 'REBUSAN'],
-                                        'rebusan_b5' => ['label' => 'Rebusan B5', 'name' => 'rebusan_b5', 'type' => 'text', 'category' => 'REBUSAN'],
-                                        'rebusan_b6' => ['label' => 'Rebusan B6', 'name' => 'rebusan_b6', 'type' => 'text', 'category' => 'REBUSAN'],
+
                                         'rebusan_b7' => ['label' => 'Rebusan B7', 'name' => 'rebusan_b7', 'type' => 'text', 'category' => 'REBUSAN'],
                                         'rebusan_b8' => ['label' => 'Rebusan B8', 'name' => 'rebusan_b8', 'type' => 'text', 'category' => 'REBUSAN'],
                                         'rebusan_b9' => ['label' => 'Rebusan B9', 'name' => 'rebusan_b9', 'type' => 'text', 'category' => 'REBUSAN'],
@@ -825,8 +821,7 @@ $(document).ready(function() {
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
                         'AMM': [
-                            'mess_b1', 'mess_b2', 'mess_b3', 'mess_b4', 'mess_b5',
-                            'mess_b6', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_amm',
+                            'mess_b1', 'mess_b2', 'mess_b3', 'mess_b4', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_amm',
                         ],
                     },
                     'MESS': {
@@ -834,12 +829,12 @@ $(document).ready(function() {
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
                         'MK': [
-                            'mess_a1','mess_a2','mess_c3','mess_b1', 'mess_b2', 'mess_b3', 'mess_b4', 'mess_b5',
-                            'mess_b6', 'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_mess',
+                            'mess_a1','mess_a2','mess_c3','mess_b1', 'mess_b2', 'mess_b3', 'mess_b4',
+                            'mess_b7', 'mess_b8', 'mess_b9', 'mess_b10', 'spare_mess',
                         ],
                         'REBUSAN': [
-                            'rebusan_b1', 'rebusan_b2', 'rebusan_b3', 'rebusan_b4', 'rebusan_b5',
-                            'rebusan_b6', 'rebusan_b7', 'rebusan_b8', 'rebusan_b9', 'rebusan_b10','rebusan_a1','rebusan_a2','rebusan_c3'
+                            'rebusan_b1', 'rebusan_b2', 'rebusan_b3', 'rebusan_b4',
+                            'rebusan_b7', 'rebusan_b8', 'rebusan_b9', 'rebusan_b10','rebusan_a1','rebusan_a2','rebusan_c3'
                         ],
                     },
                     'Mess Putri': {
@@ -1283,8 +1278,7 @@ $('.edit').click(function() {
                     'mess_b2': 'mess_b2',
                     'mess_b3': 'mess_b3',
                     'mess_b4': 'mess_b4',
-                    'mess_b5': 'mess_b5',
-                    'mess_b6': 'mess_b6',
+
                     'mess_b7': 'mess_b7',
                     'mess_b8': 'mess_b8',
                     'mess_b9': 'mess_b9',
@@ -1301,8 +1295,6 @@ $('.edit').click(function() {
                         'mess_b2': 'mess_b2',
                         'mess_b3': 'mess_b3',
                         'mess_b4': 'mess_b4',
-                        'mess_b5': 'mess_b5',
-                        'mess_b6': 'mess_b6',
                         'mess_b7': 'mess_b7',
                         'mess_b8': 'mess_b8',
                         'mess_b9': 'mess_b9',
@@ -1312,8 +1304,6 @@ $('.edit').click(function() {
                         'rebusan_b2': 'rebusan_b2',
                         'rebusan_b3': 'rebusan_b3',
                         'rebusan_b4': 'rebusan_b4',
-                        'rebusan_b5': 'rebusan_b5',
-                        'rebusan_b6': 'rebusan_b6',
                         'rebusan_b7': 'rebusan_b7',
                         'rebusan_b8': 'rebusan_b8',
                         'rebusan_b9': 'rebusan_b9',
