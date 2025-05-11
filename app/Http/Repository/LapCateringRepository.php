@@ -645,7 +645,7 @@ class LapCateringRepository
                 ],
                 'MK SIANG MESS TAMBANG' => [
                     'RENCANA MESS GL A1' => 'siang_kamar_a1',
-                    'RENCANA MESS GL A1' => 'siang_kamar_a2',
+                    'RENCANA MESS GL A2' => 'siang_kamar_a2',
                     'Rencana Mess B1' => 'siang_kamar_b1',
                     'Rencana Mess B2' => 'siang_kamar_b2',
                     'Rencana Mess B3' => 'siang_kamar_b3',
@@ -710,7 +710,8 @@ class LapCateringRepository
                 ],
                 'MK TAMBANG MALAM' => [
                     'Plant Pitstop' => 'malam_plant_pitstop',
-                    'DRIVER PLANT PITSTOP' => 'malam_driver_plant',
+                    //sekar
+                    'DRIVER PLANT PITSTOP' => 'malam_driver_plant_plant',
                     'Plant Workshop' => 'malam_plant_workshop',
                     'DRIVER PLANT WORKSHOP' => 'malam_driver_workshop',
                     'FA - LOG KOPERASI MESS TAMBANG' => 'malam_mechanic_koperasi',
