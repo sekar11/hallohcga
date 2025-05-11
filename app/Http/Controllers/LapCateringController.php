@@ -92,7 +92,7 @@ class LapCateringController extends Controller
                 'MK SIANG KARTIKA' => ['LAUNDRY KARTIKA'],
                 'MK SIANG MEICU' => ['Mess Meicu R1', 'Mess Meicu R2', 'Mess Meicu R3 FMDP', 'Mess Meicu R4-5'],
                 'MK SIANG OFFICE GA MEICU' => ['Driver LV', 'Office Meicu', 'Meicu Security', 'VENDOR', 'CV ADE(PETUGAS SAMPAH)', 'Helper'],
-                'MK SIANG MESS TAMBANG' => ['RENCANA MESS GL A1', 'Rencana Mess B1', 'Rencana Mess B2', 'Rencana Mess B3', 'Rencana Mess B4', 'Rencana Mess B7', 'Rencana Mess B8', 'Rencana Mess B9', 'Rencana Mess B10'],
+                'MK SIANG MESS TAMBANG' => ['RENCANA MESS GL A1','RENCANA MESS GL A2', 'Rencana Mess B1', 'Rencana Mess B2', 'Rencana Mess B3', 'Rencana Mess B4', 'Rencana Mess B7', 'Rencana Mess B8', 'Rencana Mess B9', 'Rencana Mess B10'],
                 'MK SIANG MESS TAMBANG AMM' => ['Rencana Mess B1', 'Rencana Mess B2', 'Rencana Mess B3', 'Rencana Mess B4', 'Rencana Mess B7', 'Rencana Mess B8', 'Rencana Mess B9', 'Rencana Mess B10', 'SPARE'],
                 'OFFICE GA MESS TAMBANG' => ['Kontainer GA Mess Tambang', 'Electrical GA', 'Helper Mess', 'Driver bus Mess Tambang', 'KOPERASI MESS TAMBANG', 'KONTAINER MEDIC MESS TAMBANG', 'Security Mess Tambang', 'Mekanik TRAC Mess Tambang', 'Driver BUS JUM\'AT', 'GL CIVIEL ENG', 'Skill UP LT CSA pit 1'],
                 'MK SIANG DEPTHEAD & PJO' => ['Dept.Head ENG ★(Office Plant)', 'TAMU HO COE ★(Office Plant)', 'PJO ★(Office Plant)', 'Dept.Head Produksi ★(CSA PIT 1)', 'Dept Head SHE ★(CSA PIT 1)', 'Dept.Head PLANT ★(WORKSHOP)', 'Dept.Head PLANT ★(PITSTOP)'],
