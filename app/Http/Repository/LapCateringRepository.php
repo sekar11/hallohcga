@@ -460,7 +460,7 @@ class LapCateringRepository
                 'pagi_visitor_hcga'            => 'pagi_visitor_hcga',
                 'pagi_bagong'                  => 'pagi_bagong',
                 'pagi_vendor_jmi'             => 'pagi_vendor_jmi',
-                // 'siang_pitcontrol'             => 'siang_pitcontrol',
+                'siang_pitcontrol'             => 'siang_pitcontrol',
                 // 'siang_eng_csa_pit2_drill_blast' => 'siang_eng_csa_pit2_drill_blast',
                 // 'siang_eng_csa_pit2'           => 'siang_eng_csa_pit2',
                 // 'siang_driver_survey'          => 'siang_driver_survey',
@@ -741,7 +741,7 @@ class LapCateringRepository
                     'Security anjungan' => 'malam_security_anjungan', // BELUM
                     'SECURITY LAUNDRY KARTIKA' => 'malam_security_laundry',
                 ],
-                'SNACK OFFICE PLANT MALAM' => [
+                'MK OFFICE PLANT MALAM' => [
                     'Security'             => 'malam_security_plant',
                     'SECURITY PATROL'      => 'malam_security_patrol',
                     'PLANT'                => 'malam_base_control',
@@ -838,7 +838,7 @@ class LapCateringRepository
                 ],
                 'MAKAN TAMBANG SIANG' => [
                     'Produksi Pit 3 (Jam 10.00 WIB)'        => 'siang_prod_pit_3',
-                    // 'ENG CSA PIT 3'                         => 'siang_pitcontrol',
+                    'ENG CSA PIT 3'                         => 'siang_pitcontrol',
                     // 'ENG CSA PIT 2 DRILL & BLAST'           => 'siang_eng_csa_pit2_drill_blast',
                     // 'Eng CSA Pit 2'                         => 'siang_eng_csa_pit2_drill_blast',
                     // 'DRIVER ENG CSA PIT 2'                  => 'siang_driver_survey',
@@ -913,11 +913,11 @@ class LapCateringRepository
 
         // Mapping kategori per catering
         $categoryMapping = [
-         'fitri' => [
+            'fitri' => [
                 'Makan Tambang Siang' => [
                     'Produksi CSA PIT 1'                  => 'prod_csa_pit1',
-                    'Produksi CSA PIT 1 Akademi Skill up' => 'prod_skillup_csapit1',
                     'Section Head Anjungan pit 1'         => 'section_head_pit1',
+                    'Produksi CSA PIT 1 Akademi Skill up' => 'prod_skillup_csapit1',
                     'Prod PIT 2'                          => 'prod_pit2',
                     // 'Prod PIT 3'                          => 'prod_pit3',
                     'DRIVER LV PRODUKSI PIT 2'            => 'driver_lv_pit2',
@@ -939,7 +939,7 @@ class LapCateringRepository
                         'MESS GL PUTRI TALANG JAWA' => 'siang_mess_gl',
                         'MESS ADMIN PUTRI TALANG JAWA' => 'siang_mess_admin',
                         'HELPER MESS PUTRI' => 'siang_helper_mess',
-                    ],
+                ],
                 'MK SIANG MESS C3 (DH & SH)' => [
                     'MESS DPET/SECT HEAD' => 'siang_kamar_c3',
                 ],
@@ -997,7 +997,7 @@ class LapCateringRepository
                     'KONTAINER MEDIC MESS TAMBANG' => 'siang_kontainer_medic',
                     'Security Mess Tambang' => 'siang_security_poss',
                     'Mekanik TRAC Mess Tambang' => 'siang_mekanic_trac',
-                    'Driver BUS JUM\'AT' => 'siang_driver_bus_jumat_mess',
+                    'Driver BUS JUM\'AT' => 'siang_driver_bus_jumat',
                     'GL CIVIEL ENG' => 'siang_gl_civil',
                     'Skill UP LT CSA pit 1' => 'siang_skill_up_lt',
                 ],
@@ -1008,7 +1008,7 @@ class LapCateringRepository
                     'Dept.Head Produksi ★(CSA PIT 1)' => 'siang_dept_sect_csapit1',
                     'Dept Head SHE ★(CSA PIT 1)' => 'siang_dept_head',
                     'Dept.Head PLANT ★(WORKSHOP)' => 'siang_dept_head_plant',
-                    'Dept.Head PLANT ★(PITSTOP)' => 'siang_dept_head_pitstop,'
+                    'Dept.Head PLANT ★(PITSTOP)' => 'siang_dept_head_pitstop,', //'BELUM', // Belum ada kode
                 ],
                 'OFFICE PLANT SIANG' => [
                     'Driver Bus Jum\'atan' => 'siang_driver_bus_jumat', // Harusnya ada dua data katanya
@@ -1032,7 +1032,8 @@ class LapCateringRepository
                 ],
                 'MK TAMBANG MALAM' => [
                     'Plant Pitstop' => 'malam_plant_pitstop',
-                    'DRIVER PLANT PITSTOP' => 'malam_driver_plant',
+                    //sekar
+                    'DRIVER PLANT PITSTOP' => 'malam_driver_plant_plant',
                     'Plant Workshop' => 'malam_plant_workshop',
                     'DRIVER PLANT WORKSHOP' => 'malam_driver_workshop',
                     'FA - LOG KOPERASI MESS TAMBANG' => 'malam_mechanic_koperasi',
@@ -1050,7 +1051,7 @@ class LapCateringRepository
                     'Prod PIT 2' => 'malam_prod_pit2',
                     'DRIVER LV PRODUKSI PIT 2' => 'malam_driverlv_csapit2',
                     'Produksi Pit 3' => 'malam_prod_pit3',
-                    'ENG CSA HRM (Vendor JMI)' => 'malam_vendor_jmi', //'BELUM',
+                    'ENG CSA HRM (Vendor JMI)' => 'malam_vendor_jmi',
                     'SHE CSA PIT 1' => 'malam_she_csa_pit1',
                     'DRIVER SHE CSA PIT 1' => 'malam_driver',
                     'LOG WAREHOUSE' => 'malam_log_warehouse_falog',
@@ -1059,10 +1060,10 @@ class LapCateringRepository
                     'Driver GA+Helper office' => 'malam_driver_helper_office',
                     'Security Pit 2' => 'malam_security_pit1', // 'BELUM',
                     'Security Pit 3' => 'malam_security_pit3', // BELUM
-                    'Security anjungan' => 'security_anjungan', // BELUM
+                    'Security anjungan' => 'malam_security_anjungan', // BELUM
                     'SECURITY LAUNDRY KARTIKA' => 'malam_security_laundry',
                 ],
-                'SNACK OFFICE PLANT MALAM' => [
+                'MK OFFICE PLANT MALAM' => [
                     'Security'             => 'malam_security_plant',
                     'SECURITY PATROL'      => 'malam_security_patrol',
                     'PLANT'                => 'malam_base_control',
@@ -1070,7 +1071,6 @@ class LapCateringRepository
                     'COE - CCR'            => 'malam_coe_office',
                 ],
             ],
-
             'bintang' => [
                 'MK PAGI MESS PUTRI' => [
                     'MESS GL PUTRI TALANG JAWA'     => 'pagi_mess_gl',
@@ -1087,7 +1087,7 @@ class LapCateringRepository
                     'REBUSAN R3'         => 'pagi_rebusan_ruko3',
                     'REBUSAN R4-R5'      => 'pagi_rebusan_ruko45',
                     'VISITOR'            => 'pagi_visitor_hcga',
-                    'MAGANG'             => 'pagi_magang_meicu',
+                    'MAGANG'         => 'pagi_magang_meicu',
                 ],
                 'MK PAGI OFFICE PLANT' => [
                     'VENDOR JMI' => 'pagi_vendor_jmi',
@@ -1138,7 +1138,7 @@ class LapCateringRepository
                     'MAGANG'         => 'sore_magang_meicu',
                 ],
                 'MK SORE OFFICE PLANT' => [
-                    'VENDOR JMI (ENG)' => 'sore_vendor_jmi',
+                    'VENDOR JMI (ENG)' => 'siang_vendor_jmi',
                 ],
                 'Sore (Jam 15:40 WIB) MESS TAMBANG' => [
                     'Mess Tambang A1'    => 'sore_kamar_a1',
@@ -1159,38 +1159,38 @@ class LapCateringRepository
                     'SPARE'              => 'sore_spare_b1',
                 ],
                 'MAKAN TAMBANG SIANG' => [
-                    'Produksi Pit 3 (Jam 10.00 WIB)'        => 'prod_pit_3',
-                    // 'ENG CSA PIT 3'                         => 'pitcontrol',
-                    // 'ENG CSA PIT 2 DRILL & BLAST'           => 'eng_csa_pit2_drill_blast',
-                    // 'Eng CSA Pit 2'                         => 'eng_csa_pit2_drill_blast',
-                    // 'DRIVER ENG CSA PIT 2'                  => 'driver_survey',
-                    // 'ENG CSA HRM (Vendor JMI)'              => 'vendor_jmi',
-                    'COE CSA PIT 3'                         => 'mpccr_admccr_pit',
-                    'COE PITSOP - SS6'                      => 'coe_pitstop_ss6',
-                    'COE CSA PIT 1 - ICT'                   => 'coe_csa_pit1_ict',
-                    'Driver COE CSA PIT 1'                  => 'mpict_driver',
-                    'Plant Pitstop'                         => 'plant_pitstop',
-                    'Training Plant Pitstop'                => 'training',
-                    'DRIVER PLANT PITSTOP'                  => 'driver_plant',
-                    'PLANT OFFICE PITSTOP'                  => 'plant_office_pitstop',
-                    'Plant Workshop'                        => 'plant_workshop',
-                    'DRIVER PLANT WORKSHOP'                 => 'driver_workshop',
-                    'Sect.Head PLANT PITSTOP'               => 'sect_head_pitstop',
-                    'Sect.Head PLANT WORKSHOP'              => 'sect_head_plant',
-                    'Sect Head SHE CSA PIT 1'               => 'sect_head_she',
-                    'SHE CSA PIT 1'                         => 'she_csa_pit1',
-                    'DRIVER SHE CSA PIT 1'                  => 'driver_she',
-                    'DRIVER FA-LOG WAREHOUSE'               => 'driver_fa_log',
-                    'KOPERASI FALOG (RENCANA OFFICE)'       => 'koperasi_office',
-                    'FA-Log (WAREHOUSE PPA)'                => 'falog_warehouse',
-                    'SectHead FA-LOG WAREHOUSE'             => 'sect_head_falog',
-                    'Fuel'                                  => 'fuel',
-                    'FALOG( WORKSHOP KOPERASI GUDANG GA)'   => 'mechanic_koperasi',
-                    'HCGA Tes Praktek (Opsional)'           => 'test_praktek_hcga',
-                    'HCGA SPBI'                             => 'admin_spbi',
-                    'HCGA TAMBANG'                          => 'carpenter',
-                    'HCGA CSA PIT (PRAKTEK)'                => 'test_praktek_csapit',
-                    'HCGA Security SPBI'                    => 'security_spbi',
+                    'Produksi Pit 3 (Jam 10.00 WIB)'        => 'siang_prod_pit_3',
+                    'ENG CSA PIT 3'                         => 'siang_pitcontrol',
+                    // 'ENG CSA PIT 2 DRILL & BLAST'           => 'siang_eng_csa_pit2_drill_blast',
+                    // 'Eng CSA Pit 2'                         => 'siang_eng_csa_pit2_drill_blast',
+                    // 'DRIVER ENG CSA PIT 2'                  => 'siang_driver_survey',
+                    // 'ENG CSA HRM (Vendor JMI)'              => 'siang_vendor_jmi',
+                    'COE CSA PIT 3'                         => 'siang_mpccr_admccr_pit',
+                    'COE PITSOP - SS6'                      => 'siang_coe_pitstop_ss6',
+                    'COE CSA PIT 1 - ICT'                   => 'siang_coe_csa_pit1_ict',
+                    'Driver COE CSA PIT 1'                  => 'siang_mpict_driver',
+                    'Plant Pitstop'                         => 'siang_plant_pitstop',
+                    'Training Plant Pitstop'                => 'siang_training',
+                    'DRIVER PLANT PITSTOP'                  => 'siang_driver_plant',
+                    'PLANT OFFICE PITSTOP'                  => 'siang_plant_office_pitstop',
+                    'Plant Workshop'                        => 'siang_plant_workshop',
+                    'DRIVER PLANT WORKSHOP'                 => 'siang_driver_workshop',
+                    'Sect.Head PLANT PITSTOP'               => 'siang_sect_head_pitstop',
+                    'Sect.Head PLANT WORKSHOP'              => 'siang_sect_head_plant',
+                    'Sect Head SHE CSA PIT 1'               => 'siang_sect_head_she',
+                    'SHE CSA PIT 1'                         => 'siang_she_csa_pit1',
+                    'DRIVER SHE CSA PIT 1'                  => 'siang_driver_she',
+                    'DRIVER FA-LOG WAREHOUSE'               => 'siang_driver_fa_log',
+                    'KOPERASI FALOG (RENCANA OFFICE)'       => 'siang_koperasi_office',
+                    'FA-Log (WAREHOUSE PPA)'                => 'siang_falog_warehouse',
+                    'SectHead FA-LOG WAREHOUSE'             => 'siang_sect_head_falog',
+                    'Fuel'                                  => 'siang_fuel',
+                    'FALOG( WORKSHOP KOPERASI GUDANG GA)'   => 'siang_mechanic_koperasi',
+                    'HCGA Tes Praktek (Opsional)'           => 'siang_test_praktek_hcga',
+                    'HCGA SPBI'                             => 'siang_admin_spbi',
+                    'HCGA TAMBANG'                          => 'siang_carpenter',
+                    'HCGA CSA PIT (PRAKTEK)'                => 'siang_test_praktek_csapit',
+                    'HCGA Security SPBI'                    => 'siang_security_spbi',
                 ],
             ],
         ];
