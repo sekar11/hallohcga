@@ -1858,3 +1858,27 @@ th:nth-child(14), td:nth-child(14) {
     border-radius: 2px;
 
 }
+
+.add-snack-line {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.line {
+    flex: 1;
+    height: 2px;
+    background-color: #28a745;
+    margin: 0 10px;
+}
+
+.plus-icon, .minus-icon {
+    font-size: 24px;
+    color: #28a745;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+    user-select: none;
+}
+

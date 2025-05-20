@@ -23,10 +23,52 @@ class CateringController extends Controller
     }
 
 
+    // public function create()
+    // {
+    //     $userTeam = auth()->user()->tim_pic;
+
+    //     $tableMapping = [
+    //         'COE' => 'mk_coe',
+    //         'HCGA' => 'mk_hcga',
+    //         'ENG' => 'mk_eng',
+    //         'SHE' => 'mk_she',
+    //         'FALOG' => 'mk_falog',
+    //         'PROD' => 'mk_prod',
+    //         'PLANT' => 'mk_plant',
+    //         'A1' => 'mk_mess_a1',
+    //         'C3' => 'mk_mess_c3',
+    //         'AMM' => 'mk_mess_amm',
+    //         'MESS' => 'mk_mess',
+    //         'MESS_MEICU' => 'mk_mess_meicu',
+    //         'MESS_PUTRI' => 'mk_mess_putri',
+    //         'MARBOT' => 'mk_marbot',
+
+    //     ];
+
+    //     foreach (range(1, 10) as $i) {
+    //         $tableMapping["B$i"] = "mk_mess_b{$i}";
+    //     }
+
+
+    //     $tableName = $tableMapping[$userTeam] ?? null;
+
+    //     if (!$tableName) {
+    //         abort(404, 'Tabel tidak ditemukan untuk tim ini.');
+    //     }
+
+    //     $columns = Schema::getColumnListing($tableName);
+
+    //     $cateringData = $this->CateringRepository->getData();
+
+    //     $snackData = null;
+    //     return view('catering.catering', compact('columns', 'tableName', 'cateringData', 'snackData'));
+    // }
+
     public function create()
     {
         $userTeam = auth()->user()->tim_pic;
 
+        // Mapping table sesuai dengan tim pengguna
         $tableMapping = [
             'COE' => 'mk_coe',
             'HCGA' => 'mk_hcga',
@@ -42,13 +84,11 @@ class CateringController extends Controller
             'MESS_MEICU' => 'mk_mess_meicu',
             'MESS_PUTRI' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
-
         ];
 
         foreach (range(1, 10) as $i) {
             $tableMapping["B$i"] = "mk_mess_b{$i}";
         }
-
 
         $tableName = $tableMapping[$userTeam] ?? null;
 
@@ -56,13 +96,17 @@ class CateringController extends Controller
             abort(404, 'Tabel tidak ditemukan untuk tim ini.');
         }
 
+
         $columns = Schema::getColumnListing($tableName);
 
+
         $cateringData = $this->CateringRepository->getData();
+        $snackData = $this->CateringRepository->getSnackSummary($userTeam);
+        $spesialData = $this->CateringRepository->getspesialSummary($userTeam);
 
-        return view('catering.catering', compact('columns', 'tableName', 'cateringData'));
+        // Kirim kedua data ke view yang sama
+        return view('catering.catering', compact('columns', 'tableName', 'cateringData', 'spesialData', 'snackData'));
     }
-
 
     public function store(Request $request)
     {
@@ -450,6 +494,99 @@ class CateringController extends Controller
         }
 
     }
+
+    public function storeSnack(Request $request)
+    {
+        //dd($request->all());
+        $userTeam = auth()->user()->tim_pic;
+        $createdBy = auth()->user()->nama;
+        $status = 1;
+
+        $tanggal = $request->tanggal_snack_add;
+        $waktu   = $request->waktu_snack_add;
+        $area    = $request->area_snack_add;
+        $gedung  = $request->gedung_snack_add;
+        $lokasi  = $request->lokasi_snack_add;
+        $snack   = $request->snack_add;
+        $jumlah  = $request->jumlah_snack_add;
+
+        if (!$waktu || count($waktu) == 0) {
+            return response()->json(['status' => 'error', 'message' => 'Data snack kosong']);
+        }
+
+        $insertData = [];
+
+        foreach ($waktu as $index => $val) {
+            $insertData[] = [
+                'departemen'   => $userTeam,
+                'tanggal'      => $tanggal,
+                'waktu'        => $val,
+                'area'         => $area[$index],
+                'gedung'       => $gedung[$index],
+                'lokasi'       => $lokasi[$index],
+                'jenis'        => $snack[$index],
+                'jumlah'       => $jumlah[$index],
+                'create_at'    => now(),
+                'status'       => $status,
+                'created_name' => $createdBy
+            ];
+        }
+
+        $insert = DB::table('mk_snack')->insert($insertData);
+
+        if ($insert) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
+        }
+    }
+
+    public function storeSpesial(Request $request)
+    {
+        //dd($request->all());
+        $userTeam = auth()->user()->tim_pic;
+        $createdBy = auth()->user()->nama;
+        $status = 1;
+
+        $tanggal = $request->tanggal_spesial_add;
+        $waktu   = $request->waktu_spesial_add;
+        $area   = $request->area_spesial_add;
+        $gedung   = $request->gedung_spesial_add;
+        $lokasi  = $request->lokasi_spesial_add;
+        $spesial   = $request->spesial_add;
+        $jumlah  = $request->jumlah_spesial_add;
+
+        if (!$waktu || count($waktu) == 0) {
+            return response()->json(['status' => 'error', 'message' => 'Data spesial kosong']);
+        }
+
+        $insertData = [];
+
+        foreach ($waktu as $index => $val) {
+            $insertData[] = [
+                'departemen'   => $userTeam,
+                'tanggal'      => $tanggal,
+                'waktu'        => $val,
+                'area'         => $area[$index],
+                'gedung'       => $gedung[$index],
+                'lokasi'       => $lokasi[$index],
+                'jenis'        => $spesial[$index],
+                'jumlah'       => $jumlah[$index],
+                'create_at'    => now(),
+                'status'       => $status,
+                'created_name' => $createdBy
+            ];
+        }
+
+        $insert = DB::table('mk_spesial')->insert($insertData);
+
+        if ($insert) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
+        }
+    }
+
 
     protected function sendWhatsAppMessage($no_hp, $message)
     {
@@ -872,6 +1009,80 @@ class CateringController extends Controller
         }
     }
 
+    public function editSnack(Request $request, $id)
+    {
+        $userTeam = auth()->user()->tim_pic;
+
+        $table = 'mk_snack';
+
+        $columnMappings = [
+            'tanggal_snack_add' => 'tanggal',
+            'waktu_snack_add'   => 'waktu',
+            'area_snack_add'  => 'area',
+            'gedung_snack_add'  => 'gedung',
+            'lokasi_snack_add'  => 'lokasi',
+            'snack_add'   => 'jenis',
+            'jumlah_snack_add'  => 'jumlah'
+        ];
+
+        $inputData = $request->except(['_token', 'table_name']);
+
+        $data = [];
+        foreach ($inputData as $inputName => $value) {
+            $columnName = $columnMappings[$inputName] ?? $inputName;
+            $data[$columnName] = is_array($value) ? $value[0] : $value;
+        }
+
+        $update = DB::table($table)
+            ->where('id', $id)
+            ->where('departemen', $userTeam)
+            ->update($data);
+
+        if ($update) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal mengupdate data']);
+        }
+    }
+
+    public function editSpesial(Request $request, $id)
+    {
+        //dd($request->all());
+        $userTeam = auth()->user()->tim_pic;
+
+        $table = 'mk_spesial';
+
+        $columnMappings = [
+            'tanggal_spesial_add' => 'tanggal',
+            'waktu_spesial_add'   => 'waktu',
+            'area_spesial_add'    => 'area',
+            'gedung_spesial_add'  => 'gedung',
+            'lokasi_spesial_add'  => 'lokasi',
+            'spesial_add'   => 'jenis',
+            'jumlah_spesial_add'  => 'jumlah'
+        ];
+
+        $inputData = $request->except(['_token', 'table_name']);
+
+        $data = [];
+        foreach ($inputData as $inputName => $value) {
+            $columnName = $columnMappings[$inputName] ?? $inputName;
+            $data[$columnName] = is_array($value) ? $value[0] : $value;
+        }
+
+        $update = DB::table($table)
+            ->where('id', $id)
+            ->where('departemen', $userTeam)
+            ->update($data);
+
+        if ($update !== false) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal mengupdate data']);
+        }
+    }
+
+
     public function delete(Request $request)
     {
 
@@ -909,6 +1120,37 @@ class CateringController extends Controller
         return response()->json(['message' => $result]);
     }
 
+    public function deleteSnack(Request $request)
+    {
+
+        $selectedUserId = $request->input('snack_id');
+
+        $tableName = 'mk_snack';
+
+        if (!$tableName) {
+            return response()->json(['message' => 'Tabel tidak ditemukan untuk tim ini.'], 404);
+        }
+
+        $result = $this->CateringRepository->deleteFromTableSnack($tableName, $selectedUserId);
+
+        return response()->json(['message' => $result]);
+    }
+
+    public function deleteSpesial(Request $request)
+    {
+
+        $selectedUserId = $request->input('spesial_id');
+
+        $tableName = 'mk_spesial';
+
+        if (!$tableName) {
+            return response()->json(['message' => 'Tabel tidak ditemukan untuk tim ini.'], 404);
+        }
+
+        $result = $this->CateringRepository->deleteFromTableSpesial($tableName, $selectedUserId);
+
+        return response()->json(['message' => $result]);
+    }
 
     public function sendRevisi(Request $request)
     {
@@ -942,11 +1184,100 @@ class CateringController extends Controller
         return response()->json(['message' => $result]);
     }
 
+    public function sendRevisiSnack(Request $request)
+    {
+        $departemen = $request->input('departemen', 'HCGA');
+        $selectedComplainId = $request->input('snack_id');
+
+        $result = $this->CateringRepository->sendRevisiSnack($selectedComplainId, $departemen);
+
+        $messageUser = "STATUS: REVISION IS DONE\n\n";
+
+        $messageUser = "DEPARTEMEN: $departemen\n\n";
+
+        $messageUser .= "Halo Admin HCGA\n\n";
+        $messageUser .= "Revisi data  SNACK telah diselesaikan oleh departemen $departemen .\n\n";
+
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $nomorTujuan = [
+            '082181777455',
+            '082177968433',
+            '082177451148'
+        ];
+
+        // Kirim ke semua nomor
+        foreach ($nomorTujuan as $nomor) {
+            $this->sendWhatsAppMessage($nomor, $messageUser);
+        }
+
+        return response()->json(['message' => $result]);
+    }
+
+    public function sendRevisiSpesial(Request $request)
+    {
+        $departemen = $request->input('departemen', 'HCGA');
+        $selectedComplainId = $request->input('spesial_id');
+
+        $result = $this->CateringRepository->sendRevisiSpesial($selectedComplainId, $departemen);
+
+        $messageUser = "STATUS: REVISION IS DONE\n\n";
+
+        $messageUser = "DEPARTEMEN: $departemen\n\n";
+
+        $messageUser .= "Halo Admin HCGA\n\n";
+        $messageUser .= "Revisi data MK Spesial telah diselesaikan oleh departemen $departemen .\n\n";
+
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $nomorTujuan = [
+            '082181777455',
+            '082177968433',
+            '082177451148'
+        ];
+
+        // Kirim ke semua nomor
+        foreach ($nomorTujuan as $nomor) {
+            $this->sendWhatsAppMessage($nomor, $messageUser);
+        }
+
+        return response()->json(['message' => $result]);
+    }
+
     public function getEdit(Request $request, $id)
     {
         $departemen = $request->input('departemen', 'HCGA');
 
         $data = $this->CateringRepository->getById($id, $departemen);
+
+        if (!$data) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($data);
+    }
+
+    public function getEditSnack(Request $request, $id)
+    {
+        //$departemen = auth()->user()->tim_pic;
+
+        $data = $this->CateringRepository->getByIdSnack($id);
+        if (!$data) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($data);
+    }
+
+    public function getEditSpesial(Request $request, $id)
+    {
+        $departemen = auth()->user()->tim_pic;
+
+        $data = $this->CateringRepository->getByIdSpesial($id, $departemen);
 
         if (!$data) {
             return response()->json(['error' => 'Data tidak ditemukan'], 404);

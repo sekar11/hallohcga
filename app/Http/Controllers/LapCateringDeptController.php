@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Repository\LapCateringDeptRepository;
+use App\Http\Repository\CateringRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Hash;
@@ -11,11 +12,22 @@ use Illuminate\Support\Facades\DB;
 
 class LapCateringDeptController extends Controller
 {
-    protected $LapCateringDeptRepository;
+    // protected $LapCateringDeptRepository;
 
-    public function __construct(LapCateringDeptRepository $LapCateringDeptRepository)
-    {
+    // public function __construct(LapCateringDeptRepository $LapCateringDeptRepository)
+    // {
+    //     $this->LapCateringDeptRepository = $LapCateringDeptRepository;
+    // }
+
+    protected $LapCateringDeptRepository;
+    protected $CateringRepository;
+
+    public function __construct(
+        LapCateringDeptRepository $LapCateringDeptRepository,
+        CateringRepository $CateringRepository
+    ) {
         $this->LapCateringDeptRepository = $LapCateringDeptRepository;
+        $this->CateringRepository = $CateringRepository;
     }
 
 
@@ -60,8 +72,10 @@ class LapCateringDeptController extends Controller
         $columns = Schema::getColumnListing($tableName);
 
         $cateringData = $this->LapCateringDeptRepository->getData($tableName, $startDate, $endDate);
+        $snackData = $this->LapCateringDeptRepository->getSnackSummary();
+        $spesialData = $this->LapCateringDeptRepository->getSpesialSummary();
         //dd($cateringData);
-        return view('catering.laporanCateringDepartemen', compact('columns', 'tableName', 'cateringData', 'startDate', 'endDate', 'selectedDept'));
+        return view('catering.laporanCateringDepartemen', compact('columns', 'tableName', 'cateringData', 'startDate', 'endDate', 'selectedDept','snackData', 'spesialData'));
     }
 
     public function store(Request $request)
@@ -222,6 +236,7 @@ class LapCateringDeptController extends Controller
                 'gl_csapit2' => 'gl_csapit2',
                 'spare_csapit2' => 'spare_csapit2',
                 'admin_csapit2'=> 'admin_csapit2',
+                'training_csapit2'=> 'training_csapit2',
                 'driverlv_csapit2'=> 'driverlv_csapit2',
                 'operator_csapit3' => 'operator_csapit3',
                 'gl_csapit3' => 'gl_csapit3',
@@ -422,6 +437,116 @@ class LapCateringDeptController extends Controller
         }
     }
 
+    public function storeSnack(Request $request)
+    {
+        $createdBy = auth()->user()->nama;
+
+        $tanggal  = $request->tanggal_snack_add;
+        $waktu    = $request->waktu_snack_add;
+        $area     = $request->area_snack_add;
+        $gedung   = $request->gedung_snack_add;
+        $lokasi   = $request->lokasi_snack_add;
+        $snack    = $request->snack_add;
+        $jumlah   = $request->jumlah_snack_add;
+        $catering = $request->catering_snack_add;
+        $harga    = $request->harga_snack_add;
+        $departemen    = $request->departemen_snack_add;
+        $status   = 1;
+
+        if (!$waktu || count($waktu) == 0) {
+            return response()->json(['status' => 'error', 'message' => 'Data snack kosong']);
+        }
+
+        $insertData = [];
+
+        foreach ($waktu as $index => $val) {
+            // cek status kirim catering — kalau kosong, isi 0
+        //    $kirimCatering = array_key_exists($index, $status) ? 2 : 1;
+
+            $insertData[] = [
+                'departemen'   => $departemen,
+                'tanggal'      => $tanggal,
+                'waktu'        => $val,
+                'area'         => $area[$index],
+                'gedung'       => $gedung[$index],
+                'lokasi'       => $lokasi[$index],
+                'jenis'        => $snack[$index],
+                'jumlah'       => $jumlah[$index],
+                'catering'     => $catering[$index],
+                'harga'        => $harga[$index],
+                'status'       => $status,
+                // 'approval_on'  => now(),
+                // 'approval_by' => $createdBy,
+                'create_at'    => now(),
+                'created_name' => $createdBy
+            ];
+        }
+
+        $insert = DB::table('mk_snack')->insert($insertData);
+
+        if ($insert) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
+        }
+    }
+
+    public function storeSpesial(Request $request)
+    {
+        $createdBy = auth()->user()->nama;
+
+        $tanggal  = $request->tanggal_spesial_add;
+        $waktu    = $request->waktu_spesial_add;
+        $area     = $request->area_spesial_add;
+        $gedung    = $request->gedung_spesial_add;
+        $lokasi   = $request->lokasi_spesial_add;
+        $spesial    = $request->spesial_add;
+        $jumlah   = $request->jumlah_spesial_add;
+        $catering = $request->catering_spesial_add;
+        $harga    = $request->harga_spesial_add;
+        $departemen    = $request->departemen_spesial_add;
+        $status   = 1;
+
+        if (!$waktu || count($waktu) == 0) {
+            return response()->json(['status' => 'error', 'message' => 'Data spesial kosong']);
+        }
+
+        $insertData = [];
+
+        foreach ($waktu as $index => $val) {
+            // cek status kirim catering — kalau kosong, isi 0
+        //    $kirimCatering = array_key_exists($index, $status) ? 2 : 1;
+
+            $insertData[] = [
+                'departemen'   => $departemen,
+                'tanggal'      => $tanggal,
+                'waktu'        => $val,
+                'area'         => $area[$index],
+                'gedung'       => $gedung[$index],
+                'lokasi'       => $lokasi[$index],
+                'jenis'        => $spesial[$index],
+                'jumlah'       => $jumlah[$index],
+                'catering'     => $catering[$index],
+                'harga'        => $harga[$index],
+                'status'       => $status,
+                // 'approval_on'  => now(),
+                // 'approval_by' => $createdBy,
+                'create_at'    => now(),
+                'created_name' => $createdBy
+            ];
+        }
+
+        $insert = DB::table('mk_spesial')->insert($insertData);
+
+        if ($insert) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
+        }
+    }
+
+
+
     public function edit(Request $request, $id)
     {
         //dd($request);
@@ -605,6 +730,7 @@ class LapCateringDeptController extends Controller
                 'gl_csapit2' => 'gl_csapit2',
                 'spare_csapit2' => 'spare_csapit2',
                 'admin_csapit2'=> 'admin_csapit2',
+                'training_csapit2'=> 'training_csapit2',
                 'driverlv_csapit2'=> 'driverlv_csapit2',
                 'operator_csapit3' => 'operator_csapit3',
                 'gl_csapit3' => 'gl_csapit3',
@@ -801,6 +927,116 @@ class LapCateringDeptController extends Controller
         }
     }
 
+    public function getEditSnack(Request $request, $id)
+    {
+       // $departemen = auth()->user()->tim_pic;
+
+        $data = $this->LapCateringDeptRepository->getByIdSnack($id);
+         //dd($data);
+        if (!$data) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($data);
+    }
+
+
+    public function getEditSpesial(Request $request, $id)
+    {
+       // $departemen = auth()->user()->tim_pic;
+
+        $data = $this->LapCateringDeptRepository->getByIdSpesial($id);
+        //dd($data);
+        if (!$data) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($data);
+    }
+
+    public function editSnack(Request $request, $id)
+    {
+        //dd($request->all());
+        //$userTeam = auth()->user()->tim_pic;
+        $table = 'mk_snack';
+
+        $columnMappings = [
+            'tanggal_snack_add'  => 'tanggal',
+            'waktu_snack_add'    => 'waktu',
+            'area_snack_add'     => 'area',
+            'gedung_snack_add'   => 'gedung',
+            'lokasi_snack_add'   => 'lokasi',
+            'catering_snack_add' => 'catering',
+            'harga_snack_add'    => 'harga',
+            'snack_add'          => 'jenis',
+            'jumlah_snack_add'   => 'jumlah',
+            'departemen_snack_add' => 'departemen'
+        ];
+
+        $inputData = $request->except(['_token', 'table_name']);
+
+        $data = [];
+        foreach ($inputData as $inputName => $value) {
+            $columnName = $columnMappings[$inputName] ?? $inputName;
+            $data[$columnName] = is_array($value) ? $value[0] : $value;
+        }
+
+        // Force kolom 'status' ke nilai 2
+        //$data['status'] = 2;
+
+        $update = DB::table($table)
+            ->where('id', $id)
+            ->update($data);
+
+        if ($update) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal mengupdate data']);
+        }
+    }
+
+    public function editSpesial(Request $request, $id)
+    {
+        //dd($request->all());
+        //$userTeam = auth()->user()->tim_pic;
+        $table = 'mk_spesial';
+
+        $columnMappings = [
+            'tanggal_spesial_add'  => 'tanggal',
+            'waktu_spesial_add'    => 'waktu',
+            'area_spesial_add'    => 'area',
+            'gedung_spesial_add'    => 'gedung',
+            'lokasi_spesial_add'   => 'lokasi',
+            'catering_spesial_add' => 'catering',
+            'harga_spesial_add'    => 'harga',
+            'spesial_add'          => 'jenis',
+            'jumlah_spesial_add'   => 'jumlah',
+            'departemen_spesial_add' => 'departemen'
+        ];
+
+        $inputData = $request->except(['_token', 'table_name']);
+
+        $data = [];
+        foreach ($inputData as $inputName => $value) {
+            $columnName = $columnMappings[$inputName] ?? $inputName;
+            $data[$columnName] = is_array($value) ? $value[0] : $value;
+        }
+
+        // Force kolom 'status' ke nilai 2
+        //$data['status'] = 2;
+
+        $update = DB::table($table)
+            ->where('id', $id)
+            ->update($data);
+
+        if ($update) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Gagal mengupdate data']);
+        }
+    }
+
+
     public function delete(Request $request)
     {
 
@@ -884,6 +1120,75 @@ class LapCateringDeptController extends Controller
         //return response()->json(['message' => $result]);
     }
 
+    public function revisiSnack(Request $request)
+    {
+        // $departemen = $request->input('departemen', 'HCGA');
+        $revisiName = auth()->user()->nama;
+        $selectedComplainId = $request->input('snack_id');
+        $pesanRevisi = $request->input('revisisnack');
+
+        $result = $this->LapCateringDeptRepository->revisiSnack($revisiName, $selectedComplainId, $pesanRevisi);
+        $mkreguler = $this->LapCateringDeptRepository->findByIdSnack($selectedComplainId);
+
+        if (!$mkreguler || !$mkreguler->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: REVISI\n\n";
+        $messageUser .= "Halo {$mkreguler->nama},\n";
+        $messageUser .= "Terdapat data yang harus di revisi pada MK Snack yang kamu ajukan.\n\n";
+        $messageUser .= "Detail Data:\n";
+        $messageUser .= "- Tanggal: {$mkreguler->tanggal}\n";
+        $messageUser .= "- Waktu: {$mkreguler->waktu}\n";
+        $messageUser .= "Keterangan Revisi:\n";
+        $messageUser .= "{$mkreguler->revisi_desc}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($mkreguler->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
+        return response()->json(['message' => $result]);
+
+    }
+
+    public function revisiSpesial(Request $request)
+    {
+        // $departemen = $request->input('departemen', 'HCGA');
+        $revisiName = auth()->user()->nama;
+        $selectedComplainId = $request->input('spesial_id');
+        $pesanRevisi = $request->input('revisispesial');
+
+        $result = $this->LapCateringDeptRepository->revisiSpesial($revisiName, $selectedComplainId, $pesanRevisi);
+        $mkreguler = $this->LapCateringDeptRepository->findByIdSpesial($selectedComplainId);
+//dd($mkreguler);
+        if (!$mkreguler || !$mkreguler->no_hp) {
+            return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
+        }
+
+        $messageUser = "STATUS: REVISI\n\n";
+        $messageUser .= "Halo {$mkreguler->nama},\n";
+        $messageUser .= "Terdapat data yang harus di revisi pada MK Snack yang kamu ajukan.\n\n";
+        $messageUser .= "Detail Data:\n";
+        $messageUser .= "- Tanggal: {$mkreguler->tanggal}\n";
+        $messageUser .= "- Waktu: {$mkreguler->waktu}\n";
+        $messageUser .= "Keterangan Revisi:\n";
+        $messageUser .= "{$mkreguler->revisi_desc}\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $responseUser = $this->sendWhatsAppMessage($mkreguler->no_hp, $messageUser);
+        if (!$responseUser) {
+            return response()->json(['error' => 'Gagal mengirim pesan WhatsApp ke Pelapor'], 500);
+        }
+        return response()->json(['message' => $result]);
+
+    }
+
+
     protected function sendWhatsAppMessage($no_hp, $message)
     {
         $apiKey = env('FONNTE_API_KEY');
@@ -935,6 +1240,42 @@ class LapCateringDeptController extends Controller
         $approval = $request->input('keterangan');
 
         $result = $this->LapCateringDeptRepository->approval($approvalName, $selectedComplainId, $approval, $departemen);
+
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $result,
+        ]);
+    }
+
+    public function approvalSnack(Request $request)
+    {
+
+
+        $approvalName = auth()->user()->nama;
+        $selectedSnackId = $request->input('snack_id');
+        $catering = $request->input('catering_snack_approve');
+        $harga = $request->input('harga_snack_approve');
+
+        $result = $this->LapCateringDeptRepository->approvalSnack($approvalName, $selectedSnackId, $catering, $harga);
+
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $result,
+        ]);
+    }
+
+       public function approvalSpesial(Request $request)
+    {
+
+
+        $approvalName = auth()->user()->nama;
+        $selectedSpesialId = $request->input('spesial_id');
+        $catering = $request->input('catering_spesial_approve');
+        $harga = $request->input('harga_spesial_approve');
+
+        $result = $this->LapCateringDeptRepository->approvalSpesial($approvalName, $selectedSpesialId, $catering, $harga);
 
 
         return response()->json([

@@ -18,10 +18,31 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"><i class="fa-solid fa-square-poll-vertical"></i> MK Catering</h5>
-              <button type="button" class="btn bi bi-plus btn-sm btn-primary" id="btn-open-modal" data-bs-toggle="modal" data-bs-target="#cateringModal"> Add MK Catering Reguler</button>
+              <button type="button" class="btn bi bi-plus btn-sm btn-primary" id="btn-open-modal" data-bs-toggle="modal" data-bs-target="#cateringModal"> Add MK Reguler</button>
+              <button type="button" class="btn bi bi-plus btn-sm btn-primary" id="btn-spesial-modal" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal"> Add MK Spesial</button>
+              <button type="button" class="btn bi bi-plus btn-sm btn-primary" id="btn-snack-modal" data-bs-toggle="modal" data-bs-target="#cateringSnackModal"> Add Snack</button>
               <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exportModal"><i class="fas fa-file-excel"></i> Export Data</button>
 
-                <!-- Modal View Data -->
+                {{-- TABS --}}
+                <ul class="nav nav-tabs mt-4" id="cateringTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="reguler-tab" data-bs-toggle="tab" data-bs-target="#reguler" type="button" role="tab" aria-controls="reguler" aria-selected="true">
+                        MK Reguler
+                    </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="spesial-tab" data-bs-toggle="tab" data-bs-target="#spesial" type="button" role="tab" aria-controls="spesial" aria-selected="false">
+                        MK Spesial
+                    </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="snack-tab" data-bs-toggle="tab" data-bs-target="#snack" type="button" role="tab" aria-controls="snack" aria-selected="false">
+                        Snack
+                    </button>
+                    </li>
+                </ul>
+
+                <!-- Modal View Data  Catering-->
                 <div class="modal fade modal-view" id="viewcateringModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -40,6 +61,74 @@
                                         </tr>
                                     </thead>
                                     <tbody id="viewDataContainer">
+                                        <!-- Data akan diisi dengan JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal View Data Snack-->
+                <div class="modal fade modal-view" id="viewsnackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Detail Data Snack</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Area</th>
+                                            <th>Gedung</th>
+                                            <th>Lokasi</th>
+                                            <th>Jenis</th>
+                                            <th>Total</th>
+                                            <th>Revisi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewDataSnack">
+                                        <!-- Data akan diisi dengan JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal View Data Spesial-->
+                <div class="modal fade modal-view" id="viewspesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Detail Data Spesial</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Area</th>
+                                            <th>Gedung</th>
+                                            <th>Lokasi</th>
+                                            <th>Jenis</th>
+                                            <th>Total</th>
+                                            <th>Revisi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewDataSpesial">
                                         <!-- Data akan diisi dengan JavaScript -->
                                     </tbody>
                                 </table>
@@ -194,6 +283,7 @@
                                         'spare_csapit2' => ['label' => 'Spare', 'name' => 'spare_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'driverlv_csapit2' => ['label' => 'Driver LV', 'name' => 'driverlv_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'admin_csapit2' => ['label' => 'Admin CSA PIT 2', 'name' => 'admin_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
+                                        'training_csapit2' => ['label' => 'Ruang Training CSA PIT 2', 'name' => 'training_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
 
                                         'dept_sect_csapit3' => ['label' => 'Sect. Head', 'name' => 'dept_sect_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
                                         'operator_csapit3' => ['label' => 'Operator', 'name' => 'operator_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
@@ -480,7 +570,7 @@
                 </div>
                 {{-- End Modal Add --}}
 
-                <!-- Modal Add SNACK-->
+                <!-- Modal Add SNACK sekar-->
                 <div class="modal fade modal_add_snack" id="cateringSnackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -491,89 +581,99 @@
                         <div class="modal-body">
                             {{-- <input type="hidden" name="_token" value="{{{ csrf_token() }}}" /> --}}
                             <input type="hidden" name="id" id="id"/>
-                            <form class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
+                            <form id="cateringSnackForm" class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
                             @csrf
-                                <div class="col-md-4">
+                            <div class="row mt-3">
+                                <div class="col-md-3">
                                 <div class="form-floating">
-                                    <input type="date" class="form-control" id="tanggal_add_snack" name="tanggal_add_snack" placeholder="Tanggal" readonly>
+                                    <input type="date" class="form-control" id="tanggal_snack_add" name="tanggal_snack_add" placeholder="Tanggal">
                                     <label for="message-text">Tanggal </label>
                                 </div>
                                 </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div id="snack-container">
+                            <div class="row mb-3 g-3 snack-item">
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <select class="form-select" name="waktu_snack_add[]">
+                                            <option value=""> - Pilih Waktu - </option>
+                                            <option value="Pagi">Pagi</option>
+                                            <option value="Siang">Siang</option>
+                                            <option value="Sore">Sore</option>
+                                            <option value="Malam">Malam</option>
+                                        </select>
+                                        <label>Waktu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="snack_biasa_add" name="snack_biasa_add" placeholder="Snack Biasa">
-                                    <label for="message-text">Snack Biasa</label>
+                                    <select class="form-control" id="area_snack_add[]" name="area_snack_add[]">
+                                        <option value="">Pilih Area</option>
+                                        <option value="Mess">MESS</option>
+                                        <option value="Office">Office</option>
+                                        <option value="CSA 1">CSA 1</option>
+                                        <option value="CSA 2">CSA 2</option>
+                                        <option value="CSA 3">CSA 3</option>
+                                        <option value="CSA FUEL">CSA FUEL</option>
+                                        <option value="PITSTOP">PITSTOP</option>
+                                        <option value="OTHER">Lainnya</option>
+                                    </select>
+
+                                    <label for="area_snack_add">Area</label>
                                 </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-control" id="gedung_snack_add[]" name="gedung_snack_add[]">
+                                        <option value="">Pilih Gedung</option>
+                                    </select>
+                                    <label for="gedung_snack_add">Gedung</label>
+                                </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="lokasi_snack_add[]" name="lokasi_snack_add[]" placeholder="Lokasi">
+                                    <label for="message-text">Lokasi</label>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="snack_spesial_add" name="snack_spesial_add" placeholder="Snack Spesial">
-                                        <label for="message-text">Snack Spesial</label>
+                                        <select class="form-select" name="snack_add[]">
+                                            <option value="">- Pilih Snack -</option>
+                                            <option value="Snack Biasa">Snack Biasa</option>
+                                            <option value="Snack Spesial">Snack Spesial</option>
+                                            <option value="Parcel Buah Biasa">Parcel Buah Biasa</option>
+                                            <option value="Parcel Buah Spesial">Parcel Buah Spesial</option>
+                                            <option value="Pempel">Pempek</option>
+                                            <option value="Kopi">Kopi Iglo</option>
+                                            <option value="Teh">Teh Iglo</option>
+                                            <option value="Wedang Jahe">Wedang Jahe</option>
+                                            <option value="Aqua Cup 220 ml">Aqua Cup 220 ml</option>
+                                            <option value="Aqua botol 330 ml">Aqua botol 330 ml</option>
+                                            <option value="Aqua botol 660 ml">Aqua botol 660 ml</option>
+                                        </select>
+                                        <label>Snack</label>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="parcel_buah_add" name="parcel_buah_add" placeholder="Parcel">
-                                        <label for="message-text">Parcel Buah Biasa</label>
+                                        <input type="text" class="form-control" name="jumlah_snack_add[]" placeholder="Jumlah">
+                                        <label>Jumlah</label>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="parcel_spesial_add" name="parcel_spesial_add" placeholder="Parcel">
-                                        <label for="message-text">Parcel Buah Spesial</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="pempek_add" name="pempek_add" placeholder="Pempek">
-                                        <label for="message-text">Pempek</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="kopi_add" name="kopi_add" placeholder="Kopi">
-                                        <label for="message-text">Kopi Iglo</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="jahe_add" name="jahe_add" placeholder="Jahe">
-                                        <label for="message-text">Wedang Jahe Iglo</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="jahe_add" name="teh_add" placeholder="Teh">
-                                        <label for="message-text">Teh Iglo</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="aqua_cup_add" name="aqua_cup_add" placeholder="Aqua">
-                                        <label for="message-text">Aqua Cup 220 ml</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="aqua_330_add" name="aqua_330_add" placeholder="Aqua">
-                                        <label for="message-text">Aqua Botol 330 ml</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="aqua_660_add" name="aqua_660_add" placeholder="Aqua">
-                                        <label for="message-text">Aqua Botol 660 ml</label>
-                                    </div>
-                                </div>
-                                @if(auth()->user()->tim_pic == 'PROD')
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="bubur_add" name="bubur_add" placeholder="Bubur">
-                                        <label for="message-text">Bubur Jubaidah</label>
-                                    </div>
-                                </div>
-                                @endif
-                            </form>
+                            </div>
+
+                            </div>
+                        <hr>
+                        </div>
+
+                        {{-- <div class="add-snack-line mt-3">
+                            <div class="minus-icon" id="remove-snack-btn">-</div>
+                            <div class="line"></div>
+                            <div class="plus-icon" id="add-snack-btn">+</div>
+                        </div> --}}
+
+                        </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" id="btn-yes-add-snack">Save</button>
@@ -588,50 +688,113 @@
                 {{-- End Modal Add --}}
 
                 <!--Modal Add MK Spesial-->
-                <div class="modal fade modal_add_spesial" id="cateringSpesialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                <div class="modal fade modal_add_spesial" id="cateringSpesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add MK Spesial</h5>
+                            <h1 class="modal-title fs-5" id="btn-add">Add MK Spesial</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </button>
                         </div>
                         <div class="modal-body">
-                            <form class="kt-form kt-form--label-right form_validasi"method="POST" enctype="multipart/form-data" autocomplete="off">
+                            {{-- <input type="hidden" name="_token" value="{{{ csrf_token() }}}" /> --}}
+                            <input type="hidden" name="id" id="id"/>
+                            <form id="cateringSpesialForm" class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
                             @csrf
-
-                              <!-- Input Kategori -->
-                              <div class="col-md-12">
+                            <div class="row mt-3">
+                                <div class="col-md-3">
                                 <div class="form-floating">
-                                  <label for="kategori" class="form-control"</label>
-                                  <select class="form-control" id="spesial_add" name="spesial_add">
-                                      <option value="">- Pilih Mk Spesial -</option>
-                                      <option value="prasmanan">Prasmanan</option>
-                                      <option value="ayam_bakar">Ayam Bakar</option>
-                                      <option value="nasi_liwet">Nasi Liwet</option>
-                                  </select>
+                                    <input type="date" class="form-control" id="tanggal_spesial_add" name="tanggal_spesial_add" placeholder="Tanggal">
+                                    <label for="message-text">Tanggal </label>
                                 </div>
-                              </div>
-
-                              <div class="col-md-12">
+                                </div>
+                            </div>
+                            <div id="spesial-container">
+                            <div class="row mb-3 g-3 spesial-item">
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <select class="form-select" name="waktu_spesial_add[]">
+                                            <option value=""> - Pilih Waktu - </option>
+                                            <option value="Pagi">Pagi</option>
+                                            <option value="Siang">Siang</option>
+                                            <option value="Sore">Sore</option>
+                                            <option value="Malam">Malam</option>
+                                        </select>
+                                        <label>Waktu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="jumlah_spesial_add" name="jumlah_spesial_add" placeholder="Jumlah">
-                                    <label for="message-text">Jumlah</label>
+                                    <select class="form-control" id="area_spesial_add[]" name="area_spesial_add[]">
+                                        <option value="">Pilih Area</option>
+                                        <option value="Mess">MESS</option>
+                                        <option value="Office">Office</option>
+                                        <option value="CSA 1">CSA 1</option>
+                                        <option value="CSA 2">CSA 2</option>
+                                        <option value="CSA 3">CSA 3</option>
+                                        <option value="CSA FUEL">CSA FUEL</option>
+                                        <option value="PITSTOP">PITSTOP</option>
+                                        <option value="OTHER">Lainnya</option>
+                                    </select>
+
+                                    <label for="area_spesial_add">Area</label>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-control" id="gedung_spesial_add[]" name="gedung_spesial_add[]">
+                                        <option value="">Pilih Gedung</option>
+                                    </select>
+                                    <label for="gedung_spesial_add">Gedung</label>
                                 </div>
 
-                               </div>
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="lokasi_spesial_add[]" name="lokasi_spesial_add[]" placeholder="Lokasi">
+                                    <label for="message-text">Lokasi</label>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <select class="form-select" name="spesial_add[]">
+                                            <option value="">- Pilih MK Spesial -</option>
+                                            <option value="MK Spesial">MK Spesial</option>
+                                            <option value="Nasi Liwet">Nasi Liwet</option>
+                                            <option value="Ayam Bakar">Ayam Bakar</option>
+                                            <option value="Prasmanan">Prasmanan</option>
+                                        </select>
+                                        <label>Mk Spesial</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="jumlah_spesial_add[]" placeholder="Jumlah">
+                                        <label>Jumlah</label>
+                                    </div>
+                                </div>
 
-                          </form>
+                            </div>
+                        <hr>
+                        </div>
+
+                       {{--
+                        <div class="add-spesial-line mt-3">
+                            <div class="minus-icon" id="remove-spesial-btn">-</div>
+                            <div class="line"></div>
+                            <div class="plus-icon" id="add-spesial-btn">+</div>
+                        </div> --}}
+
+                        </form>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-yes-add-spesial">Save</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn-yes-jumlah-spesial">Kirim</button>
                             <div id="loading-spinner" >
-                                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
                             </div>
                         </div>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <!--end::Modal MK Spesial-->
 
@@ -660,85 +823,239 @@
                     </div>
                 </div>
 
-              <!-- Table with stripped rows -->
-              <div class="table-responsive">
-              <table class="table dt_catering responsive" id="datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Tanggal</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col" class="hide-mobile">Waktu</th>
-                    <th scope="col" class="hide-mobile">Total</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {{-- //sekar --}}
-                @foreach($cateringData as $no => $catering)
-                <tr>
-                    <td>{{ $no + 1 }}</td>
-                    <td>{{ $catering->tanggal }}</td>
-                    <td>{{ $catering->created_name }}</td>
-                    <td class="hide-mobile">{{ $catering->waktu}}</td>
-                    <td class="hide-mobile">{{ $catering->total}}</td>
-                    <td>
-                        @if($catering->status == 1)
-                            <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
-                        @elseif($catering->status == 2)
-                            <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
-                        @elseif($catering->status == 3)
-                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
-                        @endif
-                    <td>
-                    <div class="dropdown">
-                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                    @if(auth()->user()->id_role == 0)
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                        <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
-                    </ul>
-                    @elseif(in_array($catering->status, [1]) && auth()->user()->id_role == 6)
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                    </ul>
-                    @elseif(in_array($catering->status, [3]) && auth()->user()->id_role == 6)
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                        <li><a id="btn-hide-edit" class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                        <li><a id="btn-hide-delete" class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                        <li><a id="btn-hide-send" class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
-                    </ul>
-                    @else
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
-                    </ul>
-                    @endif
-                </tr>
-                @endforeach 
+                <div class="tab-content" id="cateringTabsContent">
+                    <!-- Reguler Tab -->
+                    <div class="tab-pane fade show active" id="reguler" role="tabpanel" aria-labelledby="reguler-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_catering responsive datatable">
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col" class="hide-mobile">Waktu</th>
+                                <th scope="col" class="hide-mobile">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($cateringData as $no => $catering)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $catering->tanggal }}</td>
+                                <td>{{ $catering->created_name }}</td>
+                                <td class="hide-mobile">{{ $catering->waktu}}</td>
+                                <td class="hide-mobile">{{ $catering->total}}</td>
+                                <td>
+                                    @if($catering->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($catering->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($catering->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                @if(auth()->user()->id_role == 0)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                </ul>
+                                @elseif(in_array($catering->status, [1]) && auth()->user()->id_role == 6)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                </ul>
+                                @elseif(in_array($catering->status, [3]) && auth()->user()->id_role == 6)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a id="btn-hide-edit" class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a id="btn-hide-delete" class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a id="btn-hide-send" class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                </ul>
+                                @else
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                </ul>
+                                @endif
+                            </tr>
+                            @endforeach 
 
-              </tbody>
-              </table>
-              </div>
-              <!-- End Table with stripped rows -->
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                    <!-- Spesial Tab -->
+                    <div class="tab-pane fade" id="spesial" role="tabpanel" aria-labelledby="spesial-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_spesial responsive datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Gedung</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($spesialData as $no => $spesial)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $spesial->tanggal }}</td>
+                                <td>{{ $spesial->waktu}}</td>
+                                <td>{{ $spesial->area}}</td>
+                                <td>{{ $spesial->gedung}}</td>
+                                <td>{{ $spesial->lokasi}}</td>
+                                <td>{{ $spesial->jenis}}</td>
+                                <td>{{ $spesial->jumlah}}</td>
+                                <td>
+                                    @if($spesial->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($spesial->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($spesial->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                @if(auth()->user()->id_role == 0)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editspesial" href="#" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletespesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item sendrevisispesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                </ul>
+                                @elseif(in_array($spesial->status, [1]) && auth()->user()->id_role == 6)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editspesial" href="#" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletespesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                </ul>
+                                @elseif(in_array($spesial->status, [3]) && auth()->user()->id_role == 6)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editspesial" href="#" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletespesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item sendrevisispesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                </ul>
+                                @else
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                </ul>
+                                @endif
+                            </tr>
+                            @endforeach 
+
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                    <!-- Snack Tab -->
+                    <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_snack responsive datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Gedung</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($snackData as $no => $snack)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $snack->tanggal }}</td>
+                                <td>{{ $snack->waktu}}</td>
+                                <td>{{ $snack->area}}</td>
+                                <td>{{ $snack->gedung}}</td>
+                                <td>{{ $snack->lokasi}}</td>
+                                <td>{{ $snack->jenis}}</td>
+                                <td>{{ $snack->jumlah}}</td>
+                                <td>
+                                    @if($snack->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($snack->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($snack->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                @if(auth()->user()->id_role == 0)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editsnack" href="#" data-bs-toggle="modal" data-bs-target="#cateringSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletesnack" href="#" data-id="{{ $snack->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item sendrevisisnack" href="#" data-id="{{ $snack->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                </ul>
+                                @elseif(in_array($snack->status, [1]) && auth()->user()->id_role == 6)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editsnack" href="#" data-bs-toggle="modal" data-bs-target="#cateringSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletesnack" href="#" data-id="{{ $snack->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+
+                                </ul>
+                                @elseif(in_array($snack->status, [3]) && auth()->user()->id_role == 6)
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editsnack" href="#" data-bs-toggle="modal" data-bs-target="#cateringSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletesnack" href="#" data-id="{{ $snack->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item sendrevisisnack" href="#" data-id="{{ $snack->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                </ul>
+                                @else
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                </ul>
+                                @endif
+                            </tr>
+                            @endforeach 
+
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End Table with stripped rows -->
 
             </div>
-          </div>
+            </div>
 
         </div>
-      </div>
+        </div>
     </section>
 
     {{-- <script src="app/javascript/catering.js"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 
 <script>
@@ -828,7 +1145,7 @@ $(document).ready(function() {
                         'Anjungan CSA PIT 1': ['dept_sect_officeplant', 'dept_sect_csapit1'],
                         //'Office CSA PIT 1': ['gl_officecsapit1', 'admin_officecsapit1'],
                         'CSA PIT 1': ['operator_csapit1', 'gl_csapit1', 'spare_csapit1', 'admin_csapit1', 'skillup_csapit1',],
-                        'CSA PIT 2': ['dept_sect_csapit2', 'operator_csapit2', 'gl_csapit2', 'spare_csapit2','admin_csapit2','driverlv_csapit2'],
+                        'CSA PIT 2': ['dept_sect_csapit2', 'operator_csapit2', 'gl_csapit2', 'spare_csapit2','admin_csapit2','driverlv_csapit2', 'training_csapit2'],
                         'CSA PIT 3': ['dept_sect_csapit3', 'operator_csapit3', 'gl_csapit3', 'spare_csapit3'],
                         'CSA HRM': [ 'operator_csahrm', 'gl_csahrm', 'spare_csahrm'],
                         'CSA PITSTOP AKADEMIN': [ 'driverlv_pitstop', 'gl_pitstop', 'spare_pitstop'],
@@ -889,7 +1206,7 @@ $(document).ready(function() {
                         ],
                         'TAMBAHAN': ['rebusan_c3','spare_c3','visitor_c3'],
                     },
-                   'AMM': {
+                    'AMM': {
                         'TANGGAL': ['tanggal'],
                         'REVISI': ['revisi_desc'],
                         'TOTAL': ['total'],
@@ -1080,6 +1397,47 @@ $(document).ready(function() {
         });
     });
 
+var snackId;
+$('.viewsnack').click(function () {
+    const snackId = $(this).data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/snack/get') }}/' + snackId + '?_=' + new Date().getTime(),
+        cache: false,
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            const viewContainer = $('#viewDataSnack');
+            viewContainer.html('');
+
+            // Bangun satu baris data
+            const tableContent = `
+                <tr>
+                    <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.waktu ?? '-'}</td>
+                    <td>${response.area ?? '-'}</td>
+                    <td>${response.gedung ?? '-'}</td>
+                    <td>${response.lokasi ?? '-'}</td>
+                    <td>${response.jenis ?? '-'}</td>
+                    <td>${response.jumlah ?? '-'}</td>
+                    <td>${response.revisi_desc ?? '-'}</td>
+                </tr>
+            `;
+
+            viewContainer.html(tableContent);
+            $('#viewsnackModal').modal('show');
+        },
+        error: function () {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+
 
 var cateringId;
 $('.edit').click(function() {
@@ -1255,7 +1613,7 @@ $('.edit').click(function() {
                     'spare_csapit2': 'spare_csapit2',
                     'operator_csapit3': 'operator_csapit3',
                     'admin_csapit2': 'admin_csapit2',
-                    'admin_csapit2': 'admin_csapit2',
+                    'training_csapit2': 'training_csapit2',
                     'driverlv_csapit2': 'driverlv_csapit2',
                     'gl_csapit3': 'gl_csapit3',
                     'spare_csapit3': 'spare_csapit3',
@@ -1458,6 +1816,67 @@ $('.edit').click(function() {
     });
 });
 
+
+var snackId;
+$('.editsnack').click(function() {
+    snackId = $(this).data('id');
+    $('#cateringSnackModal').attr({
+        'data-mode': 'edit',
+        'data-id': snackId
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/snack/get') }}/' + snackId,
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            let fieldMap = {
+                'tanggal': 'tanggal_snack_add',
+                'waktu': 'waktu_snack_add',
+                //'area': 'area_snack_add',
+                // 'gedung': 'gedung_snack_add',
+                'lokasi': 'lokasi_snack_add',
+                'jenis': 'snack_add',
+                'jumlah': 'jumlah_snack_add'
+            };
+
+
+            $('#cateringSnackModal input, #cateringSnackModal select').val('');
+
+            for (let key in fieldMap) {
+                let inputId = fieldMap[key];
+                let value = response[key] ?? '';
+                $('#' + inputId).val(value);
+            }
+
+            // Menyesuaikan waktu, lokasi, snack jika ada dalam response
+            $("select[name='waktu_snack_add[]']").val(response.waktu);
+
+            $("select[name='snack_add[]']").val(response.jenis);
+            $("input[name='jumlah_snack_add[]']").val(response.jumlah);
+            $("input[name='lokasi_snack_add[]']").val(response.lokasi);
+
+            $("select[name='area_snack_add[]']").one('change', function() {
+                $("select[name='gedung_snack_add[]']").val(response.gedung);
+            });
+
+            $("select[name='area_snack_add[]']").val(response.area).trigger('change');
+
+
+            // Tampilkan modal
+            $('#cateringSnackModal').modal('show');
+        },
+        error: function() {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+
 function setDropdownSelected(selector, value) {
     $(selector).val(value);
     $(selector + ' option').filter(function() {
@@ -1636,6 +2055,7 @@ $('#copyPreviousData').change(function() {
                     'spare_csapit2': 'spare_csapit2',
                     'operator_csapit3': 'operator_csapit3',
                     'admin_csapit2': 'admin_csapit2',
+                    'training_csapit2': 'training_csapit2',
                     'driverlv_csapit2': 'driverlv_csapit2',
                     'gl_csapit3': 'gl_csapit3',
                     'spare_csapit3': 'spare_csapit3',
@@ -1826,7 +2246,6 @@ $('#copyPreviousData').change(function() {
 });
 
 $(document).ready(function() {
-
     $(document).on('click', '#btn-yes-add', function(event) {
         var $modal = $('#cateringModal');
         var mode = $modal.data('mode') || 'add';
@@ -1927,6 +2346,44 @@ document.querySelectorAll('.delete').forEach(function(link) {
    });
 });
 
+document.querySelectorAll('.deletesnack').forEach(function(link) {
+   link.addEventListener('click', function(event) {
+       event.preventDefault();
+       var snackId = this.getAttribute('data-id');
+
+       Swal.fire({
+           title: 'Konfirmasi',
+           text: 'Apakah Anda yakin akan menghapus data ini?',
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonText: 'Ya, Kirim!',
+           cancelButtonText: 'Batal'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               axios.post('{{ route('delete.snack') }}', {
+                   snack_id: snackId
+               })
+               .then(function (response) {
+                   Swal.fire({
+                       icon: 'success',
+                       title: 'Sukses!',
+                       text: response.data.message
+                   }).then(() => {
+                       location.reload();
+                   });
+               })
+               .catch(function (error) {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Gagal!',
+                       text: 'Terjadi kesalahan saat mengirim data.'
+                   });
+               });
+           }
+       });
+   });
+});
+
 //SEND
 $(document).ready(function() {
     $('.send').click(function(e) {
@@ -1938,7 +2395,7 @@ $(document).ready(function() {
 
         Swal.fire({
             title: 'Kirim Revisi?',
-            text: "Yakin ingin mengirim revisi untuk datini?",
+            text: "Yakin ingin mengirim revisi untuk data ini?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Ya, Kirim',
@@ -1978,26 +2435,6 @@ $(document).ready(function() {
     });
 });
 
-// //HIDE BUTTON ADD
-// document.addEventListener('DOMContentLoaded', function () {
-//         function checkButtonVisibility() {
-//             const now = new Date();
-//             const hours = now.getHours();
-
-//             const openModalBtn = document.getElementById('btn-open-modal');
-
-//             // sembunyikan tombol dari jam 7:00 - 7:59
-//             if (hours >= 16 || hours < 7) {
-//                 if (openModalBtn) openModalBtn.style.display = 'none';
-//             } else {
-//                 if (openModalBtn) openModalBtn.style.display = 'inline-block';
-//             }
-//         }
-
-//         checkButtonVisibility();
-//         setInterval(checkButtonVisibility, 60000);
-//     });
-
 document.addEventListener('DOMContentLoaded', function () {
     function checkButtonVisibility() {
         const now = new Date();
@@ -2030,6 +2467,487 @@ document.addEventListener('DOMContentLoaded', function () {
     checkButtonVisibility();
     setInterval(checkButtonVisibility, 60000);
 });
+
+// SNACK
+
+// Tambah baris snack
+$('#add-snack-btn').click(function() {
+    var newItem = $('.snack-item').first().clone();
+    newItem.find('input, select').val('');
+    $('#snack-container').append(newItem);
+});
+
+// Hapus baris snack
+$('#remove-snack-btn').click(function() {
+    if($('.snack-item').length > 1){
+        $('.snack-item').last().remove();
+    } else {
+        alert('Minimal satu baris snack harus ada!');
+    }
+});
+
+// Add Data
+$(document).ready(function() {
+    $(document).on('click', '#btn-yes-add-snack', function(event) {
+        var $modal = $('#cateringSnackModal');
+        var mode = $modal.data('mode') || 'add';
+        let cateringId = $('#cateringSnackModal').attr('data-id');
+
+        if (mode === 'edit' && !cateringId) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Catering ID tidak ditemukan!',
+            });
+            return;
+        }
+
+        var formData = $('#cateringSnackForm').serialize();
+
+        var url = mode === 'edit'
+            ? `{{ url("/snack/myedit") }}/${cateringId}`
+            : `{{ url("/snack/store") }}`;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            beforeSend: function() {
+                $('#btn-yes-add-snack').prop('disabled', true);
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: mode === 'edit' ? 'Catering berhasil diperbarui!' : 'Catering berhasil ditambahkan!',
+                    }).then(() => {
+                        // Bersihkan modal sebelum refresh
+                        window.location.href = window.location.href;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message || 'Terjadi kesalahan saat menyimpan data.',
+                    });
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat memproses data!',
+                });
+            },
+            complete: function() {
+                $('#btn-yes-add-snack').prop('disabled', false);
+            }
+        });
+    });
+});
+
+document.querySelectorAll('.datatable').forEach(function(table) {
+  new DataTable(table);
+});
+
+
+$('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var activeTab = $(e.target).attr('id'); // misal: snack-tab
+    localStorage.setItem('activeCateringTab', activeTab);
+});
+$(document).ready(function() {
+    var activeTab = localStorage.getItem('activeCateringTab');
+    if (activeTab) {
+        var tabTrigger = document.getElementById(activeTab);
+        if (tabTrigger) {
+            var tab = new bootstrap.Tab(tabTrigger);
+            tab.show();
+        }
+    }
+});
+
+$(document).ready(function() {
+    $('.sendrevisisnack').click(function(e) {
+        e.preventDefault();
+
+        var snackId = $(this).data('id');
+        console.log(`snackId: ${snackId}`);
+
+        Swal.fire({
+            title: 'Kirim Revisi?',
+            text: "Yakin ingin mengirim revisi untuk data ini?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Kirim',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/catering/sendrevisisnack',
+                    data: {
+                        snack_id: snackId,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    beforeSend: function() {
+                        Swal.showLoading();
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: response.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat mengirim revisi.'
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+
+// SPESIAL
+
+$('#add-spesial-btn').click(function() {
+    var newItem = $('.spesial-item').first().clone();
+    newItem.find('input, select').val('');
+    $('#spesial-container').append(newItem);
+});
+
+// Hapus baris spesial
+$('#remove-spesial-btn').click(function() {
+    if($('.spesial-item').length > 1){
+        $('.spesial-item').last().remove();
+    } else {
+        alert('Minimal satu baris spesial harus ada!');
+    }
+});
+
+// Add Data
+$(document).ready(function() {
+    $(document).on('click', '#btn-yes-add-spesial', function(event) {
+        var $modal = $('#cateringSpesialModal');
+        var mode = $modal.data('mode') || 'add';
+        let cateringId = $('#cateringSpesialModal').attr('data-id');
+
+        if (mode === 'edit' && !cateringId) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Catering ID tidak ditemukan!',
+            });
+            return;
+        }
+
+        var formData = $('#cateringSpesialForm').serialize();
+
+        var url = mode === 'edit'
+            ? `{{ url("/spesial/myedit") }}/${cateringId}`
+            : `{{ url("/spesial/store") }}`;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            beforeSend: function() {
+                $('#btn-yes-add-spesial').prop('disabled', true);
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: mode === 'edit' ? 'MK Spesial berhasil diperbarui!' : 'MK Spesial berhasil ditambahkan!',
+                    }).then(() => {
+                        // Bersihkan modal sebelum refresh
+                        window.location.href = window.location.href;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message || 'Terjadi kesalahan saat menyimpan data.',
+                    });
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat memproses data!',
+                });
+            },
+            complete: function() {
+                $('#btn-yes-add-spesial').prop('disabled', false);
+            }
+        });
+    });
+});
+
+var spesialId;
+$('.editspesial').click(function() {
+    spesialId = $(this).data('id');
+    $('#cateringSpesialModal').attr({
+        'data-mode': 'edit',
+        'data-id': spesialId
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/spesial/get') }}/' + spesialId,
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            // Mapping field database ke id input
+            let fieldMap = {
+                'tanggal': 'tanggal_spesial_add',
+                'waktu': 'waktu_spesial_add',
+                'lokasi': 'lokasi_spesial_add',
+                'jenis': 'spesial_add',
+                'jumlah': 'jumlah_spesial_add'
+            };
+
+            // Clear semua input & select
+            $('#cateringSpesialModal input, #cateringSpesialModal select').val('');
+
+            // Isi input sesuai mapping
+            for (let key in fieldMap) {
+                let inputId = fieldMap[key];
+                let value = response[key] ?? '';
+                $('#' + inputId).val(value);
+            }
+
+            $("select[name='waktu_spesial_add[]']").val(response.waktu);
+            $("select[name='spesial_add[]']").val(response.jenis);
+            $("input[name='jumlah_spesial_add[]']").val(response.jumlah);
+            $("input[name='lokasi_spesial_add[]']").val(response.lokasi);
+
+            $("select[name='area_spesial_add[]']").one('change', function() {
+                $("select[name='gedung_spesial_add[]']").val(response.gedung);
+            });
+
+            $("select[name='area_spesial_add[]']").val(response.area).trigger('change');
+
+            $('#cateringSpesialModal').modal('show');
+        },
+        error: function() {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+document.querySelectorAll('.deletespesial').forEach(function(link) {
+   link.addEventListener('click', function(event) {
+       event.preventDefault();
+       var spesialId = this.getAttribute('data-id');
+
+       Swal.fire({
+           title: 'Konfirmasi',
+           text: 'Apakah Anda yakin akan menghapus data ini?',
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonText: 'Ya, Kirim!',
+           cancelButtonText: 'Batal'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               axios.post('{{ route('delete.spesial') }}', {
+                   spesial_id: spesialId
+               })
+               .then(function (response) {
+                   Swal.fire({
+                       icon: 'success',
+                       title: 'Sukses!',
+                       text: response.data.message
+                   }).then(() => {
+                       location.reload();
+                   });
+               })
+               .catch(function (error) {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Gagal!',
+                       text: 'Terjadi kesalahan saat mengirim data.'
+                   });
+               });
+           }
+       });
+   });
+});
+
+var spesialId;
+   $('.viewspesial').click(function () {
+    const spesialId = $(this).data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/spesial/get') }}/' + spesialId + '?_=' + new Date().getTime(),
+        cache: false,
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            const viewContainer = $('#viewDataSpesial');
+            viewContainer.html('');
+
+            // Bangun satu baris data
+            const tableContent = `
+                <tr>
+                    <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.waktu ?? '-'}</td>
+                    <td>${response.area ?? '-'}</td>
+                    <td>${response.gedung ?? '-'}</td>
+                    <td>${response.lokasi ?? '-'}</td>
+                    <td>${response.jenis ?? '-'}</td>
+                    <td>${response.jumlah ?? '-'}</td>
+                    <td>${response.revisi_desc ?? '-'}</td>
+                </tr>
+            `;
+
+            viewContainer.html(tableContent);
+            $('#viewspesialModal').modal('show');
+        },
+        error: function () {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('.sendrevisispesial').click(function(e) {
+        e.preventDefault();
+
+        var spesialId = $(this).data('id');
+        console.log(`spesialId: ${spesialId}`);
+
+        Swal.fire({
+            title: 'Kirim Revisi?',
+            text: "Yakin ingin mengirim revisi untuk data ini?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Kirim',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/catering/sendrevisispesial',
+                    data: {
+                        spesial_id: spesialId,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    beforeSend: function() {
+                        Swal.showLoading();
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: response.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat mengirim revisi.'
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+//GEDUNG ADD SNack
+    const gedungOptions = {
+        'Mess': [
+            'A1', 'A2', 'B1', 'B2', 'B3', 'B4', 'B7', 'B8', 'B9', 'B10','C3', 'MASJID ASSALAM', 'KOPPA MART', 'FOOD COURT','GUDANG GA', 'OFFICE GA'
+        ],
+        'Office': [
+            'OFFICE PLANT','WAREHOUSE', 'GENSET', 'WORKSHOP PLANT', 'KOPPA MART', 'MASJID AL KAUTSAR',
+        ],
+        'CSA 1': [
+            'OFFICE SHE', 'OFFICE AKADEMI', 'OFFICE ICT', 'CSA FUEL'
+        ],
+        'CSA 2': [
+            'CSA OB', 'CSA HRM'
+        ],
+        'CSA 3': [
+            'CSA OB', 'OFFICE CCR'
+        ],
+        'CSA FUEL': [
+            'SPBI PPA'
+        ],
+        'PITSTOP': [
+            'MUSHOLLA', 'WORKSHOP TRACK', 'AKADEMI', 'FABRIKASI', 'TOOLS', 'TYRE', 'TRACKINDO', 'SUPPORT'
+        ],
+        'OTHER': []
+    };
+
+    document.getElementById('area_snack_add[]').addEventListener('change', function() {
+        const selectedArea = this.value;
+        const gedungSelect = document.getElementById('gedung_snack_add[]');
+
+        gedungSelect.innerHTML = '<option value="">Pilih Gedung</option>';
+
+        if (selectedArea && selectedArea !== 'OTHER') {
+            gedungOptions[selectedArea].forEach(gedung => {
+                const option = document.createElement('option');
+                option.value = gedung;
+                option.textContent = gedung;
+                gedungSelect.appendChild(option);
+            });
+
+
+            gedungSelect.disabled = false;
+        } else {
+
+            gedungSelect.disabled = true;
+        }
+    });
+
+    document.getElementById('area_spesial_add[]').addEventListener('change', function() {
+        const selectedArea = this.value;
+        const gedungSelect = document.getElementById('gedung_spesial_add[]');
+
+        gedungSelect.innerHTML = '<option value="">Pilih Gedung</option>';
+
+        if (selectedArea && selectedArea !== 'OTHER') {
+            gedungOptions[selectedArea].forEach(gedung => {
+                const option = document.createElement('option');
+                option.value = gedung;
+                option.textContent = gedung;
+                gedungSelect.appendChild(option);
+            });
+
+
+            gedungSelect.disabled = false;
+        } else {
+
+            gedungSelect.disabled = true;
+        }
+    });
 
 
 </script>

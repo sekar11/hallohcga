@@ -75,11 +75,12 @@ class LapCateringController extends Controller
         return view('catering.laporanCatering', compact('cateringData', 'selectedDate'));
     }
 
+
     public function index(Request $request)
     {
         $selectedDate = $request->input('date', now()->format('Y-m-d')); // Perbaikan dari 'selected_date'
         $userTeam = auth()->user()->tim_pic;
-        $selectedCatering = $request->input('catering', $userTeam); // Default ke tim pengguna jika tidak dipilih
+        $selectedCatering = $request->input('catering', $userTeam);
 
         // Definisi kategori berdasarkan catering yang dipilih
         $categories = [
@@ -122,9 +123,11 @@ class LapCateringController extends Controller
         // Ambil data catering berdasarkan kategori yang sesuai
         $cateringData = $this->LapCateringRepository->getCateringData($selectedDate, $selectedCategories, $selectedCatering);
         $cateringDataRevisi = $this->LapCateringRepository->getCateringDataRevisi($selectedDate, $selectedCategories, $selectedCatering);
-        return view('catering.laporanCatering', compact('cateringData', 'cateringDataRevisi','selectedDate', 'userTeam', 'selectedCatering'));
+        $snackData = $this->LapCateringRepository->getSnackSummary($selectedCatering, $selectedDate);
+        $spesialData = $this->LapCateringRepository->getSpesialSummary($selectedCatering, $selectedDate);
+        //dd($snackData);
+        return view('catering.laporanCatering', compact('cateringData', 'cateringDataRevisi','selectedDate', 'userTeam', 'selectedCatering', 'snackData', 'spesialData'));
     }
-
 
     public function store(Request $request)
     {
@@ -869,7 +872,6 @@ class LapCateringController extends Controller
         // Kembalikan response download
         return response()->download($tempFile, $filename)->deleteFileAfterSend(true);
     }
-
 
     public function indexInvoice(Request $request)
     {

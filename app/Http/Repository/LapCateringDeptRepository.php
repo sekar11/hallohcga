@@ -98,6 +98,30 @@ class LapCateringDeptRepository
             ->get();
     }
 
+    public function getSnackSummary()
+    {
+        $table = 'mk_snack';
+
+        return DB::table($table)
+            ->select('id','tanggal','departemen','area','gedung','lokasi', 'jenis', 'waktu', 'jumlah','catering','harga', 'status')
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('waktu', 'desc')
+            ->orderBy('departemen', 'desc')
+            ->get();
+    }
+
+    public function getSpesialSummary()
+    {
+        $table = 'mk_spesial';
+
+        return DB::table($table)
+            ->select('id','tanggal','departemen','area','gedung','lokasi', 'jenis', 'waktu', 'jumlah','catering','harga', 'status')
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('waktu', 'desc')
+            ->orderBy('departemen', 'desc')
+            ->get();
+    }
+
     public function deleteFromTable($tableName, $selectedUserId)
     {
         try {
@@ -174,6 +198,58 @@ class LapCateringDeptRepository
             ->first();
     }
 
+    public function getByIdSnack($id)
+    {
+        $table = 'mk_snack';
+
+        return DB::table($table)
+            ->select(
+                'id',
+                'tanggal',
+                'created_name',
+                'waktu',
+                'lokasi',
+                'jenis',
+                'area',
+                'gedung',
+                'jumlah',
+                'catering',
+                'harga',
+                'status',
+                'revisi_desc',
+                'departemen'
+            )
+            ->where('id', $id)
+            // ->where('departemen', $departemen)
+            ->first();
+    }
+
+    public function getByIdSpesial($id)
+    {
+        $table = 'mk_spesial';
+
+        return DB::table($table)
+            ->select(
+                'id',
+                'tanggal',
+                'created_name',
+                'waktu',
+                'area',
+                'gedung',
+                'lokasi',
+                'jenis',
+                'jumlah',
+                'catering',
+                'harga',
+                'status',
+                'revisi_desc',
+                'departemen'
+            )
+            ->where('id', $id)
+            // ->where('departemen', $departemen)
+            ->first();
+    }
+
     public function edit($data, $id)
     {
         return DB::table('mk_coe')
@@ -241,6 +317,42 @@ class LapCateringDeptRepository
             ]);
 
         return 'Data Catering Berhasil di "Setujui" untuk departemen ' . $departemen;
+    }
+
+     public function approvalSnack($approvalName, $selectedSnackId, $catering, $harga)
+    {
+
+        $table = 'mk_snack';
+
+        DB::table($table)
+            ->where('id', $selectedSnackId)
+            ->update([
+                'approval_by' => $approvalName,
+                'approval_on' => now(),
+                'status' => 2,
+                'catering' => $catering,
+                'harga' => $harga,
+            ]);
+
+        return 'Data Catering Berhasil di "Setujui"';
+    }
+
+    public function approvalSpesial($approvalName, $selectedSpesialId, $catering, $harga)
+    {
+
+        $table = 'mk_spesial';
+
+        DB::table($table)
+            ->where('id', $selectedSpesialId)
+            ->update([
+                'approval_by' => $approvalName,
+                'approval_on' => now(),
+                'status' => 2,
+                'catering' => $catering,
+                'harga' => $harga,
+            ]);
+
+        return 'Data Catering Berhasil di "Setujui"';
     }
 
     public function approvalAll($approvalName, $selectedComplainIds, $approval, $departemen)
@@ -323,6 +435,80 @@ class LapCateringDeptRepository
             ]);
 
         return 'Data Complain berhasil di "Revisi"';
+    }
+
+    public function revisiSnack($revisiName, $selectedComplainId, $pesanRevisi)
+    {
+        $table = 'mk_snack';
+
+        if (!$table) {
+            return 'Departemen tidak valid';
+        }
+
+        DB::table($table)
+            ->where('id', $selectedComplainId)
+            ->update([
+                'revisi_by' => $revisiName,
+                'revisi_on' => now(),
+                'status' => 3,
+                'revisi_desc' => $pesanRevisi
+            ]);
+
+        return 'Data Complain berhasil di "Revisi"';
+    }
+
+    public function findByIdSnack($selectedComplainId)
+    {
+        $table = 'mk_snack';
+
+        return DB::table($table)
+            ->leftJoin('users', $table.'.departemen', '=', 'users.tim_pic')
+            ->where($table.'.id', $selectedComplainId)
+            ->select(
+                $table.'.*',
+                'users.dept as dept',
+                'users.no_hp as no_hp',
+                'users.email as email',
+                'users.nama as nama'
+            )
+            ->first();
+    }
+
+    public function revisiSpesial($revisiName, $selectedComplainId, $pesanRevisi)
+    {
+        $table = 'mk_spesial';
+
+        if (!$table) {
+            return 'Departemen tidak valid';
+        }
+
+        DB::table($table)
+            ->where('id', $selectedComplainId)
+            ->update([
+                'revisi_by' => $revisiName,
+                'revisi_on' => now(),
+                'status' => 3,
+                'revisi_desc' => $pesanRevisi
+            ]);
+
+        return 'Data Complain berhasil di "Revisi"';
+    }
+
+    public function findByIdSpesial($selectedComplainId)
+    {
+        $table = 'mk_spesial';
+
+        return DB::table($table)
+            ->leftJoin('users', $table.'.departemen', '=', 'users.tim_pic')
+            ->where($table.'.id', $selectedComplainId)
+            ->select(
+                $table.'.*',
+                'users.dept as dept',
+                'users.no_hp as no_hp',
+                'users.email as email',
+                'users.nama as nama'
+            )
+            ->first();
     }
 
     public function findById($selectedComplainId, $departemen)
