@@ -509,6 +509,7 @@ class CateringController extends Controller
         $lokasi  = $request->lokasi_snack_add;
         $snack   = $request->snack_add;
         $jumlah  = $request->jumlah_snack_add;
+        $keterangan  = $request->keterangan_snack_add;
 
         if (!$waktu || count($waktu) == 0) {
             return response()->json(['status' => 'error', 'message' => 'Data snack kosong']);
@@ -526,6 +527,7 @@ class CateringController extends Controller
                 'lokasi'       => $lokasi[$index],
                 'jenis'        => $snack[$index],
                 'jumlah'       => $jumlah[$index],
+                'keterangan'   => $keterangan[$index],
                 'create_at'    => now(),
                 'status'       => $status,
                 'created_name' => $createdBy
@@ -555,6 +557,7 @@ class CateringController extends Controller
         $lokasi  = $request->lokasi_spesial_add;
         $spesial   = $request->spesial_add;
         $jumlah  = $request->jumlah_spesial_add;
+        $keterangan  = $request->keterangan_spesial_add;
 
         if (!$waktu || count($waktu) == 0) {
             return response()->json(['status' => 'error', 'message' => 'Data spesial kosong']);
@@ -572,6 +575,7 @@ class CateringController extends Controller
                 'lokasi'       => $lokasi[$index],
                 'jenis'        => $spesial[$index],
                 'jumlah'       => $jumlah[$index],
+                'keterangan'         => $keterangan[$index],
                 'create_at'    => now(),
                 'status'       => $status,
                 'created_name' => $createdBy
@@ -1022,7 +1026,8 @@ class CateringController extends Controller
             'gedung_snack_add'  => 'gedung',
             'lokasi_snack_add'  => 'lokasi',
             'snack_add'   => 'jenis',
-            'jumlah_snack_add'  => 'jumlah'
+            'jumlah_snack_add'  => 'jumlah',
+            'keterangan_snack_add'  => 'keterangan'
         ];
 
         $inputData = $request->except(['_token', 'table_name']);
@@ -1059,7 +1064,8 @@ class CateringController extends Controller
             'gedung_spesial_add'  => 'gedung',
             'lokasi_spesial_add'  => 'lokasi',
             'spesial_add'   => 'jenis',
-            'jumlah_spesial_add'  => 'jumlah'
+            'jumlah_spesial_add'  => 'jumlah',
+            'keterangan_spesial_add'  => 'keterangan',
         ];
 
         $inputData = $request->except(['_token', 'table_name']);

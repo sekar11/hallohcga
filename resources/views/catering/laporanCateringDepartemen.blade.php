@@ -33,29 +33,31 @@
                             <option value="HCGA" selected>Pilih Area</option>
                         </select>
                     </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                    <div class="col-md-auto d-flex gap-1">
+                        <button type="submit" class="btn btn-primary btn-sm">Filter</button>
                     </div>
-                     <div class="col-md-2 d-flex justify-content-end">
+                    <div class="col-md-auto d-flex gap-1">
+                        <button type="button" class="btn btn-primary bi bi-plus btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#cateringModal">
+                            Add MK Reguler
+                        </button>
+                    </div>
+
+                     <div class="col-md-auto d-flex gap-1">
                         <button type="button" class="btn btn-primary bi bi-plus btn-sm"
                             data-bs-toggle="modal" data-bs-target="#cateringSnackModal">
                             Add Snack
                         </button>
                     </div>
 
-                    <div class="col-md-2 d-flex justify-content-end">
+                    <div class="col-md-auto d-flex gap-1">
                         <button type="button" class="btn btn-primary bi bi-plus btn-sm"
                             data-bs-toggle="modal" data-bs-target="#cateringSpesialModal">
                             Add MK Spesial
                         </button>
                     </div>
 
-                    <div class="col-md-2 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary bi bi-plus btn-sm"
-                            data-bs-toggle="modal" data-bs-target="#cateringModal">
-                            Add MK Catering Reguler
-                        </button>
-                    </div>
+
                 </div>
                </form>
 
@@ -121,6 +123,7 @@
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
+                                            <th>Keterangan</th>
                                             <th>Waktu</th>
                                             <th>Area</th>
                                             <th>Gedung</th>
@@ -157,6 +160,7 @@
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
+                                            <th>Keterangan</th>
                                             <th>Waktu</th>
                                             <th>Area</th>
                                             <th>Gedung</th>
@@ -697,7 +701,7 @@
                                 </div>
 
                                 <!-- Baris 2 -->
-                                <div class="row mt-3 snack-item">
+                                <div class="row mt-3 mb-3 g-3 snack-item">
                                     <div class="col-md-3">
                                         <div class="form-floating">
                                             <select class="form-select" name="snack_add[]">
@@ -738,6 +742,12 @@
                                         <div class="form-floating">
                                             <input type="text" class="form-control" name="harga_snack_add[]" placeholder="Harga">
                                             <label>Harga</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="keterangan_snack_add[]" placeholder="Keterangan" style="height: 100px"></textarea>
+                                            <label>Keterangan Meeting</label>
                                         </div>
                                     </div>
                                 </div>
@@ -855,7 +865,7 @@
                                 </div>
 
                                 <!-- Baris 2 -->
-                                <div class="row mt-3 spesial-item">
+                                <div class="row mt-3 mb-3 g-3 spesial-item">
                                     <div class="col-md-3">
                                         <div class="form-floating">
                                         <select class="form-select" name="spesial_add[]">
@@ -889,6 +899,12 @@
                                         <div class="form-floating">
                                             <input type="text" class="form-control" name="harga_spesial_add[]" placeholder="Harga">
                                             <label>Harga</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="keterangan_spesial_add[]" placeholder="Keterangan" style="height: 100px"></textarea>
+                                            <label>Keterangan Meeting</label>
                                         </div>
                                     </div>
                                 </div>
@@ -2860,6 +2876,7 @@ $('.editsnack').click(function() {
                 'jumlah': 'jumlah_snack_add',
                 'catering': 'catering_snack_add',
                 'harga': 'harga_snack_add',
+                'keterangan': 'keterangan_snack_add',
 
             };
 
@@ -2882,6 +2899,7 @@ $('.editsnack').click(function() {
             $("input[name='jumlah_snack_add[]']").val(response.jumlah);
             $("input[name='harga_snack_add[]']").val(response.harga);
             $("input[name='lokasi_snack_add[]']").val(response.lokasi);
+            $("textarea[name='keterangan_snack_add[]']").val(response.keterangan);
 
             $("select[name='area_snack_add[]']").one('change', function() {
                 $("select[name='gedung_snack_add[]']").val(response.gedung);
@@ -3166,6 +3184,7 @@ $('.editspesial').click(function() {
                 'jumlah': 'jumlah_spesial_add',
                 'catering': 'catering_spesial_add',
                 'harga': 'harga_spesial_add',
+                'keterangan': 'keterangan_spesial_add',
 
             };
 
@@ -3184,6 +3203,8 @@ $('.editspesial').click(function() {
             $("input[name='jumlah_spesial_add[]']").val(response.jumlah);
             $("input[name='harga_spesial_add[]']").val(response.harga);
             $("input[name='lokasi_spesial_add[]']").val(response.lokasi);
+
+            $("textarea[name='keterangan_snack_add[]']").val(response.keterangan);
 
             $("select[name='area_spesial_add[]']").one('change', function() {
                 $("select[name='gedung_spesial_add[]']").val(response.gedung);
@@ -3382,6 +3403,7 @@ var spesialId;
             const tableContent = `
                 <tr>
                     <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.keterangan ?? '-'}</td>
                     <td>${response.waktu ?? '-'}</td>
                     <td>${response.area ?? '-'}</td>
                     <td>${response.gedung ?? '-'}</td>
@@ -3424,6 +3446,7 @@ $('.viewsnack').click(function () {
             const tableContent = `
                 <tr>
                     <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.keterangan ?? '-'}</td>
                     <td>${response.waktu ?? '-'}</td>
                     <td>${response.area ?? '-'}</td>
                     <td>${response.gedung ?? '-'}</td>

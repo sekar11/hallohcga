@@ -450,6 +450,7 @@ class LapCateringDeptController extends Controller
         $jumlah   = $request->jumlah_snack_add;
         $catering = $request->catering_snack_add;
         $harga    = $request->harga_snack_add;
+        $keterangan    = $request->keterangan_snack_add;
         $departemen    = $request->departemen_snack_add;
         $status   = 1;
 
@@ -474,6 +475,7 @@ class LapCateringDeptController extends Controller
                 'jumlah'       => $jumlah[$index],
                 'catering'     => $catering[$index],
                 'harga'        => $harga[$index],
+                'keterangan'   => $keterangan[$index],
                 'status'       => $status,
                 // 'approval_on'  => now(),
                 // 'approval_by' => $createdBy,
@@ -504,6 +506,7 @@ class LapCateringDeptController extends Controller
         $jumlah   = $request->jumlah_spesial_add;
         $catering = $request->catering_spesial_add;
         $harga    = $request->harga_spesial_add;
+        $keterangan    = $request->keterangan_spesial_add;
         $departemen    = $request->departemen_spesial_add;
         $status   = 1;
 
@@ -528,6 +531,7 @@ class LapCateringDeptController extends Controller
                 'jumlah'       => $jumlah[$index],
                 'catering'     => $catering[$index],
                 'harga'        => $harga[$index],
+                'keterangan'  => $keterangan[$index],
                 'status'       => $status,
                 // 'approval_on'  => now(),
                 // 'approval_by' => $createdBy,
@@ -968,6 +972,7 @@ class LapCateringDeptController extends Controller
             'lokasi_snack_add'   => 'lokasi',
             'catering_snack_add' => 'catering',
             'harga_snack_add'    => 'harga',
+            'keterangan_snack_add'    => 'keterangan',
             'snack_add'          => 'jenis',
             'jumlah_snack_add'   => 'jumlah',
             'departemen_snack_add' => 'departemen'
@@ -1009,6 +1014,7 @@ class LapCateringDeptController extends Controller
             'lokasi_spesial_add'   => 'lokasi',
             'catering_spesial_add' => 'catering',
             'harga_spesial_add'    => 'harga',
+            'keterangan_spesial_add'    => 'keterangan',
             'spesial_add'          => 'jenis',
             'jumlah_spesial_add'   => 'jumlah',
             'departemen_spesial_add' => 'departemen'
