@@ -312,7 +312,8 @@ class CateringRepository
                 'lokasi',
                 'jenis',
                 'revisi_desc',
-                'jumlah'
+                'jumlah',
+                'keterangan'
             )
             ->where('id', $id)
             // ->where('departemen', $departemen)
@@ -335,7 +336,8 @@ class CateringRepository
                 'gedung',
                 'jenis',
                 'revisi_desc',
-                'jumlah'
+                'jumlah',
+                'keterangan'
             )
             ->where('id', $id)
             // ->where('departemen', $departemen)

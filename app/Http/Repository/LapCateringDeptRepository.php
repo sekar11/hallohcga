@@ -217,6 +217,7 @@ class LapCateringDeptRepository
                 'harga',
                 'status',
                 'revisi_desc',
+                'keterangan',
                 'departemen'
             )
             ->where('id', $id)
@@ -243,6 +244,7 @@ class LapCateringDeptRepository
                 'harga',
                 'status',
                 'revisi_desc',
+                'keterangan',
                 'departemen'
             )
             ->where('id', $id)

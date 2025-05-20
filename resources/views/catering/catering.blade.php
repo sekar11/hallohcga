@@ -85,6 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
+                                            <th>Keterangan</th>
                                             <th>Waktu</th>
                                             <th>Area</th>
                                             <th>Gedung</th>
@@ -119,6 +120,7 @@
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
+                                            <th>Keterangan</th>
                                             <th>Waktu</th>
                                             <th>Area</th>
                                             <th>Gedung</th>
@@ -645,7 +647,7 @@
                                             <option value="Snack Spesial">Snack Spesial</option>
                                             <option value="Parcel Buah Biasa">Parcel Buah Biasa</option>
                                             <option value="Parcel Buah Spesial">Parcel Buah Spesial</option>
-                                            <option value="Pempel">Pempek</option>
+                                            <option value="Pempek">Pempek</option>
                                             <option value="Kopi">Kopi Iglo</option>
                                             <option value="Teh">Teh Iglo</option>
                                             <option value="Wedang Jahe">Wedang Jahe</option>
@@ -661,7 +663,13 @@
                                         <input type="text" class="form-control" name="jumlah_snack_add[]" placeholder="Jumlah">
                                         <label>Jumlah</label>
                                     </div>
-                            </div>
+                               </div>
+                               <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" name="keterangan_snack_add[]" placeholder="Keterangan" style="height: 100px"></textarea>
+                                        <label>Keterangan Meeting</label>
+                                    </div>
+                               </div>
 
                             </div>
                         <hr>
@@ -772,6 +780,12 @@
                                         <label>Jumlah</label>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" name="keterangan_spesial_add[]" placeholder="Keterangan" style="height: 100px"></textarea>
+                                        <label>Keterangan Meeting</label>
+                                    </div>
+                               </div>
 
                             </div>
                         <hr>
@@ -1418,6 +1432,7 @@ $('.viewsnack').click(function () {
             const tableContent = `
                 <tr>
                     <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.keterangan ?? '-'}</td>
                     <td>${response.waktu ?? '-'}</td>
                     <td>${response.area ?? '-'}</td>
                     <td>${response.gedung ?? '-'}</td>
@@ -1837,11 +1852,12 @@ $('.editsnack').click(function() {
             let fieldMap = {
                 'tanggal': 'tanggal_snack_add',
                 'waktu': 'waktu_snack_add',
-                //'area': 'area_snack_add',
-                // 'gedung': 'gedung_snack_add',
+                 //'area': 'area_snack_add',
+                 //'gedung': 'gedung_snack_add',
                 'lokasi': 'lokasi_snack_add',
                 'jenis': 'snack_add',
-                'jumlah': 'jumlah_snack_add'
+                'jumlah': 'jumlah_snack_add',
+                'keterangan': 'keterangan_snack_add'
             };
 
 
@@ -1859,6 +1875,7 @@ $('.editsnack').click(function() {
             $("select[name='snack_add[]']").val(response.jenis);
             $("input[name='jumlah_snack_add[]']").val(response.jumlah);
             $("input[name='lokasi_snack_add[]']").val(response.lokasi);
+            $("textarea[name='keterangan_snack_add[]']").val(response.keterangan);
 
             $("select[name='area_snack_add[]']").one('change', function() {
                 $("select[name='gedung_snack_add[]']").val(response.gedung);
@@ -2721,7 +2738,8 @@ $('.editspesial').click(function() {
                 'waktu': 'waktu_spesial_add',
                 'lokasi': 'lokasi_spesial_add',
                 'jenis': 'spesial_add',
-                'jumlah': 'jumlah_spesial_add'
+                'jumlah': 'jumlah_spesial_add',
+                'keterangan': 'keterangan_spesial_add',
             };
 
             // Clear semua input & select
@@ -2738,6 +2756,7 @@ $('.editspesial').click(function() {
             $("select[name='spesial_add[]']").val(response.jenis);
             $("input[name='jumlah_spesial_add[]']").val(response.jumlah);
             $("input[name='lokasi_spesial_add[]']").val(response.lokasi);
+            $("textarea[name='keterangan_spesial_add[]']").val(response.keterangan);
 
             $("select[name='area_spesial_add[]']").one('change', function() {
                 $("select[name='gedung_spesial_add[]']").val(response.gedung);
@@ -2812,6 +2831,7 @@ var spesialId;
             const tableContent = `
                 <tr>
                     <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.keterangan ?? '-'}</td>
                     <td>${response.waktu ?? '-'}</td>
                     <td>${response.area ?? '-'}</td>
                     <td>${response.gedung ?? '-'}</td>
