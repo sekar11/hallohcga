@@ -109,6 +109,29 @@ class CateringRepository
             ->get();
     }
 
+    public function getSnackSummary($userTeam)
+    {
+        $table = 'mk_snack';
+
+        return DB::table($table)
+            ->select('id','tanggal','area','gedung','lokasi', 'jenis', 'waktu', 'jumlah', 'status')
+            ->where('departemen', $userTeam)
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('waktu', 'desc')
+            ->get();
+    }
+
+    public function getSpesialSummary($userTeam)
+    {
+        $table = 'mk_spesial';
+
+        return DB::table($table)
+            ->select('id','tanggal','lokasi', 'jenis','area','gedung', 'waktu', 'jumlah', 'status')
+            ->where('departemen', $userTeam)
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('waktu', 'desc')
+            ->get();
+    }
 
 
     //ACTUAL DAN PLAN ORDER
@@ -191,10 +214,27 @@ class CateringRepository
             ->get();
     }
 
-
-
-
     public function deleteFromTable($tableName, $selectedUserId)
+    {
+        try {
+            DB::table($tableName)->where('id', $selectedUserId)->delete();
+            return 'Data berhasil dihapus.';
+        } catch (\Exception $e) {
+            return 'Gagal menghapus data dari ' . $tableName . ': ' . $e->getMessage();
+        }
+    }
+
+    public function deleteFromTableSnack($tableName, $selectedUserId)
+    {
+        try {
+            DB::table($tableName)->where('id', $selectedUserId)->delete();
+            return 'Data berhasil dihapus.';
+        } catch (\Exception $e) {
+            return 'Gagal menghapus data dari ' . $tableName . ': ' . $e->getMessage();
+        }
+    }
+
+    public function deleteFromTableSpesial($tableName, $selectedUserId)
     {
         try {
             DB::table($tableName)->where('id', $selectedUserId)->delete();
@@ -253,6 +293,52 @@ class CateringRepository
                 ...$columns
             )
             ->where('id', $id)
+            ->first();
+    }
+
+    public function getByIdSnack($id)
+    {
+
+        $table = 'mk_snack';
+
+        return DB::table($table)
+            ->select(
+                'id',
+                'tanggal',
+                'created_name',
+                'waktu',
+                'area',
+                'gedung',
+                'lokasi',
+                'jenis',
+                'revisi_desc',
+                'jumlah'
+            )
+            ->where('id', $id)
+            // ->where('departemen', $departemen)
+            ->first();
+    }
+
+    public function getByIdSpesial($id, $departemen)
+    {
+
+        $table = 'mk_spesial';
+
+        return DB::table($table)
+            ->select(
+                'id',
+                'tanggal',
+                'created_name',
+                'waktu',
+                'lokasi',
+                'area',
+                'gedung',
+                'jenis',
+                'revisi_desc',
+                'jumlah'
+            )
+            ->where('id', $id)
+            // ->where('departemen', $departemen)
             ->first();
     }
 
@@ -376,6 +462,36 @@ class CateringRepository
 
         return 'Data MK berhasil di "Revisi"';
     }
+
+    public function sendRevisiSnack($selectedComplainId, $departemen)
+    {
+
+        $table = 'mk_snack';
+
+        DB::table($table)
+            ->where('id', $selectedComplainId)
+            ->update([
+                'status' => 1,
+            ]);
+
+        return 'Data Revisi Snack berhasil di "KIRIM"';
+    }
+
+    public function sendRevisiSpesial($selectedComplainId, $departemen)
+    {
+
+        $table = 'mk_spesial';
+
+        DB::table($table)
+            ->where('id', $selectedComplainId)
+            ->update([
+                'status' => 1,
+            ]);
+
+        return 'Data Revisi MK Spesial telah berhasil di "KIRIM"';
+    }
+
+
 
     //=============================================== DASHBOARD MK CATERING===============================================
 

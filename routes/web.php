@@ -116,6 +116,46 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/catering/getPrevious', [CateringController::class, 'getPrevious'])->name('catering.cateringprevious');
     Route::post('/catering/send', [CateringController::class, 'sendRevisi'])->name('send.revisi');
 
+    //=============================================== Snack Add ===============================================
+    Route::post('/snack/delete', [CateringController::class, 'deleteSnack'])->name('delete.snack');
+    Route::get('/snack/get/{id}', [CateringController::class, 'getEditSnack'])->name('edit.snack');
+    Route::post('/snack/myedit/{id}', [CateringController::class, 'editSnack'])->name('get.snack');
+    // Route::get('/catering/snack', [CateringController::class, 'createSnack'])->name('snack.snack');
+    Route::post('/snack/store', [CateringController::class, 'storeSnack'])->name('snack.store');
+    Route::post('/catering/sendrevisisnack', [CateringController::class, 'sendRevisiSnack'])->name('send.revisisnack');
+
+    //=============================================== Laporan Departemen Snack===============================================
+    Route::get('/snack_dept/get/{id}', [LapCateringDeptController::class, 'getEditSnack'])->name('edit.snack');
+    Route::post('/snack_dept/myedit/{id}', [LapCateringDeptController::class, 'editSnack'])->name('get.snack_dept');
+    Route::get('/catering/snack', [LapCateringDeptController::class, 'createSnack'])->name('snack.snack');
+    Route::post('/snack_dept/store', [LapCateringDeptController::class, 'storeSnack'])->name('snack.storedept');
+
+    //Route::post('/catering/revisisnack', [LapCateringDeptController::class, 'sendRevisiSnack'])->name('send.revisi');
+    Route::post('/lapcateringdept/revisisnack', [LapCateringDeptController::class, 'revisiSnack'])->name('revisi.snack');
+    Route::post('/snack/approval', [LapCateringDeptController::class, 'approvalSnack'])->name('approval.snack');
+
+    //=============================================== MK SPESIAL ===============================================
+    Route::post('/spesial/delete', [CateringController::class, 'deleteSpesial'])->name('delete.spesial');
+    Route::get('/spesial/get/{id}', [CateringController::class, 'getEditSpesial'])->name('edit.spesial');
+    Route::post('/spesial/myedit/{id}', [CateringController::class, 'editSpesial'])->name('get.spesial');
+    Route::get('/catering/spesial', [CateringController::class, 'createSpesial'])->name('spesial.spesial');
+    Route::post('/spesial/store', [CateringController::class, 'storeSpesial'])->name('spesial.store');
+
+    Route::post('/catering/sendrevisispesial', [CateringController::class, 'sendRevisiSpesial'])->name('send.revisispesial');
+
+    //=============================================== Laporan Departemen MK SPESIAL===============================================
+    //Route::post('/spesial/delete', [LapCateringDeptController::class, 'deleteSpesial'])->name('delete.spesial');
+    Route::get('/spesial_dept/get/{id}', [LapCateringDeptController::class, 'getEditSpesial'])->name('edit.spesial');
+    Route::post('/spesial_dept/myedit/{id}', [LapCateringDeptController::class, 'editSpesial'])->name('get.spesial_dept');
+    Route::get('/catering/spesial', [LapCateringDeptController::class, 'createSpesial'])->name('spesial.spesial');
+    Route::post('/spesial_dept/store', [LapCateringDeptController::class, 'storeSpesial'])->name('spesial.storedept');
+    Route::get('/catering/getPrevious', [LapCateringDeptController::class, 'getPrevious'])->name('catering.cateringprevious');
+    Route::post('/spesial/send', [LapCateringDeptController::class, 'sendRevisi'])->name('send.revisi');
+
+    Route::post('/spesial/approval', [LapCateringDeptController::class, 'approvalSpesial'])->name('approval.spesial');
+    Route::post('/lapcateringdept/revisispesial', [LapCateringDeptController::class, 'revisiSpesial'])->name('revisi.snack');
+
+
     //=============================================== Laporan MK Catering Dept ===============================================
     Route::post('/lapcateringdept/delete', [LapCateringDeptController::class, 'delete'])->name('delete.lapcateringdept');
     Route::get('/lapcateringdept/get/{id}', [LapCateringDeptController::class, 'getEdit'])->name('edit.lapcateringdept');
@@ -125,10 +165,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/lapcateringdept/approval', [LapCateringDeptController::class, 'approval'])->name('approval.catering');
     Route::post('/lapcateringdept/revisi', [LapCateringDeptController::class, 'revisi'])->name('revisi.catering');
     Route::post('/lapcateringdept/send', [LapCateringDeptController::class, 'sendRevisi'])->name('send.revisi');
-
     Route::post('/lapcateringdept/approve-selected', [LapCateringDeptController::class, 'approvalAll'])->name('approvalAll.catering');
 
+
     //=============================================== Laporan Catering ===============================================
+
     Route::post('/lapcatering/delete', [LapCateringController::class, 'delete'])->name('delete.lapcatering');
     Route::get('/lapcatering/get/{id}', [LapCateringController::class, 'getEdit'])->name('edit.lapcatering');
     Route::post('/lapcatering/myedit/{id}', [LapCateringController::class, 'edit'])->name('get.lapcatering');

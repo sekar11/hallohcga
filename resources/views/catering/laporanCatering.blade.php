@@ -54,7 +54,7 @@
                             <i class="fas fa-file-excel"></i> Monthly Report
                         </button>
 
-                        {{-- <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exportModalInvoice">
+                        {{-- {{-- <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exportModalInvoice">
                             <i class="fas fa-file-invoice"></i> Invoice
                         </button> --}}
 
@@ -75,63 +75,139 @@
                     MK Tambahan
                 </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                <button class="nav-link" id="spesial-tab" data-bs-toggle="tab" data-bs-target="#spesial" type="button" role="tab" aria-controls="spesial" aria-selected="false">
+                    MK Spesial
+                </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                <button class="nav-link" id="snack-tab" data-bs-toggle="tab" data-bs-target="#snack" type="button" role="tab" aria-controls="snack" aria-selected="false">
+                    Snack
+                </button>
+                </li>
             </ul>
+
+            <!-- Modal View Data Snack-->
+                <div class="modal fade modal-view" id="viewsnackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Detail Data Snack</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Area</th>
+                                            <th>Gedung</th>
+                                            <th>Lokasi</th>
+                                            <th>Jenis</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewDataSnack">
+                                        <!-- Data akan diisi dengan JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal View Data Spesial-->
+                <div class="modal fade modal-view" id="viewspesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Detail Data Spesial</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Area</th>
+                                            <th>Gedung</th>
+                                            <th>Lokasi</th>
+                                            <th>Jenis</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewDataSpesial">
+                                        <!-- Data akan diisi dengan JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             <!-- Tab Content -->
             <div class="tab-content" id="cateringTabsContent">
-                <!-- Reguler Tab -->
-                <div class="tab-pane fade show active" id="reguler" role="tabpanel" aria-labelledby="reguler-tab">
-                <div class="mt-4">
-                    @if (!empty($cateringData))
-                        <h4 class="mt-3">Tanggal: {{ $selectedDate }}</h4>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Lokasi</th>
-                                    <th>Kategori</th>
-                                    <th>Jumlah</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php $grandTotal = 0; @endphp
-                                @foreach ($cateringData as $category => $locations)
-                                    @php $categoryTotal = 0; @endphp
-                                    @foreach ($locations as $index => $location)
-                                        @php
-                                            $total = is_numeric($location['total']) ? $location['total'] : 0;
-                                            $categoryTotal += $total;
-                                            $grandTotal += $total;
-                                        @endphp
-                                        <tr>
-                                            @if ($index == 0)
-                                                <td rowspan="{{ count($locations) }}">{{ $loop->parent->iteration }}</td>
-                                                <td rowspan="{{ count($locations) }}">{{ $category }}</td>
-                                            @endif
-                                            <td>{{ $location['name'] }}</td>
-                                            <td>{{ is_numeric($location['total']) ? number_format($location['total']) : '-' }}</td>
+                    <!-- Reguler Tab -->
+                    <div class="tab-pane fade show active" id="reguler" role="tabpanel" aria-labelledby="reguler-tab">
+                    <div class="mt-4">
+                        @if (!empty($cateringData))
+                            <h4 class="mt-3">Tanggal: {{ $selectedDate }}</h4>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Lokasi</th>
+                                        <th>Kategori</th>
+                                        <th>Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $grandTotal = 0; @endphp
+                                    @foreach ($cateringData as $category => $locations)
+                                        @php $categoryTotal = 0; @endphp
+                                        @foreach ($locations as $index => $location)
+                                            @php
+                                                $total = is_numeric($location['total']) ? $location['total'] : 0;
+                                                $categoryTotal += $total;
+                                                $grandTotal += $total;
+                                            @endphp
+                                            <tr>
+                                                @if ($index == 0)
+                                                    <td rowspan="{{ count($locations) }}">{{ $loop->parent->iteration }}</td>
+                                                    <td rowspan="{{ count($locations) }}">{{ $category }}</td>
+                                                @endif
+                                                <td>{{ $location['name'] }}</td>
+                                                <td>{{ is_numeric($location['total']) ? number_format($location['total']) : '-' }}</td>
+                                            </tr>
+                                        @endforeach
+                                        <tr class="table-secondary fw-bold">
+                                            <td colspan="3" class="text-end">Total {{ $category }}</td>
+                                            <td>{{ number_format($categoryTotal) }}</td>
                                         </tr>
                                     @endforeach
-                                    <tr class="table-secondary fw-bold">
-                                        <td colspan="3" class="text-end">Total {{ $category }}</td>
-                                        <td>{{ number_format($categoryTotal) }}</td>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-dark text-white fw-bold">
+                                        <td colspan="3" class="text-end">Grand Total</td>
+                                        <td>{{ number_format($grandTotal) }}</td>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr class="table-dark text-white fw-bold">
-                                    <td colspan="3" class="text-end">Grand Total</td>
-                                    <td>{{ number_format($grandTotal) }}</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    @else
-                        <p class="text-center mt-4">Data tidak ditemukan untuk tanggal yang dipilih.</p>
-                    @endif
-                </div>
-                </div>
+                                </tfoot>
+                            </table>
+                        @else
+                            <p class="text-center mt-4">Data tidak ditemukan untuk tanggal yang dipilih.</p>
+                        @endif
+                    </div>
+                    </div>
 
-                    <!-- Revisi Tab -->
+                    <!-- Tambahan  Tab -->
                     <div class="tab-pane fade" id="revisi" role="tabpanel" aria-labelledby="revisi-tab">
                     <div class="mt-4">
                         @if (!empty($cateringDataRevisi))
@@ -182,8 +258,118 @@
                         @endif
                     </div>
                     </div>
-            </div>
 
+                    <!-- spesial Tab -->
+                    <div class="tab-pane fade" id="spesial" role="tabpanel" aria-labelledby="spesial-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_spesial responsive datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Departemen</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Gedung</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($spesialData as $no => $spesial)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $spesial->tanggal}}</td>
+                                <td>{{ $spesial->departemen}}</td>
+                                <td>{{ $spesial->waktu}}</td>
+                                <td>{{ $spesial->area}}</td>
+                                <td>{{ $spesial->gedung}}</td>
+                                <td>{{ $spesial->lokasi}}</td>
+                                <td>{{ $spesial->jenis}}</td>
+                                <td>{{ $spesial->jumlah}}</td>
+                                <td>
+                                    @if($spesial->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($spesial->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($spesial->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                </ul>
+                            </tr>
+                            @endforeach 
+
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                     <!-- Snack Tab -->
+                    <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_snack responsive datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Departemen</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Gedung</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($snackData as $no => $snack)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $snack->tanggal}}</td>
+                                <td>{{ $snack->departemen}}</td>
+                                <td>{{ $snack->area}}</td>
+                                <td>{{ $snack->gedung}}</td>
+                                <td>{{ $snack->waktu}}</td>
+                                <td>{{ $snack->lokasi}}</td>
+                                <td>{{ $snack->jenis}}</td>
+                                <td>{{ $snack->jumlah}}</td>
+                                <td>
+                                    @if($snack->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($snack->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($snack->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                </ul>
+
+                            </tr>
+                            @endforeach 
+
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+
+            </div>
 
             <!-- Modal Montly Report-->
             <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
@@ -623,8 +809,104 @@ document.querySelectorAll('.delete').forEach(function(link) {
 });
 
 
+document.querySelectorAll('.datatable').forEach(function(table) {
+  new DataTable(table);
+});
 
 
+$('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var activeTab = $(e.target).attr('id'); // misal: snack-tab
+    localStorage.setItem('activeCateringTab', activeTab);
+});
+$(document).ready(function() {
+    var activeTab = localStorage.getItem('activeCateringTab');
+    if (activeTab) {
+        var tabTrigger = document.getElementById(activeTab);
+        if (tabTrigger) {
+            var tab = new bootstrap.Tab(tabTrigger);
+            tab.show();
+        }
+    }
+});
+
+//VIEW SNACK
+var snackId;
+$('.viewsnack').click(function () {
+    const snackId = $(this).data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/snack/get') }}/' + snackId + '?_=' + new Date().getTime(),
+        cache: false,
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            const viewContainer = $('#viewDataSnack');
+            viewContainer.html('');
+
+            // Bangun satu baris data
+            const tableContent = `
+                <tr>
+                    <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.waktu ?? '-'}</td>
+                    <td>${response.area ?? '-'}</td>
+                    <td>${response.gedung ?? '-'}</td>
+                    <td>${response.lokasi ?? '-'}</td>
+                    <td>${response.jenis ?? '-'}</td>
+                    <td>${response.jumlah ?? '-'}</td>
+                </tr>
+            `;
+
+            viewContainer.html(tableContent);
+            $('#viewsnackModal').modal('show');
+        },
+        error: function () {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+var spesialId;
+   $('.viewspesial').click(function () {
+    const spesialId = $(this).data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/spesial/get') }}/' + spesialId + '?_=' + new Date().getTime(),
+        cache: false,
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            const viewContainer = $('#viewDataSpesial');
+            viewContainer.html('');
+
+            // Bangun satu baris data
+            const tableContent = `
+                <tr>
+                    <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.waktu ?? '-'}</td>
+                    <td>${response.area ?? '-'}</td>
+                    <td>${response.gedung ?? '-'}</td>
+                    <td>${response.lokasi ?? '-'}</td>
+                    <td>${response.jenis ?? '-'}</td>
+                    <td>${response.jumlah ?? '-'}</td>
+                </tr>
+            `;
+
+            viewContainer.html(tableContent);
+            $('#viewspesialModal').modal('show');
+        },
+        error: function () {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
 
 
 

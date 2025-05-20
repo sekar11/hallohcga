@@ -28,15 +28,29 @@
                     <div class="col-md-2">
                         <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date', now()->addDay()->format('Y-m-d')) }}">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <select class="form-control" id="departemen" name="departemen">
                             <option value="HCGA" selected>Pilih Area</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </div>
-                    <div class="col-md-4 d-flex justify-content-end">
+                     <div class="col-md-2 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary bi bi-plus btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#cateringSnackModal">
+                            Add Snack
+                        </button>
+                    </div>
+
+                    <div class="col-md-2 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary bi bi-plus btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#cateringSpesialModal">
+                            Add MK Spesial
+                        </button>
+                    </div>
+
+                    <div class="col-md-2 d-flex justify-content-end">
                         <button type="button" class="btn btn-primary bi bi-plus btn-sm"
                             data-bs-toggle="modal" data-bs-target="#cateringModal">
                             Add MK Catering Reguler
@@ -45,7 +59,26 @@
                 </div>
                </form>
 
-              <!-- Modal View Data -->
+               {{-- TABS --}}
+                <ul class="nav nav-tabs mt-4" id="cateringTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="reguler-tab" data-bs-toggle="tab" data-bs-target="#reguler" type="button" role="tab" aria-controls="reguler" aria-selected="true">
+                        MK Reguler
+                    </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="spesial-tab" data-bs-toggle="tab" data-bs-target="#spesial" type="button" role="tab" aria-controls="spesial" aria-selected="false">
+                        MK Spesial
+                    </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="snack-tab" data-bs-toggle="tab" data-bs-target="#snack" type="button" role="tab" aria-controls="snack" aria-selected="false">
+                        Snack
+                    </button>
+                    </li>
+                </ul>
+
+                <!-- Modal View Data -->
                 <div class="modal fade modal-view" id="viewcateringModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -75,7 +108,79 @@
                     </div>
                 </div>
 
-                <!-- Modal Add -->
+                <!-- Modal View Data Snack-->
+                <div class="modal fade modal-view" id="viewsnackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Detail Data Snack</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Area</th>
+                                            <th>Gedung</th>
+                                            <th>Lokasi</th>
+                                            <th>Jenis</th>
+                                            <th>Total</th>
+                                            <th>Catering</th>
+                                            <th>Harga</th>
+                                            <th>Revisi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewDataSnack">
+                                        <!-- Data akan diisi dengan JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal View Data Spesial-->
+                <div class="modal fade modal-view" id="viewspesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Detail Data Spesial</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Area</th>
+                                            <th>Gedung</th>
+                                            <th>Lokasi</th>
+                                            <th>Jenis</th>
+                                            <th>Total</th>
+                                            <th>Catering</th>
+                                            <th>Harga</th>
+                                            <th>Revisi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewDataSpesial">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Add MK REGULAR -->
                 <div class="modal fade modal_add" id="cateringModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -217,6 +322,7 @@
                                         'spare_csapit2' => ['label' => 'Spare', 'name' => 'spare_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'driverlv_csapit2' => ['label' => 'Driver LV', 'name' => 'driverlv_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
                                         'admin_csapit2' => ['label' => 'Admin CSA PIT 2', 'name' => 'admin_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
+                                        'training_csapit2' => ['label' => 'Ruang Training CSA PIT 2', 'name' => 'training_csapit2', 'type' => 'text', 'category' => 'CSA PIT 2'],
 
                                         'dept_sect_csapit3' => ['label' => 'Sect. Head', 'name' => 'dept_sect_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
                                         'operator_csapit3' => ['label' => 'Operator', 'name' => 'operator_csapit3', 'type' => 'text', 'category' => 'CSA PIT 3'],
@@ -502,133 +608,719 @@
                     </div>
                 </div>
                 </div>
-                {{-- End Modal Add --}}
 
-
-              <!--begin::Modal Revisi GA GL-->
-              <div class="modal fade modal_revisi" id="revisiModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                <!-- Modal Add SNACK sekar-->
+                <div class="modal fade modal_add_snack" id="cateringSnackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Revisi Complain</h5>
+                            <h1 class="modal-title fs-5" id="btn-add">Add Snack</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </button>
                         </div>
                         <div class="modal-body">
-                            <form class="kt-form kt-form--label-right form_revisi" action="/catering/revisi"  method="POST" enctype="multipart/form-data" autocomplete="off">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="message-text" class="form-control-label">Pesan Revisi <span style="color:red">*</span></label>
-                                    <textarea class="form-control" id="revisi" name="revisi" rows="8"></textarea>
+                            {{-- <input type="hidden" name="_token" value="{{{ csrf_token() }}}" /> --}}
+                            <input type="hidden" name="id" id="id"/>
+                            <form id="cateringSnackForm" class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
+                            @csrf
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="tanggal_snack_add" name="tanggal_snack_add" placeholder="Tanggal">
+                                    <label for="message-text">Tanggal </label>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn-yes-revisi">Kirim</button>
-                            <div id="loading-spinner" >
-                                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="departemen_snack_add" name="departemen_snack_add">
+                                                <option value=""> - Pilih Departemen - </option>
+                                                <option value="COE">COE</option>
+                                                <option value="FALOG">FA-LOG</option>
+                                                <option value="ENG">ENG</option>
+                                                <option value="HCGA">HCGA</option>
+                                                <option value="PRO">PRODUKSI</option>
+                                                <option value="PLANT">PLANT</option>
+                                                <option value="SHE">SHE</option>
+                                            </select>
+                                            <label>Departemen</label>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div id="snack-container">
+                            <div class="snack-group">
+                                <!-- Baris 1 -->
+                                <div class="row mt-3 snack-item">
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="waktu_snack_add[]">
+                                                <option value=""> - Pilih Waktu - </option>
+                                                <option value="Pagi">Pagi</option>
+                                                <option value="Siang">Siang</option>
+                                                <option value="Sore">Sore</option>
+                                                <option value="Malam">Malam</option>
+                                            </select>
+                                            <label>Waktu</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-control" id="area_snack_add[]" name="area_snack_add[]">
+                                        <option value="">Pilih Area</option>
+                                        <option value="Mess">MESS</option>
+                                        <option value="Office">Office</option>
+                                        <option value="CSA 1">CSA 1</option>
+                                        <option value="CSA 2">CSA 2</option>
+                                        <option value="CSA 3">CSA 3</option>
+                                        <option value="CSA FUEL">CSA FUEL</option>
+                                        <option value="PITSTOP">PITSTOP</option>
+                                        <option value="OTHER">Lainnya</option>
+                                    </select>
+
+                                    <label for="area_snack_add">Area</label>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-control" id="gedung_snack_add[]" name="gedung_snack_add[]">
+                                        <option value="">Pilih Gedung</option>
+                                    </select>
+                                    <label for="gedung_snack_add">Gedung</label>
+                                </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="lokasi_snack_add[]" name="lokasi_snack_add[]" placeholder="Lokasi">
+                                    <label for="message-text">Lokasi</label>
+                                </div>
+                                </div>
+
+                                </div>
+
+                                <!-- Baris 2 -->
+                                <div class="row mt-3 snack-item">
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="snack_add[]">
+                                                <option value="">- Pilih Snack -</option>
+                                                <option value="Snack Biasa">Snack Biasa</option>
+                                                <option value="Snack Spesial">Snack Spesial</option>
+                                                <option value="Parcel Buah Biasa">Parcel Buah Biasa</option>
+                                                <option value="Parcel Buah Spesial">Parcel Buah Spesial</option>
+                                                <option value="Pempek">Pempek</option>
+                                                <option value="Kopi">Kopi Iglo</option>
+                                                <option value="Teh">Teh Iglo</option>
+                                                <option value="Wedang Jahe">Wedang Jahe</option>
+                                                <option value="Aqua Cup 220 ml">Aqua Cup 220 ml</option>
+                                                <option value="Aqua botol 330 ml">Aqua botol 330 ml</option>
+                                                <option value="Aqua botol 660 ml">Aqua botol 660 ml</option>
+                                            </select>
+                                            <label>Mk Snack</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="jumlah_snack_add[]" placeholder="Jumlah">
+                                            <label>Jumlah</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="catering_snack_add[]">
+                                                <option value="">- Pilih Catering -</option>
+                                                <option value="Fitri">Catering Fitri</option>
+                                                <option value="Bintang">Catering Bintang</option>
+                                                <option value="Wastu">Catering Wastu</option>
+                                            </select>
+                                            <label>Catering</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="harga_snack_add[]" placeholder="Harga">
+                                            <label>Harga</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Garis pemisah -->
+                                <hr class="snack-item mt-3">
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!--end::Modal Revisi-->
 
-             <!--begin::Modal Done GA/GL-->
-             <div class="modal fade modal_validasi" id="approvalModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Approval</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="kt-form kt-form--label-right form_approval" action="/catering/validasigagl" method="POST" enctype="multipart/form-data" autocomplete="off">
-                              @csrf
-                              <!-- Input Kategori -->
-                              <div class="form-group">
-                                  <label for="kategori" class="form-control-label" style="font-size: smaller;">Keterangan <span style="color:red">*</span></label>
-                                  <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
-                              </div>
+                        {{-- <div class="add-snack-line mt-3">
+                            <div class="minus-icon" id="remove-snack-btn">-</div>
+                            <div class="line"></div>
+                            <div class="plus-icon" id="add-snack-btn">+</div>
+                        </div> --}}
 
                         </form>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-yes-add-snack">Save</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn-yes-approval">Kirim</button>
-                            <div id="loading-spinner-approval" >
-                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            <div id="loading-spinner" >
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- End Modal Add --}}
+
+                {{-- -- Modal Add MK Spesial sekar--> --}}
+                <div class="modal fade modal_add_snack" id="cateringSpesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="btn-add">Add MK Spesial</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{-- <input type="hidden" name="_token" value="{{{ csrf_token() }}}" /> --}}
+                            <input type="hidden" name="id" id="id"/>
+                            <form id="cateringSpesialForm" class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
+                            @csrf
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="tanggal_spesial_add" name="tanggal_spesial_add" placeholder="Tanggal">
+                                    <label for="message-text">Tanggal </label>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="departemen_spesial_add" name="departemen_spesial_add">
+                                                <option value=""> - Pilih Departemen - </option>
+                                                <option value="COE">COE</option>
+                                                <option value="FALOG">FA-LOG</option>
+                                                <option value="ENG">ENG</option>
+                                                <option value="HCGA">HCGA</option>
+                                                <option value="PRO">PRODUKSI</option>
+                                                <option value="PLANT">PLANT</option>
+                                                <option value="SHE">SHE</option>
+                                            </select>
+                                            <label>Departemen</label>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div id="spesial-container">
+                            <div class="spesial-group">
+                                <!-- Baris 1 -->
+                                <div class="row mt-3 spesial-item">
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="waktu_spesial_add[]">
+                                                <option value=""> - Pilih Waktu - </option>
+                                                <option value="Pagi">Pagi</option>
+                                                <option value="Siang">Siang</option>
+                                                <option value="Sore">Sore</option>
+                                                <option value="Malam">Malam</option>
+                                            </select>
+                                            <label>Waktu</label>
+                                        </div>
+                                    </div>
+                                 <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-control" id="area_spesial_add[]" name="area_spesial_add[]">
+                                        <option value="">Pilih Area</option>
+                                        <option value="Mess">MESS</option>
+                                        <option value="Office">Office</option>
+                                        <option value="CSA 1">CSA 1</option>
+                                        <option value="CSA 2">CSA 2</option>
+                                        <option value="CSA 3">CSA 3</option>
+                                        <option value="CSA FUEL">CSA FUEL</option>
+                                        <option value="PITSTOP">PITSTOP</option>
+                                        <option value="OTHER">Lainnya</option>
+                                    </select>
+
+                                    <label for="area_spesial_add">Area</label>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-control" id="gedung_spesial_add[]" name="gedung_spesial_add[]">
+                                        <option value="">Pilih Gedung</option>
+                                    </select>
+                                    <label for="gedung_spesial_add">Gedung</label>
+                                </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="lokasi_spesial_add[]" name="lokasi_spesial_add[]" placeholder="Lokasi">
+                                    <label for="message-text">Lokasi</label>
+                                </div>
+                                </div>
+
+                                </div>
+
+                                <!-- Baris 2 -->
+                                <div class="row mt-3 spesial-item">
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                        <select class="form-select" name="spesial_add[]">
+                                            <option value="">- Pilih MK Spesial -</option>
+                                            <option value="MK Spesial">MK Spesial</option>
+                                            <option value="Nasi Liwet">Nasi Liwet</option>
+                                            <option value="Ayam Bakar">Ayam Bakar</option>
+                                            <option value="Prasmanan">Prasmanan</option>
+                                        </select>
+                                        <label>Mk Spesial</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="jumlah_spesial_add[]" placeholder="Jumlah">
+                                            <label>Jumlah</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="catering_spesial_add[]">
+                                                <option value="">- Pilih Catering -</option>
+                                                <option value="Fitri">Catering Fitri</option>
+                                                <option value="Bintang">Catering Bintang</option>
+                                                <option value="Wastu">Catering Wastu</option>
+                                            </select>
+                                            <label>Catering</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="harga_spesial_add[]" placeholder="Harga">
+                                            <label>Harga</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="spesial-item mt-3">
+                            </div>
+                        </div>
+                        {{--
+                        <div class="add-spesial-line mt-3">
+                            <div class="minus-icon" id="remove-spesial-btn">-</div>
+                            <div class="line"></div>
+                            <div class="plus-icon" id="add-spesial-btn">+</div>
+                        </div> --}}
+
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-yes-add-spesial">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <div id="loading-spinner" >
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- End Modal Add --}}
+
+
+                <!--begin::Modal Revisi GA GL-->
+                <div class="modal fade modal_revisi" id="revisiModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Revisi Complain</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_revisi" action="/catering/revisi"  method="POST" enctype="multipart/form-data" autocomplete="off">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="message-text" class="form-control-label">Pesan Revisi <span style="color:red">*</span></label>
+                                        <textarea class="form-control" id="revisi" name="revisi" rows="8"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btn-yes-revisi">Kirim</button>
+                                <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--end::Modal Validasi Crew-->
+                <!--end::Modal Revisi-->
 
-              <!-- Table with stripped rows -->
-              <div class="table-responsive">
-                <table class="table dt_catering responsive" id="datatable">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <input type="checkbox" id="selectAll">
-                            </th>
-                            <th scope="col">No</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Waktu</th>
-                            <th scope="col">Total Order</th>
-                            <th scope="col">Total Order Sebelumnya</th>
-                            <th scope="col">Visitor</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($cateringData as $no => $catering)
-                        <tr>
-                            <td>
-                                <input type="checkbox" class="rowCheckbox" value="{{ $catering->id }}">
-                            </td>
-                            <td>{{ $no + 1 }}</td>
-                            <td>{{ $catering->tanggal }}</td>
-                            <td>{{ $catering->created_name }}</td>
-                            <td>{{ $catering->waktu}}</td>
-                            <td>{{ $catering->total}}</td>
-                            <td>{{ $catering->total_hari_sebelumnya}}</td>
-                            <td>{{ $catering->visitor}}</td>
-                            <td>
-                                @if($catering->status == 1)
-                                    <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
-                                @elseif($catering->status == 2)
-                                    <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
-                                @elseif($catering->status == 3)
-                                    <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i> View</a></li>
-                                        <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
-                                        <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal" data-bs-target="#approvalModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
-                                        <li><a class="dropdown-item revisi" href="#" data-bs-toggle="modal" data-bs-target="#revisiModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
-                                        <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
-                                    </ul>
+                <!--begin::Revisi SNACK-->
+                <div class="modal fade modal_snack" id="revisisnackModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Revisi Snack</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_revisi_snack" enctype="multipart/form-data" autocomplete="off">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="message-text" class="form-control-label">Keterangan Revisi <span style="color:red">*</span></label>
+                                        <textarea class="form-control" id="revisisnack" name="revisisnack" rows="8"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btn-yes-revisi-snack">Kirim</button>
+                                <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
                                 </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Modal Revisi-->
 
-            <!-- Tombol Approval -->
-            <button id="btnApproveSelected" class="btn btn-danger mt-3">Approve Selected</button>
+                 <!--begin::Revisi SPESIAL-->
+                <div class="modal fade modal_spesial" id="revisispesialModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Revisi Spesial</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_revisi_spesial" enctype="multipart/form-data" autocomplete="off">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="message-text" class="form-control-label">Keterangan Revisi <span style="color:red">*</span></label>
+                                        <textarea class="form-control" id="revisispesial" name="revisispesial" rows="8"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btn-yes-revisi-spesial">Kirim</button>
+                                <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Modal Revisi-->
+
+                <!--begin::Modal Done GA/GL-->
+                <div class="modal fade modal_validasi" id="approvalModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Approval</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_approval" action="/catering/validasigagl" method="POST" enctype="multipart/form-data" autocomplete="off">
+                                @csrf
+                                <!-- Input Kategori -->
+                                <div class="form-group">
+                                    <label for="kategori" class="form-control-label" style="font-size: smaller;">Keterangan <span style="color:red">*</span></label>
+                                    <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
+                                </div>
+
+                            </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btn-yes-approval">Kirim</button>
+                                <div id="loading-spinner-approval" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Modal Validasi Crew-->
+
+                <!--begin::Modal Approve Snack-->
+                <div class="modal fade modal_validasi" id="approvalSnackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Approval</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="kt-form kt-form--label-right form_approvalsnack" enctype="multipart/form-data" autocomplete="off">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="catering_snack_approve">
+                                <option value="">- Pilih Catering -</option>
+                                <option value="Fitri">Catering Fitri</option>
+                                <option value="Bintang">Catering Bintang</option>
+                                <option value="Wastu">Catering Wastu</option>
+                                </select>
+                                <label>Catering</label>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name="harga_snack_approve" placeholder="Harga">
+                                <label>Harga</label>
+                            </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-yes-approvalsnack">Kirim</button>
+                        <div id="loading-spinner-approvalsnack" style="display:none;">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!--end::Modal Approve Snack-->
+
+                <!--begin::Modal Approve Spesial-->
+                <div class="modal fade modal_validasi" id="approvalSpesialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Approval</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="kt-form kt-form--label-right form_approvalspesial" enctype="multipart/form-data" autocomplete="off">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="catering_spesial_approve">
+                                <option value="">- Pilih Catering -</option>
+                                <option value="Fitri">Catering Fitri</option>
+                                <option value="Bintang">Catering Bintang</option>
+                                <option value="Wastu">Catering Wastu</option>
+                                </select>
+                                <label>Catering</label>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name="harga_spesial_approve" placeholder="Harga">
+                                <label>Harga</label>
+                            </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-yes-approvalspesial">Kirim</button>
+                        <div id="loading-spinner-approvalspesial" style="display:none;">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!--end::Modal Approve Snack-->
+
+                <!-- Table with stripped rows -->
+            <div class="tab-content" id="cateringTabsContent">
+                    <!-- Reguler Tab -->
+                <div class="tab-pane fade show active" id="reguler" role="tabpanel" aria-labelledby="reguler-tab">
+                <div class="table-responsive">
+                    <table class="table dt_catering responsive" id="datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Total Order</th>
+                                <th scope="col">Total Order Sebelumnya</th>
+                                <th scope="col">Visitor</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($cateringData as $no => $catering)
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="rowCheckbox" value="{{ $catering->id }}">
+                                </td>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $catering->tanggal }}</td>
+                                <td>{{ $catering->created_name }}</td>
+                                <td>{{ $catering->waktu}}</td>
+                                <td>{{ $catering->total}}</td>
+                                <td>{{ $catering->total_hari_sebelumnya}}</td>
+                                <td class="truncate-text">{{ $catering->visitor }}</td>
+                                <td>
+                                    @if($catering->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($catering->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($catering->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i> View</a></li>
+                                            <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
+                                            <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                            <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal" data-bs-target="#approvalModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
+                                            <li><a class="dropdown-item revisi" href="#" data-bs-toggle="modal" data-bs-target="#revisiModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                            <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <button id="btnApproveSelected" class="btn btn-danger mt-3">Approve Selected</button>
+                </div>
+
+                <!-- Spesial Tab -->
+                    <div class="tab-pane fade" id="spesial" role="tabpanel" aria-labelledby="spesial-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_spesial responsive datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Departemen</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Catering</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($spesialData as $no => $spesial)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $spesial->tanggal}}</td>
+                                <td>{{ $spesial->departemen}}</td>
+                                <td>{{ $spesial->waktu}}</td>
+                                <td>{{ $spesial->area}}</td>
+                                <td>{{ $spesial->lokasi}}</td>
+                                <td>{{ $spesial->jenis}}</td>
+                                <td>{{ $spesial->jumlah}}</td>
+                                <td>{{ $spesial->catering}}</td>
+                                <td>{{ $spesial->harga}}</td>
+                                <td>
+                                    @if($spesial->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($spesial->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($spesial->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editspesial" href="#" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletespesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item approvalspesial" href="#" data-bs-toggle="modal" data-bs-target="#approvalSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Approval</a></li>
+                                    <li><a class="dropdown-item revisispesial" href="#" data-bs-toggle="modal" data-bs-target="#revisispesialModalgagl" data-id="{{ $spesial->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                    {{-- <li><a class="dropdown-item sendrevisi" href="#" data-id="{{ $spesial->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li> --}}
+                                </ul>
+
+                            </tr>
+                            @endforeach 
+
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                    <!-- Snack Tab -->
+                    <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
+                        <div class="table-responsive">
+                        <table class="table dt_snack responsive datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Departemen</th>
+                                <th scope="col">Waktu</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Catering</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{-- //sekar --}}
+                            @foreach($snackData as $no => $snack)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $snack->tanggal}}</td>
+                                <td>{{ $snack->departemen}}</td>
+                                <td>{{ $snack->waktu}}</td>
+                                <td>{{ $snack->area}}</td>
+                                <td>{{ $snack->lokasi}}</td>
+                                <td>{{ $snack->jenis}}</td>
+                                <td>{{ $snack->jumlah}}</td>
+                                <td>{{ $snack->catering}}</td>
+                                <td>{{ $snack->harga}}</td>
+                                <td>
+                                    @if($snack->status == 1)
+                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                    @elseif($snack->status == 2)
+                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                    @elseif($snack->status == 3)
+                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                    @endif
+                                <td>
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editsnack" href="#" data-bs-toggle="modal" data-bs-target="#cateringSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletesnack" href="#" data-id="{{ $snack->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                    <li><a class="dropdown-item approvalsnack" href="#" data-bs-toggle="modal" data-bs-target="#approvalSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Approve</a></li>
+                                    <li><a class="dropdown-item revisisnack" href="#" data-bs-toggle="modal" data-bs-target="#revisisnackModalgagl" data-id="{{ $snack->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                    {{-- <li><a class="dropdown-item sendrevisisnack" href="#" data-id="{{ $snack->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li> --}}
+                                </ul>
+                            </tr>
+                            @endforeach
+
+                        </tbody>
+                        </table>
+                        </div>
+                    </div>
+            <div>
+                <!-- Tombol Approval -->
+
 
               </tbody>
               </table>
@@ -750,7 +1442,7 @@ $(document).ready(function() {
                         'Anjungan CSA PIT 1': ['dept_sect_officeplant', 'dept_sect_csapit1'],
                         //'Office CSA PIT 1': ['gl_officecsapit1', 'admin_officecsapit1'],
                         'CSA PIT 1': ['operator_csapit1', 'gl_csapit1', 'spare_csapit1', 'admin_csapit1', 'skillup_csapit1',],
-                        'CSA PIT 2': ['dept_sect_csapit2', 'operator_csapit2', 'gl_csapit2', 'spare_csapit2', 'admin_csapit2','driverlv_csapit2'],
+                        'CSA PIT 2': ['dept_sect_csapit2', 'operator_csapit2', 'gl_csapit2', 'spare_csapit2', 'admin_csapit2','driverlv_csapit2','training_csapit2'],
                         'CSA PIT 3': ['dept_sect_csapit3', 'operator_csapit3', 'gl_csapit3', 'spare_csapit3'],
                         'CSA HRM': [ 'operator_csahrm', 'gl_csahrm', 'spare_csahrm'],
                         'CSA PITSTOP AKADEMIN': [ 'driverlv_pitstop', 'gl_pitstop', 'spare_pitstop'],
@@ -762,11 +1454,11 @@ $(document).ready(function() {
                         'TOTAL': ['total'],
                         'OFFICE PLANT': ['pjo', 'sect_head', 'gl_hc', 'admin_hc', 'admin_ga_plant', 'helper_plant', 'security_plant', 'alpen', 'driver_plant', 'sertifikasi_hcga', 'driver_bus_jumat'],
                         'SPBI': ['security_spbi', 'admin_spbi'],
-                        'OFFICE GA MESS TAMBANG': ['admin_ga', 'gl_ga', 'electrical_ga', 'driver_mess', 'carpenter', 'gardener', 'bagong', 'visitor', 'vendor'],
+                        'OFFICE GA MESS TAMBANG': ['admin_ga', 'gl_ga', 'electrical_ga', 'driver_mess', 'carpenter', 'gardener'],
                         'MEKANIK TRAC': ['mekanic_trac'],
                         'POS SECURITY MESS TAMBANG': ['security_pos', 'security_patrol', 'driver_lv_cuti'],
                         'MESS TAMBANG': ['helper_mess', 'driver_bus','driver_bus_jumat_mess'],
-                        'OFFICE GA MEICU': ['admin_ga_meicu', 'gl_ga_meicu', 'security_meicu', 'driver_meicu', 'cv_ade', 'helper_meicu','bagong', 'vendor_meicu'],
+                        'OFFICE GA MEICU': ['admin_ga_meicu', 'gl_ga_meicu', 'security_meicu', 'driver_meicu', 'cv_ade', 'helper_meicu','bagong', 'vendor_meicu', 'visitor_meicu'],
                         'LAUNDRY KARTIKA': ['laundry', 'security_laundry'],
                         'SECURITY' : ['security_pit1', 'security_pit3', 'security_anjungan'],
                         'MARBOT': ['marbot','marbot_kaustar'],
@@ -1181,6 +1873,7 @@ $('.edit').click(function() {
                     'gl_csapit2': 'gl_csapit2',
                     'spare_csapit2': 'spare_csapit2',
                     'admin_csapit2': 'admin_csapit2',
+                    'training_csapit2': 'training_csapit2',
                     'driverlv_csapit2': 'driverlv_csapit2',
                     'operator_csapit3': 'operator_csapit3',
                     'gl_csapit3': 'gl_csapit3',
@@ -1564,6 +2257,7 @@ $('#copyPreviousData').change(function() {
                     'gl_csapit2': 'gl_csapit2',
                     'spare_csapit2': 'spare_csapit2',
                     'admin_csapit2': 'admin_csapit2',
+                    'training_csapit2': 'training_csapit2',
                     'driverlv_csapit2': 'driverlv_csapit2',
                     'operator_csapit3': 'operator_csapit3',
                     'gl_csapit3': 'gl_csapit3',
@@ -1840,7 +2534,7 @@ document.querySelectorAll('.delete').forEach(function(link) {
    });
 });
 
-// VALIDASI crew sekar
+// Appprove
 $('.approval').click(function() {
     var cateringId = $(this).data('id');
     var selectedDepartemen = $('#departemen').val();
@@ -2011,7 +2705,7 @@ $(document).ready(function() {
 
         Swal.fire({
             title: 'Kirim Revisi?',
-            text: "Yakin ingin mengirim revisi untuk datini?",
+            text: "Yakin ingin mengirim revisi untuk data ini?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Ya, Kirim',
@@ -2050,6 +2744,776 @@ $(document).ready(function() {
         });
     });
 });
+
+
+// SNACK
+// Tambah baris snack
+$('#add-snack-btn').click(function() {
+    var newItem = $('.snack-group').first().clone();
+    newItem.find('input, select').val('');
+    newItem.find('input[type="checkbox"]').prop('checked', false);
+    $('#snack-container').append(newItem);
+});
+
+// Hapus baris snack
+$('#remove-snack-btn').click(function() {
+    if ($('.snack-group').length > 1) {
+        $('.snack-group').last().remove();
+    } else {
+        alert('Minimal satu grup snack harus ada!');
+    }
+});
+
+//$('#cateringSnackModal').data('mode', 'edit');
+// Add Data
+$(document).ready(function() {
+    $(document).on('click', '#btn-yes-add-snack', function(event) {
+        var $modal = $('#cateringSnackModal');
+        var mode = $modal.attr('data-mode') || 'add';
+        let cateringId = $('#cateringSnackModal').attr('data-id');
+
+        console.log(mode);
+
+        if (mode === 'edit' && !cateringId) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Snack ID tidak ditemukan!',
+            });
+            return;
+        }
+
+      // console.log($("input[name='jumlah_snack_add[]']:checked").val());
+
+    var formData = $('#cateringSnackForm').serialize();
+
+        var url = mode === 'edit'
+            ? `{{ url("/snack_dept/myedit") }}/${cateringId}`
+            : `{{ url("/snack_dept/store") }}`;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            beforeSend: function() {
+                $('#btn-yes-add-snack').prop('disabled', true);
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: mode === 'edit' ? 'Snack berhasil diperbarui!' : 'Catering berhasil ditambahkan!',
+                    }).then(() => {
+                        // Bersihkan modal sebelum refresh
+                        window.location.href = window.location.href;
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message || 'Terjadi kesalahan saat menyimpan data.',
+                    });
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat memproses data!',
+                });
+            },
+            complete: function() {
+                $('#btn-yes-add-snack').prop('disabled', false);
+            }
+        });
+    });
+});
+
+var snackId;
+$('.editsnack').click(function() {
+    snackId = $(this).data('id');
+    $('#cateringSnackModal').attr({
+        'data-mode': 'edit',
+        'data-id': snackId
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/snack_dept/get') }}/' + snackId,
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            // Mapping field database ke id input
+            let fieldMap = {
+                'tanggal': 'tanggal_snack_add',
+                'departemen': 'departemen_snack_add',
+                'waktu': 'waktu_snack_add',
+                'lokasi': 'lokasi_snack_add',
+                'jenis': 'snack_add',
+                'jumlah': 'jumlah_snack_add',
+                'catering': 'catering_snack_add',
+                'harga': 'harga_snack_add',
+
+            };
+
+            // Clear semua input & select
+            $('#cateringSnackModal input, #cateringSnackModal select').val('');
+
+            // Isi input sesuai mapping
+            for (let key in fieldMap) {
+                let inputId = fieldMap[key];
+                let value = response[key] ?? '';
+                $('#' + inputId).val(value);
+            }
+
+            // Menyesuaikan waktu, lokasi, snack jika ada dalam response
+            $("select[name='waktu_snack_add[]']").val(response.waktu);
+            // $("select[name='lokasi_snack_add[]']").val(response.lokasi);
+            $("select[name='snack_add[]']").val(response.jenis);
+            $("select[name='catering_snack_add[]']").val(response.catering);
+            $("select[name='departemen_snack_add[]']").val(response.departemen);
+            $("input[name='jumlah_snack_add[]']").val(response.jumlah);
+            $("input[name='harga_snack_add[]']").val(response.harga);
+            $("input[name='lokasi_snack_add[]']").val(response.lokasi);
+
+            $("select[name='area_snack_add[]']").one('change', function() {
+                $("select[name='gedung_snack_add[]']").val(response.gedung);
+            });
+
+            $("select[name='area_snack_add[]']").val(response.area).trigger('change');
+
+            // Tampilkan modal
+            $('#cateringSnackModal').modal('show');
+        },
+        error: function() {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+// Approve Snack sekar
+$('.approvalsnack').click(function() {
+    var snackId = $(this).data('id');
+
+
+    $('#btn-yes-approvalsnack').off('click').on('click', function() {
+        var form = $('.form_approvalsnack')[0];
+        var formData = new FormData(form);
+        formData.append('snack_id', snackId);
+
+        $('#btn-yes-approvalsnack').hide();
+        $('#loading-spinner-approvalsnack').show();
+
+        $.ajax({
+            type: 'POST',
+            url: '/snack/approval',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: response.message
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengirim data.'
+                });
+            },
+            complete: function() {
+                $('#btn-yes-approvalsnack').show();
+                $('#loading-spinner-approvalsnack').hide();
+            }
+        });
+    });
+});
+
+//DELETE SNACK
+document.querySelectorAll('.deletesnack').forEach(function(link) {
+   link.addEventListener('click', function(event) {
+       event.preventDefault();
+       var snackId = this.getAttribute('data-id');
+
+       Swal.fire({
+           title: 'Konfirmasi',
+           text: 'Apakah Anda yakin akan menghapus data ini?',
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonText: 'Ya, Kirim!',
+           cancelButtonText: 'Batal'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               axios.post('{{ route('delete.snack') }}', {
+                   snack_id: snackId
+               })
+               .then(function (response) {
+                   Swal.fire({
+                       icon: 'success',
+                       title: 'Sukses!',
+                       text: response.data.message
+                   }).then(() => {
+                       location.reload();
+                   });
+               })
+               .catch(function (error) {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Gagal!',
+                       text: 'Terjadi kesalahan saat mengirim data.'
+                   });
+               });
+           }
+       });
+   });
+});
+
+document.querySelectorAll('.datatable').forEach(function(table) {
+  new DataTable(table);
+});
+
+$('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var activeTab = $(e.target).attr('id'); // misal: snack-tab
+    localStorage.setItem('activeCateringTab', activeTab);
+});
+$(document).ready(function() {
+    var activeTab = localStorage.getItem('activeCateringTab');
+    if (activeTab) {
+        var tabTrigger = document.getElementById(activeTab);
+        if (tabTrigger) {
+            var tab = new bootstrap.Tab(tabTrigger);
+            tab.show();
+        }
+    }
+});
+
+$('#cateringSnackModal').on('show.bs.modal', function () {
+    var mode = $(this).data('mode') || 'edit';
+
+    if (mode === 'edit') {
+        $('.catering-harga-group').show();
+    } else {
+        $('.catering-harga-group').hide();
+    }
+});
+
+$('#cateringSnackModal').on('hidden.bs.modal', function () {
+  $(this).find('form')[0].reset();
+});
+
+$(document).ready(function() {
+    $('.revisisnack').click(function() {
+        var snackId = $(this).data('id');
+        var selectedDepartemen = $('#departemen').val();
+        console.log(snackId)
+
+        $('#btn-yes-revisi-snack').off('click').on('click', function() {
+            var data = $('.form_revisi_snack').serialize();
+            data += '&departemen=' + encodeURIComponent(selectedDepartemen);
+
+            $('#btn-yes-revisi-snack').hide();
+            $('#loading-spinner').show();
+
+            $.ajax({
+                type: 'POST',
+                url: '/lapcateringdept/revisisnack?snack_id=' + snackId,
+                data: data,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Terjadi kesalahan saat mengirim revisi.'
+                    });
+                },
+                complete: function() {
+                    $('#btn-yes-revisi').show();
+                    $('#loading-spinner').hide();
+                }
+            });
+        });
+    });
+})
+
+// SPESIAL
+// Tambah baris snack
+$('#add-spesial-btn').click(function() {
+    var newItem = $('.spesial-group').first().clone();
+    newItem.find('input, select').val('');
+    newItem.find('input[type="checkbox"]').prop('checked', false);
+    $('#spesial-container').append(newItem);
+});
+
+// Hapus baris spesial
+$('#remove-spesial-btn').click(function() {
+    if ($('.spesial-group').length > 1) {
+        $('.spesial-group').last().remove();
+    } else {
+        alert('Minimal satu grup spesial harus ada!');
+    }
+});
+
+//$('#cateringSpesialModal').data('mode', 'edit');
+// Add Data
+$(document).ready(function() {
+    $(document).on('click', '#btn-yes-add-spesial', function(event) {
+        var $modal = $('#cateringSpesialModal');
+        var mode = $modal.attr('data-mode') || 'add';
+        let cateringId = $('#cateringSpesialModal').attr('data-id');
+
+        if (mode === 'edit' && !cateringId) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'MK Spesial ID tidak ditemukan!',
+            });
+            return;
+        }
+
+      // console.log($("input[name='jumlah_spesial_add[]']:checked").val());
+
+    var formData = $('#cateringSpesialForm').serialize();
+
+        var url = mode === 'edit'
+            ? `{{ url("/spesial_dept/myedit") }}/${cateringId}`
+            : `{{ url("/spesial_dept/store") }}`;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            beforeSend: function() {
+                $('#btn-yes-add-spesial').prop('disabled', true);
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: mode === 'edit' ? 'spesial berhasil diperbarui!' : 'MK Spesial berhasil ditambahkan!',
+                    }).then(() => {
+                        // Bersihkan modal sebelum refresh
+                        window.location.href = window.location.href;
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message || 'Terjadi kesalahan saat menyimpan data.',
+                    });
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat memproses data!',
+                });
+            },
+            complete: function() {
+                $('#btn-yes-add-spesial').prop('disabled', false);
+            }
+        });
+    });
+});
+
+var spesialId;
+$('.editspesial').click(function() {
+    spesialId = $(this).data('id');
+    $('#cateringSpesialModal').attr({
+        'data-mode': 'edit',
+        'data-id': spesialId
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/spesial_dept/get') }}/' + spesialId,
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            let fieldMap = {
+                'tanggal': 'tanggal_spesial_add',
+                'departemen': 'departemen_spesial_add',
+                'waktu': 'waktu_spesial_add',
+                'lokasi': 'lokasi_spesial_add',
+                'jenis': 'spesial_add',
+                'jumlah': 'jumlah_spesial_add',
+                'catering': 'catering_spesial_add',
+                'harga': 'harga_spesial_add',
+
+            };
+
+            $('#cateringSpesialModal input, #cateringSpesialModal select').val('');
+
+            for (let key in fieldMap) {
+                let inputId = fieldMap[key];
+                let value = response[key] ?? '';
+                $('#' + inputId).val(value);
+            }
+
+            $("select[name='waktu_spesial_add[]']").val(response.waktu);
+            $("select[name='spesial_add[]']").val(response.jenis);
+            $("select[name='catering_spesial_add[]']").val(response.catering);
+            $("select[name='departemen_spesial_add[]']").val(response.departemen);
+            $("input[name='jumlah_spesial_add[]']").val(response.jumlah);
+            $("input[name='harga_spesial_add[]']").val(response.harga);
+            $("input[name='lokasi_spesial_add[]']").val(response.lokasi);
+
+            $("select[name='area_spesial_add[]']").one('change', function() {
+                $("select[name='gedung_spesial_add[]']").val(response.gedung);
+            });
+
+            $("select[name='area_spesial_add[]']").val(response.area).trigger('change');
+
+            $('#cateringSpesialModal').modal('show');
+        },
+        error: function() {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+// VALIDASI crew sekar
+$('.approvalspesial').click(function() {
+    var spesialId = $(this).data('id');
+
+    $('#btn-yes-approvalspesial').off('click').on('click', function() {
+        var form = $('.form_approvalspesial')[0];
+        var formData = new FormData(form);
+        formData.append('spesial_id', spesialId);
+
+        $('#btn-yes-approvalspesial').hide();
+        $('#loading-spinner-approvalspesial').show();
+
+        $.ajax({
+            type: 'POST',
+            url: '/spesial/approval',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: response.message
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengirim data.'
+                });
+            },
+            complete: function() {
+                $('#btn-yes-approvalspesial').show();
+                $('#loading-spinner-approvalspesial').hide();
+            }
+        });
+    });
+});
+
+//DELETE SNACK
+document.querySelectorAll('.deletesnack').forEach(function(link) {
+   link.addEventListener('click', function(event) {
+       event.preventDefault();
+       var snackId = this.getAttribute('data-id');
+
+       Swal.fire({
+           title: 'Konfirmasi',
+           text: 'Apakah Anda yakin akan menghapus data ini?',
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonText: 'Ya, Kirim!',
+           cancelButtonText: 'Batal'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               axios.post('{{ route('delete.snack') }}', {
+                   snack_id: snackId
+               })
+               .then(function (response) {
+                   Swal.fire({
+                       icon: 'success',
+                       title: 'Sukses!',
+                       text: response.data.message
+                   }).then(() => {
+                       location.reload();
+                   });
+               })
+               .catch(function (error) {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Gagal!',
+                       text: 'Terjadi kesalahan saat mengirim data.'
+                   });
+               });
+           }
+       });
+   });
+});
+
+//DELETE SPESIAL
+document.querySelectorAll('.deletespesial').forEach(function(link) {
+   link.addEventListener('click', function(event) {
+       event.preventDefault();
+       var spesialId = this.getAttribute('data-id');
+
+       Swal.fire({
+           title: 'Konfirmasi',
+           text: 'Apakah Anda yakin akan menghapus data ini?',
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonText: 'Ya, Kirim!',
+           cancelButtonText: 'Batal'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               axios.post('{{ route('delete.spesial') }}', {
+                   spesial_id: spesialId
+               })
+               .then(function (response) {
+                   Swal.fire({
+                       icon: 'success',
+                       title: 'Sukses!',
+                       text: response.data.message
+                   }).then(() => {
+                       location.reload();
+                   });
+               })
+               .catch(function (error) {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Gagal!',
+                       text: 'Terjadi kesalahan saat mengirim data.'
+                   });
+               });
+           }
+       });
+   });
+});
+
+$(document).ready(function() {
+    $('.revisispesial').click(function() {
+        var spesialId = $(this).data('id');
+        var selectedDepartemen = $('#departemen').val();
+        console.log(spesialId)
+
+        $('#btn-yes-revisi-spesial').off('click').on('click', function() {
+            var data = $('.form_revisi_spesial').serialize();
+            data += '&departemen=' + encodeURIComponent(selectedDepartemen);
+
+            $('#btn-yes-revisi-spesial').hide();
+            $('#loading-spinner').show();
+
+            $.ajax({
+                type: 'POST',
+                url: '/lapcateringdept/revisispesial?spesial_id=' + spesialId,
+                data: data,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Terjadi kesalahan saat mengirim revisi.'
+                    });
+                },
+                complete: function() {
+                    $('#btn-yes-revisi-spesial').show();
+                    $('#loading-spinner').hide();
+                }
+            });
+        });
+    });
+})
+
+var spesialId;
+   $('.viewspesial').click(function () {
+    const spesialId = $(this).data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/spesial_dept/get') }}/' + spesialId + '?_=' + new Date().getTime(),
+        cache: false,
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            const viewContainer = $('#viewDataSpesial');
+            viewContainer.html('');
+
+            // Bangun satu baris data
+            const tableContent = `
+                <tr>
+                    <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.waktu ?? '-'}</td>
+                    <td>${response.area ?? '-'}</td>
+                    <td>${response.gedung ?? '-'}</td>
+                    <td>${response.lokasi ?? '-'}</td>
+                    <td>${response.jenis ?? '-'}</td>
+                    <td>${response.jumlah ?? '-'}</td>
+                    <td>${response.catering ?? '-'}</td>
+                    <td>${response.harga ?? '-'}</td>
+                    <td>${response.revisi_desc ?? '-'}</td>
+                </tr>
+            `;
+
+            viewContainer.html(tableContent);
+            $('#viewspesialModal').modal('show');
+        },
+        error: function () {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+var snackId;
+$('.viewsnack').click(function () {
+    const snackId = $(this).data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: '{{ url('/snack_dept/get') }}/' + snackId + '?_=' + new Date().getTime(),
+        cache: false,
+        success: function (response) {
+            if (response.error) {
+                alert(response.error);
+                return;
+            }
+
+            const viewContainer = $('#viewDataSnack');
+            viewContainer.html('');
+
+            // Bangun satu baris data
+            const tableContent = `
+                <tr>
+                    <td>${response.tanggal ?? '-'}</td>
+                    <td>${response.waktu ?? '-'}</td>
+                    <td>${response.area ?? '-'}</td>
+                    <td>${response.gedung ?? '-'}</td>
+                    <td>${response.lokasi ?? '-'}</td>
+                    <td>${response.jenis ?? '-'}</td>
+                    <td>${response.jumlah ?? '-'}</td>
+                    <td>${response.catering ?? '-'}</td>
+                    <td>${response.harga ?? '-'}</td>
+                    <td>${response.revisi_desc ?? '-'}</td>
+                </tr>
+            `;
+
+            viewContainer.html(tableContent);
+            $('#viewsnackModal').modal('show');
+        },
+        error: function () {
+            alert('Gagal mengambil data!');
+        }
+    });
+});
+
+//GEDUNG ADD
+    const gedungOptions = {
+        'Mess': [
+            'A1', 'A2', 'B1', 'B2', 'B3', 'B4', 'B7', 'B8', 'B9', 'B10','C3', 'MASJID ASSALAM', 'KOPPA MART', 'FOOD COURT','GUDANG GA', 'OFFICE GA'
+        ],
+        'Office': [
+            'OFFICE PLANT','WAREHOUSE', 'GENSET', 'WORKSHOP PLANT', 'KOPPA MART', 'MASJID AL KAUTSAR',
+        ],
+        'CSA 1': [
+            'OFFICE SHE', 'OFFICE AKADEMI', 'OFFICE ICT', 'CSA FUEL'
+        ],
+        'CSA 2': [
+            'CSA OB', 'CSA HRM'
+        ],
+        'CSA 3': [
+            'CSA OB', 'OFFICE CCR'
+        ],
+        'CSA FUEL': [
+            'SPBI PPA'
+        ],
+        'PITSTOP': [
+            'MUSHOLLA', 'WORKSHOP TRACK', 'AKADEMI', 'FABRIKASI', 'TOOLS', 'TYRE', 'TRACKINDO', 'SUPPORT'
+        ],
+        'OTHER': []
+    };
+
+    document.getElementById('area_snack_add[]').addEventListener('change', function() {
+        const selectedArea = this.value;
+        const gedungSelect = document.getElementById('gedung_snack_add[]');
+
+        gedungSelect.innerHTML = '<option value="">Pilih Gedung</option>';
+
+        if (selectedArea && selectedArea !== 'OTHER') {
+            gedungOptions[selectedArea].forEach(gedung => {
+                const option = document.createElement('option');
+                option.value = gedung;
+                option.textContent = gedung;
+                gedungSelect.appendChild(option);
+            });
+
+
+            gedungSelect.disabled = false;
+        } else {
+
+            gedungSelect.disabled = true;
+        }
+    });
+
+    document.getElementById('area_spesial_add[]').addEventListener('change', function() {
+        const selectedArea = this.value;
+        const gedungSelect = document.getElementById('gedung_spesial_add[]');
+
+        gedungSelect.innerHTML = '<option value="">Pilih Gedung</option>';
+
+        if (selectedArea && selectedArea !== 'OTHER') {
+            gedungOptions[selectedArea].forEach(gedung => {
+                const option = document.createElement('option');
+                option.value = gedung;
+                option.textContent = gedung;
+                gedungSelect.appendChild(option);
+            });
+
+
+            gedungSelect.disabled = false;
+        } else {
+
+            gedungSelect.disabled = true;
+        }
+    });
 
 
 

@@ -1229,6 +1229,44 @@ class LapCateringRepository
         return $result;
     }
 
+    //SNACK
+    public function getSnackSummary($selectedCatering, $selectedDate)
+    {
+        $table = 'mk_snack';
+        $catering = $selectedCatering;
+        $tanggal  = $selectedDate;
+
+        $query = DB::table($table)
+            ->select('id', 'tanggal', 'lokasi','area','gedung', 'departemen', 'jenis', 'waktu', 'jumlah', 'status')
+            ->where('catering', $catering)
+            ->where('tanggal', $tanggal)
+            ->where('status', 2)
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('departemen', 'desc')
+            ->orderBy('waktu', 'desc');
+
+        return $query->get();
+    }
+
+    //SNACK
+    public function getSpesialSummary($selectedCatering, $selectedDate)
+    {
+        $table = 'mk_spesial';
+        $catering = $selectedCatering;
+        $tanggal  = $selectedDate;
+
+        $query = DB::table($table)
+            ->select('id', 'tanggal', 'lokasi', 'area','gedung','departemen', 'jenis', 'waktu', 'jumlah', 'status')
+            ->where('catering', $catering)
+            ->where('tanggal', $tanggal)
+            ->where('status', 2)
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('departemen', 'desc')
+            ->orderBy('waktu', 'desc');
+
+        return $query->get();
+    }
+
     public function getCateringFitriInvoice($month, $year, $catering)
     {
         // Mapping tabel berdasarkan catering
