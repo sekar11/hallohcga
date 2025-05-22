@@ -266,7 +266,7 @@
                     <!-- spesial Tab -->
                     <div class="tab-pane fade" id="spesial" role="tabpanel" aria-labelledby="spesial-tab">
                         <div class="table-responsive">
-                        <table class="table dt_spesial responsive datatable" >
+                        <table class="table dt_spesial responsive" id="datatable">
                             <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -317,10 +317,10 @@
                         </div>
                     </div>
 
-                     <!-- Snack Tab -->
+                    <!-- Snack Tab -->
                     <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
                         <div class="table-responsive">
-                        <table class="table dt_snack responsive datatable" >
+                        <table class="table dt_snack responsive datatable" id="datatable" >
                             <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -371,8 +371,6 @@
                         </table>
                         </div>
                     </div>
-
-
             </div>
 
             <!-- Modal Montly Report-->
@@ -835,7 +833,7 @@ $(document).ready(function() {
 
 //VIEW SNACK
 var snackId;
-$('.viewsnack').click(function () {
+$(document).on('click', '.viewsnack', function () {
     const snackId = $(this).data('id');
 
     $.ajax({
@@ -874,7 +872,7 @@ $('.viewsnack').click(function () {
 });
 
 var spesialId;
-   $('.viewspesial').click(function () {
+$(document).on('click', '.viewspesial', function () {
     const spesialId = $(this).data('id');
 
     $.ajax({
