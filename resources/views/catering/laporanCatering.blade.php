@@ -96,6 +96,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -112,6 +113,7 @@
                                         <!-- Data akan diisi dengan JavaScript -->
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -129,6 +131,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -145,6 +148,7 @@
                                         <!-- Data akan diisi dengan JavaScript -->
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -306,7 +310,7 @@
                                     <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
                                 </ul>
                             </tr>
-                            @endforeach 
+                            @endforeach
 
                         </tbody>
                         </table>
@@ -361,7 +365,7 @@
                                 </ul>
 
                             </tr>
-                            @endforeach 
+                            @endforeach
 
                         </tbody>
                         </table>
