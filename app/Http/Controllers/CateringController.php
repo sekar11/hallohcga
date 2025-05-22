@@ -537,10 +537,32 @@ class CateringController extends Controller
         $insert = DB::table('mk_snack')->insert($insertData);
 
         if ($insert) {
-            return response()->json(['status' => 'success']);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
+        $messageUser = "SNACK\n\n";
+
+        $messageUser .= "DEPARTEMEN: $userTeam\n\n";
+        $messageUser .= "Halo Admin HCGA\n\n";
+        $messageUser .= "Terdapat penambahan MK SNACK oleh departemen $userTeam.\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $nomorTujuan = [
+            '082181777455',
+            '082177968433',
+            '082177451148'
+        ];
+
+        foreach ($nomorTujuan as $nomor) {
+            $this->sendWhatsAppMessage($nomor, $messageUser);
         }
+
+        return response()->json(['status' => 'success']);
+    } else {
+        return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
+    }
+
+
+
     }
 
     public function storeSpesial(Request $request)
@@ -585,7 +607,26 @@ class CateringController extends Controller
         $insert = DB::table('mk_spesial')->insert($insertData);
 
         if ($insert) {
-            return response()->json(['status' => 'success']);
+        $messageUser = "SPESIAL\n\n";
+
+        $messageUser .= "DEPARTEMEN: $userTeam\n\n";
+        $messageUser .= "Halo Admin HCGA\n\n";
+        $messageUser .= "Terdapat penambahan MK SPESIAL oleh departemen $userTeam.\n\n";
+        $messageUser .= "KETERANGAN LEBIH LANJUT\n";
+        $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
+        $messageUser .= "https://hallohcga.com/";
+
+        $nomorTujuan = [
+            '082181777455',
+            '082177968433',
+            '082177451148'
+        ];
+
+        foreach ($nomorTujuan as $nomor) {
+            $this->sendWhatsAppMessage($nomor, $messageUser);
+        }
+
+        return response()->json(['status' => 'success']);
         } else {
             return response()->json(['status' => 'error', 'message' => 'Gagal menyimpan data']);
         }

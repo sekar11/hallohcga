@@ -51,6 +51,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -64,6 +65,7 @@
                                         <!-- Data akan diisi dengan JavaScript -->
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -81,6 +83,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -99,6 +102,7 @@
                                         <!-- Data akan diisi dengan JavaScript -->
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1452,8 +1456,6 @@ $('.viewsnack').click(function () {
     });
 });
 
-
-
 var cateringId;
 $('.edit').click(function() {
     cateringId = $(this).data('id');
@@ -1831,7 +1833,6 @@ $('.edit').click(function() {
     });
 });
 
-
 var snackId;
 $('.editsnack').click(function() {
     snackId = $(this).data('id');
@@ -1892,7 +1893,6 @@ $('.editsnack').click(function() {
         }
     });
 });
-
 
 function setDropdownSelected(selector, value) {
     $(selector).val(value);
