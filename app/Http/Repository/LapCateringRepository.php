@@ -547,28 +547,43 @@ class LapCateringRepository
         $mainQuery = DB::table($tables['main'])
             ->select(DB::raw("DATE({$columns['tanggal']}) as tanggal"));
 
+        foreach ($columns as $alias => $colName) {
+        if ($alias !== 'tanggal') {
+            $mainQuery->addSelect(DB::raw("SUM($colName) as $alias"));
+        }
+    }
+
+    $mainQuery->whereMonth($columns['tanggal'], $month)
+        ->whereYear($columns['tanggal'], $year)
+        ->groupBy(DB::raw("DATE({$columns['tanggal']})"));
+
+    // Cek apakah ada data di tabel tambahan
+    $tambahanExists = DB::table($tables['tambahan'])
+        ->whereMonth($columns['tanggal'], $month)
+        ->whereYear($columns['tanggal'], $year)
+        ->exists();
+
+    if ($tambahanExists) {
         $tambahanQuery = DB::table($tables['tambahan'])
             ->select(DB::raw("DATE({$columns['tanggal']}) as tanggal"));
 
         foreach ($columns as $alias => $colName) {
             if ($alias !== 'tanggal') {
-                $mainQuery->addSelect(DB::raw("SUM($colName) as $alias"));
                 $tambahanQuery->addSelect(DB::raw("SUM($colName) as $alias"));
             }
         }
-
-        $mainQuery->whereMonth($columns['tanggal'], $month)
-            ->whereYear($columns['tanggal'], $year)
-            ->groupBy(DB::raw("DATE({$columns['tanggal']})"));
 
         $tambahanQuery->whereMonth($columns['tanggal'], $month)
             ->whereYear($columns['tanggal'], $year)
             ->groupBy(DB::raw("DATE({$columns['tanggal']})"));
 
-        // Union kedua query
+        // Gabungkan dengan unionAll
         $finalQuery = $mainQuery->unionAll($tambahanQuery);
+        } else {
+            $finalQuery = $mainQuery;
+        }
 
-        // Bungkus hasil union dalam query builder buat bisa select final group by tanggal dan SUM lagi
+        // Bungkus hasil union dalam query builder untuk final group by
         $result = DB::table(DB::raw("({$finalQuery->toSql()}) as combined"))
             ->mergeBindings($finalQuery)
             ->select('tanggal');
