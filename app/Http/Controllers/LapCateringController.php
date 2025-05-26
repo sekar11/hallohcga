@@ -457,7 +457,7 @@ class LapCateringController extends Controller
             'siang_mess_b8'                   => 35,
             'siang_mess_b9'                   => 36,
             'siang_mess_b10'                  => 37,
-            'spare_amm'                       => 38, // SPARE
+            'siang_spare_amm'                       => 38, // SPARE
             'siang_container_ga_mess'         => 39,
             'siang_electrical_ga'             => 40,
             'siang_helper_mess'               => 41,
@@ -493,10 +493,10 @@ class LapCateringController extends Controller
             'siang_engineering'               => 72,
             'sore_kamar_c3'                   => 73,
             'malam_plant_pitstop'             => 75,
-            'malam_driver_plant'              => 76,
+            'malam_driver_plant_plant'        => 76,
             'malam_plant_workshop'            => 77,
             'malam_driver_workshop'           => 78,
-            'malam_mechanic_koperasi'         => 79,
+            'malam_koperasi_mess'             => 79,
             'malam_kontainer_medic'           => 80,
             'malam_security_poss'             => 81,
             'malam_helper_mess'               => 82,
