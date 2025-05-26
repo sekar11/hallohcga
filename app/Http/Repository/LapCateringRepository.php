@@ -691,8 +691,8 @@ class LapCateringRepository
                     'Security Mess Tambang' => 'siang_security_poss',
                     'Mekanik TRAC Mess Tambang' => 'siang_mekanic_trac',
                     'Driver BUS JUM\'AT' => 'siang_driver_bus_jumat',
-                    'GL CIVIEL ENG' => 'siang_gl_civil',
-                    'Skill UP LT CSA pit 1' => 'siang_skill_up_lt',
+                    'GL CIVIL ENG' => 'siang_gl_civil',
+                    'Skill UP LT CSA PIT 1' => 'siang_skill_up_lt',
                 ],
                 'MK SIANG DEPTHEAD & PJO' => [
                     'Dept.Head ENG ★(Office Plant)' => 'siang_dept_head_eng',
@@ -701,10 +701,11 @@ class LapCateringRepository
                     'Dept.Head Produksi ★(CSA PIT 1)' => 'siang_dept_sect_csapit1',
                     'Dept Head SHE ★(CSA PIT 1)' => 'siang_dept_head',
                     'Dept.Head PLANT ★(WORKSHOP)' => 'siang_dept_head_plant',
-                    'Dept.Head PLANT ★(PITSTOP)' => 'siang_dept_head_pitstop,', //'BELUM', // Belum ada kode
+                    'Dept.Head PLANT ★(PITSTOP)' => 'siang_dept_head_pitstop',
+                    'Dept.Head FALOG ★(WAREHOUSE)' => 'siang_dept_head_falog',
                 ],
                 'OFFICE PLANT SIANG' => [
-                    'Driver Bus Jum\'atan' => 'siang_driver_bus_jumat', // Harusnya ada dua data katanya
+                    'Driver Bus Jum\'atan' => 'siang_driver_bus_jumat',
                     'COE OFFICE ( CCR,MOCO)' => 'siang_office_ccr_moco',
                     'SectHead COE' => 'siang_section',
                     'PLANT' => 'siang_plant',
@@ -1014,7 +1015,7 @@ class LapCateringRepository
                     'Mekanik TRAC Mess Tambang' => 'siang_mekanic_trac',
                     'Driver BUS JUM\'AT' => 'siang_driver_bus_jumat',
                     'GL CIVIEL ENG' => 'siang_gl_civil',
-                    'Skill UP LT CSA pit 1' => 'siang_skill_up_lt',
+                    'Skill UP LT CSA PIT 1' => 'siang_skill_up_lt',
                 ],
                 'MK SIANG DEPTHEAD & PJO' => [
                     'Dept.Head ENG ★(Office Plant)' => 'siang_dept_head_eng',
@@ -1023,10 +1024,11 @@ class LapCateringRepository
                     'Dept.Head Produksi ★(CSA PIT 1)' => 'siang_dept_sect_csapit1',
                     'Dept Head SHE ★(CSA PIT 1)' => 'siang_dept_head',
                     'Dept.Head PLANT ★(WORKSHOP)' => 'siang_dept_head_plant',
-                    'Dept.Head PLANT ★(PITSTOP)' => 'siang_dept_head_pitstop,', //'BELUM', // Belum ada kode
+                    'Dept.Head PLANT ★(PITSTOP)' => 'siang_dept_head_pitstop',
+                    'Dept.Head FALOG ★(WAREHOUSE)' => 'siang_dept_head_falog',
                 ],
                 'OFFICE PLANT SIANG' => [
-                    'Driver Bus Jum\'atan' => 'siang_driver_bus_jumat', // Harusnya ada dua data katanya
+                    'Driver Bus Jum\'atan' => 'siang_driver_bus_jumat',
                     'COE OFFICE ( CCR,MOCO)' => 'siang_office_ccr_moco',
                     'SectHead COE' => 'siang_section',
                     'PLANT' => 'siang_plant',
