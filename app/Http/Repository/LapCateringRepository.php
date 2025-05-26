@@ -386,7 +386,7 @@ class LapCateringRepository
                 'malam_driver_plant_plant' => 'malam_driver_plant_plant',
                 'malam_plant_workshop' => 'malam_plant_workshop',
                 'malam_driver_workshop' => 'malam_driver_workshop',
-                'malam_mechanic_koperasi' => 'malam_mechanic_koperasi',
+                'malam_koperasi_mess' => 'malam_koperasi_mess',
                 'malam_kontainer_medic' => 'malam_kontainer_medic',
                 'malam_security_poss' => 'malam_security_poss',
                 'malam_helper_mess' => 'malam_helper_mess',
