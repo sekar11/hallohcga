@@ -383,7 +383,7 @@ class LapCateringRepository
                 'siang_engineering' => 'siang_engineering',
                 'sore_kamar_c3' => 'sore_kamar_c3',
                 'malam_plant_pitstop' => 'malam_plant_pitstop',
-                'malam_driver_plant' => 'malam_driver_plant',
+                'malam_driver_plant_plant' => 'malam_driver_plant_plant',
                 'malam_plant_workshop' => 'malam_plant_workshop',
                 'malam_driver_workshop' => 'malam_driver_workshop',
                 'malam_mechanic_koperasi' => 'malam_mechanic_koperasi',
