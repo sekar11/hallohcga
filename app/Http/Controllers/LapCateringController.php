@@ -641,7 +641,6 @@ class LapCateringController extends Controller
 
         ];
 
-
         $lokasiMapping = match ($catering) {
             'FITRI' => $lokasiMappingFitri,
             'WASTU' => $lokasiMappingWastu,
@@ -659,6 +658,103 @@ class LapCateringController extends Controller
                 }
             }
         }
+        // SNACK
+        $snackStartRow = match ($catering) {
+            'FITRI'   => 29,
+            'WASTU'   => 127,
+            'BINTANG' => 112,
+            default   => 30
+        };
+
+        $snackData = DB::table('mk_snack')
+            ->select('jenis', DB::raw('DAY(tanggal) as day'), DB::raw('SUM(jumlah) as total_jumlah'))
+            ->where('catering', $catering)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->where('status', 2)
+            ->groupBy('jenis', 'day')
+            ->orderBy('jenis')
+            ->orderBy('day')
+            ->get();
+
+        $snackJenis = $snackData->pluck('jenis')->unique();
+
+        $startRow = $snackStartRow;
+        $no = 1;
+        foreach ($snackJenis as $jenis) {
+            $sheet->setCellValue("B{$startRow}", $no);
+            $sheet->setCellValue("C{$startRow}", $jenis);
+
+            foreach ($snackData->where('jenis', $jenis) as $snack) {
+                $col = Coordinate::stringFromColumnIndex(4 + $snack->day); // 4+1 = 5 (E)
+                $sheet->setCellValue("{$col}{$startRow}", $snack->total_jumlah);
+            }
+
+            $totalJumlahCol = Coordinate::stringFromColumnIndex(4 + 32); // 4+32=36 (AJ)
+            $sheet->setCellValue("{$totalJumlahCol}{$startRow}", "=SUM(E{$startRow}:AI{$startRow})");
+
+            $no++;
+            $startRow++;
+        }
+
+        $sheet->setCellValue("B{$startRow}", 'TOTAL');
+
+        for ($day = 1; $day <= 31; $day++) {
+            $col = Coordinate::stringFromColumnIndex(4 + $day); // 4+1=5 (E)
+            $sheet->setCellValue("{$col}{$startRow}", "=SUM({$col}{$snackStartRow}:{$col}" . ($startRow - 1) . ")");
+        }
+
+        $totalJumlahCol = Coordinate::stringFromColumnIndex(4 + 32); // 36 (AJ)
+        $sheet->setCellValue("{$totalJumlahCol}{$startRow}", "=SUM({$totalJumlahCol}{$snackStartRow}:{$totalJumlahCol}" . ($startRow - 1) . ")");
+
+        // SPESIAL
+        $spesialStartRow = match ($catering) {
+            'FITRI'   => 19,
+            'WASTU'   => 117,
+            'BINTANG' => 102,
+            default   => 150
+        };
+
+        $spesialData = DB::table('mk_spesial')
+            ->select('jenis', DB::raw('DAY(tanggal) as day'), DB::raw('SUM(jumlah) as total_jumlah'))
+            ->where('catering', $catering)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->where('status', 2)
+            ->groupBy('jenis', 'day')
+            ->orderBy('jenis')
+            ->orderBy('day')
+            ->get();
+
+        $spesialJenis = $spesialData->pluck('jenis')->unique();
+
+        $startRow = $spesialStartRow;
+        $no = 1;
+        foreach ($spesialJenis as $jenis) {
+            $sheet->setCellValue("B{$startRow}", $no);
+            $sheet->setCellValue("C{$startRow}", $jenis);
+
+            foreach ($spesialData->where('jenis', $jenis) as $spesial) {
+                $col = Coordinate::stringFromColumnIndex(4 + $spesial->day);
+                $sheet->setCellValue("{$col}{$startRow}", $spesial->total_jumlah);
+            }
+
+            $totalJumlahCol = Coordinate::stringFromColumnIndex(4 + 32);
+            $sheet->setCellValue("{$totalJumlahCol}{$startRow}", "=SUM(E{$startRow}:AI{$startRow})");
+
+            $no++;
+            $startRow++;
+        }
+
+        $sheet->setCellValue("B{$startRow}", 'TOTAL');
+
+        for ($day = 1; $day <= 31; $day++) {
+            $col = Coordinate::stringFromColumnIndex(4 + $day);
+            $sheet->setCellValue("{$col}{$startRow}", "=SUM({$col}{$spesialStartRow}:{$col}" . ($startRow - 1) . ")");
+        }
+
+        $totalJumlahCol = Coordinate::stringFromColumnIndex(4 + 32);
+        $sheet->setCellValue("{$totalJumlahCol}{$startRow}", "=SUM({$totalJumlahCol}{$spesialStartRow}:{$totalJumlahCol}" . ($startRow - 1) . ")");
 
         $fileName = "catering_{$catering}_{$month}_{$year}.xlsx";
         $outputPath = storage_path("app/public/{$fileName}");
