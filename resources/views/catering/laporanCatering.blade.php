@@ -458,11 +458,12 @@
 
                                 <div class="mb-3">
                                     <label for="catering">Jenis Export:</label>
-
                                     <select name="jenis_data" class="form-select" required>
                                         <option value="" selected disabled>Pilih Data</option>
                                         <option value="PLAN">PLAN ORDER</option>
                                         <option value="TAMBAHAN">TAMBAHAN ORDER</option>
+                                        <option value="SPESIAL">MK SPESIAL</option>
+                                        <option value="SNACK">SNACK</option>
                                     </select>
                                 </div>
 

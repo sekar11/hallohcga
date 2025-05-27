@@ -669,15 +669,156 @@ class LapCateringController extends Controller
         return response()->download($outputPath)->deleteFileAfterSend(true);
     }
 
+    // public function exportDaily(Request $request)
+    // {
+
+    //     $tanggal = $request->query('tanggal');
+
+    //     if (!$tanggal) {
+    //         return response()->json(['status' => 'error', 'message' => 'Tanggal tidak ditemukan.'], 400);
+    //     }
+    //     //$userTeam = strtoupper($request->query('catering_export') ?? auth()->user()->tim_pic);
+
+    //     if (auth()->user()->id_role == 7) {
+    //         $userTeam = strtoupper(auth()->user()->tim_pic);
+    //     } else {
+    //         $userTeam = strtoupper($request->input('catering_export'));
+    //     }
+
+    //     $jenisExport = strtoupper($request->input('jenis_data'));
+
+    //     $templateMapping = [
+    //         'PLAN' => [
+    //             'FITRI' => 'template_fitri.docx',
+    //             'WASTU' => 'template_wastu.docx',
+    //             'BINTANG' => 'template_bintang.docx',
+    //         ],
+    //         'TAMBAHAN' => [
+    //             'FITRI' => 'template_tambahan_fitri.docx',
+    //             'WASTU' => 'template_tambahan_wastu.docx',
+    //             'BINTANG' => 'template_tambahan_bintang.docx',
+    //         ]
+    //     ];
+
+    //     if (!isset($templateMapping[$jenisExport][$userTeam])) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => "Template tidak ditemukan untuk tim '$userTeam' dan jenis '$jenisExport'."
+    //         ], 404);
+    //     }
+
+    //     $templatePath = resource_path("template/" . $templateMapping[$jenisExport][$userTeam]);
+
+    //     // Cek apakah file template ada
+    //     if (!file_exists($templatePath)) {
+    //         return response()->json(['status' => 'error', 'message' => 'Template tidak ditemukan.'], 404);
+    //     }
+
+    //     $tableName = match (true) {
+    //         $jenisExport === 'PLAN' && $userTeam === 'FITRI' => 'catering_fitri',
+    //         $jenisExport === 'PLAN' && $userTeam === 'WASTU' => 'catering_wastu',
+    //         $jenisExport === 'PLAN' && $userTeam === 'BINTANG' => 'catering_bintang',
+    //         $jenisExport === 'TAMBAHAN' && $userTeam === 'FITRI' => 'catering_tambahan_fitri',
+    //         $jenisExport === 'TAMBAHAN' && $userTeam === 'WASTU' => 'catering_tambahan_wastu',
+    //         $jenisExport === 'TAMBAHAN' && $userTeam === 'BINTANG' => 'catering_tambahan_bintang',
+    //         default => null,
+    //     };
+
+    //     // Jika tabel tidak ditemukan
+    //     if (!$tableName) {
+    //         return response()->json(['status' => 'error', 'message' => 'Data untuk export tidak ditemukan.'], 404);
+    //     }
+
+    //     // Ambil data berdasarkan tanggal dan status
+    //     $dataList = DB::table($tableName)
+
+    //         ->whereDate('tanggal', $tanggal)
+    //         ->get();
+
+    //     // Load template
+    //     $templateProcessor = new TemplateProcessor($templatePath);
+
+    //     // Kolom yang akan dikecualikan dari data
+    //     $excludedColumns = ['id', 'tanggal', 'waktu', 'status', 'create_at', 'created_name',
+    //         'approval_by', 'approval_on', 'approval_desc',
+    //         'revisi_by', 'revisi_on', 'revisi_desc'];
+
+    //     $dataByColumn = [];
+    //     $totals = [];
+    //     $columns = [];
+
+    //     // Proses data jika ada
+    //     if (!$dataList->isEmpty()) {
+    //         foreach ($dataList as $data) {
+    //             $rowData = (array) $data;
+
+    //             // Filter kolom yang tidak diperlukan
+    //             $filteredData = array_diff_key($rowData, array_flip($excludedColumns));
+
+    //             foreach ($filteredData as $key => $value) {
+    //                 $columns[$key] = true;
+
+    //                 // Tambahkan nilai ke dataByColumn untuk setiap kolom
+    //                 $dataByColumn[$key] = ($dataByColumn[$key] ?? 0) + ($value ?? 0);
+
+    //                 // Jika data berupa angka, tambahkan ke total
+    //                 if (is_numeric($value)) {
+    //                     $totals[$key] = ($totals[$key] ?? 0) + $value;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     // Jika tidak ada data, isi dengan '-'
+    //     if (empty($dataByColumn)) {
+    //         foreach ($columns as $column => $_) {
+    //             $dataByColumn[$column] = '-';
+    //         }
+    //     }
+
+    //     // Set nilai untuk setiap placeholder di template
+    //     foreach ($dataByColumn as $key => $value) {
+    //         $templateProcessor->setValue($key, $value ?? '-');
+    //     }
+
+    //     // Set total untuk setiap kolom
+    //     foreach ($columns as $column => $_) {
+    //         $templateProcessor->setValue("total_{$column}", $totals[$column] ?? 0);
+    //     }
+
+    //     // Hitung total seluruh data
+    //     $totalSemua = array_sum($totals);
+    //     $templateProcessor->setValue("total_semua", $totalSemua ?: '-');
+
+    //     // Set tanggal ke template
+    //     $templateProcessor->setValue('tanggal', $tanggal);
+
+    //     // Pastikan semua placeholder terisi
+    //     $allPlaceholders = $templateProcessor->getVariables();
+    //     foreach ($allPlaceholders as $placeholder) {
+    //         if (!isset($dataByColumn[$placeholder])) {
+    //             $templateProcessor->setValue($placeholder, '-');
+    //         }
+    //     }
+
+    //     // Format tanggal untuk nama file
+    //     $formattedDate = date('Y-m-d', strtotime($tanggal));
+    //     $fileName = "{$formattedDate}_Laporan_Order_MK_Reguler_{$userTeam}.docx";
+    //     $filePath = storage_path("app/public/$fileName");
+
+    //     // Simpan file
+    //     $templateProcessor->saveAs($filePath);
+
+    //     // Kembalikan file untuk diunduh dan hapus setelah terkirim
+    //     return response()->download($filePath)->deleteFileAfterSend(true);
+    // }
+
     public function exportDaily(Request $request)
     {
-
         $tanggal = $request->query('tanggal');
-
         if (!$tanggal) {
             return response()->json(['status' => 'error', 'message' => 'Tanggal tidak ditemukan.'], 400);
         }
-        //$userTeam = strtoupper($request->query('catering_export') ?? auth()->user()->tim_pic);
 
         if (auth()->user()->id_role == 7) {
             $userTeam = strtoupper(auth()->user()->tim_pic);
@@ -697,7 +838,17 @@ class LapCateringController extends Controller
                 'FITRI' => 'template_tambahan_fitri.docx',
                 'WASTU' => 'template_tambahan_wastu.docx',
                 'BINTANG' => 'template_tambahan_bintang.docx',
-            ]
+            ],
+            'SNACK' => [
+                'FITRI' => 'template_snack.docx',
+                'WASTU' => 'template_snack.docx',
+                'BINTANG' => 'template_snack.docx',
+            ],
+            'SPESIAL' => [
+                'FITRI' => 'template_spesial.docx',
+                'WASTU' => 'template_spesial.docx',
+                'BINTANG' => 'template_spesial.docx',
+            ],
         ];
 
         if (!isset($templateMapping[$jenisExport][$userTeam])) {
@@ -709,11 +860,11 @@ class LapCateringController extends Controller
 
         $templatePath = resource_path("template/" . $templateMapping[$jenisExport][$userTeam]);
 
-        // Cek apakah file template ada
         if (!file_exists($templatePath)) {
             return response()->json(['status' => 'error', 'message' => 'Template tidak ditemukan.'], 404);
         }
 
+        // Tentukan tabel sesuai jenis export
         $tableName = match (true) {
             $jenisExport === 'PLAN' && $userTeam === 'FITRI' => 'catering_fitri',
             $jenisExport === 'PLAN' && $userTeam === 'WASTU' => 'catering_wastu',
@@ -721,76 +872,137 @@ class LapCateringController extends Controller
             $jenisExport === 'TAMBAHAN' && $userTeam === 'FITRI' => 'catering_tambahan_fitri',
             $jenisExport === 'TAMBAHAN' && $userTeam === 'WASTU' => 'catering_tambahan_wastu',
             $jenisExport === 'TAMBAHAN' && $userTeam === 'BINTANG' => 'catering_tambahan_bintang',
+            $jenisExport === 'SNACK' => 'mk_snack',
+            $jenisExport === 'SPESIAL' => 'mk_spesial',
             default => null,
         };
 
-        // Jika tabel tidak ditemukan
         if (!$tableName) {
             return response()->json(['status' => 'error', 'message' => 'Data untuk export tidak ditemukan.'], 404);
         }
 
-        // Ambil data berdasarkan tanggal dan status
-        $dataList = DB::table($tableName)
-
-            ->whereDate('tanggal', $tanggal)
-            ->get();
-
-        // Load template
         $templateProcessor = new TemplateProcessor($templatePath);
 
-        // Kolom yang akan dikecualikan dari data
-        $excludedColumns = ['id', 'tanggal', 'waktu', 'status', 'create_at', 'created_name',
-            'approval_by', 'approval_on', 'approval_desc',
-            'revisi_by', 'revisi_on', 'revisi_desc'];
+        if ($jenisExport === 'SNACK') {
 
-        $dataByColumn = [];
-        $totals = [];
-        $columns = [];
+            $dataList = DB::table($tableName)
+                ->where('catering', $userTeam)
+                ->whereDate('tanggal', $tanggal)
+                ->where('status', 2)
+                ->orderBy('departemen', 'asc')
+                ->orderBy('waktu', 'desc')
+                ->get();
 
-        // Proses data jika ada
-        if (!$dataList->isEmpty()) {
-            foreach ($dataList as $data) {
-                $rowData = (array) $data;
+            if ($dataList->count() > 0) {
+                $templateProcessor->cloneRow('waktu', $dataList->count());
 
-                // Filter kolom yang tidak diperlukan
-                $filteredData = array_diff_key($rowData, array_flip($excludedColumns));
+                $index = 1;
+                foreach ($dataList as $data) {
+                    $templateProcessor->setValue("no#$index", $index);
+                    $templateProcessor->setValue("waktu#$index", $data->waktu);
+                    $templateProcessor->setValue("departemen#$index", $data->departemen);
+                    $templateProcessor->setValue("area#$index", $data->area);
+                    $templateProcessor->setValue("gedung#$index", $data->gedung);
+                    $templateProcessor->setValue("lokasi#$index", $data->lokasi);
+                    $templateProcessor->setValue("jenis#$index", $data->jenis);
+                    $templateProcessor->setValue("jumlah#$index", $data->jumlah);
+                    $index++;
+                }
+            } else {
+                $templateProcessor->setValue('no', '-');
+                $templateProcessor->setValue('waktu', '-');
+                $templateProcessor->setValue('departemen', '-');
+                $templateProcessor->setValue('area', '-');
+                $templateProcessor->setValue('gedung', '-');
+                $templateProcessor->setValue('lokasi', '-');
+                $templateProcessor->setValue('jenis', '-');
+                $templateProcessor->setValue('jumlah', '-');
+            }
 
-                foreach ($filteredData as $key => $value) {
-                    $columns[$key] = true;
+        } else if ($jenisExport === 'SPESIAL') {
+            $dataList = DB::table($tableName)
+                ->where('catering', $userTeam)
+                ->whereDate('tanggal', $tanggal)
+                ->where('status', 2)
+                ->orderBy('departemen', 'asc')
+                ->orderBy('waktu', 'desc')
+                ->get();
 
-                    // Tambahkan nilai ke dataByColumn untuk setiap kolom
-                    $dataByColumn[$key] = ($dataByColumn[$key] ?? 0) + ($value ?? 0);
+            if ($dataList->count() > 0) {
+                $templateProcessor->cloneRow('waktu', $dataList->count());
 
-                    // Jika data berupa angka, tambahkan ke total
-                    if (is_numeric($value)) {
-                        $totals[$key] = ($totals[$key] ?? 0) + $value;
+                $index = 1;
+                foreach ($dataList as $data) {
+                    $templateProcessor->setValue("no#$index", $index);
+                    $templateProcessor->setValue("waktu#$index", $data->waktu);
+                    $templateProcessor->setValue("departemen#$index", $data->departemen);
+                    $templateProcessor->setValue("area#$index", $data->area);
+                    $templateProcessor->setValue("gedung#$index", $data->gedung);
+                    $templateProcessor->setValue("lokasi#$index", $data->lokasi);
+                    $templateProcessor->setValue("jenis#$index", $data->jenis);
+                    $templateProcessor->setValue("jumlah#$index", $data->jumlah);
+                    $index++;
+                }
+            } else {
+                $templateProcessor->setValue('no', '-');
+                $templateProcessor->setValue('waktu', '-');
+                $templateProcessor->setValue('departemen', '-');
+                $templateProcessor->setValue('area', '-');
+                $templateProcessor->setValue('gedung', '-');
+                $templateProcessor->setValue('lokasi', '-');
+                $templateProcessor->setValue('jenis', '-');
+                $templateProcessor->setValue('jumlah', '-');
+            }
+        }
+
+        else {
+            // Export PLAN dan TAMBAHAN: logika sama seperti yang kamu punya
+            $excludedColumns = ['id', 'tanggal', 'waktu', 'status', 'create_at', 'created_name',
+                'approval_by', 'approval_on', 'approval_desc',
+                'revisi_by', 'revisi_on', 'revisi_desc'];
+
+            $dataList = DB::table($tableName)
+                ->whereDate('tanggal', $tanggal)
+                ->get();
+
+            $dataByColumn = [];
+            $totals = [];
+            $columns = [];
+
+            if (!$dataList->isEmpty()) {
+                foreach ($dataList as $data) {
+                    $rowData = (array)$data;
+                    $filteredData = array_diff_key($rowData, array_flip($excludedColumns));
+
+                    foreach ($filteredData as $key => $value) {
+                        $columns[$key] = true;
+                        $dataByColumn[$key] = ($dataByColumn[$key] ?? 0) + ($value ?? 0);
+
+                        if (is_numeric($value)) {
+                            $totals[$key] = ($totals[$key] ?? 0) + $value;
+                        }
                     }
                 }
             }
-        }
 
-        // Jika tidak ada data, isi dengan '-'
-        if (empty($dataByColumn)) {
-            foreach ($columns as $column => $_) {
-                $dataByColumn[$column] = '-';
+            if (empty($dataByColumn)) {
+                foreach ($columns as $column => $_) {
+                    $dataByColumn[$column] = '-';
+                }
             }
+
+            foreach ($dataByColumn as $key => $value) {
+                $templateProcessor->setValue($key, $value ?? '-');
+            }
+
+            foreach ($columns as $column => $_) {
+                $templateProcessor->setValue("total_{$column}", $totals[$column] ?? 0);
+            }
+
+            $totalSemua = array_sum($totals);
+            $templateProcessor->setValue("total_semua", $totalSemua ?: '-');
         }
 
-        // Set nilai untuk setiap placeholder di template
-        foreach ($dataByColumn as $key => $value) {
-            $templateProcessor->setValue($key, $value ?? '-');
-        }
-
-        // Set total untuk setiap kolom
-        foreach ($columns as $column => $_) {
-            $templateProcessor->setValue("total_{$column}", $totals[$column] ?? 0);
-        }
-
-        // Hitung total seluruh data
-        $totalSemua = array_sum($totals);
-        $templateProcessor->setValue("total_semua", $totalSemua ?: '-');
-
-        // Set tanggal ke template
         $templateProcessor->setValue('tanggal', $tanggal);
 
         // Pastikan semua placeholder terisi
@@ -803,15 +1015,14 @@ class LapCateringController extends Controller
 
         // Format tanggal untuk nama file
         $formattedDate = date('Y-m-d', strtotime($tanggal));
-        $fileName = "{$formattedDate}_Laporan_Order_MK_Reguler_{$userTeam}.docx";
+        $fileName = "{$formattedDate}_Laporan_Order_MK_Reguler_{$userTeam}_{$jenisExport}.docx";
         $filePath = storage_path("app/public/$fileName");
 
-        // Simpan file
         $templateProcessor->saveAs($filePath);
 
-        // Kembalikan file untuk diunduh dan hapus setelah terkirim
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
+
 
     public function exportWord(Request $request)
     {
