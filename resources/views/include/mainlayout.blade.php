@@ -7,7 +7,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>@yield('title', 'Mi-Touch')</title>
+  <title>@yield('title', 'HalloHCGA')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -165,7 +165,7 @@
           </ul>
       </li>
       @endif
-      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 1 || auth()->user()->id_role == 2  || auth()->user()->id_role == 3 || auth()->user()->id_role == 4)
+      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 1 || auth()->user()->id_role == 2  || auth()->user()->id_role == 3 || auth()->user()->id_role == 4 || auth()->user()->id_role == 7)
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-pel" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Digital Complain</span><i class="bi bi-chevron-down ms-auto"></i>
