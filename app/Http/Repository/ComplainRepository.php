@@ -25,7 +25,7 @@ Class ComplainRepository
         $query->where('complain.nrp', $userNrp);
     }
 
-    if ($userRole == 2) {
+    if ($userRole == 2 || $userRole == 7)  {
         $query->where(function ($subQuery) use ($userNama, $userNrp, $userTimPIC) {
             $subQuery->where('complain.crew_pic', '=', $userNama)
                 ->orWhere('complain.created_name', '=', $userNrp);
@@ -84,7 +84,7 @@ Class ComplainRepository
     public function getUserLevel2()
     {
         return DB::table('users')
-        ->whereIn('id_role', [2, 4])
+        ->whereIn('id_role', [2, 4, 7])
         ->get();
     }
 
