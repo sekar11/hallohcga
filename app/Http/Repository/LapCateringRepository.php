@@ -832,7 +832,7 @@ class LapCateringRepository
                     'MAGANG'         => 'sore_magang_meicu',
                 ],
                 'MK SORE OFFICE PLANT' => [
-                    'VENDOR JMI (ENG)' => 'siang_vendor_jmi',
+                    'VENDOR JMI (ENG)' => 'sore_vendor_jmi',
                 ],
                 'Sore (Jam 15:40 WIB) MESS TAMBANG' => [
                     'Mess Tambang A1'    => 'sore_kamar_a1',
@@ -1155,7 +1155,7 @@ class LapCateringRepository
                     'MAGANG'         => 'sore_magang_meicu',
                 ],
                 'MK SORE OFFICE PLANT' => [
-                    'VENDOR JMI (ENG)' => 'siang_vendor_jmi',
+                    'VENDOR JMI (ENG)' => 'sore_vendor_jmi',
                 ],
                 'Sore (Jam 15:40 WIB) MESS TAMBANG' => [
                     'Mess Tambang A1'    => 'sore_kamar_a1',
