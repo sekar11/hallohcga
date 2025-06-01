@@ -63,15 +63,16 @@
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("{{ asset('storage/invoice_preview.docx') }}")
+        fetch("{{ asset('storage/' . $fileName) }}")
             .then(response => response.arrayBuffer())
-            .then(data => {
-                return mammoth.convertToHtml({arrayBuffer: data});
-            })
+            .then(data => mammoth.convertToHtml({arrayBuffer: data}))
             .then(result => {
                 document.getElementById("word-container").innerHTML = result.value;
             })
-            .catch(error => console.error("Error loading document:", error));
+            .catch(error => {
+                document.getElementById("word-container").innerHTML = "Gagal memuat dokumen.";
+                console.error("Error loading document:", error);
+            });
     });
 </script>
 @else

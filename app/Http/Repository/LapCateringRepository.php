@@ -1344,27 +1344,66 @@ class LapCateringRepository
         return $query->get();
     }
 
+    // public function getWastuInvoiceSummary($month, $year)
+    // {
+    //     $mapping = [
+    //         'MK SIANG MESS PUTRI TALANG JAWA' => [
+
+    //         ],
+    //         'MK SIANG LAUNDRY KARTIKA' => [
+    //             'laundry'
+    //         ],
+    //         'MK SIANG MESS MEICU' => [
+    //             'ruko_1', 'ruko_2', 'ruko_3', 'ruko_45',
+    //             'driver_lv', 'office_meicu', 'security_meicu', 'visitor', 'cv_ade', 'helper_meicu'
+    //         ],
+    //         'MK SIANG MESS TAMBANG' => [
+    //             'mk_mess_a1', 'mk_mess_b1', 'mk_mess_b2', 'mk_mess_b3'
+    //         ],
+    //         'TAMBAHAN' => [
+    //             'tambahan_siang_b1'
+    //         ],
+    //     ];
+
+    //     $startDate = "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
+
+    //     if ((int)$month === (int)date('m') && (int)$year === (int)date('Y')) {
+    //         $endDate = date('Y-m-d');
+    //     } else {
+    //         $endDate = date('Y-m-t', strtotime($startDate));
+    //     }
+
+    //     $query = DB::table('catering_wastu')
+    //         ->select('tanggal');
+
+    //     foreach ($mapping as $uraian => $kolomArray) {
+    //         foreach ($kolomArray as $kolom) {
+    //             $query->addSelect(DB::raw("SUM($kolom) as $kolom"));
+    //         }
+    //     }
+
+    //     $rows = $query
+    //         ->whereBetween('tanggal', [$startDate, $endDate])
+    //         ->get();
+
+    //     if ($rows->isEmpty()) {
+    //         return [];
+    //     }
+    //     $summary = [];
+
+    //     foreach ($mapping as $uraian => $kolomArray) {
+    //         $jumlah = 0;
+    //         foreach ($kolomArray as $kolom) {
+    //             $jumlah += (int)$rows[0]->$kolom;
+    //         }
+    //         $summary[$uraian] = $jumlah;
+    //     }
+
+    //     return $summary;
+    // }
+
     public function getWastuInvoiceSummary($month, $year)
     {
-        $mapping = [
-            'MK SIANG MESS PUTRI TALANG JAWA' => [
-                'mk_gl', 'mk_admin', 'helper_mess'
-            ],
-            'MK SIANG LAUNDRY KARTIKA' => [
-                'laundry'
-            ],
-            'MK SIANG MESS MEICU' => [
-                'ruko_1', 'ruko_2', 'ruko_3', 'ruko_45',
-                'driver_lv', 'office_meicu', 'security_meicu', 'visitor', 'cv_ade', 'helper_meicu'
-            ],
-            'MK SIANG MESS TAMBANG' => [
-                'mk_mess_a1', 'mk_mess_b1', 'mk_mess_b2', 'mk_mess_b3'
-            ],
-            'TAMBAHAN' => [
-                'tambahan_siang_b1'
-            ],
-        ];
-
         $startDate = "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
 
         if ((int)$month === (int)date('m') && (int)$year === (int)date('Y')) {
@@ -1373,34 +1412,135 @@ class LapCateringRepository
             $endDate = date('Y-m-t', strtotime($startDate));
         }
 
-        $query = DB::table('catering_wastu')
-            ->select('tanggal');
+        // Ambil semua nama kolom di tabel kecuali 'id' dan 'tanggal'
+        $columns = Schema::getColumnListing('catering_wastu');
+        $sumColumns = array_filter($columns, fn($col) => !in_array($col, ['id', 'tanggal']));
 
-        foreach ($mapping as $uraian => $kolomArray) {
-            foreach ($kolomArray as $kolom) {
-                $query->addSelect(DB::raw("SUM($kolom) as $kolom"));
-            }
+        $query = DB::table('catering_wastu')->whereBetween('tanggal', [$startDate, $endDate]);
+
+        foreach ($sumColumns as $col) {
+            $query->addSelect(DB::raw("SUM($col) as $col"));
         }
 
-        $rows = $query
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->get();
+        $row = $query->first();
 
-        if ($rows->isEmpty()) {
+        if (!$row) {
             return [];
         }
-        $summary = [];
 
-        foreach ($mapping as $uraian => $kolomArray) {
-            $jumlah = 0;
-            foreach ($kolomArray as $kolom) {
-                $jumlah += (int)$rows[0]->$kolom;
-            }
-            $summary[$uraian] = $jumlah;
+        // Hitung total dari seluruh kolom
+        $totalQty = 0;
+        foreach ($sumColumns as $col) {
+            $totalQty += (int) $row->$col;
         }
 
-        return $summary;
+        return [
+            'TOTAL SEMUA' => $totalQty
+        ];
     }
+
+//     public function getSnackInvoice($month, $year)
+// {
+//     $startDate = "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
+//     $endDate = date('Y-m-t', strtotime($startDate));
+
+//     $snacks = DB::table('snack')
+//         ->select('jenis_snack', DB::raw('COUNT(*) as jumlah'), DB::raw('AVG(harga) as rata_rata'), DB::raw('SUM(harga) as total'))
+//         ->whereBetween('tanggal', [$startDate, $endDate])
+//         ->where('catering', 'fitri')
+//         ->where('kode_status', 2)
+//         ->groupBy('jenis_snack')
+//         ->get();
+
+//     // Konversi ke associative array
+//     $summary = [];
+//     foreach ($snacks as $row) {
+//         $summary[$row->jenis_snack] = [
+//             'jumlah' => $row->jumlah,
+//             'rata_rata' => $row->rata_rata,
+//             'total' => $row->total,
+//         ];
+//     }
+
+//     return $summary;
+// }
+
+    // public function getSnackInvoice($month, $year)
+    // {
+    //     $startDate = "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
+    //     $endDate = date('Y-m-t', strtotime($startDate));
+
+    //     $snacks = DB::table('mk_snack')
+    //         ->select('jenis', DB::raw('COUNT(*) as jumlah'), DB::raw('AVG(harga) as rata_rata'), DB::raw('SUM(harga) as total'))
+    //         ->whereBetween('tanggal', [$startDate, $endDate])
+    //         ->groupBy('jenis')
+    //         ->where('catering', 'wastu')
+    //         ->where('status', 2)
+    //         ->get();
+
+    //     return $snacks->map(function ($row) {
+    //         return [
+    //             'jenis' => $row->jenis,
+    //             'jumlah' => $row->jumlah,
+    //             'rata_rata' => $row->rata_rata,
+    //             'total' => $row->total,
+    //         ];
+    //     })->toArray();
+    // }
+
+    public function getSnackInvoice($month, $year)
+    {
+        $startDate = "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
+        $endDate = date('Y-m-t', strtotime($startDate));
+
+        $rows = DB::table('mk_snack')
+            ->select('jenis', DB::raw('SUM(jumlah) as total_jumlah'), DB::raw('AVG(harga) as rata'), DB::raw('SUM(jumlah * harga) as total'))
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->groupBy('jenis')
+            ->where('catering', 'wastu')
+            ->where('status', 2)
+            ->get();
+
+        $result = [];
+        foreach ($rows as $row) {
+            $result[] = [
+                'jenis' => $row->jenis,
+                'jumlah' => (int) $row->total_jumlah,
+                'rata' => (float) $row->rata,
+                'total' => (float) $row->total,
+            ];
+        }
+
+        return $result;
+    }
+
+    public function getSpesialInvoice($month, $year)
+    {
+        $startDate = "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
+        $endDate = date('Y-m-t', strtotime($startDate));
+
+        $rows = DB::table('mk_spesial')
+            ->select('jenis', DB::raw('SUM(jumlah) as total_jumlah'), DB::raw('AVG(harga) as rata'), DB::raw('SUM(jumlah * harga) as total'))
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->where('catering', 'wastu')
+            ->where('status', 2)
+            ->groupBy('jenis')
+            ->get();
+
+        $result = [];
+        foreach ($rows as $row) {
+            $result[] = [
+                'jenis' => $row->jenis,
+                'jumlah' => (int) $row->total_jumlah,
+                'rata' => (float) $row->rata,
+                'total' => (float) $row->total,
+            ];
+        }
+
+        return $result;
+    }
+
+
 
     //===================================================== DASHBOARD CATERING ===============================================
 

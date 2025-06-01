@@ -707,6 +707,96 @@ class LapCateringController extends Controller
         $totalJumlahCol = Coordinate::stringFromColumnIndex(4 + 32); // 36 (AJ)
         $sheet->setCellValue("{$totalJumlahCol}{$startRow}", "=SUM({$totalJumlahCol}{$snackStartRow}:{$totalJumlahCol}" . ($startRow - 1) . ")");
 
+        // SNACK SHEET 2
+        $snackFullData = DB::table('mk_snack')
+            ->select('departemen', 'tanggal', 'waktu', 'jenis', 'jumlah', 'keterangan')
+            ->where('catering', $catering)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->where('status', 2)
+            ->orderBy('tanggal')
+            ->orderBy('departemen')
+            ->orderBy('jenis')
+            ->orderByRaw("FIELD(waktu, 'pagi', 'siang', 'sore', 'malem')")
+            ->get();
+
+        $totalPerGroup = DB::table('mk_snack')
+            ->select('departemen', 'tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->where('catering', $catering)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->where('status', 2)
+            ->groupBy('departemen', 'tanggal', 'jenis')
+            ->get()
+            ->keyBy(function($item) {
+                return $item->departemen . '_' . $item->tanggal . '_' . $item->jenis;
+            });
+
+        $sheet2 = $spreadsheet->getSheetByName('Snack');
+
+        $sheet2->setCellValue('A1', 'Tanggal');
+        $sheet2->setCellValue('B1', 'Departemen');
+        $sheet2->setCellValue('C1', 'Waktu');
+        $sheet2->setCellValue('D1', 'Jenis');
+        $sheet2->setCellValue('E1', 'Jumlah');
+        $sheet2->setCellValue('F1', 'Total Jumlah');
+        $sheet2->setCellValue('G1', 'Keterangan');
+
+        $rowIndex = 2;
+        $lastGroupKey = null;
+        $mergeStartRow = 2;
+
+        foreach ($snackFullData as $item) {
+            $key = $item->departemen . '_' . $item->tanggal . '_' . $item->jenis;
+
+            // jika group berubah, merge dan set total jumlah sebelumnya
+            if ($lastGroupKey !== null && $lastGroupKey != $key) {
+                $sheet2->mergeCells("F{$mergeStartRow}:F" . ($rowIndex - 1));
+                $sheet2->setCellValue("F{$mergeStartRow}", $totalPerGroup[$lastGroupKey]->total_jumlah ?? 0);
+                $mergeStartRow = $rowIndex;
+            }
+
+            // isi data baris
+            $sheet2->setCellValue("A{$rowIndex}", Carbon::parse($item->tanggal)->format('Y-m-d'));
+            $sheet2->setCellValue("B{$rowIndex}", $item->departemen);
+            $sheet2->setCellValue("C{$rowIndex}", ucfirst($item->waktu));
+            $sheet2->setCellValue("D{$rowIndex}", $item->jenis);
+            $sheet2->setCellValue("E{$rowIndex}", $item->jumlah);
+            $sheet2->setCellValue("G{$rowIndex}", $item->keterangan);
+
+            $lastGroupKey = $key;
+            $rowIndex++;
+        }
+
+        // merge dan set total jumlah untuk group terakhir
+        if ($lastGroupKey !== null) {
+            $sheet2->mergeCells("F{$mergeStartRow}:F" . ($rowIndex - 1));
+            $sheet2->setCellValue("F{$mergeStartRow}", $totalPerGroup[$lastGroupKey]->total_jumlah ?? 0);
+        }
+
+        $lastTanggal = null;
+        $startRow = 2;
+        $lastRow = $rowIndex - 1;
+
+        for ($row = 2; $row <= $lastRow + 1; $row++) {
+            $tanggal = $sheet2->getCell("A{$row}")->getValue();
+
+            if ($tanggal === $lastTanggal) {
+                // Masih tanggal yang sama, lanjut
+            } else {
+                // Tanggal beda, merge sebelumnya kalau lebih dari 1 baris
+                if ($lastTanggal !== null && $startRow < $row - 1) {
+                    $sheet2->mergeCells("A{$startRow}:A" . ($row - 1));
+                }
+                $startRow = $row;
+            }
+            $lastTanggal = $tanggal;
+        }
+        // Merge range terakhir kalau ada
+        if ($startRow < $lastRow) {
+            $sheet2->mergeCells("A{$startRow}:A{$lastRow}");
+        }
+
         // SPESIAL
         $spesialStartRow = match ($catering) {
             'FITRI'   => 19,
@@ -755,6 +845,96 @@ class LapCateringController extends Controller
 
         $totalJumlahCol = Coordinate::stringFromColumnIndex(4 + 32);
         $sheet->setCellValue("{$totalJumlahCol}{$startRow}", "=SUM({$totalJumlahCol}{$spesialStartRow}:{$totalJumlahCol}" . ($startRow - 1) . ")");
+
+        // SPESIAL SHEET 3
+        $spesialFullData = DB::table('mk_spesial')
+            ->select('departemen', 'tanggal', 'waktu', 'jenis', 'jumlah', 'keterangan')
+            ->where('catering', $catering)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->where('status', 2)
+            ->orderBy('tanggal')
+            ->orderBy('departemen')
+            ->orderBy('jenis')
+            ->orderByRaw("FIELD(waktu, 'pagi', 'siang', 'sore', 'malem')")
+            ->get();
+
+        $totalPerGroupSpesial = DB::table('mk_spesial')
+            ->select('departemen', 'tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->where('catering', $catering)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->where('status', 2)
+            ->groupBy('departemen', 'tanggal', 'jenis')
+            ->get()
+            ->keyBy(function($item) {
+                return $item->departemen . '_' . $item->tanggal . '_' . $item->jenis;
+            });
+
+        $sheet3 = $spreadsheet->getSheetByName('Spesial');
+
+        $sheet3->setCellValue('A1', 'Tanggal');
+        $sheet3->setCellValue('B1', 'Departemen');
+        $sheet3->setCellValue('C1', 'Waktu');
+        $sheet3->setCellValue('D1', 'Jenis');
+        $sheet3->setCellValue('E1', 'Jumlah');
+        $sheet3->setCellValue('F1', 'Total Jumlah');
+        $sheet3->setCellValue('G1', 'Keterangan');
+
+        $rowIndexSpesial = 2;
+        $lastGroupKeySpesial = null;
+        $mergeStartRowSpesial = 2;
+
+        foreach ($spesialFullData as $item) {
+            $key = $item->departemen . '_' . $item->tanggal . '_' . $item->jenis;
+
+            // jika group berubah, merge dan set total jumlah sebelumnya
+            if ($lastGroupKeySpesial !== null && $lastGroupKeySpesial != $key) {
+                $sheet3->mergeCells("F{$mergeStartRowSpesial}:F" . ($rowIndexSpesial - 1));
+                $sheet3->setCellValue("F{$mergeStartRowSpesial}", $totalPerGroupSpesial[$lastGroupKeySpesial]->total_jumlah ?? 0);
+                $mergeStartRowSpesial = $rowIndexSpesial;
+            }
+
+            // isi data baris
+            $sheet3->setCellValue("A{$rowIndexSpesial}", Carbon::parse($item->tanggal)->format('Y-m-d'));
+            $sheet3->setCellValue("B{$rowIndexSpesial}", $item->departemen);
+            $sheet3->setCellValue("C{$rowIndexSpesial}", ucfirst($item->waktu));
+            $sheet3->setCellValue("D{$rowIndexSpesial}", $item->jenis);
+            $sheet3->setCellValue("E{$rowIndexSpesial}", $item->jumlah);
+            $sheet3->setCellValue("G{$rowIndexSpesial}", $item->keterangan);
+
+            $lastGroupKeySpesial = $key;
+            $rowIndexSpesial++;
+        }
+
+        // merge dan set total jumlah untuk group terakhir
+        if ($lastGroupKeySpesial !== null) {
+            $sheet3->mergeCells("F{$mergeStartRowSpesial}:F" . ($rowIndexSpesial - 1));
+            $sheet3->setCellValue("F{$mergeStartRowSpesial}", $totalPerGroupSpesial[$lastGroupKeySpesial]->total_jumlah ?? 0);
+        }
+
+        $lastTanggalSpesial = null;
+        $startRowSpesial = 2;
+        $lastRowSpesial = $rowIndexSpesial - 1;
+
+        for ($rowSpesial = 2; $rowSpesial <= $lastRowSpesial + 1; $rowSpesial++) {
+            $tanggalSpesial = $sheet3->getCell("A{$rowSpesial}")->getValue();
+
+            if ($tanggalSpesial === $lastTanggalSpesial) {
+                // Masih tanggal yang sama, lanjut
+            } else {
+                // Tanggal beda, merge sebelumnya kalau lebih dari 1 baris
+                if ($lastTanggalSpesial !== null && $startRowSpesial < $rowSpesial - 1) {
+                    $sheet3->mergeCells("A{$startRowSpesial}:A" . ($rowSpesial - 1));
+                }
+                $startRowSpesial = $rowSpesial;
+            }
+            $lastTanggalSpesial = $tanggalSpesial;
+        }
+        // Merge range terakhir kalau ada
+        if ($startRowSpesial < $lastRowSpesial) {
+            $sheet3->mergeCells("A{$startRowSpesial}:A{$lastRowSpesial}");
+        }
 
         $fileName = "catering_{$catering}_{$month}_{$year}.xlsx";
         $outputPath = storage_path("app/public/{$fileName}");
@@ -1055,7 +1235,7 @@ class LapCateringController extends Controller
             // Export PLAN dan TAMBAHAN: logika sama seperti yang kamu punya
             $excludedColumns = ['id', 'tanggal', 'waktu', 'status', 'create_at', 'created_name',
                 'approval_by', 'approval_on', 'approval_desc',
-                'revisi_by', 'revisi_on', 'revisi_desc'];
+                'revisi_by', 'revisi_on', 'revisi_desc','visitor'];
 
             $dataList = DB::table($tableName)
                 ->whereDate('tanggal', $tanggal)
@@ -1176,54 +1356,228 @@ class LapCateringController extends Controller
         return response()->download($tempFile, $filename)->deleteFileAfterSend(true);
     }
 
+    // public function indexInvoice(Request $request)
+    // {
+    //     $month = $request->query('month', date('m'));
+    //     $year = $request->query('year', date('Y'));
+
+    //     $hargaPerPack = 17000;
+    //     $data = $this->LapCateringRepository->getWastuInvoiceSummary($month, $year);
+
+    //     $totalQty = array_sum($data);
+
+    //     if ($totalQty === 0) {
+    //         $data = [];
+    //         return view('catering.invoicePreview', compact('data', 'month', 'year'));
+    //     }
+
+    //     $uraianMap = [
+    //         'MK SIANG MESS PUTRI TALANG JAWA' => 'putri',
+    //         'MK SIANG MESS MEICU' => 'meicu',
+    //         'MK SIANG MESS TAMBANG' => 'tambang',
+    //     ];
+
+    //     $totalHarga = 0;
+
+    //     $templatePath = resource_path('template/invoice_preview.docx');
+    //     $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
+
+    //     $templateProcessor->setValue('bulan', date('F', mktime(0, 0, 0, $month, 1)));
+    //     $templateProcessor->setValue('tahun', $year);
+    //     $templateProcessor->setValue('tanggal', date('d-m-Y'));
+
+    //     foreach ($uraianMap as $judul => $placeholder) {
+    //         $qty = $data[$judul] ?? 0;
+    //         $totalItem = $qty * $hargaPerPack;
+    //         $totalHarga += $totalItem;
+
+    //         $templateProcessor->setValue("qty_{$placeholder}", $qty);
+    //         $templateProcessor->setValue("harga_{$placeholder}", number_format($hargaPerPack, 0, ',', '.'));
+    //         $templateProcessor->setValue("total_{$placeholder}", number_format($totalItem, 0, ',', '.'));
+    //     }
+
+    //     $templateProcessor->setValue('total_harga', number_format($totalHarga, 0, ',', '.'));
+
+    //     $outputPath = resource_path("template/invoice_preview.docx");
+    //     if (file_exists($outputPath)) {
+    //         unlink($outputPath);
+    //     }
+    //     $templateProcessor->saveAs($outputPath);
+
+    //     return view('catering.invoicePreview', compact('outputPath', 'month', 'year', 'data'));
+    // }
+
+    // public function indexInvoice(Request $request)
+    // {
+    //     $month = $request->query('month', date('m'));
+    //     $year = $request->query('year', date('Y'));
+
+    //     $hargaPerPack = 17000;
+    //     $data = $this->LapCateringRepository->getWastuInvoiceSummary($month, $year);
+
+    //     $totalQty = array_sum($data);
+
+    //     if ($totalQty === 0) {
+    //         $data = [];
+    //         return view('catering.invoicePreview', compact('data', 'month', 'year'));
+    //     }
+
+    //     $totalHarga = $totalQty * $hargaPerPack;
+
+    //     $templatePath = resource_path('template/invoice_preview.docx');
+    //     $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
+
+    //     $templateProcessor->setValue('bulan', date('F', mktime(0, 0, 0, $month, 1)));
+    //     $templateProcessor->setValue('tahun', $year);
+    //     $templateProcessor->setValue('tanggal', date('d-m-Y'));
+
+    //     $templateProcessor->setValue("qty_total", $totalQty);
+    //     $templateProcessor->setValue("harga_total", number_format($hargaPerPack, 0, ',', '.'));
+    //     $templateProcessor->setValue("total_total", number_format($totalHarga, 0, ',', '.'));
+    //     $templateProcessor->setValue('total_harga', number_format($totalHarga, 0, ',', '.'));
+
+    //     // Simpan file di storage publik agar bisa dibaca browser
+    //     $outputPath = storage_path('app/public/invoice_preview.docx');
+    //     if (file_exists($outputPath)) {
+    //         unlink($outputPath);
+    //     }
+    //     $templateProcessor->saveAs($outputPath);
+
+    //     return view('catering.invoicePreview', compact('month', 'year', 'data'));
+    // }
+
+    // public function indexInvoice(Request $request)
+    // {
+    //     $month = $request->query('month', date('m'));
+    //     $year = $request->query('year', date('Y'));
+
+    //     $hargaPerPack = 17000;
+    //     $data = $this->LapCateringRepository->getWastuInvoiceSummary($month, $year);
+
+    //     $totalQty = array_sum($data);
+
+    //     if ($totalQty === 0) {
+    //         $data = [];
+    //         return view('catering.invoicePreview', compact('data', 'month', 'year'));
+    //     }
+
+    //     $totalHarga = $totalQty * $hargaPerPack;
+
+    //     $templatePath = resource_path('template/invoice_preview.docx');
+    //     $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
+
+    //     $templateProcessor->setValue('bulan', date('F', mktime(0, 0, 0, $month, 1)));
+    //     $templateProcessor->setValue('tahun', $year);
+    //     $templateProcessor->setValue('tanggal', date('d-m-Y'));
+
+    //     $templateProcessor->setValue("qty_total", $totalQty);
+    //     $templateProcessor->setValue("harga_total", number_format($hargaPerPack, 0, ',', '.'));
+    //     $templateProcessor->setValue("total_total", number_format($totalHarga, 0, ',', '.'));
+    //     $templateProcessor->setValue('total_harga', number_format($totalHarga, 0, ',', '.'));
+
+    //    $snackSummary = $this->LapCateringRepository->getSnackInvoice($month, $year);
+    //  ///dd($snackSummary);
+    //     // Clone rows dan isi datanya
+    //     $templateProcessor->cloneRow('no', count($snackSummary));
+    //     foreach ($snackSummary as $index => $snack) {
+    //         $i = $index + 1;
+    //         $templateProcessor->setValue("no#$i", $i);
+    //         $templateProcessor->setValue("jenis#$i", $snack['jenis']);
+    //         $templateProcessor->setValue("jumlah#$i", $snack['jumlah']);
+    //         $templateProcessor->setValue("rata_rata#$i", number_format($snack['rata_rata'], 0, ',', '.'));
+    //         $templateProcessor->setValue("total#$i", number_format($snack['total'], 0, ',', '.'));
+    //     }
+
+
+
+    //     // Buat file output yang unik per bulan dan tahun
+    //     $fileName = "invoice_preview_{$month}_{$year}.docx";
+    //     $outputPath = storage_path("app/public/{$fileName}");
+
+    //     // Simpan file baru
+    //     $templateProcessor->saveAs($outputPath);
+
+    //     // Kirim nama file ke view untuk ditampilkan dengan Mammoth.js
+    //     return view('catering.invoicePreview', compact('month', 'year', 'data', 'fileName'));
+    // }
+
     public function indexInvoice(Request $request)
-    {
-        $month = $request->query('month', date('m'));
-        $year = $request->query('year', date('Y'));
+{
+    $month = $request->query('month', date('m'));
+    $year = $request->query('year', date('Y'));
 
-        $hargaPerPack = 17000;
-        $data = $this->LapCateringRepository->getWastuInvoiceSummary($month, $year);
+    $hargaPerPack = 17000;
+    $data = $this->LapCateringRepository->getWastuInvoiceSummary($month, $year);
 
-        $totalQty = array_sum($data);
-
-        if ($totalQty === 0) {
-            $data = [];
-            return view('catering.invoicePreview', compact('data', 'month', 'year'));
-        }
-
-        $uraianMap = [
-            'MK SIANG MESS PUTRI TALANG JAWA' => 'putri',
-            'MK SIANG MESS MEICU' => 'meicu',
-            'MK SIANG MESS TAMBANG' => 'tambang',
-        ];
-
-        $totalHarga = 0;
-
-        $templatePath = resource_path('template/invoice_preview.docx');
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
-
-        $templateProcessor->setValue('bulan', date('F', mktime(0, 0, 0, $month, 1)));
-        $templateProcessor->setValue('tahun', $year);
-        $templateProcessor->setValue('tanggal', date('d-m-Y'));
-
-        foreach ($uraianMap as $judul => $placeholder) {
-            $qty = $data[$judul] ?? 0;
-            $totalItem = $qty * $hargaPerPack;
-            $totalHarga += $totalItem;
-
-            $templateProcessor->setValue("qty_{$placeholder}", $qty);
-            $templateProcessor->setValue("harga_{$placeholder}", number_format($hargaPerPack, 0, ',', '.'));
-            $templateProcessor->setValue("total_{$placeholder}", number_format($totalItem, 0, ',', '.'));
-        }
-
-        $templateProcessor->setValue('total_harga', number_format($totalHarga, 0, ',', '.'));
-
-        $outputPath = resource_path("template/invoice_preview.docx");
-        if (file_exists($outputPath)) {
-            unlink($outputPath);
-        }
-        $templateProcessor->saveAs($outputPath);
-
-        return view('catering.invoicePreview', compact('outputPath', 'month', 'year', 'data'));
+    $totalQty = array_sum($data);
+    if ($totalQty === 0) {
+        $data = [];
+        return view('catering.invoicePreview', compact('data', 'month', 'year'));
     }
+
+    $totalHarga = $totalQty * $hargaPerPack;
+
+    // Ambil data snack & mk spesial dari repository
+    $snackData = $this->LapCateringRepository->getSnackInvoice($month, $year);
+    $spesialData = $this->LapCateringRepository->getSpesialInvoice($month, $year);
+
+    $templatePath = resource_path('template/invoice_preview.docx');
+    $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
+
+    // Bagian cloneRow untuk snack
+    $snackRows = [];
+    $grandTotalSnack = 0;
+    foreach ($snackData as $item) {
+        $snackRows[] = [
+            'snack_jenis' => $item['jenis'],
+            'snack_jumlah' => $item['jumlah'],
+            'snack_rata' => number_format($item['rata'], 0, ',', '.'),
+            'snack_total' => number_format($item['total'], 0, ',', '.'),
+        ];
+        $grandTotalSnack += $item['total'];
+    }
+    $templateProcessor->cloneRowAndSetValues('snack_jenis', $snackRows);
+
+    $templateProcessor->setValue('grand_total_snack', number_format($grandTotalSnack, 0, ',', '.'));
+
+    // Bagian cloneRow untuk MK Spesial
+$spesialRows = [];
+$grandTotalSpesial = 0;
+foreach ($spesialData as $item) {
+    $spesialRows[] = [
+        'spesial_jenis' => $item['jenis'],
+        'spesial_jumlah' => $item['jumlah'],
+        'spesial_rata' => number_format($item['rata'], 0, ',', '.'),
+        'spesial_total' => number_format($item['total'], 0, ',', '.'),
+    ];
+    $grandTotalSpesial += $item['total'];
+}
+$templateProcessor->cloneRowAndSetValues('spesial_jenis', $spesialRows);
+
+    $templateProcessor->setValue('grand_total_spesial', number_format($grandTotalSpesial, 0, ',', '.'));
+
+    // Bagian utama catering
+    $templateProcessor->setValue('bulan', date('F', mktime(0, 0, 0, $month, 1)));
+    $templateProcessor->setValue('tahun', $year);
+    $templateProcessor->setValue('tanggal', date('d-m-Y'));
+    $templateProcessor->setValue("qty_total", $totalQty);
+    $templateProcessor->setValue("harga_total", number_format($hargaPerPack, 0, ',', '.'));
+    $templateProcessor->setValue("total_total", number_format($totalHarga, 0, ',', '.'));
+    $templateProcessor->setValue('total_harga', number_format($totalHarga, 0, ',', '.'));
+
+    // Hitung total keseluruhan invoice
+$totalKeseluruhan = $totalHarga + $grandTotalSnack + $grandTotalSpesial;
+$templateProcessor->setValue('totalKeseluruhan', number_format($totalKeseluruhan, 0, ',', '.'));
+
+
+    $fileName = "invoice_preview_{$month}_{$year}.docx";
+    $outputPath = storage_path("app/public/{$fileName}");
+    $templateProcessor->saveAs($outputPath);
+
+    return view('catering.invoicePreview', compact('month', 'year', 'data', 'fileName'));
+}
+
+
+
+
 }
