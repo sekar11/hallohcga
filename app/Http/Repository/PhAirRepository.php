@@ -66,6 +66,38 @@ class PhAirRepository
     }
     }
 
+    public function createDataDosing(array $data)
+    {
+        try {
+            $nrp     = auth()->user()->nrp;
+            $tanggal = $data['tanggal'];
+
+            $newData = [
+                'nrp'           => $nrp,
+                'tanggal'       => $tanggal,
+                'lokasi'        => $data['lokasi_dosing'],
+                'meter_awal'    => $data['meter_awal'],
+                'meter_akhir'   => $data['meter_akhir'],
+                'kaporit'       => $data['kaporit'],
+                'pac'           => $data['pac'],
+                'soda_ash'      => $data['soda'],
+                
+            ];
+
+            $insertId = DB::table('ph_air_dosing')->insertGetId($newData);
+
+            if ($insertId) {
+                return $insertId;
+            } else {
+                throw new \Exception("Gagal menyimpan data.");
+            }
+
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+
     public function getData()
     {
         return DB::table('ph_air')
@@ -78,11 +110,33 @@ class PhAirRepository
             ->get();
     }
 
+     public function getDataDosing()
+    {
+        return DB::table('ph_air_dosing')
+            ->join('users', 'ph_air_dosing.nrp', '=', 'users.nrp')
+            ->select(
+                'ph_air_dosing.*',
+                'users.nama'
+            )
+            ->orderBy('ph_air_dosing.tanggal', 'desc')
+            ->get();
+    }
+
 
     public function delete($phUserId )
     {
         try {
             DB::table('ph_air')->where('id', $phUserId )->delete();
+            return 'Data Berhasil dihapus.';
+        } catch (\Exception $e) {
+            return 'Gagal menghapus data: ' . $e->getMessage();
+        }
+    }
+
+     public function deleteDosing($dosingId)
+    {
+        try {
+            DB::table('ph_air_dosing')->where('id', $dosingId )->delete();
             return 'Data Berhasil dihapus.';
         } catch (\Exception $e) {
             return 'Gagal menghapus data: ' . $e->getMessage();
@@ -98,6 +152,20 @@ class PhAirRepository
                     'users.nama'
                 )
             ->where('ph_air.id', $id)
+            ->first();
+
+        return $data;
+    }
+
+     public function getByIdDosing($id)
+    {
+        $data = DB::table('ph_air_dosing')
+            ->join('users', 'ph_air_dosing.nrp', '=', 'users.nrp')
+                ->select(
+                    'ph_air_dosing.*',
+                    'users.nama'
+                )
+            ->where('ph_air_dosing.id', $id)
             ->first();
 
         return $data;
@@ -124,6 +192,38 @@ class PhAirRepository
             } else {
                 throw new \Exception("Gagal memperbarui data.");
             }
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function editDosing(array $data, $id)
+    {
+        try {
+            $nrp     = auth()->user()->nrp;
+            $tanggal = $data['tanggal'];
+
+            $newData = [
+                'nrp'         => $nrp,
+                'tanggal'     => $tanggal,
+                'lokasi'      => $data['lokasi_dosing'],
+                'meter_awal'  => $data['meter_awal'],
+                'meter_akhir' => $data['meter_akhir'],
+                'kaporit'     => $data['kaporit'],
+                'pac'         => $data['pac'],
+                'soda_ash'    => $data['soda'],
+            ];
+
+            $update = DB::table('ph_air_dosing')
+                ->where('id', $id)
+                ->update($newData);
+
+            if ($update) {
+                return true;
+            } else {
+                throw new \Exception("Gagal memperbarui data.");
+            }
+
         } catch (\Exception $e) {
             return false;
         }

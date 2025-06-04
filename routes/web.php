@@ -107,6 +107,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/phair/get/{id}', [PhAirController::class, 'getEdit'])->name('edit.phair');
     Route::post('/phair/myedit/{id}', [PhAirController::class, 'edit'])->name('get.phair');
 
+    //=============================================== PH AIR DOSING===============================================
+    //Route::get('/phairdosing', [PhAirController::class, 'index']);
+    Route::post('/phair-dosing/create', [PhAirController::class, 'addDosing'])->name('add.dosing');
+    Route::post('/phair-dosing/delete', [PhAirController::class, 'deleteDosing'])->name('delete.dosing');
+    Route::get('/phair-dosing/get/{id}', [PhAirController::class, 'getEditDosing'])->name('edit.dosing');
+    Route::post('/phair-dosing/myedit/{id}', [PhAirController::class, 'editDosing'])->name('get.dosing');
+
     //=============================================== MK Catering Add ===============================================
     Route::post('/catering/delete', [CateringController::class, 'delete'])->name('delete.catering');
     Route::get('/catering/get/{id}', [CateringController::class, 'getEdit'])->name('edit.catering');

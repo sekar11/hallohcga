@@ -231,3 +231,23 @@ table.datatable-table:focus {
 	outline: solid 1px black;
     outline-offset: -1px;
 }
+
+#meter-awal-view::after {
+  content: " L";
+}
+
+#meter-akhir-view::after {
+  content: " L";
+}
+
+#pac-view::after {
+  content: " Kg";
+}
+
+#soda-view::after {
+  content: " Kg";
+}
+
+#kaporit-view::after {
+  content: " %";
+}
