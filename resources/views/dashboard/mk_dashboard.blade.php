@@ -49,8 +49,73 @@
                 </div>
             </div>
         </div>
-
+       
         <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-12 mb-4">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <h5><strong>Monthly Order Departemen</strong></h5>
+                        <div class="row">
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="departemenMonthly">Departemen:</label>
+                                    <select id="departemenMonthly" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="bulanAwal">Bulan Awal:</label>
+                                <select id="bulanAwal" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="bulanAkhir">Bulan Akhir:</label>
+                                <select id="bulanAkhir" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="tahun">Tahun:</label>
+                                <select id="tahun" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 d-flex align-items-end">
+                                <button id="buttonFilterMonthlyDept" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
+                            <div class="chart-container">
+                                <canvas id="dailyMothlyDeptChart" width="400" height="200"></canvas>
+                                {{-- <div id="totalSummary">
+                                    <p id="totalActualMess"><strong>Actual Order:</strong> -</p>
+                                    <p id="totalPlanMess"><strong>Plan Order:</strong> -</p>
+                                    <p id="totalTambahanMess"><strong>Tambahan:</strong> -</p>
+                                    <p id="totalCostMess"></p>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-12 mb-4">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <h5><strong>Monthly Order All Departemen</strong></h5>
+                        <div class="row">
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="bulan">Bulan:</label>
+                                <select id="bulanDept" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="tahunAllDept">Tahun:</label>
+                                <select id="tahunAllDept" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 d-flex align-items-end">
+                                <button id="buttonFilterMonthlyAllDept" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
+                            <div class="chart-container">
+                                <canvas id="dailyMothlyAllDeptChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12 col-12 mb-4">
                     <div class="bg-white p-4 rounded shadow-sm">
@@ -88,75 +153,10 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-6 col-12 mb-4">
-                    <div class="bg-white p-4 rounded shadow-sm">
-                        <h5><strong>Monthly Order Departemen</strong></h5>
-                        <div class="row">
-                            <div class="col-md-3 col-12 mb-2">
-                                <label for="departemenMonthly">Departemen:</label>
-                                    <select id="departemenMonthly" class="form-control"></select>
-                            </div>
-                            <div class="col-md-2 col-12 mb-2">
-                                <label for="bulanAwal">Bulan Awal:</label>
-                                <select id="bulanAwal" class="form-control"></select>
-                            </div>
-                            <div class="col-md-2 col-12 mb-2">
-                                <label for="bulanAkhir">Bulan Akhir:</label>
-                                <select id="bulanAkhir" class="form-control"></select>
-                            </div>
-                            <div class="col-md-2 col-12 mb-2">
-                                <label for="tahun">Tahun:</label>
-                                <select id="tahun" class="form-control"></select>
-                            </div>
-                            <div class="col-md-2 col-12 d-flex align-items-end">
-                                <button id="buttonFilterMonthlyDept" class="btn btn-primary w-100">Filter</button>
-                            </div>
-                        </div>
-                        <div class="card p-3 mt-3">
-                            <div class="chart-container">
-                                <canvas id="dailyMothlyDeptChart" width="400" height="200"></canvas>
-                                {{-- <div id="totalSummary">
-                                    <p id="totalActualMess"><strong>Actual Order:</strong> -</p>
-                                    <p id="totalPlanMess"><strong>Plan Order:</strong> -</p>
-                                    <p id="totalTambahanMess"><strong>Tambahan:</strong> -</p>
-                                    <p id="totalCostMess"></p>
-                                </div> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-12 mb-4">
-                    <div class="bg-white p-4 rounded shadow-sm">
-                        <h5><strong>Monthly Order All Departemen</strong></h5>
-                        <div class="row">
-                            <div class="col-md-2 col-12 mb-2">
-                                <label for="bulan">Bulan:</label>
-                                <select id="bulanDept" class="form-control"></select>
-                            </div>
-                            <div class="col-md-2 col-12 mb-2">
-                                <label for="tahunAllDept">Tahun:</label>
-                                <select id="tahunAllDept" class="form-control"></select>
-                            </div>
-                            <div class="col-md-2 col-12 d-flex align-items-end">
-                                <button id="buttonFilterMonthlyAllDept" class="btn btn-primary w-100">Filter</button>
-                            </div>
-                        </div>
-                        <div class="card p-3 mt-3">
-                            <div class="chart-container">
-                                <canvas id="dailyMothlyAllDeptChart" width="400" height="200"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-12 mb-4">
+                <div class="col-md-12 col-12 mb-4">
                     <div class="bg-white p-4 rounded shadow-sm">
                         <h5><strong>Monthly Order Mess</strong></h5>
                         <div class="row">
@@ -193,7 +193,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-12 mb-4">
+                <div class="col-md-12 col-12 mb-4">
                     <div class="bg-white p-4 rounded shadow-sm">
                         <h5><strong>Monthly Order All Mess</strong></h5>
                         <div class="row">
@@ -309,12 +309,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     ['mess putri', 'mess meicu', 'a1', 'c3'].forEach(dep => {
-        mess.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
+    mess.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
     for (let i = 1; i <= 10; i++) {
-        let dep = `b${i}`;
-        mess.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
+    let dep = `b${i}`;
+    mess.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
 
     }
 });
@@ -851,9 +851,11 @@ function updateChartMonthly(response) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const today = new Date();
+
+    const bulanSekarang = (today.getMonth() + 1).toString();
     const defaultParams = {
         tahunAllDept: today.getFullYear(),
-        bulanDept: '1',
+        bulanDept: bulanSekarang, // pakai bulan sekarang secara dinamis
     };
 
     document.getElementById('tahunAllDept').value = defaultParams.tahunAllDept;
@@ -1166,9 +1168,10 @@ function updateChartMonthlyMess(response) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const today = new Date();
+    const bulanSekarang = (today.getMonth() + 1).toString();
     const defaultParams = {
         tahunAllMess: today.getFullYear(),
-        bulanMess: '1',
+        bulanMess: bulanSekarang, // pakai bulan sekarang secara dinamis
     };
 
     document.getElementById('tahunAllMess').value = defaultParams.tahunAllMess;
@@ -1220,94 +1223,195 @@ function updateChartMonthlyAllMess(response) {
         dailyMothlyAllMessChart.destroy();
     }
 
+    // dailyMothlyAllMessChart = new Chart(ctx, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: labels,
+    //         datasets: [
+    //             {
+    //                 label: 'Actual Order',
+    //                 data: actualData,
+    //                 backgroundColor: backgroundColors,
+    //                 stack: 'actual',
+    //                 datalabels: {
+    //                     color: '#000',
+    //                     anchor: 'end',
+    //                     align: 'top',
+    //                     rotation: -90,  // 👈 Bikin vertikal
+    //                     font: {
+    //                         weight: 'bold'
+    //                     },
+    //                     formatter: function (value) {
+    //                         return value.toLocaleString('id-ID'); // 👈 angka pakai titik ribuan
+    //                     }
+    //                 }
+    //             },
+    //             {
+    //                 label: 'Plan Order',
+    //                 data: planData,
+    //                 backgroundColor: 'rgba(54, 162, 235, 0.7)',
+    //                 stack: 'plan',
+    //                 datalabels: {
+    //                     color: '#000',
+    //                     anchor: 'end',
+    //                     rotation: -90,  // 👈 Bikin vertikal
+    //                     align: 'top',
+    //                     font: {
+    //                         weight: 'bold'
+    //                     },
+    //                     formatter: function (value) {
+    //                         return value.toLocaleString('id-ID'); // 👈 angka pakai titik ribuan
+    //                     }
+    //                 }
+    //             }
+    //         ]
+    //     },
+    //     options: {
+    //         responsive: true,
+    //         plugins: {
+    //             title: {
+    //                 display: true,
+    //                 text: 'Monthly Plan vs Actual Orders per Department'
+    //             },
+    //             tooltip: {
+    //                 mode: 'index',
+    //                 intersect: false,
+    //                 callbacks: {
+    //                     label: function (context) {
+    //                         const index = context.dataIndex;
+    //                         const datasetLabel = context.dataset.label;
+
+    //                         if (datasetLabel === 'Actual Order') {
+    //                             const actual = actualData[index];
+    //                             const surplus = surplusData[index];
+    //                             return surplus > 0
+    //                                ? `Actual: ${actual} (Surplus: ${surplus.toLocaleString('id-ID')})`
+    //                                 : `Actual: ${actual}`;
+    //                         }
+
+    //                         if (datasetLabel === 'Plan Order') {
+    //                             return `Plan: ${planData[index].toLocaleString('id-ID')}`;
+    //                         }
+
+    //                         return null;
+    //                     }
+    //                 }
+    //             }
+    //         },
+    //         interaction: {
+    //             mode: 'index',
+    //             intersect: false
+    //         },
+    //         scales: {
+    //             x: {
+    //                 stacked: false
+    //             },
+    //             y: {
+    //                 stacked: true,
+    //                 beginAtZero: true,
+    //                 grace: '10%'
+    //             }
+    //         }
+    //     },
+    //     plugins: [ChartDataLabels]
+    // });
+
     dailyMothlyAllMessChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Actual Order',
-                    data: actualData,
-                    backgroundColor: backgroundColors,
-                    stack: 'actual',
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'end',
-                        align: 'top',
-                        font: {
-                            weight: 'bold'
-                        },
-                        formatter: function (value) {
-                            return value; // tampilkan total actual
-                        }
-                    }
-                },
-                {
-                    label: 'Plan Order',
-                    data: planData,
-                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                    stack: 'plan',
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'end',
-                        align: 'top',
-                        font: {
-                            weight: 'bold'
-                        },
-                        formatter: Math.round
-                    }
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Monthly Plan vs Actual Orders per Department'
-                },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function (context) {
-                            const index = context.dataIndex;
-                            const datasetLabel = context.dataset.label;
-
-                            if (datasetLabel === 'Actual Order') {
-                                const actual = actualData[index];
-                                const surplus = surplusData[index];
-                                return surplus > 0
-                                    ? `Actual: ${actual} (Surplus: ${surplus})`
-                                    : `Actual: ${actual}`;
-                            }
-
-                            if (datasetLabel === 'Plan Order') {
-                                return `Plan: ${planData[index]}`;
-                            }
-
-                            return null;
-                        }
+    type: 'bar',  // tetap bar
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Actual Order',
+                data: actualData,
+                backgroundColor: backgroundColors,
+                stack: 'actual',
+                datalabels: {
+                    color: '#000',
+                    align: 'right',
+anchor: 'end',
+offset: 4,
+                    rotation: 0, // 👈 nggak perlu rotasi
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value.toLocaleString('id-ID');
                     }
                 }
             },
-            interaction: {
+            {
+                label: 'Plan Order',
+                data: planData,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                stack: 'plan',
+                datalabels: {
+                    color: '#000',
+                    align: 'right',
+anchor: 'end',
+offset: 4,
+                    rotation: 0,
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value.toLocaleString('id-ID');
+                    }
+                }
+            }
+        ]
+    },
+    options: {
+        indexAxis: 'y', // 👈 ini yang bikin horizontal
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Monthly Plan vs Actual Orders per Department'
+            },
+            tooltip: {
                 mode: 'index',
-                intersect: false
-            },
-            scales: {
-                x: {
-                    stacked: false
-                },
-                y: {
-                    stacked: true,
-                    beginAtZero: true,
-                    grace: '10%'
+                intersect: false,
+                callbacks: {
+                    label: function (context) {
+                        const index = context.dataIndex;
+                        const datasetLabel = context.dataset.label;
+
+                        if (datasetLabel === 'Actual Order') {
+                            const actual = actualData[index];
+                            const surplus = surplusData[index];
+                            return surplus > 0
+                                ? `Actual: ${actual.toLocaleString('id-ID')} (Surplus: ${surplus.toLocaleString('id-ID')})`
+                                : `Actual: ${actual.toLocaleString('id-ID')}`;
+                        }
+
+                        if (datasetLabel === 'Plan Order') {
+                            return `Plan: ${planData[index].toLocaleString('id-ID')}`;
+                        }
+
+                        return null;
+                    }
                 }
             }
         },
-        plugins: [ChartDataLabels]
-    });
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        scales: {
+            x: {
+                stacked: true,
+                beginAtZero: true,
+                grace: '10%'
+            },
+            y: {
+                stacked: false
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+
 }
 
 
