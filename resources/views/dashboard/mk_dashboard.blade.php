@@ -2,11 +2,11 @@
 @section('title', 'MK Catering')
 @section('content')
     <div class="pagetitle">
-      <h1>Dashboard Ph Air</h1>
+      <h1>Dashboard MK Catering</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard Ph Air</li>
+          <li class="breadcrumb-item">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard MK Catering</li>
         </ol>
       </nav>
     </div>
