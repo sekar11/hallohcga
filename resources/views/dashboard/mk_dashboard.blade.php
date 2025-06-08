@@ -1771,7 +1771,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const defaultParams = {
         bulanAwalSnack: startOfYear.getMonth() + 1,
-        bulanAkhirSnack: today.getMonth() + 2,
+        bulanAkhirSnack: 12,
         tahunSnack: today.getFullYear()
     };
 
