@@ -2109,6 +2109,7 @@ $('#copyPreviousData').change(function() {
     if ($(this).is(':checked')) {
         let tanggal = $('#tanggal').val();
         let waktu = $('#waktu').val();
+        let departemen = $('#departemen').val();
 
         if (!tanggal || !waktu) {
             alert('Harap pilih Tanggal dan Waktu terlebih dahulu.');
@@ -2118,8 +2119,8 @@ $('#copyPreviousData').change(function() {
 
         $.ajax({
             type: 'GET',
-            url: '{{ url('/catering/getPrevious') }}',
-            data: { tanggal: tanggal, waktu: waktu },
+            url: '{{ url('/lapdeptcatering/getPrevious') }}',
+            data: { tanggal: tanggal, waktu: waktu, departemen : departemen },
             success: function(response) {
                 if (response.error) {
                     alert(response.error);
@@ -2127,9 +2128,9 @@ $('#copyPreviousData').change(function() {
                     return;
                 }
 
-                let userTeam = "{{ auth()->user()->tim_pic }}";
+                let userTeam = departemen;
                 let customLabels = {
-                    'COE': {
+                'COE': {
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'section': 'section',
@@ -2367,6 +2368,33 @@ $('#copyPreviousData').change(function() {
                         'marbot': 'marbot',
                         'total_laundry': 'total_laundry',
                         'security_laundry': 'security_laundry'
+                    },
+                    'MESS': {
+                        'tanggal': 'tanggal',
+                        'waktu': 'waktu',
+                        'mess_a1': 'mess_a1',
+                        'mess_a2': 'mess_a2',
+                        'mess_c3': 'mess_c3',
+                        'mess_b1': 'mess_b1',
+                        'mess_b2': 'mess_b2',
+                        'mess_b3': 'mess_b3',
+                        'mess_b4': 'mess_b4',
+                        'mess_b7': 'mess_b7',
+                        'mess_b8': 'mess_b8',
+                        'mess_b9': 'mess_b9',
+                        'mess_b10': 'mess_b10',
+                        'spare_mess': 'spare_mess',
+                        'rebusan_b1': 'rebusan_b1',
+                        'rebusan_b2': 'rebusan_b2',
+                        'rebusan_b3': 'rebusan_b3',
+                        'rebusan_b4': 'rebusan_b4',
+                        'rebusan_b7': 'rebusan_b7',
+                        'rebusan_b8': 'rebusan_b8',
+                        'rebusan_b9': 'rebusan_b9',
+                        'rebusan_b10': 'rebusan_b10',
+                        'rebusan_a1': 'rebusan_a1',
+                        'rebusan_a2': 'rebusan_a2',
+                        'rebusan_c3': 'rebusan_c3',
                     },
 
                     'MESS_PUTRI': {
