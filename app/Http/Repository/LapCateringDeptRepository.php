@@ -595,4 +595,70 @@ class LapCateringDeptRepository
 
         return 'Data MK berhasil di "Revisi"';
     }
+
+     public function getPreviousData($tanggal, $waktu, $departemen)
+    {
+        $userTeam = auth()->user()->tim_pic;
+
+        $tableMappings = [
+            'COE' => 'mk_coe',
+            'HCGA' => 'mk_hcga',
+            'ENG' => 'mk_eng',
+            'SHE' => 'mk_she',
+            'FALOG' => 'mk_falog',
+            'PROD' => 'mk_prod',
+            'PLANT' => 'mk_plant',
+            'A1' => 'mk_mess_a1',
+            'C3' => 'mk_mess_c3',
+            'MESS_MEICU' => 'mk_mess_meicu',
+            'MESS_PUTRI' => 'mk_mess_putri',
+            'MARBOT' => 'mk_marbot',
+            'AMM' => 'mk_mess_amm',
+            'MESS' => 'mk_mess',
+        ];
+
+        foreach (range(1, 10) as $i) {
+            $tableMappings["B$i"] = "mk_mess_b{$i}";
+        }
+
+        $table = $tableMappings[$departemen] ?? 'mk_coe';
+
+        $columns = Schema::getColumnListing($table);
+        $excludedColumns = ['id', 'created_name', 'create_at', 'status', 'approval_by', 'approval_on', 'approval_desc', 'revisi_by', 'revisi_on', 'revisi_desc'];
+
+        $numericColumns = array_filter($columns, function ($column) use ($excludedColumns) {
+            return !in_array($column, $excludedColumns);
+        });
+
+        $totalExpression = implode(' + ', array_map(function ($col) {
+            return "COALESCE($col, 0)";
+        }, $numericColumns));
+
+        // Looping tanggal
+        while ($tanggal) {
+            $tanggal = date('Y-m-d', strtotime($tanggal . ' -1 day'));
+
+            $data = DB::table($table)
+                ->select(
+                    'tanggal',
+                    'waktu',
+                    DB::raw("($totalExpression) AS total"),
+                    ...$columns
+                )
+                ->where('tanggal', $tanggal)
+                ->where('waktu', $waktu)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if ($data) {
+                return $data;
+            }
+
+            if ($tanggal < date('Y-m-d', strtotime('-30 days'))) {
+                break;
+            }
+        }
+
+        return null;
+    }
 }

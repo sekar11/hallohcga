@@ -549,8 +549,6 @@ class LapCateringDeptController extends Controller
         }
     }
 
-
-
     public function edit(Request $request, $id)
     {
         //dd($request);
@@ -1169,7 +1167,7 @@ class LapCateringDeptController extends Controller
 
         $result = $this->LapCateringDeptRepository->revisiSpesial($revisiName, $selectedComplainId, $pesanRevisi);
         $mkreguler = $this->LapCateringDeptRepository->findByIdSpesial($selectedComplainId);
-//dd($mkreguler);
+
         if (!$mkreguler || !$mkreguler->no_hp) {
             return response()->json(['error' => 'Nomor HP pelapor tidak tersedia'], 400);
         }
@@ -1323,6 +1321,25 @@ class LapCateringDeptController extends Controller
         $result = $this->LapCateringDeptRepository->sendRevisi($selectedComplainId, $departemen);
 
         return response()->json(['message' => $result]);
+    }
+
+      public function getPrevious(Request $request)
+    {
+        $tanggal = $request->input('tanggal');
+        $waktu = $request->input('waktu');
+        $departemen = request('departemen');;
+
+        if (!$tanggal || !$waktu) {
+            return response()->json(['error' => 'Tanggal dan Waktu wajib diisi'], 400);
+        }
+
+        $data = $this->LapCateringDeptRepository->getPreviousData($tanggal, $waktu, $departemen);
+
+        if (!$data) {
+            return response()->json(['error' => 'Data sebelumnya tidak ditemukan'], 404);
+        }
+
+        return response()->json($data);
     }
 
 

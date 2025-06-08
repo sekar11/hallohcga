@@ -160,7 +160,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/spesial_dept/myedit/{id}', [LapCateringDeptController::class, 'editSpesial'])->name('get.spesial_dept');
     Route::get('/catering/spesial', [LapCateringDeptController::class, 'createSpesial'])->name('spesial.spesial');
     Route::post('/spesial_dept/store', [LapCateringDeptController::class, 'storeSpesial'])->name('spesial.storedept');
-    Route::get('/catering/getPrevious', [CateringController::class, 'getPrevious'])->name('catering.cateringprevious');
+    Route::get('/lapdeptcatering/getPrevious', [LapCateringDeptController::class, 'getPrevious'])->name('catering.cateringprevious');
     Route::post('/spesial/send', [LapCateringDeptController::class, 'sendRevisi'])->name('send.revisi');
 
     Route::post('/spesial/approval', [LapCateringDeptController::class, 'approvalSpesial'])->name('approval.spesial');
