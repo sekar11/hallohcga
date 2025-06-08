@@ -324,6 +324,53 @@ class DashboardController extends Controller
         return response()->json($result);
     }
 
+    //SNACK & MK SPESIAL
+    public function getSnackData(Request $request)
+    {
+        $tanggalAwal = $request->tanggalAwal;
+        $tanggalAkhir = $request->tanggalAkhir;
+        $departemen = $request->departemen;
+
+        $result = $this->CateringRepository->getGrafikDailySnackSpesial($tanggalAwal, $tanggalAkhir, $departemen);
+        return response()->json($result);
+    }
+
+ public function getGrafikSnackPerBulan(Request $request)
+    {
+        $bulanAwal   = $request->bulanAwal;
+        $bulanAkhir  = $request->bulanAkhir;
+        $tahun       = $request->tahun;
+        $departemen  = $request->departemen;
+
+        $data = $this->CateringRepository->getSnackDataPerBulan($bulanAwal, $bulanAkhir, $tahun, $departemen);
+
+        // Siapkan data untuk chart.js
+        $labels = [];
+        for ($i = $bulanAwal; $i <= $bulanAkhir; $i++) {
+            $labels[] = date('M', mktime(0, 0, 0, $i, 10));
+        }
+
+        $jenisList = $data->pluck('jenis')->unique()->values();
+
+        $datasets = [];
+        foreach ($jenisList as $jenis) {
+            $datasets[$jenis] = [];
+
+            foreach (range($bulanAwal, $bulanAkhir) as $bulan) {
+                $found = $data->firstWhere(fn($d) => $d->jenis === $jenis && (int)$d->bulan === $bulan);
+                $jumlah = $found ? (int)$found->total : 0;
+                $datasets[$jenis][] = $jumlah;
+            }
+        }
+
+        return response()->json([
+            'labels'   => $labels,
+            'datasets' => $datasets
+        ]);
+    }
+
+
+
 
 }
 
