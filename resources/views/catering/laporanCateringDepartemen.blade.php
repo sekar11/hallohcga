@@ -2397,7 +2397,7 @@ $('#copyPreviousData').change(function() {
                         'rebusan_c3': 'rebusan_c3',
                     },
 
-                    'MESS_PUTRI': {
+                    'Mess Putri': {
                         'waktu': 'waktu',
                         'total': 'total',
                         'mess_gl': 'mess_gl',
