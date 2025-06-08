@@ -611,7 +611,7 @@ class LapCateringDeptRepository
             'A1' => 'mk_mess_a1',
             'C3' => 'mk_mess_c3',
             'MESS_MEICU' => 'mk_mess_meicu',
-            'MESS_PUTRI' => 'mk_mess_putri',
+            'Mess Putri' => 'mk_mess_putri',
             'MARBOT' => 'mk_marbot',
             'AMM' => 'mk_mess_amm',
             'MESS' => 'mk_mess',
