@@ -56,6 +56,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/get-daily-allcost-dept', [DashboardController::class, 'getPlanActualOrderDataAllCost']);
 
+    Route::post('/get-snackspesial-data', [DashboardController::class, 'getSnackData']);
+    Route::post('/get-snackspesial-perbulan', [DashboardController::class, 'getGrafikSnackPerBulan']);
+
+
     //=============================================== COMPLAIN ===============================================
     Route::get('/complain', [ComplainController::class, 'index'])->name('get.complain');
     Route::post('/complain/create', [ComplainController::class, 'create'])->name('get.complain');

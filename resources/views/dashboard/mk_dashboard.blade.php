@@ -1,5 +1,5 @@
 @extends('include/mainlayout')
-@section('title', 'Ph Air')
+@section('title', 'MK Catering')
 @section('content')
     <div class="pagetitle">
       <h1>Dashboard Ph Air</h1>
@@ -252,6 +252,78 @@
             </div>
         </div>
 
+        <!-- SEKAR -->
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-12 mb-4">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <h5><strong>Daily Order Snack & MK Spesial</strong></h5>
+                        <div class="row">
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="departemen">Departemen:</label>
+                                    <select id="departemenSnack"a class="form-control">1</select>
+                            </div>
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="tanggalAwal">Tanggal Awal:</label>
+                                <input type="date" id="tanggalAwalSnack" class="form-control">
+                            </div>
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="tanggalAkhir">Tanggal Akhir:</label>
+                                <input type="date" id="tanggalAkhirSnack" class="form-control">
+                            </div>
+                            <div class="col-md-2 col-12 d-flex align-items-end">
+                                <button id="buttonFilterSnack" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
+                            <div class="chart-container">
+                                <canvas id="dailyDeptSnackChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-12 mb-4">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <h5><strong>Monthly Order Snack & MK Spesial</strong></h5>
+                        <div class="row">
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="departemenMonthly">Departemen:</label>
+                                    <select id="departemenMonthlySnack" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="bulanAwalSnack">Bulan Awal:</label>
+                                <select id="bulanAwalSnack" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="bulanAkhirSnack">Bulan Akhir:</label>
+                                <select id="bulanAkhirSnack" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 mb-2">
+                                <label for="tahunSnakc">Tahun:</label>
+                                <select id="tahunSnack" class="form-control"></select>
+                            </div>
+                            <div class="col-md-2 col-12 d-flex align-items-end">
+                                <button id="buttonFilterSnackPerBulan" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
+                            <div class="chart-container">
+                                <canvas id="dailyMothlyDeptChartSnack" width="400" height="200"></canvas>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+
     </section>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
@@ -260,12 +332,17 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     const departemen = document.getElementById('departemen');
+    const departemenSnack = document.getElementById('departemenSnack');
     const departemenMonthly = document.getElementById('departemenMonthly');
+    const departemenMonthlySnack = document.getElementById('departemenMonthlySnack');
     const messMonthly = document.getElementById('messMonthly');
     const mess = document.getElementById('mess');
     const bulanAwal = document.getElementById("bulanAwal");
+    const bulanAwalSnack = document.getElementById("bulanAwalSnack");
+    const bulanAkhirSnack = document.getElementById("bulanAkhirSnack");
     const tahun = document.getElementById("tahun");
     const tahunMess = document.getElementById("tahunMess");
+    const tahunSnack = document.getElementById("tahunSnack");
     const bulanDept = document.getElementById("bulanDept");
     const tahunAllMess = document.getElementById("tahunAllMess");
     const bulanMess = document.getElementById("bulanMess");
@@ -277,6 +354,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const value = i + 1;
         bulanAwal.innerHTML += `<option value="${value}">${bulan}</option>`;
         bulanAkhir.innerHTML += `<option value="${value}">${bulan}</option>`;
+        bulanAwalSnack.innerHTML += `<option value="${value}">${bulan}</option>`;
+        bulanAkhirSnack.innerHTML += `<option value="${value}">${bulan}</option>`;
         bulanAwalMess.innerHTML += `<option value="${value}">${bulan}</option>`;
         bulanAkhirMess.innerHTML += `<option value="${value}">${bulan}</option>`;
         bulanDept.innerHTML += `<option value="${value}">${bulan}</option>`;
@@ -288,6 +367,7 @@ document.addEventListener('DOMContentLoaded', function () {
         tahunMess.innerHTML += `<option value="${t}">${t}</option>`;
         tahunAllDept.innerHTML += `<option value="${t}">${t}</option>`;
         tahunAllMess.innerHTML += `<option value="${t}">${t}</option>`;
+        tahunSnack.innerHTML += `<option value="${t}">${t}</option>`;
     }
 
     ['hcga', 'pro', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
@@ -295,7 +375,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     ['hcga', 'pro', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
+        departemenSnack.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
+    });
+
+    ['hcga', 'pro', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
         departemenMonthly.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
+    });
+
+     ['hcga', 'pro', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
+        departemenMonthlySnack.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
     ['mess putri', 'mess meicu', 'a1', 'c3'].forEach(dep => {
@@ -327,6 +415,10 @@ let dailyMothlyAllDeptChart;
 let dailyMothlyMessChart;
 let dailyMothlyAllMessChart;
 
+// MK SNACK DAN MK SPESIAL
+let dailyDeptSnackChart;
+
+//COST
 let dailyAllCostChart;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1531,6 +1623,343 @@ function updateTotalsAllCost(response) {
     document.getElementById('totalSisa').textContent = `Remaining Budget: ${formatCurrency(remainingCost)}`;
     document.getElementById('totalCostAllDept').textContent = `Actual Cost: ${formatCurrency(totalCost)}`;
 }
+
+//=============================================== SNACK & SPESIAL ===============================================
+
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date();
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 2);
+
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    const defaultParams = {
+        tanggalAwalSnack: formatDate(startOfMonth),
+        tanggalAkhirSnack: formatDate(today),
+    };
+
+    // Set default value ke input
+    Object.keys(defaultParams).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) el.value = defaultParams[key];
+    });
+
+    // Variabel chart global
+    let dailyDeptSnackChart;
+
+    // Fungsi ambil data & tampilkan grafik
+    function ambilDataSnack() {
+        const tanggalAwal = document.getElementById('tanggalAwalSnack').value;
+        const tanggalAkhir = document.getElementById('tanggalAkhirSnack').value;
+        const departemen = document.getElementById('departemenSnack').value;
+
+        if (!tanggalAwal || !tanggalAkhir || !departemen) {
+            return alert('Lengkapi semua input!');
+        }
+
+        fetch('/get-snackspesial-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ tanggalAwal, tanggalAkhir, departemen })
+        })
+        .then(res => res.json())
+        .then(data => tampilkanGrafik(data))
+        .catch(console.error);
+    }
+
+    // Tombol filter klik
+    document.getElementById('buttonFilterSnack').addEventListener('click', ambilDataSnack);
+
+    function tampilkanGrafik(data) {
+        const harga = {
+            "Snack Biasa": 13000,
+            "Snack Spesial": 25000,
+            "Parcel Buah Biasa": 100000,
+            "Parcel Buah Spesial": 150000,
+            "Aqua botol 330 ml": 50000,
+            "Aqua botol 600 ml": 55000,
+            "Pempek" : 6000,
+            "Kopi" : 10000,
+            "Teh" : 10000,
+            "Aqua Cup 220 ml" : 40000,
+            "Wedang Jahe" : 10000,
+            "MK Spesial" : 25000,
+            "Nasi Liwet" : 35000,
+            "Ayam Bakar" : 35000,
+            "Prasmanan" : 35000,
+            "Bubur Jubaidah" : 9500,
+        };
+
+        const labels = data.map(item => item.jenis);
+        const totalJumlah = data.map(item => item.total);
+        const totalHarga = data.map(item => item.total * (harga[item.jenis] || 0));
+
+        const totalCostSemua = totalHarga.reduce((a, b) => a + b, 0);
+
+        const ctx = document.getElementById('dailyDeptSnackChart').getContext('2d');
+
+        if (dailyDeptSnackChart) dailyDeptSnackChart.destroy();
+
+        dailyDeptSnackChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Jumlah Pesanan',
+                        data: totalJumlah,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Grafik Snack & MK Spesial (Total Cost: Rp ${totalCostSemua.toLocaleString('id-ID')})`,
+                        font: {
+                            size: 18
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let jumlah = totalJumlah[context.dataIndex];
+                                let hargaValue = totalHarga[context.dataIndex];
+                                return `Jumlah: ${jumlah}, Harga: Rp ${hargaValue.toLocaleString('id-ID')}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'end',
+                        formatter: function (value, context) {
+                            let jumlah = totalJumlah[context.dataIndex];
+                            let hargaValue = totalHarga[context.dataIndex];
+                            return `${jumlah}x | Rp ${hargaValue.toLocaleString('id-ID')}`;
+                        },
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                     y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    }
+
+    // 🔥 Load grafik pertama kali saat halaman dibuka
+    ambilDataSnack();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date();
+    const startOfYear = new Date(today.getFullYear(), 0, 1);
+
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    const defaultParams = {
+        bulanAwalSnack: startOfYear.getMonth() + 1,
+        bulanAkhirSnack: today.getMonth() + 1,
+        tahunSnack: today.getFullYear()
+    };
+
+    // Set default value ke input
+    Object.keys(defaultParams).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) el.value = defaultParams[key];
+    });
+
+    let dailyMothlyDeptChartSnack;
+
+    function ambilDataSnackPerBulan() {
+        const bulanAwal = document.getElementById('bulanAwalSnack').value;
+        const bulanAkhir = document.getElementById('bulanAkhirSnack').value;
+        const tahun = document.getElementById('tahunSnack').value;
+        const departemen = document.getElementById('departemenSnack').value;
+
+        if (!bulanAwal || !bulanAkhir || !tahun || !departemen) {
+            return alert('Lengkapi semua input!');
+        }
+
+        fetch('/get-snackspesial-perbulan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ bulanAwal, bulanAkhir, tahun, departemen })
+        })
+        .then(res => res.json())
+        .then(data => tampilkanGrafikPerBulan(data))
+        .catch(console.error);
+    }
+
+    document.getElementById('buttonFilterSnackPerBulan').addEventListener('click', ambilDataSnackPerBulan);
+
+   function tampilkanGrafikPerBulan(data) {
+    const harga = {
+        "Snack Biasa": 13000,
+        "Snack Spesial": 25000,
+        "Parcel Buah Biasa": 100000,
+        "Parcel Buah Spesial": 150000,
+        "Aqua botol 330 ml": 50000,
+        "Aqua botol 600 ml": 55000,
+        "Pempek" : 6000,
+        "Kopi" : 10000,
+        "Teh" : 10000,
+        "Aqua Cup 220 ml" : 40000,
+        "Wedang Jahe" : 10000,
+        "MK Spesial" : 25000,
+        "Nasi Liwet" : 35000,
+        "Ayam Bakar" : 35000,
+        "Prasmanan" : 35000,
+        "Bubur Jubaidah" : 9500,
+    };
+
+    let labels = data.labels;
+    const datasets = [];
+
+    // Siapkan datasets awal
+    for (const [jenis, values] of Object.entries(data.datasets)) {
+        datasets.push({
+            jenis: jenis,
+            data: values,
+            backgroundColor: getRandomColor()
+        });
+    }
+
+
+    // Cek per index (bulan) — kalau semua dataset di bulan itu 0, hapus label dan value di posisi itu
+    for (let i = labels.length - 1; i >= 0; i--) {
+        const totalPerBulan = datasets.reduce((sum, ds) => sum + ds.data[i], 0);
+        if (totalPerBulan === 0) {
+            labels.splice(i, 1);
+            datasets.forEach(ds => ds.data.splice(i, 1));
+        }
+    }
+
+    const ctx = document.getElementById('dailyMothlyDeptChartSnack').getContext('2d');
+
+    if (dailyMothlyDeptChartSnack) dailyMothlyDeptChartSnack.destroy();
+
+    // Kalau habis semua, tampilkan alert
+    if (labels.length === 0) {
+        alert('Data tidak ditemukan untuk periode tersebut!');
+    }
+
+    // Cari nilai maksimum dari semua dataset
+    let maxValue = 0;
+    datasets.forEach(ds => {
+        const maxData = Math.max(...ds.data);
+        if (maxData > maxValue) maxValue = maxData;
+    });
+
+    // Tambahkan padding ke max value biar nggak mepet
+    const yMax = maxValue + 1;
+
+
+    dailyMothlyDeptChartSnack = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets.map(ds => ({
+                label: ds.jenis,
+                data: ds.data,
+                backgroundColor: ds.backgroundColor
+            }))
+        },
+        options: {
+            responsive: true,
+            
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Grafik Snack & MK Spesial',
+                    font: {
+                        size: 18
+                    },
+                    
+                },
+                
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const jumlah = context.raw;
+                            const jenis = context.dataset.label;
+                            const hargaValue = jumlah * (harga[jenis] || 0);
+                            return `${jumlah} x | Rp ${hargaValue.toLocaleString('id-ID')}\n${jenis}`;
+                        }
+                    }
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: function (value, context) {
+                        if (value > 0) {
+                            const jenis = context.dataset.label;
+                            const hargaValue = value * (harga[jenis] || 0);
+                            return `${value}x | Rp ${hargaValue.toLocaleString('id-ID')}\n${jenis}`;
+                        }
+                        return '';
+                },
+            font: {
+                weight: 'bold'
+            },
+            display: function (context) {
+                return context.dataset.data.length > 0;
+            }
+        },
+        legend: {
+            display: false
+        }
+            },
+            scales: {
+                x: {
+                    display: labels.length > 0
+                },
+                y: {
+                    beginAtZero: true,
+                    max: yMax,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
+    // Langsung load grafik per bulan pertama kali
+    ambilDataSnackPerBulan();
+
+    function getRandomColor() {
+        const colors = [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(255, 159, 64, 0.7)'
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+});
+
+
+
+
 
 
 
