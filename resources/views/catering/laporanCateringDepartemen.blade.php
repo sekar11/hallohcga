@@ -74,10 +74,18 @@
                     </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="snack-tab" data-bs-toggle="tab" data-bs-target="#snack" type="button" role="tab" aria-controls="snack" aria-selected="false">
+                    <button class="nav-link" id="snackk-tab" data-bs-toggle="tab" data-bs-target="#snackk" type="button" role="tab" aria-controls="snackk" aria-selected="false">
                         Snack
                     </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="snack-tab" data-bs-toggle="tab" data-bs-target="#snack" type="button" role="tab" aria-controls="snack" aria-selected="false">
+                        MK Reguler SS6
+                    </button>
+                    </li>
+                    </li>
+                    
+                   
                 </ul>
 
                 <!-- Modal View Data -->
@@ -207,7 +215,13 @@
 
                             <input type="hidden" name="table_name" value="{{ $tableName ?? '' }}">
                             <input type="hidden" name="departemen" value="{{ request('departemen') }}">
-                            <div class="col-12">
+                            <div class="col-8">
+                                <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="ss6" name="ss6" value="2">
+                                <label class="form-check-label fs-5" for="ss6" style="margin-left: 10px;">Data SS6?</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="copyPreviousData">
                                     <label class="form-check-label" for="copyPreviousData">
@@ -215,6 +229,8 @@
                                     </label>
                                 </div>
                             </div>
+                            
+                            
                             @php
                                // $userTeam = auth()->user()->tim_pic;
                                $userTeam = request('departemen');
@@ -781,7 +797,7 @@
                 </div>
                 {{-- End Modal Add --}}
 
-                {{-- -- Modal Add MK Spesial sekar--> --}}
+                {{-- Modal Add MK Spesial sekar --}}
                 <div class="modal fade modal_add_snack" id="cateringSpesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -1154,192 +1170,313 @@
                 <!-- Table with stripped rows -->
             <div class="tab-content" id="cateringTabsContent">
                     <!-- Reguler Tab -->
-                <div class="tab-pane fade show active" id="reguler" role="tabpanel" aria-labelledby="reguler-tab">
-                <div class="table-responsive">
-                    <table class="table dt_catering responsive" id="datatable">
-                        <thead>
-                            <tr>
-                                <th scope="col">
-                                    <input type="checkbox" id="selectAll">
-                                </th>
-                                <th scope="col">No</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Waktu</th>
-                                <th scope="col">Total Order</th>
-                                <th scope="col">Total Order Sebelumnya</th>
-                                <th scope="col">Visitor</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($cateringData as $no => $catering)
-                            <tr>
-                                <td>
-                                    <input type="checkbox" class="rowCheckbox" value="{{ $catering->id }}">
-                                </td>
-                                <td>{{ $no + 1 }}</td>
-                                <td>{{ $catering->tanggal }}</td>
-                                <td>{{ $catering->created_name }}</td>
-                                <td>{{ $catering->waktu}}</td>
-                                <td>{{ $catering->total}}</td>
-                                <td>{{ $catering->total_hari_sebelumnya}}</td>
-                                <td class="truncate-text">{{ $catering->visitor }}</td>
-                                <td>
-                                    @if($catering->status == 1)
-                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
-                                    @elseif($catering->status == 2)
-                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
-                                    @elseif($catering->status == 3)
-                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i> View</a></li>
-                                            <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
-                                            <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                            <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal" data-bs-target="#approvalModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
-                                            <li><a class="dropdown-item revisi" href="#" data-bs-toggle="modal" data-bs-target="#revisiModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
-                                            <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <button id="btnApproveSelected" class="btn btn-danger mt-3">Approve Selected</button>
-                </div>
-
-                <!-- Spesial Tab -->
-                    <div class="tab-pane fade" id="spesial" role="tabpanel" aria-labelledby="spesial-tab">
-                        <div class="table-responsive">
-                        <table class="table dt_spesial responsive datatable" id='datatable'>
+                    <div class="tab-pane fade show active" id="reguler" role="tabpanel" aria-labelledby="reguler-tab">
+                    <div class="table-responsive">
+                        <table class="table dt_catering responsive" id="datatable">
                             <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Departemen</th>
-                                <th scope="col">Waktu</th>
-                                <th scope="col">Area</th>
-                                <th scope="col">Lokasi</th>
-                                <th scope="col">Jenis</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Catering</th>
-                                <th scope="col">Harga</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Total Order</th>
+                                    <th scope="col">Total Order Sebelumnya</th>
+                                    <th scope="col">Visitor</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {{-- //sekar --}}
-                            @foreach($spesialData as $no => $spesial)
-                            <tr>
-                                <td>{{ $no + 1 }}</td>
-                                <td>{{ $spesial->tanggal}}</td>
-                                <td>{{ $spesial->departemen}}</td>
-                                <td>{{ $spesial->waktu}}</td>
-                                <td>{{ $spesial->area}}</td>
-                                <td>{{ $spesial->lokasi}}</td>
-                                <td>{{ $spesial->jenis}}</td>
-                                <td>{{ $spesial->jumlah}}</td>
-                                <td>{{ $spesial->catering}}</td>
-                                <td>{{ $spesial->harga}}</td>
-                                <td>
-                                    @if($spesial->status == 1)
-                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
-                                    @elseif($spesial->status == 2)
-                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
-                                    @elseif($spesial->status == 3)
-                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
-                                    @endif
-                                <td>
-                                <div class="dropdown">
-                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
-                                    <li><a class="dropdown-item editspesial" href="#" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                                    <li><a class="dropdown-item deletespesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                                    <li><a class="dropdown-item approvalspesial" href="#" data-bs-toggle="modal" data-bs-target="#approvalSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Approval</a></li>
-                                    <li><a class="dropdown-item revisispesial" href="#" data-bs-toggle="modal" data-bs-target="#revisispesialModalgagl" data-id="{{ $spesial->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
-                                    {{-- <li><a class="dropdown-item sendrevisi" href="#" data-id="{{ $spesial->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li> --}}
-                                </ul>
-
-                            </tr>
-                            @endforeach 
-
-                        </tbody>
+                                @foreach($cateringData as $no => $catering)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="rowCheckbox" value="{{ $catering->id }}">
+                                    </td>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $catering->tanggal }}</td>
+                                    <td>{{ $catering->created_name }}</td>
+                                    <td>{{ $catering->waktu}}</td>
+                                    <td>{{ $catering->total}}</td>
+                                    <td>{{ $catering->total_hari_sebelumnya}}</td>
+                                    <td class="truncate-text">{{ $catering->visitor }}</td>
+                                    <td>
+                                        @if($catering->status == 1)
+                                            <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                        @elseif($catering->status == 2)
+                                            <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                        @elseif($catering->status == 3)
+                                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $catering->id }}"><i class="fa fa-expand"></i> View</a></li>
+                                                <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $catering->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
+                                                <li><a class="dropdown-item delete" href="#" data-id="{{ $catering->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                                <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal" data-bs-target="#approvalModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
+                                                <li><a class="dropdown-item revisi" href="#" data-bs-toggle="modal" data-bs-target="#revisiModalgagl" data-id="{{ $catering->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                                <li><a class="dropdown-item send" href="#" data-id="{{ $catering->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
                         </table>
-                        </div>
+                    </div>
+                    <button id="btnApproveSelected" class="btn btn-danger mt-3">Approve Selected</button>
                     </div>
 
-                    <!-- Snack Tab -->
+                    <!-- Reguler Tab -->
                     <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
-                        <div class="table-responsive">
-                        <table class="table dt_snack responsive datatable" id='datatable'>
+                    <div class="table-responsive">
+                        <table class="table dt_catering responsive datatable" id="datatable">
                             <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Departemen</th>
-                                <th scope="col">Waktu</th>
-                                <th scope="col">Area</th>
-                                <th scope="col">Lokasi</th>
-                                <th scope="col">Jenis</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Catering</th>
-                                <th scope="col">Harga</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
+                                <tr>
+                                   
+                                    <th scope="col">No</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Total Order</th>
+                                    <th scope="col">Total Order Sebelumnya</th>
+                                    <th scope="col">Visitor</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {{-- //sekar --}}
-                            @foreach($snackData as $no => $snack)
-                            <tr>
-                                <td>{{ $no + 1 }}</td>
-                                <td>{{ $snack->tanggal}}</td>
-                                <td>{{ $snack->departemen}}</td>
-                                <td>{{ $snack->waktu}}</td>
-                                <td>{{ $snack->area}}</td>
-                                <td>{{ $snack->lokasi}}</td>
-                                <td>{{ $snack->jenis}}</td>
-                                <td>{{ $snack->jumlah}}</td>
-                                <td>{{ $snack->catering}}</td>
-                                <td>{{ $snack->harga}}</td>
-                                <td>
-                                    @if($snack->status == 1)
-                                        <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
-                                    @elseif($snack->status == 2)
-                                        <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
-                                    @elseif($snack->status == 3)
-                                        <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
-                                    @endif
-                                <td>
-                                <div class="dropdown">
-                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
-                                    <li><a class="dropdown-item editsnack" href="#" data-bs-toggle="modal" data-bs-target="#cateringSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
-                                    <li><a class="dropdown-item deletesnack" href="#" data-id="{{ $snack->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
-                                    <li><a class="dropdown-item approvalsnack" href="#" data-bs-toggle="modal" data-bs-target="#approvalSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Approve</a></li>
-                                    <li><a class="dropdown-item revisisnack" href="#" data-bs-toggle="modal" data-bs-target="#revisisnackModalgagl" data-id="{{ $snack->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
-                                    {{-- <li><a class="dropdown-item sendrevisisnack" href="#" data-id="{{ $snack->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li> --}}
-                                </ul>
-                            </tr>
-                            @endforeach
-
-                        </tbody>
+                                @foreach($ss6Data as $no => $ss6)
+                                <tr>
+                                    
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $ss6->tanggal }}</td>
+                                    <td>{{ $ss6->created_name }}</td>
+                                    <td>{{ $ss6->waktu}}</td>
+                                    <td>{{ $ss6->total}}</td>
+                                    <td>{{ $ss6->total_hari_sebelumnya}}</td>
+                                    <td class="truncate-text">{{ $ss6->visitor }}</td>
+                                    <td>
+                                        @if($ss6->status == 1)
+                                            <span class="badge rounded-pill text-bg-success">ON SS6</span>
+                                        @elseif($ss6->status == 2)
+                                            <span class="badge rounded-pill text-bg-success text-start">On ss6</span>
+                                        @elseif($ss6->status == 3)
+                                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $ss6->id }}"><i class="fa fa-expand"></i> View</a></li>
+                                                <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $ss6->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
+                                                <li><a class="dropdown-item delete" href="#" data-id="{{ $ss6->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
                         </table>
-                        </div>
                     </div>
-            <div>
-                <!-- Tombol Approval -->
+                    
+                    </div>
+
+
+                        <!-- Spesial Tab -->
+                        <div class="tab-pane fade" id="spesial" role="tabpanel" aria-labelledby="spesial-tab">
+                            <div class="table-responsive">
+                            <table class="table dt_spesial responsive datatable" id='datatable'>
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Departemen</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Area</th>
+                                    <th scope="col">Lokasi</th>
+                                    <th scope="col">Jenis</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Catering</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{-- //sekar --}}
+                                @foreach($spesialData as $no => $spesial)
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $spesial->tanggal}}</td>
+                                    <td>{{ $spesial->departemen}}</td>
+                                    <td>{{ $spesial->waktu}}</td>
+                                    <td>{{ $spesial->area}}</td>
+                                    <td>{{ $spesial->lokasi}}</td>
+                                    <td>{{ $spesial->jenis}}</td>
+                                    <td>{{ $spesial->jumlah}}</td>
+                                    <td>{{ $spesial->catering}}</td>
+                                    <td>{{ $spesial->harga}}</td>
+                                    <td>
+                                        @if($spesial->status == 1)
+                                            <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                        @elseif($spesial->status == 2)
+                                            <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                        @elseif($spesial->status == 3)
+                                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                        @endif
+                                    <td>
+                                    <div class="dropdown">
+                                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item viewspesial" href="#" data-bs-toggle="modal" data-bs-target="#viewspesialModal" data-id="{{ $spesial->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                        <li><a class="dropdown-item editspesial" href="#" data-bs-toggle="modal" data-bs-target="#cateringSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                        <li><a class="dropdown-item deletespesial" href="#" data-id="{{ $spesial->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                        <li><a class="dropdown-item approvalspesial" href="#" data-bs-toggle="modal" data-bs-target="#approvalSpesialModal" data-id="{{ $spesial->id }}"><i class="fa-regular fa-pen-to-square"></i>Approval</a></li>
+                                        <li><a class="dropdown-item revisispesial" href="#" data-bs-toggle="modal" data-bs-target="#revisispesialModalgagl" data-id="{{ $spesial->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                        {{-- <li><a class="dropdown-item sendrevisi" href="#" data-id="{{ $spesial->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li> --}}
+                                    </ul>
+
+                                </tr>
+                                @endforeach 
+
+                            </tbody>
+                            </table>
+                            </div>
+                        </div>
+
+                        <!-- Snack Tab -->
+                        <div class="tab-pane fade" id="snackk" role="tabpanel" aria-labelledby="snackk-tab">
+                            <div class="table-responsive">
+                            <table class="table dt_snack responsive datatable" id='datatable'>
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Departemen</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Area</th>
+                                    <th scope="col">Lokasi</th>
+                                    <th scope="col">Jenis</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Catering</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{-- //sekar --}}
+                                @foreach($snackData as $no => $snack)
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $snack->tanggal}}</td>
+                                    <td>{{ $snack->departemen}}</td>
+                                    <td>{{ $snack->waktu}}</td>
+                                    <td>{{ $snack->area}}</td>
+                                    <td>{{ $snack->lokasi}}</td>
+                                    <td>{{ $snack->jenis}}</td>
+                                    <td>{{ $snack->jumlah}}</td>
+                                    <td>{{ $snack->catering}}</td>
+                                    <td>{{ $snack->harga}}</td>
+                                    <td>
+                                        @if($snack->status == 1)
+                                            <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                        @elseif($snack->status == 2)
+                                            <span class="badge rounded-pill text-bg-success text-start">On Catering</span>
+                                        @elseif($snack->status == 3)
+                                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                        @endif
+                                    <td>
+                                    <div class="dropdown">
+                                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item viewsnack" href="#" data-bs-toggle="modal" data-bs-target="#viewsnackModal" data-id="{{ $snack->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                        <li><a class="dropdown-item editsnack" href="#" data-bs-toggle="modal" data-bs-target="#cateringSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                        <li><a class="dropdown-item deletesnack" href="#" data-id="{{ $snack->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>
+                                        <li><a class="dropdown-item approvalsnack" href="#" data-bs-toggle="modal" data-bs-target="#approvalSnackModal" data-id="{{ $snack->id }}"><i class="fa-regular fa-pen-to-square"></i>Approve</a></li>
+                                        <li><a class="dropdown-item revisisnack" href="#" data-bs-toggle="modal" data-bs-target="#revisisnackModalgagl" data-id="{{ $snack->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                        {{-- <li><a class="dropdown-item sendrevisisnack" href="#" data-id="{{ $snack->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li> --}}
+                                    </ul>
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                            </table>
+                            </div>
+                        </div>
+
+                        <!-- Snack Tab -->
+                        <div class="tab-pane fade" id="ss6" role="tabpanel" aria-labelledby="ss6-tab">
+                            <div class="table-responsive">
+                             <table class="table dt_catering responsive datatable" id='datatable'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Total Order</th>
+                                    <th scope="col">Total Order Sebelumnya</th>
+                                    <th scope="col">Visitor</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($ss6Data as $no => $ss6)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="rowCheckbox" value="{{ $ss6->id }}">
+                                    </td>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $ss6->tanggal }}</td>
+                                    <td>{{ $ss6->created_name }}</td>
+                                    <td>{{ $ss6->waktu}}</td>
+                                    <td>{{ $ss6->total}}</td>
+                                    <td>{{ $ss6->total_hari_sebelumnya}}</td>
+                                    <td class="truncate-text">{{ $ss6->visitor }}</td>
+                                    <td>
+                                        @if($ss6->status == 1)
+                                            <span class="badge rounded-pill text-bg-info">Waiting Approval GA</span>
+                                        @elseif($ss6->status == 2)
+                                            <span class="badge rounded-pill text-bg-success text-start">On ss6</span>
+                                        @elseif($ss6->status == 3)
+                                            <span class="badge rounded-pill text-bg-warning text-start">Revisi</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewcateringModal" data-id="{{ $ss6->id }}"><i class="fa fa-expand"></i> View</a></li>
+                                                <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#cateringModal" data-id="{{ $ss6->id }}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
+                                                <li><a class="dropdown-item delete" href="#" data-id="{{ $ss6->id }}"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                                <li><a class="dropdown-item approval" href="#" data-bs-toggle="modal" data-bs-target="#approvalModalgagl" data-id="{{ $ss6->id }}"><i class="fa-regular fa-square-check"></i> Approve</a></li>
+                                                <li><a class="dropdown-item revisi" href="#" data-bs-toggle="modal" data-bs-target="#revisiModalgagl" data-id="{{ $ss6->id }}"><i class="fa-regular fa-message"></i> Revisi</a></li>
+                                                <li><a class="dropdown-item send" href="#" data-id="{{ $ss6->id }}"><i class="fa-regular fa-paper-plane"></i>Kirim Revisi</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                            </div>
+                        </div>
+                <div>
+                
+
+                
 
 
               </tbody>
@@ -1741,7 +1878,7 @@ $('.edit').click(function() {
             }
 
             console.log('Response Data:', response);
-
+let ss6Value = response.ss6;
             let userTeam = departemen;
 
             let customLabels = {
@@ -2068,6 +2205,11 @@ $('.edit').click(function() {
             }
 
             let selectedFields = customLabels[userTeam] || {};
+            if (ss6Value == 2) {
+                $('#ss6').prop('checked', true);
+            } else {
+                $('#ss6').prop('checked', false);
+            }
 
             if ($.isEmptyObject(selectedFields)) {
                 console.error('Departemen tidak ditemukan dalam customLabels:', userTeam);
