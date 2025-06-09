@@ -1882,3 +1882,16 @@ th:nth-child(14), td:nth-child(14) {
     user-select: none;
 }
 
+.form-check.form-switch .form-check-input {
+    width: 40px;    /* Lebar toggle */
+    height: 24px;   /* Tinggi toggle */
+  }
+  .form-check.form-switch .form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, .5);
+  }
+
+  .form-check-input:checked {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+

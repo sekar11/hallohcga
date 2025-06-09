@@ -59,7 +59,7 @@ class LapCateringDeptRepository
         $excludedColumns = [
             'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
             'approval_by', 'approval_on', 'approval_desc',
-            'revisi_by', 'revisi_on', 'revisi_desc'
+            'revisi_by', 'revisi_on', 'revisi_desc','ss6'
         ];
 
         $numericColumns = array_filter($columns, function ($column) use ($excludedColumns) {
@@ -91,10 +91,59 @@ class LapCateringDeptRepository
                     )
                     AND t2.waktu = t1.waktu
                     AND t2.status = 2
+                    AND t2.ss6 = 1
+                ) AS total_hari_sebelumnya")
+            )
+            ->whereBetween('t1.tanggal', [$startDate, $endDate])
+            ->where('t1.ss6', 1)
+            ->orderBy('t1.tanggal', 'DESC')
+            ->get();
+    }
+
+    public function getDatass6($tableName, $startDate, $endDate)
+    {
+        $columns = Schema::getColumnListing($tableName);
+
+        $excludedColumns = [
+            'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
+            'approval_by', 'approval_on', 'approval_desc',
+            'revisi_by', 'revisi_on', 'revisi_desc', 'ss6'
+        ];
+
+        $numericColumns = array_filter($columns, function ($column) use ($excludedColumns) {
+            return !in_array($column, $excludedColumns);
+        });
+
+        $totalExpression = implode(' + ', array_map(function ($col) {
+            return "COALESCE(t1.$col, 0)";
+        }, $numericColumns));
+
+        return DB::table("$tableName as t1")
+            ->select(
+                't1.id',
+                't1.tanggal',
+                't1.visitor',
+                't1.created_name',
+                't1.waktu',
+                't1.status',
+                DB::raw("($totalExpression) AS total"),
+                DB::raw("(SELECT SUM(" . implode(' + ', array_map(function ($col) {
+                    return "COALESCE($col, 0)";
+                }, $numericColumns)) . ")
+                    FROM $tableName AS t2
+                    WHERE t2.tanggal = (
+                        SELECT MAX(t3.tanggal)
+                        FROM $tableName AS t3
+                        WHERE t3.tanggal < t1.tanggal
+                        AND t3.waktu = t1.waktu
+                    )
+                    AND t2.waktu = t1.waktu
+                    AND t2.status = 1
                 ) AS total_hari_sebelumnya")
             )
             ->whereBetween('t1.tanggal', [$startDate, $endDate])
             ->orderBy('t1.tanggal', 'DESC')
+            ->where('t1.ss6', 2)
             ->get();
     }
 

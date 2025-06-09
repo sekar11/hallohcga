@@ -72,10 +72,11 @@ class LapCateringDeptController extends Controller
         $columns = Schema::getColumnListing($tableName);
 
         $cateringData = $this->LapCateringDeptRepository->getData($tableName, $startDate, $endDate);
+        $ss6Data = $this->LapCateringDeptRepository->getDatass6($tableName, $startDate, $endDate);
         $snackData = $this->LapCateringDeptRepository->getSnackSummary();
         $spesialData = $this->LapCateringDeptRepository->getSpesialSummary();
         //dd($cateringData);
-        return view('catering.laporanCateringDepartemen', compact('columns', 'tableName', 'cateringData', 'startDate', 'endDate', 'selectedDept','snackData', 'spesialData'));
+        return view('catering.laporanCateringDepartemen', compact('columns', 'tableName', 'cateringData', 'startDate', 'endDate', 'selectedDept','snackData', 'spesialData','ss6Data'));
     }
 
     public function store(Request $request)
@@ -84,6 +85,7 @@ class LapCateringDeptController extends Controller
         $userTeam = auth()->user()->tim_pic;
         $createdBy = auth()->user()->nama;
         $status = 1;
+        $ss6 = $request->ss6;
 
         $columnMappings = [
             'COE' => [
@@ -427,6 +429,8 @@ class LapCateringDeptController extends Controller
         $data['create_at'] = now();
         $data['status'] = $status;
         $data['created_name'] = $createdBy;
+        $data['ss6'] = $ss6 ?? 1;
+
 
         $insert = DB::table($table)->insert($data);
 
