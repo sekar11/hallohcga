@@ -219,39 +219,6 @@
             </div>
         </div>
 
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-12 col-12 mb-4">
-                    <div class="bg-white p-4 rounded shadow-sm">
-                        <h5><strong>Cost Daily Order</strong></h5>
-                        <div class="row">
-                            <div class="col-md-3 col-12 mb-2">
-                                <label for="tanggalAwalAllCost">Tanggal Awal:</label>
-                                <input type="date" id="tanggalAwalAllCost" class="form-control">
-                            </div>
-                            <div class="col-md-3 col-12 mb-2">
-                                <label for="tanggalAkhirAllCost">Tanggal Akhir:</label>
-                                <input type="date" id="tanggalAkhirAllCost" class="form-control">
-                            </div>
-                            <div class="col-md-2 col-12 d-flex align-items-end">
-                                <button id="buttonFilterAllCost" class="btn btn-primary w-100">Filter</button>
-                            </div>
-                        </div>
-                        <div class="card p-3 mt-3">
-                            <div class="chart-container">
-                                <div id="totalSummary">
-                                    <p id="fixedCost"></p>
-                                    <p id="totalCostAllDept"></p>
-                                    <p id="totalSisa"></p>
-                                </div>
-                                <canvas id="dailyAllCostChart" width="400" height="200"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- SEKAR -->
         <div class="container-fluid">
             <div class="row justify-content-center">
@@ -322,7 +289,40 @@
             </div>
         </div>
 
-       
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-12 mb-4">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <h5><strong>Cost Daily Order</strong></h5>
+                        <div class="row">
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="tanggalAwalAllCost">Tanggal Awal:</label>
+                                <input type="date" id="tanggalAwalAllCost" class="form-control">
+                            </div>
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="tanggalAkhirAllCost">Tanggal Akhir:</label>
+                                <input type="date" id="tanggalAkhirAllCost" class="form-control">
+                            </div>
+                            <div class="col-md-2 col-12 d-flex align-items-end">
+                                <button id="buttonFilterAllCost" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
+                            <div class="chart-container">
+                                <div id="totalSummary">
+                                    <p id="fixedCost"></p>
+                                    <p id="totalCostAllDept"></p>
+                                    <p id="totalSisa"></p>
+                                </div>
+                                <canvas id="dailyAllCostChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
 
     </section>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
@@ -1315,98 +1315,7 @@ function updateChartMonthlyAllMess(response) {
         dailyMothlyAllMessChart.destroy();
     }
 
-    // dailyMothlyAllMessChart = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: labels,
-    //         datasets: [
-    //             {
-    //                 label: 'Actual Order',
-    //                 data: actualData,
-    //                 backgroundColor: backgroundColors,
-    //                 stack: 'actual',
-    //                 datalabels: {
-    //                     color: '#000',
-    //                     anchor: 'end',
-    //                     align: 'top',
-    //                     rotation: -90,  // 👈 Bikin vertikal
-    //                     font: {
-    //                         weight: 'bold'
-    //                     },
-    //                     formatter: function (value) {
-    //                         return value.toLocaleString('id-ID'); // 👈 angka pakai titik ribuan
-    //                     }
-    //                 }
-    //             },
-    //             {
-    //                 label: 'Plan Order',
-    //                 data: planData,
-    //                 backgroundColor: 'rgba(54, 162, 235, 0.7)',
-    //                 stack: 'plan',
-    //                 datalabels: {
-    //                     color: '#000',
-    //                     anchor: 'end',
-    //                     rotation: -90,  // 👈 Bikin vertikal
-    //                     align: 'top',
-    //                     font: {
-    //                         weight: 'bold'
-    //                     },
-    //                     formatter: function (value) {
-    //                         return value.toLocaleString('id-ID'); // 👈 angka pakai titik ribuan
-    //                     }
-    //                 }
-    //             }
-    //         ]
-    //     },
-    //     options: {
-    //         responsive: true,
-    //         plugins: {
-    //             title: {
-    //                 display: true,
-    //                 text: 'Monthly Plan vs Actual Orders per Department'
-    //             },
-    //             tooltip: {
-    //                 mode: 'index',
-    //                 intersect: false,
-    //                 callbacks: {
-    //                     label: function (context) {
-    //                         const index = context.dataIndex;
-    //                         const datasetLabel = context.dataset.label;
-
-    //                         if (datasetLabel === 'Actual Order') {
-    //                             const actual = actualData[index];
-    //                             const surplus = surplusData[index];
-    //                             return surplus > 0
-    //                                ? `Actual: ${actual} (Surplus: ${surplus.toLocaleString('id-ID')})`
-    //                                 : `Actual: ${actual}`;
-    //                         }
-
-    //                         if (datasetLabel === 'Plan Order') {
-    //                             return `Plan: ${planData[index].toLocaleString('id-ID')}`;
-    //                         }
-
-    //                         return null;
-    //                     }
-    //                 }
-    //             }
-    //         },
-    //         interaction: {
-    //             mode: 'index',
-    //             intersect: false
-    //         },
-    //         scales: {
-    //             x: {
-    //                 stacked: false
-    //             },
-    //             y: {
-    //                 stacked: true,
-    //                 beginAtZero: true,
-    //                 grace: '10%'
-    //             }
-    //         }
-    //     },
-    //     plugins: [ChartDataLabels]
-    // });
+    
 
     dailyMothlyAllMessChart = new Chart(ctx, {
     type: 'bar',  // tetap bar
@@ -1421,9 +1330,9 @@ function updateChartMonthlyAllMess(response) {
                 datalabels: {
                     color: '#000',
                     align: 'right',
-anchor: 'end',
-offset: 4,
-                    rotation: 0, // 👈 nggak perlu rotasi
+                    anchor: 'end',
+                    offset: 4,
+                    rotation: 0, 
                     font: {
                         weight: 'bold'
                     },
@@ -1440,8 +1349,8 @@ offset: 4,
                 datalabels: {
                     color: '#000',
                     align: 'right',
-anchor: 'end',
-offset: 4,
+                    anchor: 'end',
+                    offset: 4,
                     rotation: 0,
                     font: {
                         weight: 'bold'
@@ -1454,7 +1363,7 @@ offset: 4,
         ]
     },
     options: {
-        indexAxis: 'y', // 👈 ini yang bikin horizontal
+        indexAxis: 'y', 
         responsive: true,
         plugins: {
             title: {
@@ -1508,122 +1417,6 @@ offset: 4,
 
 
 //=============================================== COST===============================================
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     const today = new Date();
-//     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 2);
-
-//     const formatDate = (date) => date.toISOString().split('T')[0];
-
-//     const defaultParams = {
-//         tanggalAwalAllCost: formatDate(startOfMonth),
-//         tanggalAkhirAllCost: formatDate(today),
-//     };
-
-//     Object.keys(defaultParams).forEach(key => document.getElementById(key).value = defaultParams[key]);
-//     fetchData(defaultParams);
-
-//     document.getElementById('buttonFilterAllCost').addEventListener('click', function () {
-//         const tanggalAwalAllCost = document.getElementById('tanggalAwalAllCost').value;
-//         const tanggalAkhirAllCost = document.getElementById('tanggalAkhirAllCost').value;
-
-//         if (!tanggalAwalAllCost || !tanggalAkhirAllCost) return alert("Silakan pilih departemen dan rentang tanggal!");
-
-//         fetchData({tanggalAwalAllCost, tanggalAkhirAllCost });
-//     });
-
-//     function fetchData(params) {
-//         fetch('/get-daily-allcost-dept', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//             },
-//             body: JSON.stringify(params)
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             updateChartAllCost(data);
-//             updateTotalsAllCost(data);
-//         })
-//         .catch(console.error);
-//     }
-// });
-
-// function updateChartAllCost(response) {
-//     const labels = response.data_per_hari.map(item => item.tanggal);
-//     const costData = response.data_per_hari.map(item => item.total_cost);
-
-//     const ctx = document.getElementById('dailyAllCostChart').getContext('2d');
-
-//     if (window.dailyAllCostChart instanceof Chart) {
-//         window.dailyAllCostChart.destroy();
-//     }
-
-//     window.dailyAllCostChart = new Chart(ctx, {
-//         type: 'line',
-//         data: {
-//             labels: labels,
-//             datasets: [
-//                 {
-//                     label: 'Total Cost per Hari',
-//                     data: costData,
-//                     borderColor: 'rgba(75, 192, 192, 1)',
-//                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
-//                     fill: true,
-//                     tension: 0.3,
-//                     pointRadius: 4,
-//                     pointHoverRadius: 6
-//                 }
-//             ]
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 title: {
-//                     display: true,
-//                     text: 'Total Cost Per Hari (All Department)'
-//                 },
-//                 tooltip: {
-//                     callbacks: {
-//                         label: function(context) {
-//                             return `Rp ${context.parsed.y.toLocaleString('id-ID')}`;
-//                         }
-//                     }
-//                 }
-//             },
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             scales: {
-//                 y: {
-//                     beginAtZero: true,
-//                     ticks: {
-//                         callback: function(value) {
-//                             return 'Rp ' + value.toLocaleString('id-ID');
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     });
-// }
-
-// function updateTotalsAllCost(response) {
-//     const totalCost = response.total_semua_cost;
-//     const fixedCost = response.cost;
-//     const remainingCost = response.sisa_cost;
-
-//     function formatCurrency(value) {
-//         return 'Rp ' + value.toLocaleString('id-ID');
-//     }
-
-//     document.getElementById('fixedCost').textContent = `Allocated Budget: ${formatCurrency(fixedCost)}`;
-//     document.getElementById('totalSisa').textContent = `Remaining Budget: ${formatCurrency(remainingCost)}`;
-//     document.getElementById('totalCostAllDept').textContent = `Actual Cost: ${formatCurrency(totalCost)}`;
-// }
-
 document.addEventListener('DOMContentLoaded', function () {
     const today = new Date();
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 2);
@@ -1649,163 +1442,158 @@ document.addEventListener('DOMContentLoaded', function () {
         loadData(tanggalAwal, tanggalAkhir);
     });
 
-   function loadData(tanggalAwal, tanggalAkhir) {
-    fetch('/get-daily-allcost-dept', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ tanggalAwalAllCost: tanggalAwal, tanggalAkhirAllCost: tanggalAkhir })
-    })
-    .then(res => res.json())
-    .then(data => {
-        updateChart(data.data_per_hari);
-        updateTotals(data, tanggalAwal, tanggalAkhir);  // <-- tambahan parameter ini
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Gagal memuat data.');
-    });
-}
-
-
-  function updateChart(dataPerHari) {
-    const labels = dataPerHari.map(item => item.tanggal);
-    const totalCosts = dataPerHari.map(item => item.total_cost);
-    const regulerCosts = dataPerHari.map(item => item.reguler_cost);
-    const snackCosts = dataPerHari.map(item => item.snack_spesial_cost);
-
-    // Total biaya 2,1 miliar
-    const totalCostss = 2100000000;
-
-    // Jumlah hari = panjang dataPerHari
-    const jumlahHari = dataPerHari.length;
-
-    // Hitung rata-rata biaya per hari
-    const avgCost = totalCostss / jumlahHari;
-
-    const ctx = document.getElementById('dailyAllCostChart').getContext('2d');
-
-    if (window.dailyAllCostChart && typeof window.dailyAllCostChart.destroy === 'function') {
-        window.dailyAllCostChart.destroy();
+    function loadData(tanggalAwal, tanggalAkhir) {
+        fetch('/get-daily-allcost-dept', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ tanggalAwalAllCost: tanggalAwal, tanggalAkhirAllCost: tanggalAkhir })
+        })
+        .then(res => res.json())
+        .then(data => {
+            updateChart(data.data_per_hari, tanggalAwal);
+            updateTotals(data, tanggalAwal, tanggalAkhir); 
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Gagal memuat data.');
+        });
     }
 
-    window.dailyAllCostChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Total Cost per Hari',
-                data: totalCosts,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Total Cost Per Hari (All Department)'
+    function updateChart(dataPerHari, tanggalAwal) {
+        const labels = dataPerHari.map(item => item.tanggal);
+        const totalCosts = dataPerHari.map(item => item.total_cost);
+        const regulerCosts = dataPerHari.map(item => item.reguler_cost);
+        const snackCosts = dataPerHari.map(item => (item.snack_cost ?? 0) + (item.spesial_cost ?? 0));
+
+        const totalCostss = 2100000000;
+
+        const startDate = new Date(tanggalAwal);
+        const tahun = startDate.getFullYear();
+        const bulan = startDate.getMonth();
+        const jumlahHariDalamBulan = new Date(tahun, bulan + 1, 0).getDate();
+
+        const avgCost = totalCostss / jumlahHariDalamBulan;
+
+        const ctx = document.getElementById('dailyAllCostChart').getContext('2d');
+
+        if (window.dailyAllCostChart && typeof window.dailyAllCostChart.destroy === 'function') {
+            window.dailyAllCostChart.destroy();
+        }
+
+        window.dailyAllCostChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Total Cost per Hari',
+                    data: totalCosts,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Total Cost Per Hari (All Department)'
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            title: ctx => `Tanggal: ${ctx[0].label}`,
+                            label: ctx => {
+                                const index = ctx.dataIndex;
+                                const total = totalCosts[index] ?? 0;
+                                const reguler = regulerCosts[index] ?? 0;
+                                const snack = snackCosts[index] ?? 0;
+                                return [
+                                    `Total Cost: Rp ${total.toLocaleString('id-ID')}`,
+                                    `Reguler Cost: Rp ${reguler.toLocaleString('id-ID')}`,
+                                    `Snack & MK Spesial Cost: Rp ${snack.toLocaleString('id-ID')}`
+                                ];
+                            }
+                        }
+                    }
                 },
-                tooltip: {
-                    enabled: true,
-                    callbacks: {
-                        title: ctx => `Tanggal: ${ctx[0].label}`,
-                        label: ctx => {
-                            const index = ctx.dataIndex;
-                            const total = totalCosts[index];
-                            const reguler = regulerCosts[index];
-                            const snack = snackCosts[index];
-                            return [
-                                `Total Cost: Rp ${total.toLocaleString('id-ID')}`,
-                                `Reguler Cost: Rp ${reguler.toLocaleString('id-ID')}`,
-                                `Snack Spesial Cost: Rp ${snack.toLocaleString('id-ID')}`
-                            ];
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: val => 'Rp ' + val.toLocaleString('id-ID'),
                         }
                     }
                 }
             },
-            interaction: {
-                mode: 'index',
-                intersect: false,
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: val => 'Rp ' + val.toLocaleString('id-ID'),
+            plugins: [
+                {
+                    id: 'customDataLabel',
+                    afterDatasetsDraw(chart) {
+                        const ctx = chart.ctx;
+                        chart.data.datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            if (!meta.hidden) {
+                                meta.data.forEach((element, index) => {
+                                    const { x, y } = element.tooltipPosition();
+                                    const totalCost = dataset.data[index];
+                                    ctx.fillStyle = 'rgba(54, 162, 235, 1)';
+                                    ctx.font = 'bold 12px Arial';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+                                    ctx.fillText('Rp ' + totalCost.toLocaleString('id-ID'), x, y - 6);
+                                });
+                            }
+                        });
+                    }
+                },
+                {
+                    id: 'avgLine',
+                    afterDraw(chart) {
+                        const { ctx, chartArea: { top, bottom, left, right }, scales: { y } } = chart;
+                        const yPos = y.getPixelForValue(avgCost);
+
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.setLineDash([5, 5]);
+                        ctx.moveTo(left, yPos);
+                        ctx.lineTo(right, yPos);
+                        ctx.strokeStyle = 'rgba(255, 99, 132, 0.8)';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+
+                        ctx.font = 'bold 12px Arial';
+                        ctx.fillStyle = 'rgba(255, 99, 132, 0.8)';
+                        ctx.textAlign = 'right';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(`Rata-rata: Rp ${avgCost.toLocaleString('id-ID')}`, right - 5, yPos - 5);
+
+                        ctx.restore();
                     }
                 }
-            }
-        },
-        plugins: [
-            {
-                id: 'customDataLabel',
-                afterDatasetsDraw(chart) {
-                    const ctx = chart.ctx;
-                    chart.data.datasets.forEach((dataset, i) => {
-                        const meta = chart.getDatasetMeta(i);
-                        if (!meta.hidden) {
-                            meta.data.forEach((element, index) => {
-                                const { x, y } = element.tooltipPosition();
-                                const totalCost = dataset.data[index];
-                                ctx.fillStyle = 'rgba(54, 162, 235, 1)';
-                                ctx.font = 'bold 12px Arial';
-                                ctx.textAlign = 'center';
-                                ctx.textBaseline = 'bottom';
-                                ctx.fillText('Rp ' + totalCost.toLocaleString('id-ID'), x, y - 6);
-                            });
-                        }
-                    });
-                }
-            },
-            {
-                id: 'avgLine',
-                afterDraw(chart) {
-                    const { ctx, chartArea: { top, bottom, left, right }, scales: { y } } = chart;
-                    const yPos = y.getPixelForValue(avgCost);
-
-                    // Gambar garis putus-putus
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.setLineDash([5, 5]);
-                    ctx.moveTo(left, yPos);
-                    ctx.lineTo(right, yPos);
-                    ctx.strokeStyle = 'rgba(255, 99, 132, 0.8)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-
-                    // Tulis label di ujung kanan
-                    ctx.font = 'bold 12px Arial';
-                    ctx.fillStyle = 'rgba(255, 99, 132, 0.8)';
-                    ctx.textAlign = 'right';
-                    ctx.textBaseline = 'bottom';
-                    ctx.fillText(`Rata-rata: Rp ${avgCost.toLocaleString('id-ID')}`, right - 5, yPos - 5);
-
-                    ctx.restore();
-                }
-            }
-        ]
-    });
-}
-
-
+            ]
+        });
+    }
 
     function updateTotals(data, tanggalAwal, tanggalAkhir) {
-    console.log('data:', data);
-    console.log('tanggalAwal:', tanggalAwal, 'tanggalAkhir:', tanggalAkhir);
+    // console.log('data:', data);
+    // console.log('tanggalAwal:', tanggalAwal, 'tanggalAkhir:', tanggalAkhir);
 
     const startDate = new Date(tanggalAwal);
     const endDate = new Date(tanggalAkhir);
 
-    console.log('startDate:', startDate);
-    console.log('endDate:', endDate);
+    // console.log('startDate:', startDate);
+    // console.log('endDate:', endDate);
 
     if (isNaN(startDate) || isNaN(endDate)) {
         console.error('Tanggal awal atau akhir tidak valid');
@@ -1837,7 +1625,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('totalSisa').textContent = `Remaining Budget: ${formatCurrency(Math.round(sisaCostProrata))}`;
     document.getElementById('totalCostAllDept').textContent = `Actual Cost: ${formatCurrency(data.total_semua_cost)}`;
 }
-
 
 });
 
@@ -1887,7 +1674,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(console.error);
     }
 
-    // Tombol filter klik
+
     document.getElementById('buttonFilterSnack').addEventListener('click', ambilDataSnack);
 
     function tampilkanGrafik(data) {
@@ -1977,7 +1764,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 🔥 Load grafik pertama kali saat halaman dibuka
     ambilDataSnack();
 });
 
@@ -1993,7 +1779,6 @@ document.addEventListener('DOMContentLoaded', function () {
         tahunSnack: today.getFullYear()
     };
 
-    // Set default value ke input
     Object.keys(defaultParams).forEach(key => {
         const el = document.getElementById(key);
         if (el) el.value = defaultParams[key];
@@ -2058,8 +1843,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
-    // Cek per index (bulan) — kalau semua dataset di bulan itu 0, hapus label dan value di posisi itu
     for (let i = labels.length - 1; i >= 0; i--) {
         const totalPerBulan = datasets.reduce((sum, ds) => sum + ds.data[i], 0);
         if (totalPerBulan === 0) {
@@ -2072,19 +1855,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (dailyMothlyDeptChartSnack) dailyMothlyDeptChartSnack.destroy();
 
-    // Kalau habis semua, tampilkan alert
     if (labels.length === 0) {
         alert('Data tidak ditemukan untuk periode tersebut!');
     }
 
-    // Cari nilai maksimum dari semua dataset
     let maxValue = 0;
     datasets.forEach(ds => {
         const maxData = Math.max(...ds.data);
         if (maxData > maxValue) maxValue = maxData;
     });
 
-    // Tambahkan padding ke max value biar nggak mepet
     const yMax = maxValue + 1;
 
 
@@ -2159,7 +1939,7 @@ document.addEventListener('DOMContentLoaded', function () {
         plugins: [ChartDataLabels]
     });
 }
-    // Langsung load grafik per bulan pertama kali
+  
     ambilDataSnackPerBulan();
 
     function getRandomColor() {
@@ -2174,11 +1954,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return colors[Math.floor(Math.random() * colors.length)];
     }
 });
-
-
-
-
-
 
 
 </script>

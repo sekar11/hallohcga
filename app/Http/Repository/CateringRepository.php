@@ -1658,8 +1658,192 @@ class CateringRepository
 //     ];
 // }
 
+// public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
+// {
+//     $tableMappings = [
+//         'COE' => 'mk_coe',
+//         'HCGA' => 'mk_hcga',
+//         'ENG' => 'mk_eng',
+//         'SHE' => 'mk_she',
+//         'FALOG' => 'mk_falog',
+//         'PRO' => 'mk_prod',
+//         'PLANT' => 'mk_plant',
+//     ];
+
+//     $excludedColumns = [
+//         'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
+//         'approval_by', 'approval_on', 'approval_desc',
+//         'revisi_by', 'revisi_on', 'revisi_desc', 'visitor'
+//     ];
+
+//     $dailyActuals = [];
+
+//     // Mk Reguler 
+//     foreach ($tableMappings as $table) {
+//         if (!Schema::hasTable($table)) continue;
+
+//         $columns = Schema::getColumnListing($table);
+//         $numericColumns = array_filter($columns, fn($col) => !in_array($col, $excludedColumns));
+
+//         if (empty($numericColumns)) continue;
+
+//         $totalExpression = implode(' + ', array_map(fn($col) => "COALESCE($col,0)", $numericColumns));
+
+//         $data = DB::table($table)
+//             ->select(
+//                 'tanggal',
+//                 DB::raw("SUM(CASE WHEN waktu IN ('Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam') THEN $totalExpression ELSE 0 END) as total_actual")
+//             )
+//             ->where('status', 2)
+//             ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+//             ->groupBy('tanggal')
+//             ->get();
+
+//         foreach ($data as $row) {
+//             $tanggal = $row->tanggal;
+//             $actual = $row->total_actual ?? 0;
+//             $dailyActuals[$tanggal]['reguler_cost'] = ($dailyActuals[$tanggal]['reguler_cost'] ?? 0) + $actual;
+//         }
+//     }
+
+//     // Mk Mess Putri & Meicu
+//     foreach (['mk_mess_putri', 'mk_mess_meicu'] as $table) {
+//         if (!Schema::hasTable($table)) continue;
+
+//         $columns = Schema::getColumnListing($table);
+//         $numericColumns = array_filter($columns, fn($col) => !in_array($col, $excludedColumns));
+
+//         if (empty($numericColumns)) continue;
+
+//         $totalExpression = implode(' + ', array_map(fn($col) => "COALESCE($col,0)", $numericColumns));
+
+//         $data = DB::table($table)
+//             ->select(
+//                 'tanggal',
+//                 DB::raw("SUM(CASE WHEN waktu IN ('Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam') THEN $totalExpression ELSE 0 END) as total_actual")
+//             )
+//             ->where('status', 2)
+//             ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+//             ->groupBy('tanggal')
+//             ->get();
+
+//         foreach ($data as $row) {
+//             $tanggal = $row->tanggal;
+//             $actual = $row->total_actual ?? 0;
+//             $dailyActuals[$tanggal]['reguler_cost'] = ($dailyActuals[$tanggal]['reguler_cost'] ?? 0) + $actual;
+//         }
+//     }
+
+//     // Mk Mess Umum
+//     if (Schema::hasTable('mk_mess')) {
+//         $columns = Schema::getColumnListing('mk_mess');
+//         $numericColumns = array_filter($columns, fn($col) => Str::startsWith($col, 'mess_') || Str::startsWith($col, 'rebusan_'));
+
+//         if (!empty($numericColumns)) {
+//             $totalExpression = implode(' + ', array_map(fn($col) => "COALESCE($col,0)", $numericColumns));
+
+//             $data = DB::table('mk_mess')
+//                 ->select(
+//                     'tanggal',
+//                     DB::raw("SUM(CASE WHEN waktu IN ('Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam') THEN $totalExpression ELSE 0 END) as total_actual")
+//                 )
+//                 ->where('status', 2)
+//                 ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+//                 ->groupBy('tanggal')
+//                 ->get();
+
+//             foreach ($data as $row) {
+//                 $tanggal = $row->tanggal;
+//                 $actual = $row->total_actual ?? 0;
+//                 $dailyActuals[$tanggal]['reguler_cost'] = ($dailyActuals[$tanggal]['reguler_cost'] ?? 0) + $actual;
+//             }
+//         }
+//     }
+
+//     // Snack
+//     $snackData = DB::table('mk_snack')
+//         ->select('tanggal', DB::raw('SUM(jumlah) as total'))
+//         ->where('status', 2)
+//         ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+//         ->groupBy('tanggal')
+//         ->get();
+
+//     foreach ($snackData as $row) {
+//         $tanggal = $row->tanggal;
+//         $actual = $row->total ?? 0;
+//         $dailyActuals[$tanggal]['snack_spesial_cost'] = ($dailyActuals[$tanggal]['snack_spesial_cost'] ?? 0) + $actual;
+//     }
+
+//     // Spesial
+//     $spesialData = DB::table('mk_spesial')
+//         ->select('tanggal', DB::raw('SUM(jumlah) as total'))
+//         ->where('status', 2)
+//         ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+//         ->groupBy('tanggal')
+//         ->get();
+
+//     foreach ($spesialData as $row) {
+//         $tanggal = $row->tanggal;
+//         $actual = $row->total ?? 0;
+//         $dailyActuals[$tanggal]['snack_spesial_cost'] = ($dailyActuals[$tanggal]['snack_spesial_cost'] ?? 0) + $actual;
+//     }
+
+//     // Final result
+//     $result = [];
+//     $totalSemuaCost = 0;
+//     $hargaPerPorsi = 17000;
+
+//     foreach ($dailyActuals as $tanggal => $values) {
+//         $reguler = $values['reguler_cost'] ?? 0;
+//         $snackSpesial = $values['snack_spesial_cost'] ?? 0;
+//         $totalActual = $reguler + $snackSpesial;
+//         $cost = $totalActual * $hargaPerPorsi;
+
+//         $result[] = [
+//             'tanggal' => $tanggal,
+//             'total_cost' => $cost,
+//             'reguler_cost' => $reguler * $hargaPerPorsi,
+//             'snack_spesial_cost' => $snackSpesial * $hargaPerPorsi,
+//         ];
+
+//         $totalSemuaCost += $cost;
+//     }
+
+//     usort($result, fn($a, $b) => strcmp($a['tanggal'], $b['tanggal']));
+
+//     $fixedCost = 2100000000;
+//     $sisaCost = $fixedCost - $totalSemuaCost;
+
+//     return [
+//         'data_per_hari' => $result,
+//         'total_semua_cost' => $totalSemuaCost,
+//         'cost' => $fixedCost,
+//         'sisa_cost' => $sisaCost,
+//     ];
+// }
+
 public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
 {
+    // Daftar harga berdasarkan jenis snack/spesial
+    $harga = [
+        "Snack Biasa" => 13000,
+        "Snack Spesial" => 25000,
+        "Parcel Buah Biasa" => 100000,
+        "Parcel Buah Spesial" => 150000,
+        "Aqua botol 330 ml" => 50000,
+        "Aqua botol 600 ml" => 55000,
+        "Pempek" => 6000,
+        "Kopi" => 10000,
+        "Teh" => 10000,
+        "Aqua Cup 220 ml" => 40000,
+        "Wedang Jahe" => 10000,
+        "MK Spesial" => 25000,
+        "Nasi Liwet" => 35000,
+        "Ayam Bakar" => 35000,
+        "Prasmanan" => 35000,
+        "Bubur Jubaidah" => 9500,
+    ];
+
     $tableMappings = [
         'COE' => 'mk_coe',
         'HCGA' => 'mk_hcga',
@@ -1678,7 +1862,7 @@ public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
 
     $dailyActuals = [];
 
-    // Mk Reguler 
+    // Hitung biaya reguler (mk_coe, mk_hcga, dst)
     foreach ($tableMappings as $table) {
         if (!Schema::hasTable($table)) continue;
 
@@ -1706,7 +1890,7 @@ public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
         }
     }
 
-    // Mk Mess Putri & Meicu
+    // Mk Mess Putri & Meicu (cara sama dengan di atas)
     foreach (['mk_mess_putri', 'mk_mess_meicu'] as $table) {
         if (!Schema::hasTable($table)) continue;
 
@@ -1734,7 +1918,7 @@ public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
         }
     }
 
-    // Mk Mess Umum
+    // Mk Mess Umum (khusus kolom yang diawali mess_ dan rebusan_)
     if (Schema::hasTable('mk_mess')) {
         $columns = Schema::getColumnListing('mk_mess');
         $numericColumns = array_filter($columns, fn($col) => Str::startsWith($col, 'mess_') || Str::startsWith($col, 'rebusan_'));
@@ -1760,57 +1944,73 @@ public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
         }
     }
 
-    // Snack
-    $snackData = DB::table('mk_snack')
-        ->select('tanggal', DB::raw('SUM(jumlah) as total'))
-        ->where('status', 2)
-        ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
-        ->groupBy('tanggal')
-        ->get();
+    // Hitung Snack (mk_snack) berdasarkan harga jenis masing-masing
+    if (Schema::hasTable('mk_snack')) {
+        $snackItems = DB::table('mk_snack')
+            ->select('tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->where('status', 2)
+            ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+            ->groupBy('tanggal', 'jenis')
+            ->get();
 
-    foreach ($snackData as $row) {
-        $tanggal = $row->tanggal;
-        $actual = $row->total ?? 0;
-        $dailyActuals[$tanggal]['snack_spesial_cost'] = ($dailyActuals[$tanggal]['snack_spesial_cost'] ?? 0) + $actual;
+        foreach ($snackItems as $item) {
+            $tanggal = $item->tanggal;
+            $jenis = $item->jenis;
+            $jumlah = $item->total_jumlah;
+
+            $hargaSnack = $harga[$jenis] ?? 0;
+            $biaya = $jumlah * $hargaSnack;
+
+            $dailyActuals[$tanggal]['snack_cost'] = ($dailyActuals[$tanggal]['snack_cost'] ?? 0) + $biaya;
+        }
     }
 
-    // Spesial
-    $spesialData = DB::table('mk_spesial')
-        ->select('tanggal', DB::raw('SUM(jumlah) as total'))
-        ->where('status', 2)
-        ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
-        ->groupBy('tanggal')
-        ->get();
+    // Hitung Spesial (mk_spesial) berdasarkan harga jenis masing-masing
+    if (Schema::hasTable('mk_spesial')) {
+        $spesialItems = DB::table('mk_spesial')
+            ->select('tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->where('status', 2)
+            ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
+            ->groupBy('tanggal', 'jenis')
+            ->get();
 
-    foreach ($spesialData as $row) {
-        $tanggal = $row->tanggal;
-        $actual = $row->total ?? 0;
-        $dailyActuals[$tanggal]['snack_spesial_cost'] = ($dailyActuals[$tanggal]['snack_spesial_cost'] ?? 0) + $actual;
+        foreach ($spesialItems as $item) {
+            $tanggal = $item->tanggal;
+            $jenis = $item->jenis;
+            $jumlah = $item->total_jumlah;
+
+            $hargaSpesial = $harga[$jenis] ?? 0;
+            $biaya = $jumlah * $hargaSpesial;
+
+            $dailyActuals[$tanggal]['spesial_cost'] = ($dailyActuals[$tanggal]['spesial_cost'] ?? 0) + $biaya;
+        }
     }
 
-    // Final result
+    // Kalkulasi total biaya per tanggal
     $result = [];
     $totalSemuaCost = 0;
-    $hargaPerPorsi = 17000;
 
     foreach ($dailyActuals as $tanggal => $values) {
         $reguler = $values['reguler_cost'] ?? 0;
-        $snackSpesial = $values['snack_spesial_cost'] ?? 0;
-        $totalActual = $reguler + $snackSpesial;
-        $cost = $totalActual * $hargaPerPorsi;
+        $snack = $values['snack_cost'] ?? 0;
+        $spesial = $values['spesial_cost'] ?? 0;
+
+        $totalCost = $reguler * 17000 + $snack + $spesial;
 
         $result[] = [
             'tanggal' => $tanggal,
-            'total_cost' => $cost,
-            'reguler_cost' => $reguler * $hargaPerPorsi,
-            'snack_spesial_cost' => $snackSpesial * $hargaPerPorsi,
+            'total_cost' => $totalCost,
+            'reguler_cost' => $reguler * 17000,
+            'snack_cost' => $snack,
+            'spesial_cost' => $spesial,
         ];
 
-        $totalSemuaCost += $cost;
+        $totalSemuaCost += $totalCost;
     }
 
     usort($result, fn($a, $b) => strcmp($a['tanggal'], $b['tanggal']));
 
+    // Contoh fixed cost, sesuaikan dengan kebutuhan
     $fixedCost = 2100000000;
     $sisaCost = $fixedCost - $totalSemuaCost;
 
@@ -1821,7 +2021,6 @@ public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
         'sisa_cost' => $sisaCost,
     ];
 }
-
 
 
 
