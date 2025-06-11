@@ -59,7 +59,7 @@ class LapCateringDeptRepository
         $excludedColumns = [
             'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
             'approval_by', 'approval_on', 'approval_desc',
-            'revisi_by', 'revisi_on', 'revisi_desc','ss6'
+            'revisi_by', 'revisi_on', 'revisi_desc','ss6','visitor'
         ];
 
         $numericColumns = array_filter($columns, function ($column) use ($excludedColumns) {
@@ -219,7 +219,7 @@ class LapCateringDeptRepository
         $excludedColumns = [
             'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
             'approval_by', 'approval_on', 'approval_desc',
-            'revisi_by', 'revisi_on', 'revisi_desc'
+            'revisi_by', 'revisi_on', 'revisi_desc','ss6','visitor'
         ];
 
         // Ambil kolom numerik untuk perhitungan total
