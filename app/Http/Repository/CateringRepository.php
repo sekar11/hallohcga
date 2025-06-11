@@ -87,7 +87,7 @@ class CateringRepository
         $excludedColumns = [
             'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
             'approval_by', 'approval_on', 'approval_desc',
-            'revisi_by', 'revisi_on', 'revisi_desc'
+            'revisi_by', 'revisi_on', 'revisi_desc', 'ss6', 'visitor'
         ];
 
         $numericColumns = array_filter($columns, function ($column) use ($excludedColumns) {
@@ -108,6 +108,7 @@ class CateringRepository
                 DB::raw("($totalExpression) AS total")
             )
             ->orderBy('tanggal', 'DESC')
+            ->where('ss6', 1)
             ->get();
     }
 
@@ -275,7 +276,7 @@ class CateringRepository
 
         $columns = Schema::getColumnListing($table);
 
-        $excludedColumns = ['id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status', 'approval_by', 'approval_on', 'approval_desc', 'revisi_by', 'revisi_on', 'revisi_desc'];
+        $excludedColumns = ['id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status', 'approval_by', 'approval_on', 'approval_desc', 'revisi_by', 'revisi_on', 'revisi_desc','ss6', 'visitor'];
 
         $numericColumns = array_filter($columns, function ($column) use ($excludedColumns) {
             return !in_array($column, $excludedColumns);
