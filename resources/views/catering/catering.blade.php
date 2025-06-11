@@ -2462,14 +2462,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const deleteBtn = document.getElementById('btn-hide-delete');
         const sendBtn = document.getElementById('btn-hide-send');
 
-        // hide tombol Add di jam 16:00 - 06:59
-        if (hours >= 16 || hours < 7) {
+        // if (hours >= 16 || hours < 7) {
+        //     if (openModalBtn) openModalBtn.style.display = 'none';
+        // } else {
+        //     if (openModalBtn) openModalBtn.style.display = 'inline-block';
+        // }
+
+        if ((hours >= 16 && hours < 21) || (hours >= 23 || hours < 6)) {
             if (openModalBtn) openModalBtn.style.display = 'none';
         } else {
             if (openModalBtn) openModalBtn.style.display = 'inline-block';
         }
 
-        // hide tombol Edit/Delete/Kirim Revisi di jam 19:00 - 06:59
         if (hours >= 19 || hours < 7) {
             if (editBtn) editBtn.style.display = 'none';
             if (deleteBtn) deleteBtn.style.display = 'none';
