@@ -589,11 +589,21 @@
                             <input type="hidden" name="id" id="id"/>
                             <form id="cateringSnackForm" class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" accept="image/*" capture="environment">
                             @csrf
-                            <div class="row mt-3">
+                            <div class="row mb-3 g-3">
                                 <div class="col-md-3">
                                 <div class="form-floating">
                                     <input type="date" class="form-control" id="tanggal_snack_add" name="tanggal_snack_add" placeholder="Tanggal">
                                     <label for="message-text">Tanggal </label>
+                                </div>
+                                </div>
+                                <div class="col-md-9">
+                                <div class="form-floating">
+                                    <select class="form-control" id="tipeSnack" name="tipeSnack">
+                                        <option value="">Pilih Jenis Meeting</option>
+                                        <option value="Internal">Meeting Internal</option>
+                                        <option value="External">Meeting External</option>
+                                    </select>
+                                    <label for="tipeSnack">Jenis Meeting</label>
                                 </div>
                                 </div>
                             </div>
@@ -635,7 +645,6 @@
                                     </select>
                                     <label for="gedung_snack_add">Gedung</label>
                                 </div>
-
                                 </div>
                                 <div class="col-md-3">
                                 <div class="form-floating">
@@ -645,19 +654,8 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <select class="form-select" name="snack_add[]">
-                                            <option value="">- Pilih Snack -</option>
-                                            <option value="Snack Biasa">Snack Biasa</option>
-                                            <option value="Snack Spesial">Snack Spesial</option>
-                                            <option value="Parcel Buah Biasa">Parcel Buah Biasa</option>
-                                            <option value="Parcel Buah Spesial">Parcel Buah Spesial</option>
-                                            <option value="Pempek">Pempek</option>
-                                            <option value="Kopi">Kopi Iglo</option>
-                                            <option value="Teh">Teh Iglo</option>
-                                            <option value="Wedang Jahe">Wedang Jahe</option>
-                                            <option value="Aqua Cup 220 ml">Aqua Cup 220 ml</option>
-                                            <option value="Aqua botol 330 ml">Aqua botol 330 ml</option>
-                                            <option value="Aqua botol 660 ml">Aqua botol 660 ml</option>
+                                        <select class="form-select snack-select" name="snack_add[]">
+                                            <option value="">- Pilih Snack -</option>                                                       
                                         </select>
                                         <label>Snack</label>
                                     </div>
@@ -697,7 +695,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- End Modal Add --}}
+                <!-- {{-- End Modal Add --}} -->
 
                 <!--Modal Add MK Spesial-->
                 <div class="modal fade modal_add_spesial" id="cateringSpesialModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
@@ -1077,6 +1075,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 
 <script>
+    
 
 $(document).ready(function() {
     $("#exportModal form").on("submit", function(event) {
@@ -2972,6 +2971,57 @@ $(document).ready(function() {
             gedungSelect.disabled = true;
         }
     });
+
+
+// JENIS SNACK
+$(document).ready(function() {
+    // Hide snack-item awal
+    $('#snack-container').hide();
+
+    // Definisikan opsi sesuai tipeSnack
+    const snackOptions = {
+        "Internal": [
+            "Snack Biasa", "Snack Spesial", "Parcel Buah Biasa",
+            "Parcel Buah Spesial", "Pempek", "Kopi"
+        ],
+        "External": [
+            "Teh", "Wedang Jahe", "Aqua Cup 220 ml",
+            "Aqua botol 330 ml", "Aqua botol 660 ml"
+        ]
+    };
+
+    // Saat tipeSnack berubah
+    $('#tipeSnack').on('change', function() {
+        const selectedType = $(this).val();
+        const snackSelect = $('.snack-select');
+
+        if(selectedType === "") {
+            // Hide jika kosong
+            $('#snack-container').hide();
+        } else {
+            // Tampilkan snack-container
+            $('#snack-container').show();
+
+            // Kosongkan dulu semua opsi snack
+            snackSelect.empty();
+
+            // Tambahkan opsi default
+            snackSelect.append('<option value="">- Pilih Snack -</option>');
+
+            // Tambahkan opsi sesuai tipe
+            if(selectedType.includes("Internal")) {
+                snackOptions.Internal.forEach(function(item) {
+                    snackSelect.append('<option value="'+item+'">'+item+'</option>');
+                });
+            } else if(selectedType.includes("External")) {
+                snackOptions.External.forEach(function(item) {
+                    snackSelect.append('<option value="'+item+'">'+item+'</option>');
+                });
+            }
+        }
+    });
+});
+
 
 
 </script>
