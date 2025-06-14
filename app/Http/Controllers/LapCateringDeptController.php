@@ -556,7 +556,7 @@ class LapCateringDeptController extends Controller
 
     public function edit(Request $request, $id)
     {
-        //dd($request);
+        
         $userTeam = request('departemen');
 
        $tableMapping = [
@@ -588,7 +588,8 @@ class LapCateringDeptController extends Controller
 
         $columnMappings = [
             'COE' => [
-               'tanggal' => 'tanggal',
+                'ss6' => 'ss6',
+                'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'section' => 'section',
                 'tamu_ho' => 'tamu_ho',
@@ -607,6 +608,7 @@ class LapCateringDeptController extends Controller
                 'visitor' => 'visitor',
             ],
             'HCGA' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'pjo' => 'pjo',
@@ -656,6 +658,7 @@ class LapCateringDeptController extends Controller
                 'visitor_meicu' => 'visitor_meicu',
             ],
             'ENG' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'dept_head' => 'dept_head',
@@ -678,6 +681,7 @@ class LapCateringDeptController extends Controller
                 'visitor' => 'visitor',
             ],
             'SHE' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'dept_head' => 'dept_head',
@@ -700,6 +704,7 @@ class LapCateringDeptController extends Controller
                 'visitor' => 'visitor',
             ],
             'FALOG' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'dept_head' => 'dept_head',
@@ -723,6 +728,7 @@ class LapCateringDeptController extends Controller
                 'driver_fa_log' => 'driver_fa_log'
             ],
             'PROD' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'dept_sect_csapit1' => 'dept_sect_csapit1',
@@ -755,6 +761,7 @@ class LapCateringDeptController extends Controller
                 'visitor' => 'visitor',
             ],
             'PLANT' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'dept_head' => 'dept_head',
@@ -807,6 +814,7 @@ class LapCateringDeptController extends Controller
                 'visitor' => 'visitor',
             ],
             'MARBOT' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'marbot' => 'marbot',
@@ -814,6 +822,7 @@ class LapCateringDeptController extends Controller
                 'security_laundry' => 'security_laundry'
             ],
             'AMM' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'mess_b1' => 'mess_b1',
@@ -828,6 +837,7 @@ class LapCateringDeptController extends Controller
                 'spare_amm' => 'spare_amm',
             ],
             'MESS' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'mess_a1' => 'mess_a1',
@@ -858,6 +868,7 @@ class LapCateringDeptController extends Controller
                 'spare_mess'=> 'spare_mess',
             ],
             'Mess Putri' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'mess_gl' => 'mess_gl',
@@ -867,6 +878,7 @@ class LapCateringDeptController extends Controller
                 'helper_mess' => 'helper_mess'
             ],
             'MESS_MEICU' => [
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'total' => 'total',
@@ -884,6 +896,7 @@ class LapCateringDeptController extends Controller
                 'magang' => 'magang',
             ],
             'Mess A1' => array_merge([
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'rebusan_a1' => 'rebusan_a1',
@@ -894,6 +907,7 @@ class LapCateringDeptController extends Controller
                 array_map(fn($i) => "kamar_$i", range(1, 38))
             )),
             'Mess C3' => array_merge([
+                'ss6' => 'ss6',
                 'tanggal' => 'tanggal',
                 'waktu' => 'waktu',
                 'rebusan_c3' => 'rebusan_c3',
@@ -925,7 +939,7 @@ class LapCateringDeptController extends Controller
             $data[$columnName] = $value;
         }
 
-        $data['ss6'] = 2;
+        //$data['ss6'] = 2;
         $update = DB::table($table)->where('id', $id)->update($data);
 
         if ($update) {

@@ -1880,11 +1880,12 @@ $('.edit').click(function() {
             }
 
             console.log('Response Data:', response);
-let ss6Value = response.ss6;
+            let ss6Value = response.ss6;
             let userTeam = departemen;
 
             let customLabels = {
                 'COE': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'section': 'section',
@@ -1904,6 +1905,7 @@ let ss6Value = response.ss6;
                     'visitor': 'visitor'
                 },
                 'HCGA': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'pjo': 'pjo',
@@ -1953,6 +1955,7 @@ let ss6Value = response.ss6;
                     'visitor_meicu': 'visitor_meicu',
                 },
                 'ENG' : {
+                    'ss6': 'ss6',
                     'tanggal' : 'tanggal',
                     'waktu' : 'waktu',
                     'dept_head' : 'dept_head',
@@ -1971,6 +1974,7 @@ let ss6Value = response.ss6;
                     'warehouse_pldp' : 'warehouse_pldp'
                 },
                 'SHE': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'dept_head': 'dept_head',
@@ -1993,6 +1997,7 @@ let ss6Value = response.ss6;
                     'visitor': 'visitor'
                 },
                 'FALOG': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'dept_head': 'dept_head',
@@ -2018,6 +2023,7 @@ let ss6Value = response.ss6;
                     'visitor': 'visitor'
                 },
                 'PROD': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'dept_sect_csapit1': 'dept_sect_csapit1',
@@ -2050,6 +2056,7 @@ let ss6Value = response.ss6;
                     'visitor': 'visitor'
                 },
                 'PLANT': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'dept_head': 'dept_head',
@@ -2102,6 +2109,7 @@ let ss6Value = response.ss6;
                     'visitor': 'visitor'
                 },
                 'MARBOT': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'total': 'total',
@@ -2110,6 +2118,7 @@ let ss6Value = response.ss6;
                     'security_laundry': 'security_laundry'
                 },
                 'Mess A1': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'rebusan_a1': 'rebusan_a1',
@@ -2118,6 +2127,7 @@ let ss6Value = response.ss6;
                     ...Object.fromEntries(Array.from({ length: 38 }, (_, i) => [`kamar_${i + 1}`, `kamar_${i + 1}`]))
                 },
                 'Mess C3': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'rebusan_c3': 'rebusan_c3',
@@ -2126,6 +2136,7 @@ let ss6Value = response.ss6;
                     ...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [`kamar_${i + 1}`, `kamar_${i + 1}`]))
                 },
                 'AMM': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'mess_b1': 'mess_b1',
@@ -2140,6 +2151,7 @@ let ss6Value = response.ss6;
                     'spare_amm': 'spare_amm',
                 },
                 'MESS': {
+                        'ss6': 'ss6',
                         'tanggal': 'tanggal',
                         'waktu': 'waktu',
                         'mess_a1': 'mess_a1',
@@ -2167,6 +2179,7 @@ let ss6Value = response.ss6;
                         'rebusan_c3': 'rebusan_c3',
                     },
                 'Mess Putri' : {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'total': 'total',
@@ -2177,6 +2190,7 @@ let ss6Value = response.ss6;
                     'helper_mess': 'helper_mess'
                 },
                 'MESS_MEICU': {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'total': 'total',
@@ -2197,6 +2211,7 @@ let ss6Value = response.ss6;
 
             for (let i = 1; i <= 10; i++) {
                 customLabels[`Mess B${i}`] = {
+                    'ss6': 'ss6',
                     'tanggal': 'tanggal',
                     'waktu': 'waktu',
                     'rebusan': 'rebusan',
