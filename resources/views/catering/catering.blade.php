@@ -2541,7 +2541,7 @@ $(document).ready(function() {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: mode === 'edit' ? 'Catering berhasil diperbarui!' : 'Catering berhasil ditambahkan!',
+                        text: mode === 'edit' ? 'Snack berhasil diperbarui!' : 'Snack berhasil ditambahkan!',
                     }).then(() => {
                         // Bersihkan modal sebelum refresh
                         window.location.href = window.location.href;
@@ -2981,12 +2981,12 @@ $(document).ready(function() {
     // Definisikan opsi sesuai tipeSnack
     const snackOptions = {
         "Internal": [
-            "Snack Biasa", "Snack Spesial", "Parcel Buah Biasa",
-            "Parcel Buah Spesial", "Pempek", "Kopi"
+            "Snack Biasa", "Parcel Buah Biasa",
+            "Teh", "Kopi","Aqua botol 330 ml", "Aqua botol 660 ml", "Bubur Sum Sum", "Bubur Jubaidah"
         ],
         "External": [
-            "Teh", "Wedang Jahe", "Aqua Cup 220 ml",
-            "Aqua botol 330 ml", "Aqua botol 660 ml"
+            "Snack Biasa", "Snack Spesial", "Parcel Buah Biasa","Parcel Buah Spesial","Pempek", "Batagor", "Siomay",
+            "Teh", "Kopi","Wedang Jahe","Aqua botol 330 ml", "Aqua botol 660 ml", "Bubur Sum Sum", "Bubur Jubaidah"
         ]
     };
 

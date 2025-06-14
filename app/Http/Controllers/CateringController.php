@@ -1071,7 +1071,7 @@ class CateringController extends Controller
             'keterangan_snack_add'  => 'keterangan'
         ];
 
-        $inputData = $request->except(['_token', 'table_name']);
+        $inputData = $request->except(['_token', 'table_name', 'tipeSnack']);
 
         $data = [];
         foreach ($inputData as $inputName => $value) {

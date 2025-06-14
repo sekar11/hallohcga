@@ -499,6 +499,7 @@ class LapCateringDeptController extends Controller
 
     public function storeSpesial(Request $request)
     {
+
         $createdBy = auth()->user()->nama;
 
         $tanggal  = $request->tanggal_spesial_add;
@@ -924,6 +925,7 @@ class LapCateringDeptController extends Controller
             $data[$columnName] = $value;
         }
 
+        $data['ss6'] = 2;
         $update = DB::table($table)->where('id', $id)->update($data);
 
         if ($update) {
