@@ -304,12 +304,10 @@ class DashboardController extends Controller
 
     public function getPlanActualOrderDataMonthlyAllMess(Request $request)
     {
-        //
         $bulan = $request->input('bulanMess');
         $tahun = $request->input('tahunAllMess');
 
         $result = $this->CateringRepository->getGrafikMonthlyAllMess($bulan, $tahun);
-
         return response()->json($result);
     }
 
@@ -335,7 +333,7 @@ class DashboardController extends Controller
         return response()->json($result);
     }
 
- public function getGrafikSnackPerBulan(Request $request)
+    public function getGrafikSnackPerBulan(Request $request)
     {
         $bulanAwal   = $request->bulanAwal;
         $bulanAkhir  = $request->bulanAkhir;
@@ -344,7 +342,6 @@ class DashboardController extends Controller
 
         $data = $this->CateringRepository->getSnackDataPerBulan($bulanAwal, $bulanAkhir, $tahun, $departemen);
 
-        // Siapkan data untuk chart.js
         $labels = [];
         for ($i = $bulanAwal; $i <= $bulanAkhir; $i++) {
             $labels[] = date('M', mktime(0, 0, 0, $i, 10));
@@ -354,12 +351,21 @@ class DashboardController extends Controller
 
         $datasets = [];
         foreach ($jenisList as $jenis) {
-            $datasets[$jenis] = [];
+            $datasets[$jenis] = [
+                'data' => [],
+                'harga' => null
+            ];
 
             foreach (range($bulanAwal, $bulanAkhir) as $bulan) {
                 $found = $data->firstWhere(fn($d) => $d->jenis === $jenis && (int)$d->bulan === $bulan);
                 $jumlah = $found ? (int)$found->total : 0;
-                $datasets[$jenis][] = $jumlah;
+
+                // Ambil harga dari data pertama yang ditemukan
+                if ($found && $datasets[$jenis]['harga'] === null) {
+                    $datasets[$jenis]['harga'] = $found->harga;
+                }
+
+                $datasets[$jenis]['data'][] = $jumlah;
             }
         }
 
@@ -368,6 +374,7 @@ class DashboardController extends Controller
             'datasets' => $datasets
         ]);
     }
+
 
 
 

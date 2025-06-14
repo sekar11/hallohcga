@@ -885,12 +885,14 @@ class CateringRepository
             $table = 'mk_mess_putri';
         } elseif ($messKey == 'mess meicu') {
             $table = 'mk_mess_meicu';
+        } elseif ($messKey == 'mess amm') {
+            $table = 'mk_mess_amm';
         } else {
             $table = 'mk_mess';
         }
 
         // Tentukan total expression
-        if (in_array($messKey, ['mess putri', 'mess meicu'])) {
+        if (in_array($messKey, ['mess putri', 'mess meicu','mess amm'])) {
             // Ambil semua kolom numeric
             $columns = Schema::getColumnListing($table);
             $excludedColumns = [
@@ -954,7 +956,7 @@ class CateringRepository
             }
         }
 
-        $departemenList = array_merge(array_keys($customMess), ['mess putri', 'mess meicu']);
+        $departemenList = array_merge(array_keys($customMess), ['mess putri', 'mess meicu', 'mess amm']);
         $results = [];
         $totalTambangActual = 0;
         $totalTambangPlan = 0;
@@ -965,12 +967,14 @@ class CateringRepository
                 $table = 'mk_mess_putri';
             } elseif ($departemen == 'mess meicu') {
                 $table = 'mk_mess_meicu';
+            } elseif ($departemen == 'mess amm') {
+                $table = 'mk_mess_amm';
             } else {
                 $table = 'mk_mess';
             }
 
             // Tentukan total expression
-            if (in_array($departemen, ['mess putri', 'mess meicu'])) {
+            if (in_array($departemen, ['mess putri', 'mess meicu', 'mess amm'])) {
                 $columns = Schema::getColumnListing($table);
                 $excludedColumns = [
                     'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
@@ -1031,11 +1035,8 @@ class CateringRepository
         ];
     }
 
-
-    // COST DEPARTEMEN
     public function getGrafikDailyAllCost($tanggalAwal, $tanggalAkhir)
     {
-        // Daftar harga berdasarkan jenis snack/spesial
         $harga = [
             "Snack Biasa" => 13000,
             "Snack Spesial" => 25000,
@@ -1073,7 +1074,6 @@ class CateringRepository
 
         $dailyActuals = [];
 
-        // Hitung biaya reguler (mk_coe, mk_hcga, dst)
         foreach ($tableMappings as $table) {
             if (!Schema::hasTable($table)) continue;
 
@@ -1102,7 +1102,7 @@ class CateringRepository
         }
 
         // Mk Mess Putri & Meicu (cara sama dengan di atas)
-        foreach (['mk_mess_putri', 'mk_mess_meicu'] as $table) {
+        foreach (['mk_mess_putri', 'mk_mess_meicu', 'mk_mess_amm'] as $table) {
             if (!Schema::hasTable($table)) continue;
 
             $columns = Schema::getColumnListing($table);
@@ -1155,10 +1155,9 @@ class CateringRepository
             }
         }
 
-        // Hitung Snack (mk_snack) berdasarkan harga jenis masing-masing
         if (Schema::hasTable('mk_snack')) {
             $snackItems = DB::table('mk_snack')
-                ->select('tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'))
+                ->select('tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'), DB::raw('AVG(harga) as harga_satuan'))
                 ->where('status', 2)
                 ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
                 ->groupBy('tanggal', 'jenis')
@@ -1169,17 +1168,21 @@ class CateringRepository
                 $jenis = $item->jenis;
                 $jumlah = $item->total_jumlah;
 
-                $hargaSnack = $harga[$jenis] ?? 0;
+                // Ambil harga: dari kolom harga kalau ada, kalau tidak dari mapping harga, kalau tidak default 15000
+                $hargaSnack = $item->harga_satuan > 0
+                    ? $item->harga_satuan
+                    : ($harga[$jenis] ?? 15000);
+
                 $biaya = $jumlah * $hargaSnack;
 
                 $dailyActuals[$tanggal]['snack_cost'] = ($dailyActuals[$tanggal]['snack_cost'] ?? 0) + $biaya;
             }
         }
 
-        // Hitung Spesial (mk_spesial) berdasarkan harga jenis masing-masing
+        // Hitung Spesial (mk_spesial)
         if (Schema::hasTable('mk_spesial')) {
             $spesialItems = DB::table('mk_spesial')
-                ->select('tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'))
+                ->select('tanggal', 'jenis', DB::raw('SUM(jumlah) as total_jumlah'), DB::raw('AVG(harga) as harga_satuan'))
                 ->where('status', 2)
                 ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
                 ->groupBy('tanggal', 'jenis')
@@ -1190,7 +1193,11 @@ class CateringRepository
                 $jenis = $item->jenis;
                 $jumlah = $item->total_jumlah;
 
-                $hargaSpesial = $harga[$jenis] ?? 0;
+                // Ambil harga: dari kolom harga kalau ada, kalau tidak dari mapping harga, kalau tidak default 15000
+                $hargaSpesial = $item->harga_satuan > 0
+                    ? $item->harga_satuan
+                    : ($harga[$jenis] ?? 15000);
+
                 $biaya = $jumlah * $hargaSpesial;
 
                 $dailyActuals[$tanggal]['spesial_cost'] = ($dailyActuals[$tanggal]['spesial_cost'] ?? 0) + $biaya;
@@ -1234,24 +1241,25 @@ class CateringRepository
     }
 
     //SNACK DAN SPESIAL
+
     public function getGrafikDailySnackSpesial($tanggalAwal, $tanggalAkhir, $departemen)
     {
         $snackData = DB::table('mk_snack')
-            ->select('jenis', DB::raw('COUNT(*) as total'))
+            ->select('jenis', DB::raw('SUM(jumlah) as total'), DB::raw('MAX(harga) as harga'))
             ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
             ->where('departemen', $departemen)
             ->where('status', 2)
             ->groupBy('jenis');
 
         $spesialData = DB::table('mk_spesial')
-            ->select('jenis', DB::raw('COUNT(*) as total'))
+            ->select('jenis', DB::raw('SUM(jumlah) as total'), DB::raw('MAX(harga) as harga'))
             ->whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])
             ->where('departemen', $departemen)
             ->where('status', 2)
             ->groupBy('jenis');
 
         $result = $snackData->unionAll($spesialData)->get();
-        return $result; 
+        return $result;
     }
 
     public function getSnackDataPerBulan($bulanAwal, $bulanAkhir, $tahun, $departemen)
@@ -1260,31 +1268,29 @@ class CateringRepository
             ->select(
                 DB::raw("EXTRACT(MONTH FROM tanggal) AS bulan"),
                 'jenis',
-                DB::raw("COUNT(*) AS total")
+                DB::raw("SUM(jumlah) AS total"),
+                'harga'
             )
             ->whereYear('tanggal', $tahun)
             ->whereBetween(DB::raw("EXTRACT(MONTH FROM tanggal)"), [$bulanAwal, $bulanAkhir])
             ->where('departemen', $departemen)
             ->where('status', 2)
-            ->groupBy('bulan', 'jenis');
+            ->groupBy('bulan', 'jenis', 'harga');
 
         $spesialData = DB::table('mk_spesial')
             ->select(
                 DB::raw("EXTRACT(MONTH FROM tanggal) AS bulan"),
                 'jenis',
-                DB::raw("COUNT(*) AS total")
+                DB::raw("SUM(jumlah) AS total"),
+                'harga'
             )
             ->whereYear('tanggal', $tahun)
             ->whereBetween(DB::raw("EXTRACT(MONTH FROM tanggal)"), [$bulanAwal, $bulanAkhir])
             ->where('departemen', $departemen)
             ->where('status', 2)
-            ->groupBy('bulan', 'jenis');
+            ->groupBy('bulan', 'jenis', 'harga');
 
         return $snackData->unionAll($spesialData)->get();
     }
-
-
-  
-
 
 }

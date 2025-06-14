@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function () {
         departemenMonthlySnack.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
-    ['mess putri', 'mess meicu', 'a1', 'c3'].forEach(dep => {
+    ['mess amm','mess putri', 'mess meicu', 'a1', 'c3'].forEach(dep => {
         messMonthly.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    ['mess putri', 'mess meicu', 'a1', 'c3'].forEach(dep => {
+    ['mess amm','mess putri', 'mess meicu', 'a1', 'c3'].forEach(dep => {
     mess.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
@@ -2173,7 +2173,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sisaCostPerHari = data.sisa_cost / totalHariBulan;
 
     const fixedCostProrata = fixedCostPerHari * diffDays;
-    const sisaCostProrata = sisaCostPerHari * diffDays;
+    const sisaCostProrata = fixedCostProrata - data.total_semua_cost;
 
     const formatCurrency = val => 'Rp ' + val.toLocaleString('id-ID');
 
@@ -2234,91 +2234,105 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('buttonFilterSnack').addEventListener('click', ambilDataSnack);
 
     function tampilkanGrafik(data) {
-        const harga = {
-            "Snack Biasa": 13000,
-            "Snack Spesial": 25000,
-            "Parcel Buah Biasa": 100000,
-            "Parcel Buah Spesial": 150000,
-            "Aqua botol 330 ml": 50000,
-            "Aqua botol 600 ml": 55000,
-            "Pempek" : 6000,
-            "Kopi" : 10000,
-            "Teh" : 10000,
-            "Aqua Cup 220 ml" : 40000,
-            "Wedang Jahe" : 10000,
-            "MK Spesial" : 25000,
-            "Nasi Liwet" : 35000,
-            "Ayam Bakar" : 35000,
-            "Prasmanan" : 35000,
-            "Bubur Jubaidah" : 9500,
-        };
+    const hargaDefault = {
+        "Snack Biasa": 13000,
+        "Snack Spesial": 25000,
+        "Parcel Buah Biasa": 100000,
+        "Parcel Buah Spesial": 150000,
+        "Aqua botol 330 ml": 50000,
+        "Aqua botol 600 ml": 55000,
+        "Pempek": 6000,
+        "Kopi": 10000,
+        "Teh": 10000,
+        "Aqua Cup 220 ml": 40000,
+        "Wedang Jahe": 10000,
+        "MK Spesial": 25000,
+        "Nasi Liwet": 35000,
+        "Ayam Bakar": 35000,
+        "Prasmanan": 35000,
+        "Bubur Jubaidah": 9500,
+    };
 
-        const labels = data.map(item => item.jenis);
-        const totalJumlah = data.map(item => item.total);
-        const totalHarga = data.map(item => item.total * (harga[item.jenis] || 0));
+    const labels = data.map(item => item.jenis);
+    const totalJumlah = data.map(item => item.total);
 
-        const totalCostSemua = totalHarga.reduce((a, b) => a + b, 0);
+    const totalHarga = data.map(item => {
+        const hargaDb = item.harga;
+        const hargaValue = hargaDb !== null
+            ? hargaDb
+            : (hargaDefault[item.jenis] || 15000);
+        return item.total * hargaValue;
+    });
 
-        const ctx = document.getElementById('dailyDeptSnackChart').getContext('2d');
+    const totalCostSemua = totalHarga.reduce((a, b) => a + b, 0);
 
-        if (dailyDeptSnackChart) dailyDeptSnackChart.destroy();
+    const ctx = document.getElementById('dailyDeptSnackChart').getContext('2d');
 
-        dailyDeptSnackChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Jumlah Pesanan',
-                        data: totalJumlah,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+    if (dailyDeptSnackChart instanceof Chart) {
+        dailyDeptSnackChart.destroy();
+    }
+
+    if (labels.length === 0) {
+        alert('Data tidak ditemukan untuk periode tersebut!');
+    }
+
+    dailyDeptSnackChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Jumlah Pesanan',
+                    data: totalJumlah,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Grafik Snack & MK Spesial (Total Cost: Rp ${totalCostSemua.toLocaleString('id-ID')})`,
+                    font: {
+                        size: 18
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: `Grafik Snack & MK Spesial (Total Cost: Rp ${totalCostSemua.toLocaleString('id-ID')})`,
-                        font: {
-                            size: 18
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                let jumlah = totalJumlah[context.dataIndex];
-                                let hargaValue = totalHarga[context.dataIndex];
-                                return `Jumlah: ${jumlah}, Harga: Rp ${hargaValue.toLocaleString('id-ID')}`;
-                            }
-                        }
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'end',
-                        formatter: function (value, context) {
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
                             let jumlah = totalJumlah[context.dataIndex];
                             let hargaValue = totalHarga[context.dataIndex];
-                            return `${jumlah}x | Rp ${hargaValue.toLocaleString('id-ID')}`;
-                        },
-                        font: {
-                            weight: 'bold'
+                            return `Jumlah: ${jumlah}, Harga: Rp ${hargaValue.toLocaleString('id-ID')}`;
                         }
                     }
                 },
-                scales: {
-                     y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
-                }
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    formatter: function (value, context) {
+                        let jumlah = totalJumlah[context.dataIndex];
+                        let hargaValue = totalHarga[context.dataIndex];
+                        return `${jumlah}x | Rp ${hargaValue.toLocaleString('id-ID')}`;
+                    },
+                    font: {
+                        weight: 'bold'
+                    }
                 }
             },
-            plugins: [ChartDataLabels]
-        });
-    }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
+
 
     ambilDataSnack();
 });
@@ -2346,7 +2360,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const bulanAwal = document.getElementById('bulanAwalSnack').value;
         const bulanAkhir = document.getElementById('bulanAkhirSnack').value;
         const tahun = document.getElementById('tahunSnack').value;
-        const departemen = document.getElementById('departemenSnack').value;
+        const departemen = document.getElementById('departemenMonthlySnack').value;
 
         if (!bulanAwal || !bulanAkhir || !tahun || !departemen) {
             return alert('Lengkapi semua input!');
@@ -2367,34 +2381,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('buttonFilterSnackPerBulan').addEventListener('click', ambilDataSnackPerBulan);
 
-   function tampilkanGrafikPerBulan(data) {
-    const harga = {
+    function tampilkanGrafikPerBulan(data) {
+    const hargaDefault = {
         "Snack Biasa": 13000,
         "Snack Spesial": 25000,
         "Parcel Buah Biasa": 100000,
         "Parcel Buah Spesial": 150000,
         "Aqua botol 330 ml": 50000,
         "Aqua botol 600 ml": 55000,
-        "Pempek" : 6000,
-        "Kopi" : 10000,
-        "Teh" : 10000,
-        "Aqua Cup 220 ml" : 40000,
-        "Wedang Jahe" : 10000,
-        "MK Spesial" : 25000,
-        "Nasi Liwet" : 35000,
-        "Ayam Bakar" : 35000,
-        "Prasmanan" : 35000,
-        "Bubur Jubaidah" : 9500,
+        "Pempek": 6000,
+        "Kopi": 10000,
+        "Teh": 10000,
+        "Aqua Cup 220 ml": 40000,
+        "Wedang Jahe": 10000,
+        "MK Spesial": 25000,
+        "Nasi Liwet": 35000,
+        "Ayam Bakar": 35000,
+        "Prasmanan": 35000,
+        "Bubur Jubaidah": 9500
     };
 
     let labels = data.labels;
     const datasets = [];
 
-    // Siapkan datasets awal
     for (const [jenis, values] of Object.entries(data.datasets)) {
         datasets.push({
-            jenis: jenis,
-            data: values,
+            label: jenis,
+            data: values.data,
+            harga: values.harga,
             backgroundColor: getRandomColor()
         });
     }
@@ -2407,53 +2421,51 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    let totalSeluruhHarga = 0;
+    datasets.forEach(ds => {
+        const hargaPerItem = ds.harga !== null ? ds.harga : (hargaDefault[ds.label] || 0);
+        const totalPerJenis = ds.data.reduce((sum, jumlah) => sum + (jumlah * hargaPerItem), 0);
+        totalSeluruhHarga += totalPerJenis;
+    });
+
+    const judulGrafik = `Grafik Snack & MK Spesial | Total: Rp ${totalSeluruhHarga.toLocaleString('id-ID')}`;
+
+    const maxValue = Math.max(0, ...datasets.flatMap(ds => ds.data));
+    const yMax = maxValue + 1;
+
     const ctx = document.getElementById('dailyMothlyDeptChartSnack').getContext('2d');
 
-    if (dailyMothlyDeptChartSnack) dailyMothlyDeptChartSnack.destroy();
+
+    if (window.dailyMothlyDeptChartSnack instanceof Chart) {
+        window.dailyMothlyDeptChartSnack.destroy();
+    }
 
     if (labels.length === 0) {
         alert('Data tidak ditemukan untuk periode tersebut!');
+        return;
     }
 
-    let maxValue = 0;
-    datasets.forEach(ds => {
-        const maxData = Math.max(...ds.data);
-        if (maxData > maxValue) maxValue = maxData;
-    });
-
-    const yMax = maxValue + 1;
-
-
-    dailyMothlyDeptChartSnack = new Chart(ctx, {
+    // Buat chart baru
+    window.dailyMothlyDeptChartSnack = new Chart(ctx, {
         type: 'bar',
-        data: {
-            labels: labels,
-            datasets: datasets.map(ds => ({
-                label: ds.jenis,
-                data: ds.data,
-                backgroundColor: ds.backgroundColor
-            }))
-        },
+        data: { labels, datasets },
         options: {
             responsive: true,
-            
             plugins: {
                 title: {
                     display: true,
-                    text: 'Grafik Snack & MK Spesial',
-                    font: {
-                        size: 18
-                    },
-                    
+                    text: judulGrafik,
+                    font: { size: 18 }
                 },
-                
                 tooltip: {
                     callbacks: {
                         label: function (context) {
                             const jumlah = context.raw;
                             const jenis = context.dataset.label;
-                            const hargaValue = jumlah * (harga[jenis] || 0);
-                            return `${jumlah} x | Rp ${hargaValue.toLocaleString('id-ID')}\n${jenis}`;
+                            const hargaDb = context.dataset.harga;
+                            const hargaValue = hargaDb !== null ? hargaDb : (hargaDefault[jenis] || 0);
+                            const total = jumlah * hargaValue;
+                            return `${jumlah}x | Rp ${total.toLocaleString('id-ID')} | ${jenis}`;
                         }
                     }
                 },
@@ -2463,39 +2475,32 @@ document.addEventListener('DOMContentLoaded', function () {
                     formatter: function (value, context) {
                         if (value > 0) {
                             const jenis = context.dataset.label;
-                            const hargaValue = value * (harga[jenis] || 0);
-                            return `${value}x | Rp ${hargaValue.toLocaleString('id-ID')}\n${jenis}`;
+                            const hargaDb = context.dataset.harga;
+                            const hargaValue = hargaDb !== null ? hargaDb : (hargaDefault[jenis] || 0);
+                            const total = value * hargaValue;
+                            return `${jenis}\n${value}x | Rp ${total.toLocaleString('id-ID')}`;
                         }
                         return '';
+                    },
+                    font: { weight: 'bold' },
+                    display: context => context.dataset.data.length > 0
                 },
-            font: {
-                weight: 'bold'
-            },
-            display: function (context) {
-                return context.dataset.data.length > 0;
-            }
-        },
-        legend: {
-            display: false
-        }
+                legend: { display: false }
             },
             scales: {
-                x: {
-                    display: labels.length > 0
-                },
+                x: { display: labels.length > 0 },
                 y: {
                     beginAtZero: true,
                     max: yMax,
-                    ticks: {
-                        precision: 0
-                    }
+                    ticks: { precision: 0 }
                 }
             }
         },
         plugins: [ChartDataLabels]
     });
 }
-  
+
+
     ambilDataSnackPerBulan();
 
     function getRandomColor() {
