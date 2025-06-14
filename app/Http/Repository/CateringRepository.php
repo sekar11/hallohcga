@@ -613,12 +613,14 @@ class CateringRepository
             $table = 'mk_mess_putri';
         } elseif ($messKey == 'mess meicu') {
             $table = 'mk_mess_meicu';
+        } elseif ($messKey == 'mess amm') {
+            $table = 'mk_mess_amm';
         } else {
             $table = 'mk_mess';
         }
 
         // Tentukan total expression
-        if (in_array($messKey, ['mess putri', 'mess meicu'])) {
+        if (in_array($messKey, ['mess putri', 'mess meicu','mess amm'])) {
             // Ambil semua kolom numeric (selain excluded) dari tabel terkait
             $columns = Schema::getColumnListing($table);
             $excludedColumns = [
