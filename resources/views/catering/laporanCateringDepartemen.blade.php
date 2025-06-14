@@ -731,6 +731,8 @@
                                                 <option value="Parcel Buah Biasa">Parcel Buah Biasa</option>
                                                 <option value="Parcel Buah Spesial">Parcel Buah Spesial</option>
                                                 <option value="Pempek">Pempek</option>
+                                                <option value="Batagor">Batagor</option>
+                                                <option value="Siomay">Siomay</option>
                                                 <option value="Kopi">Kopi Iglo</option>
                                                 <option value="Teh">Teh Iglo</option>
                                                 <option value="Wedang Jahe">Wedang Jahe</option>
