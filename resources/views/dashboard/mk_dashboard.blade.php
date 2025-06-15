@@ -1753,47 +1753,60 @@ function loadDailyOrderChart(tanggalDipilih) {
         Chart.getChart("dailyAllChart").destroy();
     }
 
-
-
     const ctx = document.getElementById('dailyAllChart').getContext('2d');
     window.dailyAllChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
+    type: 'bar',
+    data: {
         labels: labels,
         datasets: [
-          {
+        {
             label: 'Reguler',
             data: regulerData,
             backgroundColor: '#2196F3',
-          },
-          {
+        },
+        {
             label: 'Snack',
             data: snackData,
             backgroundColor: '#FF9800',
-          },
-          {
+        },
+        {
             label: 'Spesial',
             data: spesialData,
             backgroundColor: '#4CAF50',
-          }
+        }
         ]
-      },
-      options: {
+    },
+    options: {
         responsive: true,
         plugins: {
-          legend: { position: 'top' },
-          tooltip: { mode: 'index', intersect: false },
-          title: {
+        legend: { position: 'top' },
+        tooltip: { mode: 'index', intersect: false },
+        title: {
             display: true,
-            text: 'Total Order MK Reguler, MK Spesial & Snack ' + tanggal
-          }
+            text: 'Total Order MK Reguler, MK Spesial & Snack ' + tanggal,
+            padding: {
+            bottom: 20
+            }
+        },
+        datalabels: {
+            anchor: 'end',
+            align: 'end',
+            color: '#000',
+            font: {
+                weight: 'bold'
+            },
+            formatter: function(value) {
+                return value > 0 ? value : '';}
+           }
         },
         scales: {
-          x: { stacked: false, ticks: { autoSkip: false } },
-          y: { beginAtZero: true, stacked: false }
+            x: { stacked: false, ticks: { autoSkip: false } },
+            y: { beginAtZero: true, stacked: false }
         }
-      }
+    },
+    plugins: [ChartDataLabels]
     });
+
   })
   .catch(err => {
     console.error(err);
@@ -1865,8 +1878,6 @@ document.addEventListener('DOMContentLoaded', function () {
        if (Chart.getChart("dailyAllChart")) {
             Chart.getChart("dailyAllChart").destroy();
         }
-
-
 
         const ctx = document.getElementById('dailyAllChart').getContext('2d');
         dailyAllChart = new Chart(ctx, {
