@@ -115,7 +115,7 @@
             </div>
         </div>
 
-         <div class="container-fluid">
+        <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12 col-12 mb-4">
                     <div class="bg-white p-4 rounded shadow-sm">
@@ -281,7 +281,31 @@
                         <div class="card p-3 mt-3">
                             <div class="chart-container">
                                 <canvas id="dailyMothlyDeptChartSnack" width="400" height="200"></canvas>
-                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-12 mb-4">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <h5><strong>Daily Order MK Reguler , MK Spesial, Snack </strong></h5>
+                        <div class="row">
+                            <div class="col-md-3 col-12 mb-2">
+                                <label for="tanggalAkhirAll">Tanggal:</label>
+                                <input type="date" id="tanggalAkhirAll" class="form-control">
+                            </div>
+                            <div class="col-md-2 col-12 d-flex align-items-end">
+                                <button id="buttonFilterAll" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                        <div class="card p-3 mt-3">
+                            <div class="chart-container">
+                                <canvas id="dailyAllChart" width="400" height="200"></canvas>
+
                             </div>
                         </div>
                     </div>
@@ -407,6 +431,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+window.dailyAllChart = null;
+
 Chart.register(ChartDataLabels);
 let dailyDeptChart;
 let dailyMessChart;
@@ -463,123 +489,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(console.error);
     }
 });
-
-// function updateChart(response) {
-//     const labels = response.data.map(item => item.tanggal);
-//     const planData = response.data.map(item => item.total_plan);
-//     const actualData = response.data.map(item => item.total_actual);
-
-//     const actualWithinOrBelow = actualData.map((actual, i) => Math.min(actual, planData[i]));
-//     const actualSurplus = actualData.map((actual, i) => actual > planData[i] ? actual - planData[i] : 0);
-
-//     const ctx = document.getElementById('dailyDeptChart').getContext('2d');
-
-//     if (dailyDeptChart) {
-//         dailyDeptChart.destroy();
-//     }
-
-//     dailyDeptChart = new Chart(ctx, {
-//         type: 'bar',
-//         data: {
-//             labels: labels,
-//             datasets: [
-//                 {
-//                     label: 'Actual Order',
-//                     data: actualWithinOrBelow,
-//                     backgroundColor: 'rgba(75, 192, 192, 0.7)',
-//                     stack: 'actual',
-//                     datalabels: {
-//                         display: false
-//                     }
-//                 },
-//                 {
-//                     label: 'Surplus',
-//                     data: actualSurplus,
-//                     backgroundColor: 'rgba(255, 99, 132, 0.7)',
-//                     stack: 'actual',
-//                     datalabels: {
-//                         color: '#000',
-//                         anchor: 'end',
-//                         align: 'top',
-//                         font: {
-//                             weight: 'bold'
-//                         },
-//                         formatter: function(value, context) {
-//                             return actualData[context.dataIndex]; // total actual
-//                         }
-//                     }
-//                 },
-//                 {
-//                     label: 'Plan Order',
-//                     data: planData,
-//                     backgroundColor: 'rgba(54, 162, 235, 0.7)',
-//                     stack: 'plan',
-//                     datalabels: {
-//                         color: '#000',
-//                         anchor: 'end',
-//                         align: 'top',
-//                         font: {
-//                             weight: 'bold'
-//                         },
-//                         formatter: Math.round
-//                     }
-//                 }
-//             ]
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 title: {
-//                     display: true,
-//                     text: 'Daily Plan Order and Actual Order by Department '
-//                 },
-//                 tooltip: {
-//                     mode: 'index',
-//                     intersect: false,
-//                     callbacks: {
-//                         label: function(context) {
-//                             const index = context.dataIndex;
-//                             const datasetLabel = context.dataset.label;
-
-//                             const actualTotal = actualData[index];
-//                             const surplus = actualSurplus[index];
-//                             const plan = planData[index];
-
-//                             if (datasetLabel === 'Actual Order') {
-//                                 return `Actual Order: ${actualTotal}`;
-//                             }
-
-//                             if (datasetLabel === 'Surplus' && surplus > 0) {
-//                                 return `Surplus: ${surplus}`;
-//                             }
-
-//                             if (datasetLabel === 'Plan Order') {
-//                                 return `Plan Order: ${plan}`;
-//                             }
-
-//                             return null;
-//                         }
-//                     }
-//                 }
-//             },
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             scales: {
-//                 x: {
-//                     stacked: false
-//                 },
-//                 y: {
-//                     stacked: true,
-//                     beginAtZero: true,
-//                     grace: '10%'
-//                 }
-//             }
-//         },
-//         plugins: [ChartDataLabels]
-//     });
-// }
 
 function updateChart(response) {
     const labels = response.data.map(item => item.tanggal);
@@ -966,123 +875,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// function updateChartMonthly(response) {
-//     const labels = response.data.map(item => item.bulan);
-//     const planData = response.data.map(item => item.total_plan);
-//     const actualData = response.data.map(item => item.total_actual);
-
-//     const actualWithinOrBelow = actualData.map((actual, i) => Math.min(actual, planData[i]));
-//     const actualSurplus = actualData.map((actual, i) => actual > planData[i] ? actual - planData[i] : 0);
-
-//     const ctx = document.getElementById('dailyMothlyDeptChart').getContext('2d');
-
-//     if (dailyMothlyDeptChart) {
-//         dailyMothlyDeptChart.destroy();
-//     }
-
-//     dailyMothlyDeptChart = new Chart(ctx, {
-//         type: 'bar',
-//         data: {
-//             labels: labels,
-//             datasets: [
-//                 {
-//                     label: 'Actual Order',
-//                     data: actualWithinOrBelow,
-//                     backgroundColor: 'rgba(75, 192, 192, 0.7)',
-//                     stack: 'actual',
-//                     datalabels: {
-//                         display: false
-//                     }
-//                 },
-//                 {
-//                     label: 'Surplus',
-//                     data: actualSurplus,
-//                     backgroundColor: 'rgba(255, 99, 132, 0.7)',
-//                     stack: 'actual',
-//                     datalabels: {
-//                         color: '#000',
-//                         anchor: 'end',
-//                         align: 'top',
-//                         font: {
-//                             weight: 'bold'
-//                         },
-//                         formatter: function (value, context) {
-//                             return actualData[context.dataIndex];
-//                         }
-//                     }
-//                 },
-//                 {
-//                     label: 'Plan Order',
-//                     data: planData,
-//                     backgroundColor: 'rgba(54, 162, 235, 0.7)',
-//                     stack: 'plan',
-//                     datalabels: {
-//                         color: '#000',
-//                         anchor: 'end',
-//                         align: 'top',
-//                         font: {
-//                             weight: 'bold'
-//                         },
-//                         formatter: Math.round
-//                     }
-//                 }
-//             ]
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 title: {
-//                     display: true,
-//                     text: 'Monthly Plan Order and Actual Order by Department'
-//                 },
-//                 tooltip: {
-//                     mode: 'index',
-//                     intersect: false,
-//                     callbacks: {
-//                         label: function (context) {
-//                             const index = context.dataIndex;
-//                             const datasetLabel = context.dataset.label;
-
-//                             const actualTotal = actualData[index];
-//                             const surplus = actualSurplus[index];
-//                             const plan = planData[index];
-
-//                             if (datasetLabel === 'Actual Order') {
-//                                 return `Actual Order: ${actualTotal}`;
-//                             }
-
-//                             if (datasetLabel === 'Surplus' && surplus > 0) {
-//                                 return `Surplus: ${surplus}`;
-//                             }
-
-//                             if (datasetLabel === 'Plan Order') {
-//                                 return `Plan Order: ${plan}`;
-//                             }
-
-//                             return null;
-//                         }
-//                     }
-//                 }
-//             },
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             scales: {
-//                 x: {
-//                     stacked: false
-//                 },
-//                 y: {
-//                     stacked: true,
-//                     beginAtZero: true,
-//                     grace: '10%'
-//                 }
-//             }
-//         },
-//         plugins: [ChartDataLabels]
-//     });
-// }
-
 function updateChartMonthly(response) {
     const labels = response.data.map(item => item.bulan);
     const planData = response.data.map(item => item.total_plan);
@@ -1218,168 +1010,6 @@ function updateChartMonthly(response) {
     });
 }
 
-// function updateChartMonthly(response) {
-//     const labels = response.data.map(item => item.bulan);
-//     const planData = response.data.map(item => item.total_plan);
-//     const actualData = response.data.map(item => item.total_actual);
-//     const ss6Data = response.data.map(item => item.total_ss6); // ambil total_ss6
-
-//     const actualWithinOrBelow = actualData.map((actual, i) => Math.min(actual, planData[i]));
-//     const actualSurplus = actualData.map((actual, i) => actual > planData[i] ? actual - planData[i] : 0);
-
-//     const ctx = document.getElementById('dailyMothlyDeptChart').getContext('2d');
-
-//     if (dailyMothlyDeptChart) {
-//         dailyMothlyDeptChart.destroy();
-//     }
-
-//     // Cek apakah semua nilai surplus 0
-//     const isSurplusAllZero = actualSurplus.every(val => val === 0);
-
-//     // Buat array datasets
-//     const datasets = [
-//         {
-//         label: 'Actual Order',
-//         data: actualWithinOrBelow,
-//         backgroundColor: 'rgba(75, 192, 192, 0.7)',
-//         stack: 'actual',
-//         datalabels: {
-//             display: true,
-//             color: '#000',
-//             anchor: 'end',
-//             align: 'top',
-//             font: {
-//                 weight: 'bold'
-//             },
-//             formatter: function (value, context) {
-//                 return actualData[context.dataIndex];
-//             }
-//         }
-//     }
-
-//     ];
-
-//     // Kalau surplus tidak semuanya 0, masukkan dataset-nya
-//     if (!isSurplusAllZero) {
-//         datasets.push({
-//             label: 'Surplus',
-//             data: actualSurplus,
-//             backgroundColor: 'rgba(255, 99, 132, 0.7)',
-//             stack: 'actual',
-//             datalabels: {
-//                 display: false,
-//                 color: '#000',
-//                 anchor: 'end',
-//                 align: 'top',
-//                 font: {
-//                     weight: 'bold'
-//                 },
-//                 formatter: function (value, context) {
-//                     return actualData[context.dataIndex];
-//                 }
-//             }
-//         });
-//     }
-
-//     // Tambahkan Plan Order
-//     datasets.push({
-//         label: 'Plan Order',
-//         data: planData,
-//         backgroundColor: 'rgba(54, 162, 235, 0.7)',
-//         stack: 'plan',
-//         datalabels: {
-//             color: '#000',
-//             anchor: 'end',
-//             align: 'top',
-//             font: {
-//                 weight: 'bold'
-//             },
-//             formatter: Math.round
-//         }
-//     });
-
-//     // Tambahkan SS6 Order
-//     datasets.push({
-//         label: 'SS6 Order',
-//         data: ss6Data,
-//         backgroundColor: 'rgba(255, 206, 86, 0.7)',
-//         stack: 'ss6',
-//         datalabels: {
-//             color: '#000',
-//             anchor: 'end',
-//             align: 'top',
-//             font: {
-//                 weight: 'bold'
-//             },
-//             formatter: Math.round
-//         }
-//     });
-
-//     // Render Chart
-//     dailyMothlyDeptChart = new Chart(ctx, {
-//         type: 'bar',
-//         data: {
-//             labels: labels,
-//             datasets: datasets
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 title: {
-//                     display: true,
-//                     text: 'Monthly Plan, Actual, Surplus & SS6 Order by Department'
-//                 },
-//                 tooltip: {
-//                     mode: 'index',
-//                     intersect: false,
-//                     callbacks: {
-//                         label: function (context) {
-//                             const index = context.dataIndex;
-//                             const datasetLabel = context.dataset.label;
-
-//                             const actualTotal = actualData[index];
-//                             const surplus = actualSurplus[index];
-//                             const plan = planData[index];
-//                             const ss6 = ss6Data[index];
-
-//                             if (datasetLabel === 'Actual Order') {
-//                                 return `Actual Order: ${actualTotal}`;
-//                             }
-//                             if (datasetLabel === 'Surplus' && surplus > 0) {
-//                                 return `Surplus: ${surplus}`;
-//                             }
-//                             if (datasetLabel === 'Plan Order') {
-//                                 return `Plan Order: ${plan}`;
-//                             }
-//                             if (datasetLabel === 'SS6 Order') {
-//                                 return `SS6: ${ss6}`;
-//                             }
-
-//                             return null;
-//                         }
-//                     }
-//                 }
-//             },
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             scales: {
-//                 x: {
-//                     stacked: true // tetap false karena posisi non-stacked
-//                 },
-//                 y: {
-//                     stacked: true,
-//                     beginAtZero: true,
-//                     grace: '10%'
-//                 }
-//             }
-//         },
-//         plugins: [ChartDataLabels]
-//     });
-// }
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const today = new Date();
 
@@ -1422,111 +1052,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// function updateChartMonthlyAllDept(response) {
-//     const labels = response.data.map(item => item.departemen);
-//     const planData = response.data.map(item => item.total_plan);
-//     const actualData = response.data.map(item => item.total_actual);
-//     const surplusData = response.data.map(item => item.surplus);
-
-//     const backgroundColors = surplusData.map(surplus =>
-//         surplus > 0 ? 'rgba(255, 99, 132, 0.7)' : 'rgba(75, 192, 192, 0.7)'
-//     );
-
-//     const ctx = document.getElementById('dailyMothlyAllDeptChart').getContext('2d');
-
-//     if (dailyMothlyAllDeptChart) {
-//         dailyMothlyAllDeptChart.destroy();
-//     }
-
-//     dailyMothlyAllDeptChart = new Chart(ctx, {
-//         type: 'bar',
-//         data: {
-//             labels: labels,
-//             datasets: [
-//                 {
-//                     label: 'Actual Order',
-//                     data: actualData,
-//                     backgroundColor: backgroundColors,
-//                     stack: 'actual',
-//                     datalabels: {
-//                         color: '#000',
-//                         anchor: 'end',
-//                         align: 'top',
-//                         font: {
-//                             weight: 'bold'
-//                         },
-//                         formatter: function (value) {
-//                             return value; // tampilkan total actual
-//                         }
-//                     }
-//                 },
-//                 {
-//                     label: 'Plan Order',
-//                     data: planData,
-//                     backgroundColor: 'rgba(54, 162, 235, 0.7)',
-//                     stack: 'plan',
-//                     datalabels: {
-//                         color: '#000',
-//                         anchor: 'end',
-//                         align: 'top',
-//                         font: {
-//                             weight: 'bold'
-//                         },
-//                         formatter: Math.round
-//                     }
-//                 }
-//             ]
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 title: {
-//                     display: true,
-//                     text: 'Monthly Plan vs Actual Orders per Department'
-//                 },
-//                 tooltip: {
-//                     mode: 'index',
-//                     intersect: false,
-//                     callbacks: {
-//                         label: function (context) {
-//                             const index = context.dataIndex;
-//                             const datasetLabel = context.dataset.label;
-
-//                             if (datasetLabel === 'Actual Order') {
-//                                 const actual = actualData[index];
-//                                 const surplus = surplusData[index];
-//                                 return surplus > 0
-//                                     ? `Actual: ${actual} (Surplus: ${surplus})`
-//                                     : `Actual: ${actual}`;
-//                             }
-
-//                             if (datasetLabel === 'Plan Order') {
-//                                 return `Plan: ${planData[index]}`;
-//                             }
-
-//                             return null;
-//                         }
-//                     }
-//                 }
-//             },
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             scales: {
-//                 x: {
-//                     stacked: false
-//                 },
-//                 y: {
-//                     stacked: true,
-//                     beginAtZero: true,
-//                     grace: '10%'
-//                 }
-//             }
-//         },
-//         plugins: [ChartDataLabels]
-//     });
-// }
 
 function updateChartMonthlyAllDept(response) {
     const labels = response.data.map(item => item.departemen);
@@ -2090,7 +1615,26 @@ document.addEventListener('DOMContentLoaded', function () {
                             callback: val => 'Rp ' + val.toLocaleString('id-ID'),
                         }
                     }
+                },
+                onClick: function(evt, elements) {
+                if (elements.length > 0) {
+                    const chart = elements[0].element.$context.chart;
+                    const index = elements[0].index;
+                    const tanggalDipilih = chart.data.labels[index];
+
+                    // Set tanggal di input
+                    document.getElementById('tanggalAkhirAll').value = tanggalDipilih;
+
+                    // Load chart daily order
+                    loadDailyOrderChart(tanggalDipilih);
+
+                    // Scroll ke canvas dailyAllChart
+                    document.getElementById('dailyAllChart').scrollIntoView({
+                    behavior: 'smooth'
+                    });
                 }
+                }
+
             },
             plugins: [
                 {
@@ -2142,14 +1686,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateTotals(data, tanggalAwal, tanggalAkhir) {
-    // console.log('data:', data);
-    // console.log('tanggalAwal:', tanggalAwal, 'tanggalAkhir:', tanggalAkhir);
 
     const startDate = new Date(tanggalAwal);
     const endDate = new Date(tanggalAkhir);
-
-    // console.log('startDate:', startDate);
-    // console.log('endDate:', endDate);
 
     if (isNaN(startDate) || isNaN(endDate)) {
         console.error('Tanggal awal atau akhir tidak valid');
@@ -2182,6 +1721,216 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('totalCostAllDept').textContent = `Actual Cost: ${formatCurrency(data.total_semua_cost)}`;
 }
 
+});
+
+function loadDailyOrderChart(tanggalDipilih) {
+  fetch('/get-daily-all', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify({ tanggalAkhirAll: tanggalDipilih })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const tanggal = Object.keys(data)[0];
+    const departemenList = Object.keys(data[tanggal]);
+
+    const labels = [];
+    const regulerData = [];
+    const snackData = [];
+    const spesialData = [];
+
+    departemenList.forEach(dept => {
+      labels.push(dept);
+      regulerData.push(data[tanggal][dept]['reguler']);
+      snackData.push(data[tanggal][dept]['snack']);
+      spesialData.push(data[tanggal][dept]['spesial']);
+    });
+
+    if (Chart.getChart("dailyAllChart")) {
+        Chart.getChart("dailyAllChart").destroy();
+    }
+
+
+
+    const ctx = document.getElementById('dailyAllChart').getContext('2d');
+    window.dailyAllChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Reguler',
+            data: regulerData,
+            backgroundColor: '#2196F3',
+          },
+          {
+            label: 'Snack',
+            data: snackData,
+            backgroundColor: '#FF9800',
+          },
+          {
+            label: 'Spesial',
+            data: spesialData,
+            backgroundColor: '#4CAF50',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          tooltip: { mode: 'index', intersect: false },
+          title: {
+            display: true,
+            text: 'Total Order MK Reguler, MK Spesial & Snack ' + tanggal
+          }
+        },
+        scales: {
+          x: { stacked: false, ticks: { autoSkip: false } },
+          y: { beginAtZero: true, stacked: false }
+        }
+      }
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    alert('Gagal memuat data.');
+  });
+}
+
+
+//=============================================== ORDER ALL Reguler, Snack, SPesial===============================================
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date();
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    document.getElementById('tanggalAkhirAll').value = formatDate(today);
+    loadData(formatDate(today));
+
+    document.getElementById('buttonFilterAll').addEventListener('click', () => {
+        const tanggalAkhir = document.getElementById('tanggalAkhirAll').value;
+
+        if (!tanggalAkhir) {
+            alert("Silakan pilih tanggal!");
+            return;
+        }
+
+        loadData(tanggalAkhir);
+    });
+
+    function loadData(tanggalAkhir) {
+        fetch('/get-daily-all', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ tanggalAkhirAll: tanggalAkhir })
+        })
+        .then(res => res.json())
+        .then(data => {
+            renderChart(data);
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Gagal memuat data.');
+        });
+    }
+
+    // let dailyAllChart;
+
+    function renderChart(data) {
+        const tanggal = Object.keys(data)[0];
+        const departemenList = Object.keys(data[tanggal]);
+
+        const labels = [];
+        const regulerData = [];
+        const snackData = [];
+        const spesialData = [];
+
+        departemenList.forEach(dept => {
+            labels.push(dept);
+            regulerData.push(data[tanggal][dept]['reguler']);
+            snackData.push(data[tanggal][dept]['snack']);
+            spesialData.push(data[tanggal][dept]['spesial']);
+        });
+
+        // if (dailyAllChart) {
+        //     dailyAllChart.destroy();
+        // }
+
+       if (Chart.getChart("dailyAllChart")) {
+            Chart.getChart("dailyAllChart").destroy();
+        }
+
+
+
+        const ctx = document.getElementById('dailyAllChart').getContext('2d');
+        dailyAllChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Reguler',
+                        data: regulerData,
+                        backgroundColor: '#2196F3',
+                    },
+                    {
+                        label: 'Snack',
+                        data: snackData,
+                        backgroundColor: '#FF9800',
+                    },
+                    {
+                        label: 'Spesial',
+                        data: spesialData,
+                        backgroundColor: '#4CAF50',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Total Order MK Reguler, MK Spesial & Snak ' + tanggal
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'end',
+                        color: '#000',
+                        font: {
+                            weight: 'bold'
+                        },
+                        formatter: Math.round
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false,
+                        ticks: {
+                            autoSkip: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        stacked: false
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    }
 });
 
 
@@ -2296,7 +2045,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     text: `Grafik Snack & MK Spesial (Total Cost: Rp ${totalCostSemua.toLocaleString('id-ID')})`,
                     font: {
                         size: 18
+                    },
+                        padding: {
+                        top: 0,
+                        bottom: 20
                     }
+
                 },
                 tooltip: {
                     callbacks: {
@@ -2455,7 +2209,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: {
                     display: true,
                     text: judulGrafik,
-                    font: { size: 18 }
+                    font: { size: 18 },
+                        padding: {
+                        top: 0,
+                        bottom: 50
+                    }
                 },
                 tooltip: {
                     callbacks: {

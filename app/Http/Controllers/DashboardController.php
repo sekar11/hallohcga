@@ -322,6 +322,18 @@ class DashboardController extends Controller
         return response()->json($result);
     }
 
+      public function getPlanActualOrderDataAll(Request $request)
+    {
+        //dd($request->all());
+        //$tanggal = $request->tanggalAwalAll ?? Carbon::now()->startOfMonth()->toDateString(); // default: tanggal 1 bulan ini
+        $tanggal = $request->tanggalAkhirAll?? Carbon::now()->toDateString();
+
+        $result = $this->CateringRepository->getGrafikDailyAll($tanggal);
+
+        return response()->json($result);
+    }
+
+
     //SNACK & MK SPESIAL
     public function getSnackData(Request $request)
     {
