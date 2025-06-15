@@ -1242,8 +1242,125 @@ class CateringRepository
         ];
     }
 
-    //SNACK DAN SPESIAL
+    public function getGrafikDailyAll($tanggal)
+    {
+        $tableMappings = [
+            'HCGA'  => 'mk_hcga',
+            'ENG'   => 'mk_eng',
+            'PROD'  => 'mk_prod',
+            'SHE'   => 'mk_she',
+            'FALOG' => 'mk_falog',
+            'COE'   => 'mk_coe',
+            'PLANT' => 'mk_plant',
+        ];
 
+        $messDepartemen = ['MESS', 'MESS PUTRI', 'MEICU', 'AMM'];
+
+        $excludedColumns = [
+            'id', 'tanggal', 'waktu', 'create_at', 'created_name', 'status',
+            'approval_by', 'approval_on', 'approval_desc',
+            'revisi_by', 'revisi_on', 'revisi_desc', 'ss6', 'visitor'
+        ];
+
+        $jenisMakanan = ['reguler', 'snack', 'spesial'];
+
+        // Siapkan skeleton data kosong untuk tanggal itu
+        $dailyOrders = [];
+        foreach (array_merge(array_keys($tableMappings), $messDepartemen) as $departemen) {
+            foreach ($jenisMakanan as $jenis) {
+                $dailyOrders[$tanggal][$departemen][$jenis] = 0;
+            }
+        }
+
+        // Reguler dari masing-masing departemen
+        foreach ($tableMappings as $departemen => $table) {
+            if (!Schema::hasTable($table)) continue;
+
+            $columns = Schema::getColumnListing($table);
+            $numericColumns = array_filter($columns, fn($col) => !in_array($col, $excludedColumns));
+            if (empty($numericColumns)) continue;
+
+            $totalExpression = implode(' + ', array_map(fn($col) => "COALESCE($col,0)", $numericColumns));
+
+            $data = DB::table($table)
+                ->select(DB::raw("SUM(CASE WHEN waktu IN ('Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam') THEN $totalExpression ELSE 0 END) as total_order"))
+                ->where('status', 2)
+                ->where('tanggal', $tanggal)
+                ->first();
+
+            $dailyOrders[$tanggal][$departemen]['reguler'] = $data->total_order ?? 0;
+        }
+
+        // Snack
+        if (Schema::hasTable('mk_snack')) {
+            $snackItems = DB::table('mk_snack')
+                ->select('departemen', DB::raw('SUM(jumlah) as total_jumlah'))
+                ->where('status', 2)
+                ->where('tanggal', $tanggal)
+                ->groupBy('departemen')
+                ->get();
+
+            foreach ($snackItems as $item) {
+                $departemen = $item->departemen ?: 'LAINNYA';
+                $dailyOrders[$tanggal][$departemen]['snack'] = $item->total_jumlah;
+            }
+        }
+
+        // Spesial
+        if (Schema::hasTable('mk_spesial')) {
+            $spesialItems = DB::table('mk_spesial')
+                ->select('departemen', DB::raw('SUM(jumlah) as total_jumlah'))
+                ->where('status', 2)
+                ->where('tanggal', $tanggal)
+                ->groupBy('departemen')
+                ->get();
+
+            foreach ($spesialItems as $item) {
+                $departemen = $item->departemen ?: 'LAINNYA';
+                $dailyOrders[$tanggal][$departemen]['spesial'] = $item->total_jumlah;
+            }
+        }
+
+        // Mess Umum
+        if (Schema::hasTable('mk_mess')) {
+            $columns = Schema::getColumnListing('mk_mess');
+            $numericColumns = array_filter($columns, fn($col) => Str::startsWith($col, 'mess_') || Str::startsWith($col, 'rebusan_'));
+            if (!empty($numericColumns)) {
+                $totalExpression = implode(' + ', array_map(fn($col) => "COALESCE($col,0)", $numericColumns));
+
+                $data = DB::table('mk_mess')
+                    ->select(DB::raw("SUM(CASE WHEN waktu IN ('Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam') THEN $totalExpression ELSE 0 END) as total_order"))
+                    ->where('status', 2)
+                    ->where('tanggal', $tanggal)
+                    ->first();
+
+                $dailyOrders[$tanggal]['MESS']['reguler'] = $data->total_order ?? 0;
+            }
+        }
+
+        // Mess Putri, Meicu, AMM
+        foreach (['mk_mess_putri' => 'MESS PUTRI', 'mk_mess_meicu' => 'MEICU', 'mk_mess_amm' => 'AMM'] as $table => $departemen) {
+            if (!Schema::hasTable($table)) continue;
+
+            $columns = Schema::getColumnListing($table);
+            $numericColumns = array_filter($columns, fn($col) => !in_array($col, $excludedColumns));
+            if (empty($numericColumns)) continue;
+
+            $totalExpression = implode(' + ', array_map(fn($col) => "COALESCE($col,0)", $numericColumns));
+
+            $data = DB::table($table)
+                ->select(DB::raw("SUM(CASE WHEN waktu IN ('Pagi','Siang','Sore','Malam','Tambahan Pagi','Tambahan Siang','Tambahan Sore','Tambahan Malam') THEN $totalExpression ELSE 0 END) as total_order"))
+                ->where('status', 2)
+                ->where('tanggal', $tanggal)
+                ->first();
+
+            $dailyOrders[$tanggal][$departemen]['reguler'] = $data->total_order ?? 0;
+        }
+
+        return $dailyOrders;
+    }
+
+    //SNACK DAN SPESIAL
     public function getGrafikDailySnackSpesial($tanggalAwal, $tanggalAkhir, $departemen)
     {
         $snackData = DB::table('mk_snack')

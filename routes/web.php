@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-monthly-all-mess', [DashboardController::class, 'getPlanActualOrderDataMonthlyAllMess']);
 
     Route::post('/get-daily-allcost-dept', [DashboardController::class, 'getPlanActualOrderDataAllCost']);
+    Route::post('/get-daily-all', [DashboardController::class, 'getPlanActualOrderDataAll']);
 
     Route::post('/get-snackspesial-data', [DashboardController::class, 'getSnackData']);
     Route::post('/get-snackspesial-perbulan', [DashboardController::class, 'getGrafikSnackPerBulan']);
