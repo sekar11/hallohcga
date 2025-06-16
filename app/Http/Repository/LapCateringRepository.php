@@ -324,6 +324,7 @@ class LapCateringRepository
                 'siang_ruko_2' => 'siang_ruko_2',
                 'siang_ruko_3' => 'siang_ruko_3',
                 'siang_ruko_45' => 'siang_ruko_45',
+                'siang_magang_mess_meicu' => 'siang_magang_mess_meicu',
                 'siang_driver_meicu' => 'siang_driver_meicu',
                 'siang_office_meicu' => 'siang_office_meicu',
                 'siang_security_meicu' => 'siang_security_meicu',
@@ -649,6 +650,7 @@ class LapCateringRepository
                     'Mess Meicu R2' => 'siang_ruko_2',
                     'Mess Meicu R3 FMDP' => 'siang_ruko_3',
                     'Mess Meicu R4-5' => 'siang_ruko_45',
+                    'Magang' => 'siang_magang_mess_meicu'
                 ],
                 'MK SIANG OFFICE GA MEICU' => [
                     'Driver LV' => 'siang_driver_meicu',
@@ -972,6 +974,7 @@ class LapCateringRepository
                     'Mess Meicu R2' => 'siang_ruko_2',
                     'Mess Meicu R3 FMDP' => 'siang_ruko_3',
                     'Mess Meicu R4-5' => 'siang_ruko_45',
+                    'Magang' => 'siang_magang_mess_meicu'
                 ],
                 'MK SIANG OFFICE GA MEICU' => [
                     'Driver LV' => 'siang_driver_meicu',
