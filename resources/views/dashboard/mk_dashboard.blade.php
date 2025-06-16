@@ -398,11 +398,11 @@ document.addEventListener('DOMContentLoaded', function () {
         departemen.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
-    ['hcga', 'pro', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
+    ['hcga', 'prod', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
         departemenSnack.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
-    ['hcga', 'prod', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
+    ['hcga', 'pro', 'coe', 'plant', 'eng', 'falog', 'she'].forEach(dep => {
         departemenMonthly.innerHTML += `<option value="${dep}">${dep.toUpperCase()}</option>`;
     });
 
