@@ -478,7 +478,8 @@ class CateringController extends Controller
             $nomorTujuan = [
                 '082181777455',
                 '082177968433',
-                '082177451148'
+                '082177451148',
+                '081770635505'
             ];
 
             // Kirim ke semua nomor
@@ -549,7 +550,8 @@ class CateringController extends Controller
         $nomorTujuan = [
             '082181777455',
             '082177968433',
-            '082177451148'
+            '082177451148',
+            '081770635505'
         ];
 
         foreach ($nomorTujuan as $nomor) {
@@ -619,7 +621,8 @@ class CateringController extends Controller
         $nomorTujuan = [
             '082181777455',
             '082177968433',
-            '082177451148'
+            '082177451148',
+            '081770635505'
         ];
 
         foreach ($nomorTujuan as $nomor) {
@@ -1220,7 +1223,8 @@ class CateringController extends Controller
         $nomorTujuan = [
             '082181777455',
             '082177968433',
-            '082177451148'
+            '082177451148',
+            '081770635505'
         ];
 
         // Kirim ke semua nomor
@@ -1252,7 +1256,8 @@ class CateringController extends Controller
         $nomorTujuan = [
             '082181777455',
             '082177968433',
-            '082177451148'
+            '082177451148',
+            '081770635505'
         ];
 
         // Kirim ke semua nomor
@@ -1284,7 +1289,8 @@ class CateringController extends Controller
         $nomorTujuan = [
             '082181777455',
             '082177968433',
-            '082177451148'
+            '082177451148',
+            '081770635505'
         ];
 
         // Kirim ke semua nomor
