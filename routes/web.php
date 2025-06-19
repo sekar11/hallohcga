@@ -9,6 +9,8 @@ use App\Http\Controllers\PhAirController;
 use App\Http\Controllers\CateringController;
 use App\Http\Controllers\LapCateringDeptController;
 use App\Http\Controllers\LapCateringController;
+use App\Http\Controllers\PengambilanBarangController;
+use App\Http\Controllers\StokGudangController;
 
 Route::get('/', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/', [UserController::class, 'loginku']);
@@ -190,6 +192,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/invoice/export', [LapCateringController::class, 'exportWord'])->name('invoice.export');
 
     Route::get('/export-dept', [CateringController::class, 'exportData']);
+
+    //=============================================== GUDANG ===============================================
+    Route::get('/stok-gudang', [StokGudangController::class, 'index']);
+    Route::post('/stok-gudang/create', [StokGudangController::class, 'add'])->name('add.stok-gudang');
+    Route::post('/stok-gudang/delete', [StokGudangController::class, 'delete'])->name('delete.stok-gudang');
+    Route::get('/stok-gudang/get/{id}', [StokGudangController::class, 'getEdit'])->name('edit.stok-gudang');
+    Route::post('/stok-gudang/myedit/{id}', [StokGudangController::class, 'edit'])->name('get.stok-gudang');
+
+    //====================================== Pengambilan Barang ==========================================
+    // Route::get('/pengambilan-barang', [PengambilanBarangController::class, 'index']);
+    // Route::post('/pengambilan-barang/create', [PengambilanBarangController::class, 'add'])->name('add.pengambilan-barang');
+    // Route::post('/pengambilan-barang/delete', [PengambilanBarangController::class, 'delete'])->name('delete.pengambilan-barang');
+    // Route::get('/pengambilan-barang/get/{id}', [PengambilanBarangController::class, 'getEdit'])->name('edit.pengambilan-barang');
+    // Route::post('/pengambilan-barang/myedit/{id}', [PengambilanBarangController::class, 'edit'])->name('get.pengambilan-barang');
+    // Route::get('/stok-barang/{id}', [PengambilanBarangController::class, 'getStock']);
 
 });
 

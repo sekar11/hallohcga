@@ -10,6 +10,7 @@
   <title>@yield('title', 'HalloHCGA')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -45,9 +46,6 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 
-
-
-
   {{-- range waktu   --}}
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -68,6 +66,7 @@
   <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
 <body>
 
@@ -244,6 +243,36 @@
                         @endif
                     </ul>
                 </li>
+                @if(auth()->user()->id_role == 0)
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#add-gudang" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-circle"></i><span>Gudang </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="add-gudang" class="nav-content collapse">
+                        <!-- @if(auth()->user()->id_role == 0 )
+                            <li>
+                                <a href="/pengambilan-barang">
+                                    <i class="bi bi-dash"></i><span>Pengambilan Barang</span>
+                                </a>
+                            </li>
+                        @endif -->
+                        @if(auth()->user()->id_role == 0)
+                            <li>
+                                <a href="/stok-gudang">
+                                    <i class="bi bi-dash"></i><span>Stok Barang</span>
+                                </a>
+                            </li>
+                        @endif
+                        <!-- @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 7)
+                            <li>
+                                <a href="/lapcatering">
+                                    <i class="bi bi-dash"></i><span>RKB</span>
+                                </a>
+                            </li>
+                        @endif -->
+                    </ul>
+                </li>
+                @endif
             </ul>
         </li>
         @endif
