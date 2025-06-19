@@ -48,7 +48,7 @@ class StokGudangController extends Controller
     {
         $data = $request->except('_token');
         $data = $request->all();
-        dd($data);
+        
         $result = $this->StokGudangRepository->createData($data);
 
         if ($result) {
