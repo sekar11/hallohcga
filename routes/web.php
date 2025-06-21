@@ -208,12 +208,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/stok-gudang/myedit/{id}', [StokGudangController::class, 'edit'])->name('get.stok-gudang');
 
     //====================================== Pengambilan Barang ==========================================
-    // Route::get('/pengambilan-barang', [PengambilanBarangController::class, 'index']);
-    // Route::post('/pengambilan-barang/create', [PengambilanBarangController::class, 'add'])->name('add.pengambilan-barang');
-    // Route::post('/pengambilan-barang/delete', [PengambilanBarangController::class, 'delete'])->name('delete.pengambilan-barang');
-    // Route::get('/pengambilan-barang/get/{id}', [PengambilanBarangController::class, 'getEdit'])->name('edit.pengambilan-barang');
-    // Route::post('/pengambilan-barang/myedit/{id}', [PengambilanBarangController::class, 'edit'])->name('get.pengambilan-barang');
-    // Route::get('/stok-barang/{id}', [PengambilanBarangController::class, 'getStock']);
+    Route::get('/pengambilan-barang', [PengambilanBarangController::class, 'index']);
+    Route::post('/pengambilan-barang/create', [PengambilanBarangController::class, 'add'])->name('add.pengambilan-barang');
+    Route::post('/pengambilan-barang/delete', [PengambilanBarangController::class, 'delete'])->name('delete.pengambilan-barang');
+
+    Route::get('/pengambilan-barang/view/{id}', [PengambilanBarangController::class, 'show'])->name('pengambilan-barang.view');
+    Route::get('/pengambilan-barang/edit/{id}', [PengambilanBarangController::class, 'edit'])->name('pengambilan-barang.edit');
+    Route::post('/pengambilan-barang/myedit/{id}', [PengambilanBarangController::class, 'update'])->name('pengambilan-barang.update');
+    Route::post('/pengambilan-barang/approve/{id}', [PengambilanBarangController::class, 'approve']);
+
 
 });
 

@@ -65,8 +65,16 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- jQuery (wajib) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 </head>
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
 
 <body>
 
@@ -208,13 +216,13 @@
         </li>
       </li>
       @endif
-
-      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6 || auth()->user()->id_role == 7 )
+      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6 || auth()->user()->id_role == 7)
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#ga-request" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>GA Request</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="ga-request" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6 || auth()->user()->id_role == 7)
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#add-catering" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-circle"></i><span>MK Catering </span><i class="bi bi-chevron-down ms-auto"></i>
@@ -243,19 +251,20 @@
                         @endif
                     </ul>
                 </li>
+                @endif
                 @if(auth()->user()->id_role == 0)
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#add-gudang" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-circle"></i><span>Gudang </span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="add-gudang" class="nav-content collapse">
-                        <!-- @if(auth()->user()->id_role == 0 )
+                        @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 1|| auth()->user()->id_role == 2)
                             <li>
                                 <a href="/pengambilan-barang">
                                     <i class="bi bi-dash"></i><span>Pengambilan Barang</span>
                                 </a>
                             </li>
-                        @endif -->
+                        @endif
                         @if(auth()->user()->id_role == 0)
                             <li>
                                 <a href="/stok-gudang">
