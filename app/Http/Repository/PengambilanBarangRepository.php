@@ -15,8 +15,8 @@ class PengambilanBarangRepository
 
         try {
             $area = $data['area'];
-            $gedung = $data['gedung'];
-            $lokasi = $data['lokasi'];
+            $gedung = !empty($data['gedung']) ? $data['gedung'] : null;
+            $lokasi = !empty($data['lokasi']) ? $data['lokasi'] : null;
 
             $requestInsertData = [
                 'requested_by' => auth()->user()->nama ?? 'unknown',

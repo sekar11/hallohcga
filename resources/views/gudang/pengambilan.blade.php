@@ -85,7 +85,7 @@
                                                 <option value="PITSTOP">PITSTOP</option>
                                                 <option value="OTHER">Lainnya</option>
                                             </select>
-                                            <label for="area_add">Area</label>
+                                            <label for="area_add">Area<span class="text-danger">*</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -108,7 +108,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-floating searchable-dropdown">
                                                     <input type="text" class="form-control search-input" placeholder="Cari barang..." autocomplete="off">
-                                                    <label>Cari Barang</label>
+                                                    <label>Cari Barang<span class="text-danger">*</label>
                                                     <ul class="dropdown-list">
                                                         @foreach($items as $item)
                                                             <li
@@ -130,7 +130,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-floating">
                                                     <input type="number" class="form-control jumlah-stock" name="stock[]" placeholder="Jumlah" min="0" required>
-                                                    <label>Jumlah</label>
+                                                    <label>Jumlah<span class="text-danger">*</label>
                                                     <input type="hidden" class="stok-db" name="stok_db[]">
                                                     <small class="text-danger error-msg d-none">Jumlah melebihi stok tersedia</small>
                                                 </div>
@@ -143,7 +143,7 @@
                                                             <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <label for="unit_id">Satuan Barang</label>
+                                                    <label for="unit_id" >Satuan Barang <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -767,7 +767,7 @@ $(document).ready(function () {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Gagal menambahkan data!',
+                            text: 'Gagal menambahkan, periksa kembali data!',
                         });
                     }
                 },
