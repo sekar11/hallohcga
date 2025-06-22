@@ -8,7 +8,6 @@ use Carbon\Carbon;
 
 class PengambilanBarangRepository
 {
-
     public function createData($data)
     {
         DB::beginTransaction();
@@ -19,7 +18,8 @@ class PengambilanBarangRepository
             $lokasi = !empty($data['lokasi']) ? $data['lokasi'] : null;
 
             $requestInsertData = [
-                'requested_by' => auth()->user()->nama ?? 'unknown',
+                'requested_by' => auth()->user()->nrp ?? 'unknown',
+                'requested_name' => auth()->user()->nama ?? 'unknown',
                 'requested_dept' => auth()->user()->dept ?? 'HCG',
                 'request_date' => Carbon::now(),
                 'status' => 'waiting approval GA',
@@ -27,6 +27,8 @@ class PengambilanBarangRepository
                 'gedung' => $gedung,
                 'lokasi' => $lokasi,
             ];
+
+            //dd($requestInsertData);
 
             if (!empty($data['keterangan'])) {
                 $requestInsertData['keterangan'] = $data['keterangan'];
@@ -61,11 +63,10 @@ class PengambilanBarangRepository
             ->select('*')
             ->orderBy('request_date', 'desc');
 
-
         $user = auth()->user();
 
         if (in_array($user->id_role, [1, 2, 6])) {
-            $query->where('requested_by', $user->nama);
+            $query->where('requested_by', $user->nrp);
         }
 
         return $query->get();

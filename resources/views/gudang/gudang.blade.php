@@ -228,21 +228,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>

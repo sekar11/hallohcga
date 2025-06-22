@@ -305,7 +305,7 @@
                                 <span class="{{ $class }}">{!! $icon !!} {{ ucfirst($barang->status) }}</span>
                             </td>
                             <td>{{ $barang->request_date }}</td>
-                            <td>{{ $barang->requested_by }}</td>
+                            <td>{{ $barang->requested_name }}</td>
                             <td>{{ $barang->requested_dept }}</td>
                             <td>{{ $barang->area }}</td>
                             <td>{{ $barang->gedung }}</td>
@@ -541,7 +541,7 @@ $(document).on('click', '.view', function () {
             const request = response.request;
 
             $('#view-request-date').text(request.request_date);
-            $('#view-requested-by').text(request.requested_by);
+            $('#view-requested-by').text(request.requested_name);
             $('#view-area').text(request.area);
             $('#view-gedung').text(request.gedung);
             $('#view-lokasi').text(request.lokasi);
@@ -570,87 +570,6 @@ $(document).on('click', '.view', function () {
 
 //EDIT
 
-
-// $('.edit').on('click', function () {
-//     const id = $(this).data('id');
-
-//     $.get('/pengambilan-barang/edit/' + id, function (response) {
-//         const data = response.request;
-//         const items = response.items;
-//         const allItems = response.all_items;
-//         const units = response.units;
-
-//         if (!data || !Array.isArray(items)) {
-//             alert('Data tidak lengkap.');
-//             return;
-//         }
-
-//         // Set nilai area, gedung, lokasi
-//         $('#area_add').val(data.area);
-//         $('#gedung_add').val(data.gedung);
-//         $('#lokasi_add').val(data.lokasi);
-
-//         // Simpan ID request ke hidden input
-//         $('#request_id').val(id);
-
-//         // Kosongkan container lama
-//         const container = $('#snack-container');
-//         container.html('');
-
-//         items.forEach(function (item) {
-//             const html = `
-//             <div class="row mb-3 snack-item">
-//                 <div class="col-md-4">
-//                     <div class="form-floating searchable-dropdown">
-//                         <input type="text" class="form-control search-input" value="${item.name}" placeholder="Cari barang...">
-//                         <label>Cari Barang</label>
-//                         <ul class="dropdown-list" style="display:none;">
-//                             ${allItems.map(it => `
-//                                 <li 
-//                                     data-id="${it.id}" 
-//                                     data-stock="${it.stock}"
-//                                     class="${it.stock === 0 ? 'disabled-item' : ''}" 
-//                                     style="padding: 8px; cursor: ${it.stock > 0 ? 'pointer' : 'not-allowed'}; color: ${it.stock > 0 ? 'inherit' : '#aaa'};">
-//                                     ${it.name}
-//                                     ${it.stock === 0 ? '<small class="text-danger d-block">*stok tidak tersedia</small>' : ''}
-//                                 </li>`).join('')}
-//                         </ul>
-//                         <input type="hidden" name="nama_barang[]" class="selected-id" value="${item.item_id}">
-//                     </div>
-//                 </div>
-//                 <div class="col-md-4">
-//                     <div class="form-floating">
-//                         <input type="number" class="form-control jumlah-stock" name="stock[]" value="${item.quantity}" required>
-//                         <label>Jumlah</label>
-//                         <input type="hidden" class="stok-db" name="stok_db[]" value="${item.stok_db}">
-//                         <small class="text-danger error-msg d-none">Jumlah melebihi stok tersedia</small>
-//                     </div>
-//                 </div>
-//                 <div class="col-md-4">
-//                     <div class="form-floating">
-//                         <select class="form-select unit-id" name="unit_id[]" required>
-//                             ${units.map(unit => `
-//                                 <option value="${unit.id}" ${unit.id === item.unit_id ? 'selected' : ''}>
-//                                     ${unit.name}
-//                                 </option>`).join('')}
-//                         </select>
-//                         <label for="unit_id">Satuan Barang</label>
-//                     </div>
-//                 </div>
-//             </div>`;
-            
-//             container.append(html);
-//         });
-
-//         // Inisialisasi ulang dropdown autocomplete
-//         $('.searchable-dropdown').each(function () {
-//             initSearchableDropdown(this);
-//         });
-
-//         // Set mode edit dan tampilkan modal
-//         $('#userModal').data('mode', 'edit').modal('show');
-//     });
-// });
 $('.edit').on('click', function () {
     const id = $(this).data('id');
 

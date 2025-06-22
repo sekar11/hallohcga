@@ -53,7 +53,7 @@ class PengambilanBarangController extends Controller
 
             $messageUser = "PENGAMBILAN BARANG\n\n";
             $messageUser .= "Halo Admin HCGA\n\n";
-            $messageUser .= "Terdapat data pengambilan barang oleh $userNama departemen $userTeam yang baru diajukan\n\n";
+            $messageUser .= "Terdapat data pengambilan barang oleh $userNama $userTeam yang baru diajukan\n\n";
             $messageUser .= "KETERANGAN LEBIH LANJUT\n";
             $messageUser .= "SILAHKAN CEK DI PORTAL:\n";
             $messageUser .= "https://hallohcga.com/";
@@ -247,7 +247,6 @@ class PengambilanBarangController extends Controller
                 ]);
             }
 
-        // Lanjutkan pengurangan stok
         foreach ($items as $item) {
             DB::table('items_barang')
                 ->where('id', $item->item_id)
@@ -258,6 +257,35 @@ class PengambilanBarangController extends Controller
         DB::table('requests')->where('id', $id)->update([
             'status' => $statusMap[$action]
         ]);
+
+        $user = DB::table('requests')
+            ->join('users', 'requests.requested_by', '=', 'users.nrp')
+            ->where('requests.id', $id)
+            ->select('users.nama', 'users.dept', 'users.no_hp')
+            ->first();
+
+        if ($user && $user->no_hp) {
+            if ($action == 'ready') {
+                $message = "📦 *PENGAMBILAN BARANG*\n\n";
+                $message .= "Halo $user->nama $user->dept\n\n";
+                $message .= "Permintaan barang yang Anda ajukan telah *disetujui**.\n";
+                $message .= "Silakan melakukan pengambilan barang di *Gudang GA* pada jam operasional.\n\n";
+                $message.= "KETERANGAN LEBIH LANJUT\n";
+                $message .= "SILAHKAN CEK DI PORTAL:\n";
+                $message .= "https://hallohcga.com/";
+
+                $this->sendWhatsAppMessage($user->no_hp, $message);
+            } elseif ($action == 'rejected') {
+                $message = "❌ *PENGAJUAN DITOLAK*\n\n";
+                $message .= "Halo $user->nama $user->dept\n\n";
+                $message .= "Mohon maaf, permintaan barang yang Anda ajukan *tidak dapat disetujui*, silahkan periksa kembali data.\n\n";
+                $message .= "Untuk informasi lebih lanjut, silakan hubungi admin HCGA.\n\n";
+                $message .= "Terima kasih";
+                $this->sendWhatsAppMessage($user->no_hp, $message);
+            }
+        }
+
+
 
         DB::commit();
         return response()->json(['status' => 'success']);
