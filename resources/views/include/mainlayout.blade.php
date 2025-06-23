@@ -159,7 +159,7 @@
         <ul id="forms-dash" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/dashboard_phair">
-              <i class="bi bi bi-circle"></i><span>Ph Air</span>
+              <i class="bi bi bi-circle"></i><span>WTP</span>
             </a>
           </li>
         </ul>
@@ -211,7 +211,7 @@
       <li class="nav-item">
           <a class="nav-link " href="/phair">
           <i class="bi bi-droplet-half"></i>
-            <span>Ph Air</span>
+            <span>WTP</span>
           </a>
         </li>
       </li>
@@ -292,7 +292,7 @@
           <a class="nav-link " href="/phair">
           <i class="bi bi-droplet-half"></i>
 
-            <span>Ph Air</span>
+            <span>WTP</span>
           </a>
         </li><!-- End Dashboard Nav -->
       </li>

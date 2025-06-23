@@ -297,21 +297,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>
@@ -334,7 +340,7 @@
                      <!-- Plumber Tab -->
                     <div class="tab-pane fade" id="plumber" role="tabpanel" aria-labelledby="plumber-tab">
                         <div class="table-responsive">
-                            <table class="table dt_user responsive-table datatable" id="datatable">
+                            <table class="table dt_user responsive-table datatable" id="datatable-plumber">
                                 <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -360,21 +366,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>
@@ -423,21 +435,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>
@@ -486,21 +504,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>
@@ -549,21 +573,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>
@@ -612,21 +642,27 @@
                                     <td>{{ $barang->max_stock }}</td>
                                     <td>{{ $barang->unit_name }}</td>
                                     <td>
-                                        @php
-                                            if ($barang->stock < $barang->min_stock) {
-                                                $status = 'Need RKB';
-                                                $class = 'badge bg-danger text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-                                            } elseif ($barang->stock > $barang->max_stock) {
-                                                $status = 'Aman';
-                                                $class = 'badge bg-success text-center w-100';
-                                                $icon = '<i class="fa-solid fa-circle-check"></i>';
-                                            } else {
-                                                $status = 'Warning';
-                                                $class = 'badge bg-warning text-dark text-center w-100';
-                                                $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                                            }
-                                        @endphp
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
 
                                         <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
                                     </td>
@@ -644,10 +680,7 @@
                             </tbody>
                             </table>
                         </div>
-                    </div>
-
-                    
-
+                    </div>            
                 </div>
 
             </div>
@@ -699,21 +732,19 @@ $(document).ready(function() {
     });
 });
 
-var StokGudangId;
-$('.view').click(function() {
-    StokGudangId = $(this).data('id');
-    console.log(`ID yang diklik: ${StokGudangId}`);
-
+// var StokGudangId; view
+$(document).on('click', '.view', function () {
+    const StokGudangId = $(this).data('id');
+    
     $('#viewuserModal').attr('data-mode', 'view');
 
-    var url = "{{ route('edit.stok-gudang', ':id') }}".replace(':id', StokGudangId);
+    const url = "{{ route('edit.stok-gudang', ':id') }}".replace(':id', StokGudangId);
 
     $.ajax({
         type: 'GET',
         url: url,
         success: function(response) {
-            
-           $('#viewuserModal').find('#kategori-view').text(response.category_name);
+            $('#viewuserModal').find('#kategori-view').text(response.category_name);
             $('#viewuserModal').find('#name-view').text(response.name);
             $('#viewuserModal').find('#stok-view').text(response.stock);
             $('#viewuserModal').find('#min_stok-view').text(response.min_stock);
@@ -728,18 +759,15 @@ $('.view').click(function() {
     });
 });
 
-
 //EDIT
-var StokGudangId; 
-$('.edit').click(function() {
+$(document).on('click', '.edit', function () {
     StokGudangId = $(this).data('id');
     $('#userModal').attr('data-mode', 'edit');
-    
+
     $.ajax({
         type: 'GET',
         url: '{{ url('/stok-gudang/get') }}/' + StokGudangId,
-        success: function(response) {
-            // Set input/select sesuai id field
+        success: function (response) {
             $('#userModal').find('#category_id').val(response.category_id).trigger('change');
             $('#userModal').find('#name').val(response.name);
             $('#userModal').find('#unit_id').val(response.unit_id).trigger('change');
@@ -749,7 +777,7 @@ $('.edit').click(function() {
 
             $('#userModal').modal('show');
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Error:", error.responseText);
         }
     });
@@ -825,42 +853,42 @@ $('#btn-yes-add').click(function() {
 });
 
 //DELETE
-document.querySelectorAll('.delete').forEach(function(link) {
-   link.addEventListener('click', function(event) {
-       event.preventDefault();
-       var StokGudangId = this.getAttribute('data-id'); 
-       Swal.fire({
-           title: 'Konfirmasi',
-           text: 'Apakah Anda yakin akan menghapus data ini?',
-           icon: 'warning',
-           showCancelButton: true,
-           confirmButtonText: 'Ya, Kirim!',
-           cancelButtonText: 'Batal'
-       }).then((result) => {
-           if (result.isConfirmed) {
-               axios.post('{{ route('delete.stok-gudang') }}', {
-                   barang_id: StokGudangId
-               })
-               .then(function (response) {
-                   Swal.fire({
-                       icon: 'success',
-                       title: 'Sukses!',
-                       text: response.data.message
-                   }).then(() => {
-                       location.reload();
-                   });
-               })
-               .catch(function (error) {
-                   Swal.fire({
-                       icon: 'error',
-                       title: 'Gagal!',
-                       text: 'Terjadi kesalahan saat mengirim data.'
-                   });
-               });
-           }
-       });
-   });
+$(document).on('click', '.delete', function(event) {
+    event.preventDefault();
+    var StokGudangId = $(this).data('id');
+
+    Swal.fire({
+        title: 'Konfirmasi',
+        text: 'Apakah Anda yakin akan menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Kirim!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post('{{ route('delete.stok-gudang') }}', {
+                barang_id: StokGudangId
+            })
+            .then(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: response.data.message
+                }).then(() => {
+                    location.reload();
+                });
+            })
+            .catch(function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengirim data.'
+                });
+            });
+        }
+    });
 });
+
 
     </script>
    
