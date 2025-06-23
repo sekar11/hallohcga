@@ -121,6 +121,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/phair-dosing/get/{id}', [PhAirController::class, 'getEditDosing'])->name('edit.dosing');
     Route::post('/phair-dosing/myedit/{id}', [PhAirController::class, 'editDosing'])->name('get.dosing');
 
+    Route::get('/dosing/get-meter-akhir-siang', [PhAirController::class, 'getMeterAkhirSiang']);
+
+     //=============================================== PH AIR DOSING===============================================
+    //Route::get('/phairdosing', [PhAirController::class, 'index']);
+    Route::post('/phair-dosing-pac/create', [PhAirController::class, 'addDosingPac'])->name('add.dosing-pac');
+    Route::post('/phair-dosing-pac/delete', [PhAirController::class, 'deleteDosingPac'])->name('delete.dosing-pac');
+    Route::get('/phair-dosing-pac/get/{id}', [PhAirController::class, 'getEditDosingPac'])->name('edit.dosing-pac');
+    Route::post('/phair-dosing-pac/myedit/{id}', [PhAirController::class, 'editDosingPac'])->name('get.dosing-pac');
+
+    Route::get('/dosing-pac/get-meter-akhir-siang', [PhAirController::class, 'getMeterAkhirSiang']);
+
     //=============================================== MK Catering Add ===============================================
     Route::post('/catering/delete', [CateringController::class, 'delete'])->name('delete.catering');
     Route::get('/catering/get/{id}', [CateringController::class, 'getEdit'])->name('edit.catering');

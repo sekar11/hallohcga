@@ -18,8 +18,9 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"><i class="fa-solid fa-square-poll-vertical"></i> Ph Air</h5>
-              <button type="button" class="btn bi bi-plus btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#userModal"> Add PH AIR</button>
-              <button type="button" class="btn bi bi-plus btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addData"> Add Dosing</button>
+              <button type="button" class="btn bi bi-plus btn-sm btn-primary mb-2 d-block d-sm-inline" data-bs-toggle="modal" data-bs-target="#userModal"> Add PH AIR</button>
+              <button type="button" class="btn bi bi-plus btn-sm btn-primary mb-2 d-block d-sm-inline" data-bs-toggle="modal" data-bs-target="#addData"> Add Flow Meter</button>
+              <button type="button" class="btn bi bi-plus btn-sm btn-primary mb-2 d-block d-sm-inline" data-bs-toggle="modal" data-bs-target="#addDataPAC"> Add Dosing</button>
               <br><br>
 
                 {{-- TABS --}}
@@ -31,10 +32,14 @@
                     </li>
                     <li class="nav-item" role="presentation">
                     <button class="nav-link" id="dosing-tab" data-bs-toggle="tab" data-bs-target="#dosing" type="button" role="tab" aria-controls="dosing" aria-selected="false">
+                        Flow Meter
+                    </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="dosing-pac-tab" data-bs-toggle="tab" data-bs-target="#dosing-pac" type="button" role="tab" aria-controls="dosing-pac" aria-selected="false">
                         Dosing
                     </button>
                     </li>
-    
                 </ul>
 
                 <!-- Modal View PH Air-->
@@ -111,7 +116,7 @@
                 </div>
                 <!-- End Modal View -->
 
-                 <!-- Modal View Dosing-->
+                <!-- Modal View Dosing-->
                 <div class="modal fade modal-view" id="viewaddData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -130,6 +135,10 @@
                                         <span id="name-view"></span>
                                     </div>
                                     <div class="detail">
+                                        <label for="lokasi">Shift:</label>
+                                        <span id="shift-view-dosing"></span>
+                                    </div>
+                                    <div class="detail">
                                         <label for="lokasi">Tanggal:</label>
                                         <span id="tanggal-view-dosing"></span>
                                     </div>
@@ -137,13 +146,62 @@
                                         <label for="lokasi">Lokasi:</label>
                                         <span id="lokasi-view"></span>
                                     </div>
-                                    <div class="detail">
-                                        <label for="lokasi">Meter Awal:</label>
-                                        <span id="meter-awal-view"></span> L
+                                     <div class="detail">
+                                        <label for="jenis">jenis:</label>
+                                        <span id="jenis-view"></span>
                                     </div>
                                     <div class="detail">
-                                        <label for="lokasi">Meter Akhir:</label>
-                                        <span id="meter-akhir-view">L</span>
+                                        <label for="lokasi">Meter Awal (m&sup3;): </label>
+                                        <span id="meter-awal-view"></span> 
+                                    </div>
+                                    <div class="detail">
+                                        <label for="lokasi">Meter Akhir (m&sup3;):</label>
+                                        <span id="meter-akhir-view"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="lokasi">Pemakaian (m&sup3;): </label>
+                                        <span id="meter-pemakaian-view"></span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal View -->
+
+                <!-- Modal View Dosing PAC-->
+                <div class="modal fade modal-view" id="viewaddDataPac" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-6" id="btn-view-dosing">View User</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="user-details">
+                                    <div class="detail">
+                                        <label for="nrp">NRP :</label>
+                                        <span id="nrp-view-pac"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="name">Nama:</label>
+                                        <span id="name-view-pac"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="lokasi">Shift:</label>
+                                        <span id="shift-view-dosing-pac"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="lokasi">Tanggal:</label>
+                                        <span id="tanggal-view-dosing-pac"></span>
+                                    </div>
+                                    <div class="detail">
+                                        <label for="lokasi">Lokasi:</label>
+                                        <span id="lokasi-view-pac"></span>
                                     </div>
                                    
                                     <div class="detail">
@@ -183,7 +241,7 @@
                             @csrf
                                 <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal" readonly onfocus="this.blur();">
+                                    <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal">
                                     <label for="message-text">Tanggal </label>  
                                 </div>
                                 </div>
@@ -234,6 +292,7 @@
                             <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                             <form class="row g-3 needs-validation">
                             @csrf
+                                
                                 <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="date" class="form-control" id="tanggal_dosing" name="tanggal_dosing" placeholder="Tanggal">
@@ -258,12 +317,31 @@
                                     <label for="lokasi">Lokasi</label>
                                 </div>
                                 </div>
-
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-control" id="jenis" name="jenis">
+                                        <option value="">Pilih Jenis</option>
+                                        <option value="Clean Water">Clean Water</option>
+                                        <option value="Raw Water">Raw Water</option>
+                                    </select>
+                                    <label for="jenis">Jenis</label>
+                                </div>
+                                </div>
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-control" id="shift" name="shift">
+                                        <option value="">Pilih Shift</option>
+                                        <option value="Malam">Malam</option>
+                                        <option value="Siang">Siang</option>
+                                    </select>
+                                    <label for="Shift">Shift</label>
+                                </div>
+                                </div>
                                 <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="meter_awal" name="meter_awal" placeholder="meter_awal">
                                     <label for="message-text">Flow Meter Awal</label>
-                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">L</span>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">m&sup3</span>
                                 </div>
                                 </div>  
                                 
@@ -271,11 +349,11 @@
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="meter_akhir" name="meter_akhir" placeholder="meter_akhir">
                                     <label for="message-text">Flow Meter Akhir</label>
-                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">L</span>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">m&sup3</span>
                                 </div>
                                 </div> 
 
-                                <div class="col-md-12">
+                                <!-- <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="pac" name="pac" placeholder="pac">
                                     <label for="message-text">PAC (Poly Aluminium Chloride)</label>
@@ -297,11 +375,89 @@
                                     <label for="message-text">Kaporit (Calcium Hypochlorite / Ca(ClO)₂)</label>
                                     <span class="position-absolute top-50 end-0 translate-middle-y pe-3">%</span>
                                 </div>
-                                </div>
+                                </div> -->
                             </form>             
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" id="btn-yes-add-dosing">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Add Dosing-->
+                <div class="modal fade modal_add" id="addDataPAC" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mode="add">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="btn-add">Add Data</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                            <form class="row g-3 needs-validation">
+                            @csrf    
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="tanggal_dosing_pac" name="tanggal_dosing_pac" placeholder="Tanggal">
+                                    <label for="message-text">Tanggal </label>  
+                                </div>
+                                </div>
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-control" id="lokasi_dosing_pac" name="lokasi_dosing_pac">
+                                        <option value="">Pilih Lokasi</option>
+                                        <option value="MESS">MESS</option>
+                                        <option value="WT">WT</option>
+                                        <option value="WTP">WTP</option>
+                                        <option value="STP">STP</option>
+                                        <option value="PIT_1">PIT 1</option>
+                                        <option value="PIT_2">PIT 2</option>
+                                        <option value="PIT_3">PIT 3</option>
+                                        <option value="WORKSHOP">Workshop</option>
+                                        <option value="WAREHOUSE">Warehouse</option>
+                                        <option value="OFFICE_PLANT">Office Plant</option>
+                                    </select>
+                                    <label for="lokasi">Lokasi</label>
+                                </div>
+                                </div>
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-control" id="shift_pac" name="shift_pac">
+                                        <option value="">Pilih Shift</option>
+                                        <option value="Malam">Malam</option>
+                                        <option value="Siang">Siang</option>
+                                    </select>
+                                    <label for="Shift">Shift</label>
+                                </div>
+                                </div>
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="pac" name="pac" placeholder="pac">
+                                    <label for="message-text">PAC (Poly Aluminium Chloride)</label>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">Kg</span>
+                                </div>
+                                </div> 
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="soda" name="soda" placeholder="soda">
+                                    <label for="message-text">Soda Ash (Sodium Carbonate / Na₂CO₃)</label>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">Kg</span>
+                                </div>
+                                </div> 
+
+                                <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="kaporit" name="kaporit" placeholder="kaporit">
+                                    <label for="message-text">Kaporit (Calcium Hypochlorite / Ca(ClO)₂)</label>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">Kg</span>
+                                </div>
+                                </div>
+                            </form>             
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-yes-add-dosing-pac">Save</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                         </div>
@@ -329,7 +485,6 @@
                                 <th scope="col">Workshop</th>
                                 <th scope="col">Warehouse</th>
                                 <th scope="col">Office Plant</th>
-
                                 <th scope="col">Aksi</th>
                             </tr>
                             </thead>
@@ -359,7 +514,6 @@
                                     <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $ph->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                                     <li><a class="dropdown-item delete" href="#" data-id="{{ $ph->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                 </ul>
-                            
                             @endforeach 
                             
                         </tbody>
@@ -369,39 +523,45 @@
                 <!-- End Table PH AIR -->
               
                 
-                <!-- Table PH AIR -->
+                <!-- Table FLOW METER -->
                 <div class="tab-pane fade" id="dosing" role="tabpanel" aria-labelledby="dosing-tab">
                     <div class="table-responsive">
-                        <table class="table dt_user responsive-table datatable">
+                        <table class="table dt_dosing responsive-table datatable">
                             <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">NRP</th>
                                 <th scope="col">Nama Crew</th>
+                                <th scope="col">Shift</th>
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Lokasi</th>
-                                <th scope="col">Meter Awal</th>
-                                <th scope="col">Meter Akhir</th>
-                                <th scope="col">PAC</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Meter Awal (m&sup3;)</th>
+                                <th scope="col">Meter Akhir (m&sup3;)</th>
+                                <th scope="col">Total Pemakaian (m&sup3;)</th>
+                                <!-- <th scope="col">PAC</th>
                                 <th scope="col">Soda Ash</th>
-                                <th scope="col">Kaporit</th>
-                                <th scope="col">Aksi</th>
+                                <th scope="col">Kaporit</th> -->
+                                <th scope="col">Aksi</th> 
                             </tr>
                             </thead>
                             <tbody>
-                            {{-- //sekar --}}
+                           
                             @foreach($Dosing as $no => $dosing)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td>{{ $dosing->nrp }}</td>
                                 <td>{{ $dosing->nama }}</td>
+                                <td>{{ $dosing->shift }}</td>
                                 <td>{{ $dosing->tanggal }}</td>
                                 <td>{{ $dosing->lokasi}}</td>
-                                <td>{{ $dosing->meter_awal}} L</td>
-                                <td>{{ $dosing->meter_akhir}} L</td>
-                                <td>{{ $dosing->pac}} Kg</td>
-                                <td>{{ $dosing->soda_ash}} Kg</td>
-                                <td>{{ $dosing->kaporit}} %</td>
+                                <td>{{ $dosing->jenis}}</td>
+                                <td>{{ $dosing->meter_awal}}</td>
+                                <td>{{ $dosing->meter_akhir}}</td>
+                                <td>{{ $dosing->meter_akhir - $dosing->meter_awal }}</td>
+                                <!-- <td>{{ $dosing->pac}}</td>
+                                <td>{{ $dosing->soda_ash}}</td>
+                                <td>{{ $dosing->kaporit}}</td> -->
                                 <td>  
                                 <div class="dropdown">
                                 <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
@@ -409,6 +569,110 @@
                                     <li><a class="dropdown-item viewdosing" href="#" data-bs-toggle="modal" data-bs-target="#viewaddData" data-id="{{ $dosing->id }}"><i class="fa fa-expand"></i>View</a></li>
                                     <li><a class="dropdown-item editdosing" href="#" data-bs-toggle="modal" data-bs-target="#addData" data-id="{{ $dosing->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
                                     <li><a class="dropdown-item deletedosing" href="#" data-id="{{ $dosing->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
+                                </ul>
+                            
+                            @endforeach 
+                            
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- End Table PH AIR -->
+
+                 <!-- Table FLOW METER -->
+                <div class="tab-pane fade" id="dosing" role="tabpanel" aria-labelledby="dosing-tab">
+                    <div class="table-responsive">
+                        <table class="table dt_dosing responsive-table datatable">
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">NRP</th>
+                                <th scope="col">Nama Crew</th>
+                                <th scope="col">Shift</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Meter Awal (m&sup3;)</th>
+                                <th scope="col">Meter Akhir (m&sup3;)</th>
+                                <th scope="col">Total Pemakaian (m&sup3;)</th>
+                                <!-- <th scope="col">PAC</th>
+                                <th scope="col">Soda Ash</th>
+                                <th scope="col">Kaporit</th> -->
+                                <th scope="col">Aksi</th> 
+                            </tr>
+                            </thead>
+                            <tbody>
+                           
+                            @foreach($Dosing as $no => $dosing)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $dosing->nrp }}</td>
+                                <td>{{ $dosing->nama }}</td>
+                                <td>{{ $dosing->shift }}</td>
+                                <td>{{ $dosing->tanggal }}</td>
+                                <td>{{ $dosing->lokasi}}</td>
+                                <td>{{ $dosing->jenis}}</td>
+                                <td>{{ $dosing->meter_awal}}</td>
+                                <td>{{ $dosing->meter_akhir}}</td>
+                                <td>{{ $dosing->meter_akhir - $dosing->meter_awal }}</td>
+                                <!-- <td>{{ $dosing->pac}}</td>
+                                <td>{{ $dosing->soda_ash}}</td>
+                                <td>{{ $dosing->kaporit}}</td> -->
+                                <td>  
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewdosing" href="#" data-bs-toggle="modal" data-bs-target="#viewaddData" data-id="{{ $dosing->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editdosing" href="#" data-bs-toggle="modal" data-bs-target="#addData" data-id="{{ $dosing->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletedosing" href="#" data-id="{{ $dosing->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
+                                </ul>
+                            
+                            @endforeach 
+                            
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- End Table PH AIR -->
+
+                 <!-- Table FLOW METER -->
+                <div class="tab-pane fade" id="dosing-pac" role="tabpanel" aria-labelledby="dosing-pac">
+                    <div class="table-responsive">
+                        <table class="table dt_dosing responsive-table datatable">
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">NRP</th>
+                                <th scope="col">Nama Crew</th>
+                                <th scope="col">Shift</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">PAC</th>
+                                <th scope="col">Soda Ash</th>
+                                <th scope="col">Kaporit</th>
+                                <th scope="col">Aksi</th> 
+                            </tr>
+                            </thead>
+                            <tbody>
+                           
+                            @foreach($DosingPac as $no => $dosingpac)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $dosingpac->nrp }}</td>
+                                <td>{{ $dosingpac->nama }}</td>
+                                <td>{{ $dosingpac->shift }}</td>
+                                <td>{{ $dosingpac->tanggal }}</td>
+                                <td>{{ $dosingpac->lokasi}}</td>
+                                <td>{{ $dosingpac->pac}}</td>
+                                <td>{{ $dosingpac->soda_ash}}</td>
+                                <td>{{ $dosingpac->kaporit}}</td>
+                                <td>  
+                                <div class="dropdown">
+                                <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item viewdosingpac" href="#" data-bs-toggle="modal" data-bs-target="#viewaddDataPac" data-id="{{ $dosingpac->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                    <li><a class="dropdown-item editdosingpac" href="#" data-bs-toggle="modal" data-bs-target="#addDataPAC" data-id="{{ $dosingpac->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                    <li><a class="dropdown-item deletedosingpac" href="#" data-id="{{ $dosingpac->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                 </ul>
                             
                             @endforeach 
@@ -768,6 +1032,8 @@ $('.editdosing').click(function() {
             $('#addData #lokasi_dosing').val(response.lokasi).trigger('change');
             $('#addData #meter_awal').val(response.meter_awal);
             $('#addData #meter_akhir').val(response.meter_akhir);
+            $('#addData #jenis').val(response.jenis).trigger('change');
+            $('#addData #shift').val(response.shift).trigger('change');
             $('#addData #soda').val(response.soda_ash);
             $('#addData #pac').val(response.pac);
             $('#addData #kaporit').val(response.kaporit);
@@ -836,12 +1102,19 @@ $(document).ready(function() {
                 $('#viewaddData').find('#nrp-view').text(response.nrp);
                 $('#viewaddData').find('#name-view').text(response.nama);
                 $('#viewaddData').find('#tanggal-view-dosing').text(response.tanggal);
+                $('#viewaddData').find('#shift-view-dosing').text(response.shift);
                 $('#viewaddData').find('#lokasi-view').text(response.lokasi);
-                $('#viewaddData').find('#pac-view').text(response.pac);
+                $('#viewaddData').find('#jenis-view').text(response.jenis);
+                // $('#viewaddData').find('#pac-view').text(response.pac);
                 $('#viewaddData').find('#meter-awal-view').text(response.meter_awal);
                 $('#viewaddData').find('#meter-akhir-view').text(response.meter_akhir);
-                $('#viewaddData').find('#soda-view').text(response.soda_ash);
-                $('#viewaddData').find('#kaporit-view').text(response.kaporit);
+                $('#viewaddData').find('#meter-pemakaian-view').text(response.meter_akhir)
+
+                let pemakaian = parseFloat(response.meter_akhir) - parseFloat(response.meter_awal);
+                $('#viewaddData').find('#meter-pemakaian-view').text(pemakaian);
+
+                // $('#viewaddData').find('#soda-view').text(response.soda_ash);
+                // $('#viewaddData').find('#kaporit-view').text(response.kaporit);
               
                 $('#viewaddData').modal('show');
             },
@@ -853,9 +1126,10 @@ $(document).ready(function() {
 });
 
 $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var activeTab = $(e.target).attr('id'); // misal: snack-tab
+    var activeTab = $(e.target).attr('id');
     localStorage.setItem('activeCateringTab', activeTab);
 });
+
 $(document).ready(function() {
     var activeTab = localStorage.getItem('activeCateringTab');
     if (activeTab) {
@@ -865,6 +1139,275 @@ $(document).ready(function() {
             tab.show();
         }
     }
+});
+
+$(document).ready(function () {
+    $('#shift').on('change', function () {
+        const shift = $(this).val();
+
+        if (shift === 'Malam') {
+            $('#meter_awal').prop('readonly', true);
+
+            const tanggal = $('#tanggal_dosing').val();
+            const lokasi = $('#lokasi_dosing').val();
+            const jenis = $('#jenis').val();
+
+            if (tanggal && lokasi && jenis) {
+                $.ajax({
+                    url: '/dosing/get-meter-akhir-siang',
+                    method: 'GET',
+                    data: {
+                        tanggal: tanggal,
+                        lokasi: lokasi,
+                        jenis: jenis
+                    },
+                    success: function (response) {
+                        $('#meter_awal').val(response.meter_akhir || 0);
+                    },
+                    error: function () {
+                        alert('Gagal mengambil data meter akhir shift siang.');
+                    }
+                });
+            }
+
+        } else {
+            $('#meter_awal').prop('readonly', false).val('');
+        }
+    });
+});
+
+// //DOSING PAC
+$(document).ready(function() {
+var baseUrlPac = "{{ url('/phair-dosing-pac/create') }}";
+var basePac = "{{ url('/phair-dosing-pac/myedit') }}";
+$('#btn-yes-add-dosing-pac').click(function() {
+    var mode = $('#addDataPAC').data('mode');
+    
+    if (mode === 'add') {
+        $.ajax({
+            type: 'POST',
+             url: baseUrlPac,
+            data: $('form').serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil di tambahkan!',
+                    }).then(() => {
+                       location.reload()
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil di tambahkan!',
+                    }).then(() => {
+                       location.reload()
+                    });
+                }
+            },
+        });
+    } else if (mode === 'edit') {  
+        $.ajax({
+            type: 'POST',
+            url: basePac + '/' + dosingIdPAC,
+            data: $('form').serialize() + '&user_id=' + dosingIdPAC,
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Display a SweetAlert success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil di edit!',
+                    }).then(() => {
+                        location.reload()
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil di edit!',
+                    }).then(() => {
+                        location.reload()
+                    });
+                }
+            },
+        });
+    }
+
+    $('#addDataPAC').modal('hide');
+    
+});
+});
+
+// DOSING PAC
+// $(document).ready(function () {
+//     var baseUrlPac = "{{ url('/phair-dosing-pac/create') }}";
+//     var basePac = "{{ url('/phair-dosing-pac/myedit') }}";
+//     var dosingId = null; // deklarasi variabel global
+
+//     // Saat tombol edit ditekan, simpan ID ke variabel dosingId
+//     $('.edit-dosing-pac').click(function () {
+//         dosingId = $(this).data('id'); // ambil dari data-id tombol edit
+//         $('#addDataPAC').data('mode', 'edit'); // set mode edit ke modal
+//         $('#dosing_id').val(dosingId); // jika kamu pakai hidden input
+//         $('#addDataPAC').modal('show');
+//     });
+
+//     // Saat tombol tambah ditekan, pastikan mode add
+//     $('.add-dosing-pac').click(function () {
+//         dosingId = null;
+//         $('#addDataPAC').data('mode', 'add');
+//         $('#addDataPAC').modal('show');
+//     });
+
+//     // Saat tombol "Yes" ditekan
+//     $('#btn-yes-add-dosing-pac').click(function () {
+//         var mode = $('#addDataPAC').data('mode');
+
+//         if (mode === 'add') {
+//             $.ajax({
+//                 type: 'POST',
+//                 url: baseUrlPac,
+//                 data: $('form').serialize(),
+//                 success: function (response) {
+//                     Swal.fire({
+//                         icon: 'success',
+//                         title: 'Success',
+//                         text: 'Data berhasil ditambahkan!',
+//                     }).then(() => {
+//                         location.reload();
+//                     });
+//                 }
+//             });
+//         } else if (mode === 'edit') {
+//             if (dosingId) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Error',
+//                     text: 'ID dosing tidak ditemukan.',
+//                 });
+//                 return;
+//             }
+
+//             $.ajax({
+//                 type: 'POST',
+//                 url: basePac + '/' + dosingId,
+//                 data: $('form').serialize() + '&user_id=' + dosingId,
+//                 success: function (response) {
+//                     Swal.fire({
+//                         icon: 'success',
+//                         title: 'Success',
+//                         text: 'Data berhasil diedit!',
+//                     }).then(() => {
+//                         location.reload();
+//                     });
+//                 }
+//             });
+//         }
+
+//         $('#addDataPAC').modal('hide');
+//     });
+// });
+
+
+//EDIT
+var dosingIdPAC; 
+var baseUrlPAC = "{{ url('/phair-dosing-pac/get') }}";
+$('.editdosingpac').click(function() {
+    dosingIdPAC = $(this).data('id');
+    $('#addDataPAC').attr('data-mode', 'edit');
+    
+    $.ajax({
+        type: 'GET',
+        url: baseUrlPAC + '/' + dosingIdPAC,
+        success: function(response) {
+        
+            $('#addDataPAC #tanggal_dosing_pac').val(response.tanggal);
+            $('#addDataPAC #lokasi_dosing_pac').val(response.lokasi).trigger('change');
+            $('#addDataPAC #shift_pac').val(response.shift).trigger('change');
+            $('#addDataPAC #soda').val(response.soda_ash);
+            $('#addDataPAC #pac').val(response.pac);
+            $('#addDataPAC #kaporit').val(response.kaporit);
+            
+            $('#addDataPAC').modal('show');
+        },
+        error: function(error) {
+        }
+    });
+});
+
+//DELETE
+const deleteDosingPac = "{{ route('delete.dosing-pac') }}"
+document.querySelectorAll('.deletedosingpac').forEach(function(link) {
+   link.addEventListener('click', function(event) {
+       event.preventDefault();
+       var dosingId = this.getAttribute('data-id');
+
+       Swal.fire({
+           title: 'Konfirmasi',
+           text: 'Apakah Anda yakin akan menghapus data ini?',
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonText: 'Ya, Kirim!',
+           cancelButtonText: 'Batal'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               axios.post(deleteDosingPac, {
+                   dosing_id: dosingId
+               })
+               .then(function (response) {
+                   Swal.fire({
+                       icon: 'success',
+                       title: 'Sukses!',
+                       text: response.data.message
+                   }).then(() => {
+                       location.reload();
+                   });
+               })
+               .catch(function (error) {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Gagal!',
+                       text: 'Terjadi kesalahan saat mengirim data.'
+                   });
+               });
+           }
+       });
+   });
+});
+
+var dosingIdPac;
+$(document).ready(function() {
+    $('.viewdosingpac').click(function() {
+        dosingIdPac = $(this).data('id');
+        console.log(`ID yang diklik: ${dosingId}`);
+
+        $('#viewaddDataPac').attr('data-mode', 'view');
+
+        var url = "{{ route('edit.dosing-pac', ':id') }}".replace(':id', dosingIdPac);
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(response) {
+                $('#viewaddDataPac').find('#nrp-view-pac').text(response.nrp);
+                $('#viewaddDataPac').find('#name-view-pac').text(response.nama);
+                $('#viewaddDataPac').find('#tanggal-view-dosing-pac').text(response.tanggal);
+                $('#viewaddDataPac').find('#shift-view-dosing-pac').text(response.shift);
+                $('#viewaddDataPac').find('#lokasi-view-pac').text(response.lokasi);
+                $('#viewaddDataPac').find('#pac-view').text(response.pac);
+                $('#viewaddDataPac').find('#soda-view').text(response.soda_ash);
+                $('#viewaddDataPac').find('#kaporit-view').text(response.kaporit);
+              
+                $('#viewaddDataPac').modal('show');
+            },
+            error: function(error) {
+                console.error("Error:", error.responseText);
+            }
+        });
+    });
 });
 </script>
    

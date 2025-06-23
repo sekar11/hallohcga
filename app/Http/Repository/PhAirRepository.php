@@ -75,13 +75,11 @@ class PhAirRepository
             $newData = [
                 'nrp'           => $nrp,
                 'tanggal'       => $tanggal,
+                'shift'        => $data['shift'],
                 'lokasi'        => $data['lokasi_dosing'],
+                'jenis'        => $data['jenis'],
                 'meter_awal'    => $data['meter_awal'],
-                'meter_akhir'   => $data['meter_akhir'],
-                'kaporit'       => $data['kaporit'],
-                'pac'           => $data['pac'],
-                'soda_ash'      => $data['soda'],
-                
+                'meter_akhir'   => $data['meter_akhir'], 
             ];
 
             $insertId = DB::table('ph_air_dosing')->insertGetId($newData);
@@ -97,6 +95,46 @@ class PhAirRepository
         }
     }
 
+    public function createDataDosingPac(array $data)
+    {
+       
+        try {
+            $nrp     = auth()->user()->nrp;
+            $tanggal = $data['tanggal_dosing_pac'];
+
+            $newData = [
+                'nrp'           => $nrp,
+                'tanggal'       => $tanggal,
+                'shift'         => $data['shift_pac'],
+                'lokasi'        => $data['lokasi_dosing_pac'],
+                'pac'          => $data['pac'],
+                'kaporit'    => $data['kaporit'],
+                'soda_ash'   => $data['soda'], 
+            ];
+
+            $insertId = DB::table('ph_air_dosing_pac')->insertGetId($newData);
+
+            if ($insertId) {
+                return $insertId;
+            } else {
+                throw new \Exception("Gagal menyimpan data.");
+            }
+
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function getMeterAkhirShiftSiang($tanggal, $lokasi, $jenis)
+    {
+        return DB::table('ph_air_dosing')
+            ->where('tanggal', $tanggal)
+            ->where('lokasi', $lokasi)
+            ->where('jenis', $jenis)
+            ->where('shift', 'Siang')
+            ->orderByDesc('id')
+            ->first();
+    }
 
     public function getData()
     {
@@ -110,7 +148,7 @@ class PhAirRepository
             ->get();
     }
 
-     public function getDataDosing()
+    public function getDataDosing()
     {
         return DB::table('ph_air_dosing')
             ->join('users', 'ph_air_dosing.nrp', '=', 'users.nrp')
@@ -122,6 +160,17 @@ class PhAirRepository
             ->get();
     }
 
+    public function getDataDosingPac()
+    {
+        return DB::table('ph_air_dosing_pac')
+            ->join('users', 'ph_air_dosing_pac.nrp', '=', 'users.nrp')
+            ->select(
+                'ph_air_dosing_pac.*',
+                'users.nama'
+            )
+            ->orderBy('ph_air_dosing_pac.tanggal', 'desc')
+            ->get();
+    }
 
     public function delete($phUserId )
     {
@@ -133,10 +182,20 @@ class PhAirRepository
         }
     }
 
-     public function deleteDosing($dosingId)
+    public function deleteDosing($dosingId)
     {
         try {
             DB::table('ph_air_dosing')->where('id', $dosingId )->delete();
+            return 'Data Berhasil dihapus.';
+        } catch (\Exception $e) {
+            return 'Gagal menghapus data: ' . $e->getMessage();
+        }
+    }
+
+    public function deleteDosingPac($dosingId)
+    {
+        try {
+            DB::table('ph_air_dosing_pac')->where('id', $dosingId )->delete();
             return 'Data Berhasil dihapus.';
         } catch (\Exception $e) {
             return 'Gagal menghapus data: ' . $e->getMessage();
@@ -166,6 +225,20 @@ class PhAirRepository
                     'users.nama'
                 )
             ->where('ph_air_dosing.id', $id)
+            ->first();
+
+        return $data;
+    }
+
+    public function getByIdDosingPac($id)
+    {
+        $data = DB::table('ph_air_dosing_pac')
+            ->join('users', 'ph_air_dosing_pac.nrp', '=', 'users.nrp')
+                ->select(
+                    'ph_air_dosing_pac.*',
+                    'users.nama'
+                )
+            ->where('ph_air_dosing_pac.id', $id)
             ->first();
 
         return $data;
@@ -201,7 +274,7 @@ class PhAirRepository
     {
         try {
             $nrp     = auth()->user()->nrp;
-            $tanggal = $data['tanggal'];
+            $tanggal = $data['tanggal_dosing'];
 
             $newData = [
                 'nrp'         => $nrp,
@@ -209,12 +282,44 @@ class PhAirRepository
                 'lokasi'      => $data['lokasi_dosing'],
                 'meter_awal'  => $data['meter_awal'],
                 'meter_akhir' => $data['meter_akhir'],
-                'kaporit'     => $data['kaporit'],
-                'pac'         => $data['pac'],
-                'soda_ash'    => $data['soda'],
+                'shift'       => $data['shift'],
+                'jenis'       => $data['jenis'],
+                
             ];
 
             $update = DB::table('ph_air_dosing')
+                ->where('id', $id)
+                ->update($newData);
+
+            if ($update) {
+                return true;
+            } else {
+                throw new \Exception("Gagal memperbarui data.");
+            }
+
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function editDosingPac(array $data, $id)
+    {
+        try {
+            $nrp     = auth()->user()->nrp;
+            $tanggal = $data['tanggal_dosing_pac'];
+
+            $newData = [
+                'nrp'         => $nrp,
+                'tanggal'     => $tanggal,
+                'lokasi'      => $data['lokasi_dosing_pac'],
+                'pac'         => $data['pac'],
+                'kaporit'     => $data['kaporit'],
+                'shift'       => $data['shift_pac'],
+                'soda_ash'    => $data['soda'],
+                
+            ];
+
+            $update = DB::table('ph_air_dosing_pac')
                 ->where('id', $id)
                 ->update($newData);
 
