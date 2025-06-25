@@ -193,6 +193,37 @@
             </div>
             <!-- End Modal Add -->
 
+             <!--begin::Modal Tambah Stok-->
+              <div class="modal fade TambahStokModal" id="TambahStokModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Tambah Stok Barang</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_tambah_stok" autocomplete="off">
+                                    @csrf
+                                    <input type="hidden" name="tambah_id" id="tambah_id">
+                                    <div class="form-group">
+                                        <h6><strong>Kategori    :</strong> <span id="view-kategori"></span></h6>
+                                        <h6><strong>Nama Barang :</strong> <span id="view-nama-barang"></span></h6>
+                                        <h6><strong>Stok Awal   :</strong> <span id="view-stok-awal"></span></h6>
+                                        <label class="form-control-label">Jumlah <span style="color:red">*</span></label>
+                                        <input class="form-control" id="tambah" name="tambah" type="number" min="1">
+                                    </div>
+                                </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary" id="btn-yes-tambah-stok">Kirim</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--end::Modal Tambah Stok--->
+
               
               <!-- Table with stripped rows -->
               
@@ -258,6 +289,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -327,6 +359,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -396,6 +429,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -465,6 +499,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -534,6 +569,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -603,6 +639,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -672,6 +709,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
                                             <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
                                             <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
                                         </ul>
                                     </td>
@@ -889,6 +927,61 @@ $(document).on('click', '.delete', function(event) {
     });
 });
 
+//TAMBAH STOK$
+$(document).on('click', '.tambah', function () {
+    var id = $(this).data('id');
+    $('#tambah_id').val(id); // simpan ID ke input hidden
+
+    $.ajax({
+        url: '/stok-gudang/get-barang/' + id,
+        method: 'GET',
+        success: function (data) {
+            $('#view-kategori').text(data.kategori);
+            $('#view-nama-barang').text(data.nama_barang);
+            $('#view-stok-awal').text(data.stok_awal);
+        },
+        error: function () {
+            alert('Gagal mengambil data barang');
+        }
+    });
+});
+
+
+$(document).ready(function() {
+    $('.tambah').click(function() {
+        var tambahId = $(this).data('id');
+
+        $('#btn-yes-tambah-stok').off('click').on('click', function() { // Gunakan off().on() agar event tidak bertambah
+            var data = $('.form_tambah_stok').serialize();
+
+            $('#btn-yes-tambah-stok').hide();
+            $.ajax({
+                type: 'POST',
+                url: '/stok-gudang/tambah?tambah_id=' + tambahId,
+                data: data,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Terjadi kesalahan saat mengirim revisi.'
+                    });
+                },
+                complete: function() {
+                    $('#btn-yes-tambah-stok').show();
+                }
+            });
+        });
+    });
+});
 
     </script>
    

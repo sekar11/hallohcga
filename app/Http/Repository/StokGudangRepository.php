@@ -104,6 +104,44 @@ class StokGudangRepository
         }
     }
 
+    public function tambah($data, $id)
+    {
+        try {
+        
+            $barang = DB::table('items_barang')->where('id', $id)->first();
+
+            if (!$barang) {
+                throw new \Exception("Barang dengan ID $id tidak ditemukan.");
+            }
+
+            $stokBaru = $barang->stock + (int) $data;
+
+            $update = DB::table('items_barang')
+                ->where('id', $id)
+                ->update(['stock' => $stokBaru]);
+
+            return $update ? true : false;
+
+        } catch (\Exception $e) {
+        
+            return false;
+        }
+    }
+
+    public function getBarangById($id)
+    {
+        return DB::table('items_barang')
+            ->join('categories_barang', 'items_barang.category_id', '=', 'categories_barang.id')
+            ->select(
+                'items_barang.name as nama_barang',
+                'categories_barang.name as kategori',
+                'items_barang.stock as stok_awal'
+            )
+            ->where('items_barang.id', $id)
+            ->first();
+    }
+
+
     public function editProfile($data, $id)
     {
         try {
