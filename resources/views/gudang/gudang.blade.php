@@ -946,42 +946,44 @@ $(document).on('click', '.tambah', function () {
     });
 });
 
-
-$(document).ready(function() {
-    $('.tambah').click(function() {
+$(document).ready(function () {
+    $(document).on('click', '.tambah', function () {
         var tambahId = $(this).data('id');
+        $('#btn-yes-tambah-stok').data('id', tambahId); 
+    });
+    $(document).on('click', '#btn-yes-tambah-stok', function () {
+        var tambahId = $(this).data('id'); // ambil ID yang tadi disimpan
+        var data = $('.form_tambah_stok').serialize();
 
-        $('#btn-yes-tambah-stok').off('click').on('click', function() { // Gunakan off().on() agar event tidak bertambah
-            var data = $('.form_tambah_stok').serialize();
+        $('#btn-yes-tambah-stok').hide();
 
-            $('#btn-yes-tambah-stok').hide();
-            $.ajax({
-                type: 'POST',
-                url: '/stok-gudang/tambah?tambah_id=' + tambahId,
-                data: data,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sukses!',
-                        text: response.message
-                    }).then(() => {
-                        location.reload();
-                    });
-                },
-                error: function(error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal!',
-                        text: 'Terjadi kesalahan saat mengirim revisi.'
-                    });
-                },
-                complete: function() {
-                    $('#btn-yes-tambah-stok').show();
-                }
-            });
+        $.ajax({
+            type: 'POST',
+            url: '/stok-gudang/tambah', // Jangan kirim id lewat query, sudah di form
+            data: data,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: response.message
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengirim permintaan.'
+                });
+            },
+            complete: function () {
+                $('#btn-yes-tambah-stok').show();
+            }
         });
     });
 });
+
 
     </script>
    

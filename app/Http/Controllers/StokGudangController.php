@@ -92,8 +92,8 @@ class StokGudangController extends Controller
     public function tambah(Request $request)
     {
         $data = $request->input('tambah');
-        $tambah_id = $request->query('tambah_id');
-        
+        $tambah_id = $request->input('tambah_id');
+       
         $result = $this->StokGudangRepository->tambah($data, $tambah_id);
 
         if ($result) {
