@@ -89,6 +89,35 @@ class StokGudangController extends Controller
         }
     }
 
+    public function tambah(Request $request)
+    {
+        $data = $request->input('tambah');
+        $tambah_id = $request->query('tambah_id');
+        
+        $result = $this->StokGudangRepository->tambah($data, $tambah_id);
+
+        if ($result) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error']);
+        }
+    }
+
+    public function getBarang($id)
+    {
+        $barang = $this->StokGudangRepository->getBarangById($id);
+
+        if (!$barang) {
+            return response()->json(['message' => 'Barang tidak ditemukan'], 404);
+        }
+
+        return response()->json([
+            'nama_barang' => $barang->nama_barang,
+            'kategori'    => $barang->kategori,
+            'stok_awal'   => $barang->stok_awal,
+        ]);
+    }
+
     public function editProfile($id, Request $request)
     {
         // Validasi input

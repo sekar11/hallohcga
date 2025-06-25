@@ -217,6 +217,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/stok-gudang/delete', [StokGudangController::class, 'delete'])->name('delete.stok-gudang');
     Route::get('/stok-gudang/get/{id}', [StokGudangController::class, 'getEdit'])->name('edit.stok-gudang');
     Route::post('/stok-gudang/myedit/{id}', [StokGudangController::class, 'edit'])->name('get.stok-gudang');
+    Route::post('/stok-gudang/tambah', [StokGudangController::class, 'tambah'])->name('tambah.stok-gudang');
+    Route::get('/stok-gudang/get-barang/{id}', [StokGudangController::class, 'getBarang']);
+
 
     //====================================== Pengambilan Barang ==========================================
     Route::get('/pengambilan-barang', [PengambilanBarangController::class, 'index']);
