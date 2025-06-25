@@ -216,7 +216,7 @@
         </li>
       </li>
       @endif
-      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6 || auth()->user()->id_role == 7)
+      @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 6 || auth()->user()->id_role == 7 || auth()->user()->id_role == 1 || auth()->user()->id_role == 2)
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#ga-request" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>GA Request</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -252,7 +252,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(auth()->user()->id_role == 0)
+                @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 1 || auth()->user()->id_role == 2)
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#add-gudang" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-circle"></i><span>Gudang </span><i class="bi bi-chevron-down ms-auto"></i>
