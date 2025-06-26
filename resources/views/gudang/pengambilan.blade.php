@@ -75,6 +75,7 @@
                                         <div class="form-floating">
                                             <select class="form-control" id="area_add" name="area">
                                                 <option value="">Pilih Area</option>
+                                                <option value="LAUNDRY KARTIKA">LAUNDRY KARTIKA</option>
                                                 <option value="LV">LV / SARANA</option>
                                                 <option value="Mess">MESS</option>
                                                 <option value="Office">Office</option>
@@ -495,6 +496,7 @@ const gedungOptions = {
     ],
     'OTHER': [], 
     'LV': [], 
+    'LAUNDRY KARTIKA': [],
 };
 
 document.getElementById('area_add').addEventListener('change', function() {
@@ -503,7 +505,7 @@ document.getElementById('area_add').addEventListener('change', function() {
 
     gedungSelect.innerHTML = '<option value="">Pilih Gedung</option>';
 
-    if (selectedArea && !['OTHER', 'LV'].includes(selectedArea)) {
+    if (selectedArea && !['OTHER', 'LV', 'LAUNDRY KARTIKA'].includes(selectedArea)) {
         gedungOptions[selectedArea].forEach(gedung => {
             const option = document.createElement('option');
             option.value = gedung;

@@ -80,7 +80,7 @@
                                         <span id="name-view"></span>
                                     </div>
                                     <div class="detail">
-                                        <label for="stok">Stok Awal:</label>
+                                        <label for="stok">Stok:</label>
                                         <span id="stok-view"></span>
                                     </div>
                                     <div class="detail">
@@ -239,7 +239,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
@@ -309,7 +309,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
@@ -373,13 +373,13 @@
                      <!-- Plumber Tab -->
                     <div class="tab-pane fade" id="plumber" role="tabpanel" aria-labelledby="plumber-tab">
                         <div class="table-responsive">
-                            <table class="table dt_user responsive-table datatable" id="datatable-plumber">
+                            <table class="table dt_user responsive-table datatable" id="datatable">
                                 <thead>
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
@@ -449,7 +449,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
@@ -519,7 +519,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
@@ -589,7 +589,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
@@ -659,7 +659,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Stok Awal</th>
+                                    <th scope="col">Stok</th>
                                     <th scope="col">Minimal Stok</th>
                                     <th scope="col">Maximal Stok</th>
                                     <th scope="col">Satuan</th>
