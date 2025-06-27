@@ -195,7 +195,12 @@
                             <button type="button" class="btn btn-success btn-approval" data-action="ready">✔ Approve</button>
                             <button type="button" class="btn btn-danger btn-approval" data-action="rejected">✖ Reject</button>
                             <button type="button" class="btn btn-primary btn-approval" data-action="done">📦 Done (Kurangi Stok)</button>
+                            <div id="loading-spinner-approve" style="display:none;" >
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                            </div>
+                        
                         </div>
+
                         </div>
 
                         <div class="modal-footer">
@@ -824,6 +829,9 @@ $(document).on('click', '.approval', function () {
 $(document).on('click', '.btn-approval', function () {
     const action = $(this).data('action');
 
+    $('#btn-approval').hide();
+    $('#loading-spinner-approve').show();
+
     $.ajax({
         url: `/pengambilan-barang/approve/${approvalRequestId}`,
         type: 'POST',
@@ -841,10 +849,12 @@ $(document).on('click', '.btn-approval', function () {
         },
         error: function () {
             Swal.fire('Gagal', 'Terjadi kesalahan saat memproses.', 'error');
+        },
+        complete: function() {
+            $('#btn-approval').show();
+            $('#loading-spinner-approve').hide();
         }
     });
-
-    $('#approvalModal').modal('hide');
 });
 
 
