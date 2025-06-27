@@ -479,13 +479,13 @@ const gedungOptions = {
     'Office': [
         'WAREHOUSE', 'GENSET', 'OFFICE PLANT', 'WORKSHOP PLANT', 'KOPPA MART', 'MASJID AL KAUTSAR', 'LIMBAH B3'
     ],
-    'CSA 1': [
+    'CSA PIT 1': [
         'OFFICE SHE', 'OFFICE AKADEMI', 'OFFICE ICT', 'CSA FUEL'
     ],
-    'CSA 2': [
+    'CSA PIT 2': [
         'CSA OB', 'CSA HRM'
     ],
-    'CSA 3': [
+    'CSA PIT 3': [
         'CSA OB', 'OFFICE CCR'
     ],
     'CSA FUEL': [
