@@ -22,6 +22,7 @@ class StokGudangController extends Controller
     {
         $categories = $this->StokGudangRepository->getCategories();
         $units = $this->StokGudangRepository->getUnits();
+        $AllData = $this->StokGudangRepository->getData();
         $StokGudang = $this->StokGudangRepository->getData('Alat Tulis Kantor');
         $StokMEP = $this->StokGudangRepository->getData('Mekanikal Elektrikal');
         $StokPlumber = $this->StokGudangRepository->getData('Plumber');
@@ -31,6 +32,7 @@ class StokGudangController extends Controller
         $StokSeragam = $this->StokGudangRepository->getData('Baju Kerja');
 
         return view('/gudang/gudang', [
+            'AllData' => $AllData,
             'StokGudang' => $StokGudang,
             'StokMEP' => $StokMEP,
             'StokPlumber' => $StokPlumber,

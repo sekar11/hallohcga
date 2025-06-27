@@ -25,7 +25,12 @@
                 {{-- TABS --}}
                 <ul class="nav nav-tabs mt-4" id="cateringTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="atk-tab" data-bs-toggle="tab" data-bs-target="#atk" type="button" role="tab" aria-controls="atk" aria-selected="true">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">
+                        All Data
+                    </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="atk-tab" data-bs-toggle="tab" data-bs-target="#atk" type="button" role="tab" aria-controls="atk" aria-selected="false">
                         Alat Tulis Kantor
                     </button>
                     </li>
@@ -230,8 +235,77 @@
               <!-- End Table with stripped rows -->
 
               <div class="tab-content" id="cateringTabsContent">
+                    <!-- All Data Tab -->
+                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        <div class="table-responsive">
+                            <table class="table dt_user responsive-table" id="datatable">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Kategori</th>
+                                    <th scope="col">Nama Barang</th>
+                                    <th scope="col">Stok</th>
+                                    <th scope="col">Minimal Stok</th>
+                                    <th scope="col">Maximal Stok</th>
+                                    <th scope="col">Satuan</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                            
+                                @foreach($AllData as $no => $barang)
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $barang->category_name }}</td>
+                                    <td>{{ $barang->name }}</td>
+                                    <td>{{ $barang->stock }}</td>
+                                    <td>{{ $barang->min_stock}}</td>
+                                    <td>{{ $barang->max_stock }}</td>
+                                    <td>{{ $barang->unit_name }}</td>
+                                    <td>
+                                    @php
+                                        $halfMin = $barang->min_stock * 0.5;
+
+                                        if ($barang->stock < $halfMin) {
+                                            $status = 'Need RKB';
+                                            $class = 'badge bg-danger text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $halfMin && $barang->stock < $barang->min_stock) {
+                                            $status = 'Warning';
+                                            $class = 'badge bg-warning text-dark text-center w-100';
+                                            $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                                        } elseif ($barang->stock >= $barang->min_stock && $barang->stock <= $barang->max_stock) {
+                                            $status = 'Cukup';
+                                            $class = 'badge bg-secondary text-center w-100';
+                                            $icon = '<i class="fa-solid fa-boxes-stacked"></i>';
+                                        } else {
+                                            $status = 'Aman';
+                                            $class = 'badge bg-success text-center w-100';
+                                            $icon = '<i class="fa-solid fa-circle-check"></i>';
+                                        }
+                                    @endphp
+
+                                        <span class="{!! $class !!}">{!! $icon !!} {{ $status }}</span>
+                                    </td>
+                                    <td>  
+                                        <div class="dropdown">
+                                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                            <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item tambah" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-plus"></i>Tambah Stok</a></li>
+                                            <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
+                                        </ul>
+                                    </td>
+                                @endforeach 
+                                
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <!-- ATK Tab -->
-                    <div class="tab-pane fade show active" id="atk" role="tabpanel" aria-labelledby="atk-tab">
+                    <div class="tab-pane fade" id="atk" role="tabpanel" aria-labelledby="atk-tab">
                         <div class="table-responsive">
                             <table class="table dt_user responsive-table" id="datatable">
                                 <thead>
