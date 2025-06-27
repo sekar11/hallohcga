@@ -168,6 +168,9 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="btn-yes-add">Simpan</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <div id="loading-spinner" >
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -663,6 +666,9 @@ $(document).ready(function () {
     $('#btn-yes-add').click(function () {
         const mode = $('#userModal').data('mode');
         const formData = $('#form-add-item').serialize();
+        
+        $('#btn-yes-add').hide();
+        $('#loading-spinner').show();
 
         if (mode === 'add') {
             let formData = $('#form-add-item').serializeArray();
@@ -698,6 +704,11 @@ $(document).ready(function () {
                         title: 'Error',
                         text: 'Terjadi kesalahan saat menambahkan data.',
                     });
+                },
+                complete: function() {
+
+                    $('#btn-yes-add').show();
+                    $('#loading-spinner').hide();
                 }
             });
         } else if (mode === 'edit') {
@@ -736,11 +747,13 @@ $(document).ready(function () {
                         title: 'Error',
                         text: 'Terjadi kesalahan saat mengedit data.',
                     });
+                },
+                complete: function() {
+                    $('#btn-yes-add').show();
+                    $('#loading-spinner').hide();
                 }
             });
         }
-
-        $('#userModal').modal('hide');
     });
 });
 
