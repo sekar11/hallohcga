@@ -212,7 +212,7 @@ class PengambilanBarangController extends Controller
     {
         
         $action = $request->action;
- 
+        $keterangan = $request->keterangan;
         $statusMap = [
             'ready' => 'ready',
             'rejected' => 'rejected',
@@ -263,15 +263,16 @@ class PengambilanBarangController extends Controller
         }
     }
        
+        // DB::table('requests')->where('id', $id)->update([
+        //     'status' => $statusMap[$action]
+        // ]);
+
+         // Update status + keterangan di tabel requests
         DB::table('requests')->where('id', $id)->update([
-            'status' => $statusMap[$action]
+            'status' => $statusMap[$action],
+            'keterangan' => $keterangan,
         ]);
 
-        // $user = DB::table('requests')
-        //     ->join('users', 'requests.requested_by', '=', 'users.nrp')
-        //     ->where('requests.id', $id)
-        //     ->select('users.nama', 'users.dept', 'users.no_hp')
-        //     ->first();
 
         $user = DB::table('requests')
             ->join('users', 'requests.requested_by', '=', 'users.nrp')
