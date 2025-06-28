@@ -192,9 +192,9 @@
                         <div class="modal-body text-center">
                         <p>Silakan pilih aksi yang ingin dilakukan untuk permintaan ini:</p>
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-success btn-approval" data-action="ready">✔ Approve</button>
-                            <button type="button" class="btn btn-danger btn-approval" data-action="rejected">✖ Reject</button>
-                            <button type="button" class="btn btn-primary btn-approval" data-action="done">📦 Done (Kurangi Stok)</button>
+                            <button type="button" class="btn btn-success btn-approval-action" data-action="ready">✔ Approve</button>
+                            <button type="button" class="btn btn-danger btn-approval-action" data-action="rejected">✖ Reject</button>
+                            <button type="button" class="btn btn-primary btn-approval-action" data-action="done">📦 Done (Kurangi Stok)</button>
                             <div id="loading-spinner-approve" style="display:none;" >
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
                             </div>
@@ -210,6 +210,35 @@
                     </div>
                 </div>
                 </div>
+
+                <!--begin::Modal Approval; GA GL-->
+                <div class="modal fade modal_approve" id="appproveModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Keterangan Approval</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="kt-form kt-form--label-right form_approve" enctype="multipart/form-data" autocomplete="off">
+                                    @csrf
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="keterangan_approval" name="keterangan_approval" rows="8"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btn-approval">Kirim</button>
+                                <div id="loading-spinner" >
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
 
                 <div class="table-responsive">
                     <table class="table dt_user responsive-table" id="datatable">
@@ -819,29 +848,83 @@ document.querySelectorAll('.delete').forEach(function(link) {
    });
 });
 
+// let approvalRequestId = null;
+// $(document).on('click', '.approval', function () {
+//     approvalRequestId = $(this).data('id');
+//     $('#approval_request_id').val(approvalRequestId);
+//     $('#approvalModal').modal('show');
+// });
+
+// $(document).on('click', '.btn-approval', function () {
+//     const action = $(this).data('action');
+
+//     $('#btn-approval').hide();
+//     $('#loading-spinner-approve').show();
+
+//     $.ajax({
+//         url: `/pengambilan-barang/approve/${approvalRequestId}`,
+//         type: 'POST',
+//         data: {
+//             _token: '{{ csrf_token() }}',
+//             action: action
+//         },
+//         success: function (response) {
+//             if (response.status === 'success') {
+//                 Swal.fire('Berhasil', response.message || `Permintaan berhasil di-${action}`, 'success')
+//                     .then(() => location.reload());
+//             } else {
+//                 Swal.fire('Gagal', response.message || 'Gagal memproses permintaan.', 'error');
+//             }
+//         },
+//         error: function () {
+//             Swal.fire('Gagal', 'Terjadi kesalahan saat memproses.', 'error');
+//         },
+//         complete: function() {
+//             $('#btn-approval').show();
+//             $('#loading-spinner-approve').hide();
+//         }
+//     });
+// });
+
 let approvalRequestId = null;
+let selectedAction = null;
+
 $(document).on('click', '.approval', function () {
     approvalRequestId = $(this).data('id');
     $('#approval_request_id').val(approvalRequestId);
     $('#approvalModal').modal('show');
 });
 
-$(document).on('click', '.btn-approval', function () {
-    const action = $(this).data('action');
+
+$(document).on('click', '.btn-approval-action', function () {
+    selectedAction = $(this).data('action'); 
+    $('#approvalModal').modal('hide');      
+    $('#appproveModalgagl').modal('show');   
+});
+
+$('#btn-approval').on('click', function (e) {
+    e.preventDefault();
+
+    const keterangan = $('#keterangan_approval').val();
+    // if (!keterangan.trim()) {
+    //     alert('Keterangan wajib diisi.');
+    //     return;
+    // }
 
     $('#btn-approval').hide();
-    $('#loading-spinner-approve').show();
+    $('#loading-spinner').show();
 
     $.ajax({
         url: `/pengambilan-barang/approve/${approvalRequestId}`,
         type: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
-            action: action
+            action: selectedAction,
+            keterangan: keterangan
         },
         success: function (response) {
             if (response.status === 'success') {
-                Swal.fire('Berhasil', response.message || `Permintaan berhasil di-${action}`, 'success')
+                Swal.fire('Berhasil', response.message || `Permintaan berhasil di-${selectedAction}`, 'success')
                     .then(() => location.reload());
             } else {
                 Swal.fire('Gagal', response.message || 'Gagal memproses permintaan.', 'error');
@@ -850,12 +933,14 @@ $(document).on('click', '.btn-approval', function () {
         error: function () {
             Swal.fire('Gagal', 'Terjadi kesalahan saat memproses.', 'error');
         },
-        complete: function() {
+        complete: function () {
             $('#btn-approval').show();
-            $('#loading-spinner-approve').hide();
+            $('#loading-spinner').hide();
+            $('#appproceModalgagl').modal('hide');
         }
     });
 });
+
 
 
     </script>
