@@ -11,6 +11,7 @@ use App\Http\Controllers\LapCateringDeptController;
 use App\Http\Controllers\LapCateringController;
 use App\Http\Controllers\PengambilanBarangController;
 use App\Http\Controllers\StokGudangController;
+use App\Http\Controllers\rkbController;
 
 Route::get('/', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/', [UserController::class, 'loginku']);
@@ -202,7 +203,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/stok-gudang/tambah', [StokGudangController::class, 'tambah'])->name('tambah.stok-gudang');
     Route::get('/stok-gudang/get-barang/{id}', [StokGudangController::class, 'getBarang']);
 
-
     //====================================== Pengambilan Barang ==========================================
     Route::get('/pengambilan-barang', [PengambilanBarangController::class, 'index']);
     Route::post('/pengambilan-barang/create', [PengambilanBarangController::class, 'add'])->name('add.pengambilan-barang');
@@ -212,6 +212,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pengambilan-barang/edit/{id}', [PengambilanBarangController::class, 'edit'])->name('pengambilan-barang.edit');
     Route::post('/pengambilan-barang/myedit/{id}', [PengambilanBarangController::class, 'update'])->name('pengambilan-barang.update');
     Route::post('/pengambilan-barang/approve/{id}', [PengambilanBarangController::class, 'approve']);
+
+     //====================================== RKB ==========================================
+    Route::get('/rkb', [rkbController::class, 'index']);
+    Route::post('/rkb/create', [rkbController::class, 'add'])->name('add.rkb');
+    Route::post('/rkb/delete', [rkbController::class, 'delete'])->name('delete.rkb');
+
+    Route::get('/rkb/view/{id}', [rkbController::class, 'show'])->name('rkb.view');
+    Route::get('/rkb/edit/{id}', [rkbController::class, 'edit'])->name('rkb.edit');
+    Route::post('/rkb/myedit/{id}', [rkbController::class, 'update'])->name('rkb.update');
+    Route::post('/rkb/approve/{id}', [rkbController::class, 'approve']);
+
+    Route::get('/rkb/items/{id}', [RkbController::class, 'getItems']);
+Route::post('/rkb/approve/{id}', [RkbController::class, 'approveItems']);
 
 
 });

@@ -272,13 +272,13 @@
                                 </a>
                             </li>
                         @endif
-                        <!-- @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 7)
+                        @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 7)
                             <li>
-                                <a href="/lapcatering">
+                                <a href="/rkb">
                                     <i class="bi bi-dash"></i><span>RKB</span>
                                 </a>
                             </li>
-                        @endif -->
+                        @endif
                     </ul>
                 </li>
                 @endif
