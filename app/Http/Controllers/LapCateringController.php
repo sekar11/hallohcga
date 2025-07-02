@@ -526,11 +526,11 @@ class LapCateringController extends Controller
             'malam_security_pit3'             => 105,
             'malam_security_anjungan'         => 106,
             'malam_security_laundry'          => 107,
-            'malam_security_plant'        => 109,
-            'malam_security_patrol'       => 110,
-            'malam_base_control'          => 111,
-            'malam_eng_plant'             => 112,
-            'malam_coe_office'            => 113,
+            'malam_security_plant'            => 109,
+            'malam_security_patrol'           => 110,
+            'malam_base_control'              => 111,
+            'malam_eng_plant'                 => 112,
+            'malam_coe_office'                => 113,
         ];
 
         $lokasiMappingBintang = [
