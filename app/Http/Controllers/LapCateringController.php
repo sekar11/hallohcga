@@ -663,7 +663,7 @@ class LapCateringController extends Controller
         // SNACK
         $snackStartRow = match ($catering) {
             'FITRI'   => 29,
-            'WASTU'   => 127,
+            'WASTU'   => 130,
             'BINTANG' => 112,
             default   => 30
         };
@@ -802,7 +802,7 @@ class LapCateringController extends Controller
         // SPESIAL
         $spesialStartRow = match ($catering) {
             'FITRI'   => 19,
-            'WASTU'   => 117,
+            'WASTU'   => 120,
             'BINTANG' => 102,
             default   => 150
         };
