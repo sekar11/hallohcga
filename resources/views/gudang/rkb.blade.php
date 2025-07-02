@@ -2,9 +2,9 @@
 @section('title', 'rkb')
 @section('content')
     <div class="pagetitle">
-      <h1>RKB</h1>
-      <nav>
-        <ol class="badyadcrumb">
+     <h1>RKB</h1>
+     <nav>
+        <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="">Home</a></li>
           <li class="breadcrumb-item active">RKB</li>
         </ol>
@@ -185,10 +185,6 @@
                                 ⏳ Waiting Approval SM
                             </button>
 
-                            <button type="button" class="btn btn-secondary text-white btn-approval-action" data-action="waiting proses">
-                                🕒 Waiting Proses
-                            </button>
-
                             <button type="button" class="btn btn-info text-dark btn-approval-action" data-action="ready">
                                 📦 Ready
                             </button>
@@ -247,32 +243,35 @@
                 </div> -->
 
                 <div class="modal fade" id="approvalItemsModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Approval Barang</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Nama Barang</th>
-              <th>Jumlah</th>
-              <th>Harga</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="approval-items-body"></tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="save-approval-items">Simpan</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-      </div>
-    </div>
-  </div>
-</div>
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Approval Barang</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Nama Barang</th>
+                                <th>Jumlah</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                                <th class="th-jumlah-datang" style="display:none;">Jumlah Data Partial</th>
+                                <th class="th-sisa-barang" style="display:none;">Sisa Barang</th>
+                                <th class="th-tambah-datang" style="display:none;">Tambah Data Partial</th>
+                            </tr>
+                            </thead>
+                            <tbody id="approval-items-body"></tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="save-approval-items">Simpan</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <div class="table-responsive">
@@ -679,11 +678,19 @@ function getStatusBadge(status) {
             badgeClass = 'badge bg-info text-dark';
             icon = '<i class="fa-solid fa-circle-check"></i>';
             break;
+        case 'ready':
+            badgeClass = 'badge bg-info text-dark';
+            icon = '<i class="fa-solid fa-circle-check"></i>';
+            break;
         case 'pending':
             badgeClass = 'badge bg-warning text-dark';
             icon = '<i class="fa-solid fa-hourglass-half"></i>';
             break;
         case 'done':
+            badgeClass = 'badge bg-success';
+            icon = '<i class="fa-solid fa-check-double"></i>';
+            break;
+        case 'partial':
             badgeClass = 'badge bg-success';
             icon = '<i class="fa-solid fa-check-double"></i>';
             break;
@@ -1051,49 +1058,84 @@ $(document).on('click', '.btn-approval-action', function () {
     console.log(`Request ID: ${approvalRequestId}, Action: ${selectedAction}`);
 
     $.get(`/rkb/items/${approvalRequestId}`, function (response) {
-        if (response.status === 'success') {
-            const items = response.items;
-            let tbody = '';
+    if (response.status === 'success') {
+        const items = response.items;
+        let tbody = '';
+        let hasPartial = false;
 
-            items.forEach(item => {
-                tbody += `
-                <tr data-id="${item.id}">
-                    <td>${item.item_name}</td>
-                    <td><input type="number" class="form-control form-control-sm quantity" value="${item.quantity}"></td>
-                    <td><input type="text" class="form-control form-control-sm harga" value="${item.harga}"></td>
-                    <td>
-                        <select class="form-select form-select-sm status">
-                            <option value="approve" ${item.status === 'approve' ? 'selected' : ''}>Approve</option>
-                            <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>Pending</option>
-                            <option value="reject" ${item.status === 'reject' ? 'selected' : ''}>Reject</option>
-                            <option value="ready" ${item.status === 'ready' ? 'selected' : ''}>Ready</option>
-                            <option value="done" ${item.status === 'done' ? 'selected' : ''}>Done</option>
-                            <option value="partial" ${item.status === 'partial' ? 'selected' : ''}>Partial</option>
-                        </select>
-                    </td>
-                </tr>`;
-            });
+       items.forEach(item => {
+            if (item.status === 'partial') hasPartial = true;
 
-            $('#approval-items-body').html(tbody);
-            $('#approvalItemsModal').modal('show');
+            const sisaBarang = item.quantity - item.jumlah_datang;
 
+            tbody += `
+            <tr data-id="${item.id}">
+                <td>${item.item_name}</td>
+                <td><input type="number" class="form-control form-control-sm quantity" value="${item.quantity}" readonly></td>
+                <td><input type="number" class="form-control form-control-sm harga" value="${item.harga}"></td>
+                <td>
+                    <select class="form-select form-select-sm status">
+                        <option value="approve" ${item.status === 'approve' ? 'selected' : ''}>Approve</option>
+                        <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>Pending</option>
+                        <option value="reject" ${item.status === 'reject' ? 'selected' : ''}>Reject</option>
+                        <option value="ready" ${item.status === 'ready' ? 'selected' : ''}>Ready</option>
+                        <option value="done" ${item.status === 'done' ? 'selected' : ''}>Done</option>
+                        <option value="partial" ${item.status === 'partial' ? 'selected' : ''}>Partial</option>
+                        <option value="supply" ${item.status === 'supply' ? 'selected' : ''}>Supply</option>
+                    </select>
+                </td>
+                <td><input type="number" class="form-control form-control-sm jumlah-datang" value="${item.jumlah_datang}" readonly></td>
+                
+                <td><input type="number" class="form-control form-control-sm sisa-barang" value="${sisaBarang}" readonly style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
+                <td><input type="number" class="form-control form-control-sm tambah-datang" placeholder="Jumlah Datang" style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
+            </tr>`;
+        });
+
+
+        // Isi tbody
+        $('#approval-items-body').html(tbody);
+
+        // Tampilkan th jika ada partial di awal
+        if (hasPartial) {
+            $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').show();
         } else {
-            Swal.fire('Error', 'Data item tidak ditemukan', 'error');
+            $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').hide();
         }
-    });
+
+        $('#approvalItemsModal').modal('show');
+
+    } else {
+        Swal.fire('Error', 'Data item tidak ditemukan', 'error');
+    }
 });
+
+});
+
 
 $('#save-approval-items').on('click', function () {
     const items = [];
+
+    // $('#approval-items-body tr').each(function () {
+    //     items.push({
+    //         id: $(this).data('id'),
+    //         quantity: $(this).find('.quantity').val(),
+    //         harga: $(this).find('.harga').val(),
+    //         status: $(this).find('.status').val()
+    //     });
+    // });
 
     $('#approval-items-body tr').each(function () {
         items.push({
             id: $(this).data('id'),
             quantity: $(this).find('.quantity').val(),
             harga: $(this).find('.harga').val(),
-            status: $(this).find('.status').val()
+            status: $(this).find('.status').val(),
+            jumlah_datang: $(this).find('.status').val() === 'partial'
+                ? $(this).find('.tambah-datang').val()
+                : $(this).find('.quantity').val()
         });
     });
+
 
     $.ajax({
         url: `/rkb/approve/${approvalRequestId}`,
@@ -1114,6 +1156,36 @@ $('#save-approval-items').on('click', function () {
             Swal.fire('Gagal', 'Terjadi kesalahan server', 'error');
         }
     });
+});
+
+$(document).on('change', '.status', function () {
+    const row = $(this).closest('tr');
+    if ($(this).val() === 'partial') {
+        // Show kolom input di baris ini
+        row.find('.jumlah-datang, .tambah-datang, .sisa-barang').show();
+        // Show header kolom
+        $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').show();
+    } else {
+        row.find('.jumlah-datang, .tambah-datang, .sisa-barang').hide().val('');
+
+        // Cek kalau gak ada satupun status partial, sembunyikan kembali header kolom
+        if ($('.status option:selected[value="partial"]').length === 0) {
+            $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').hide();
+        }
+    }
+});
+
+
+$(document).on('input', '.tambah-datang', function () {
+    const row = $(this).closest('tr');
+    const quantity = parseInt(row.find('.quantity').val()) || 0;
+    const jumlahDatang = parseInt(row.find('.jumlah-datang').val()) || 0;
+    const tambahDatang = parseInt($(this).val()) || 0;
+
+    const totalDatang = jumlahDatang + tambahDatang;
+    const sisa = quantity - totalDatang;
+
+    row.find('.sisa-barang').val(sisa >= 0 ? sisa : 0);
 });
 
 

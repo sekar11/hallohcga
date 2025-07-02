@@ -59,7 +59,6 @@ class RkbRepository
             'requested_by'   => auth()->user()->nrp ?? 'unknown',
             'requested_name' => auth()->user()->nama ?? 'unknown',
             'request_date'   => Carbon::now(),
-            'status'         => 'waiting proses',
             'no_rkb'         => $norkb,
         ];
 
@@ -71,11 +70,11 @@ class RkbRepository
             $harga  = (int) str_replace(',', '', $data['harga'][$i]);
             $jenis = $data['jenis'] ?? 'stock';
 
-
             DB::table('rkb_items')->insert([
                 'rkb_id' => $requestId,
                 'item_id'    => $itemId,
                 'quantity'   => $jumlah,
+                'jumlah_datang' => $jumlah,
                 'unit_id'    => $unitId,
                 'harga'      => $harga,
                 'jenis'      => $jenis,

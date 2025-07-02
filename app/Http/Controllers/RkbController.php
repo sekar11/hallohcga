@@ -332,21 +332,63 @@ class RkbController extends Controller
     }
 
     public function getItems($id)
-{
-    $items = DB::table('rkb_items')
-        ->join('items_barang', 'rkb_items.item_id', '=', 'items_barang.id')
-        ->select(
-            'rkb_items.id',
-            'items_barang.name as item_name',
-            'rkb_items.quantity',
-            'rkb_items.harga',
-            'rkb_items.status'
-        )
-        ->where('rkb_items.rkb_id', $id)
-        ->get();
-        //dd($items);
-    return response()->json(['status' => 'success', 'items' => $items]);
-}
+    {
+        $items = DB::table('rkb_items')
+            ->join('items_barang', 'rkb_items.item_id', '=', 'items_barang.id')
+            ->select(
+                'rkb_items.id',
+                'items_barang.name as item_name',
+                'rkb_items.quantity',
+                'rkb_items.harga',
+                'rkb_items.jumlah_datang',
+                'rkb_items.status'
+            )
+            ->where('rkb_items.rkb_id', $id)
+            ->get();
+            //dd($items);
+        return response()->json(['status' => 'success', 'items' => $items]);
+    }
+
+// public function approveItems(Request $request, $id)
+// {
+//     DB::beginTransaction();
+
+//     try {
+//         foreach ($request->items as $item) {
+//             $currentItem = DB::table('rkb_items')->where('id', $item['id'])->first();
+
+//             if ($item['status'] === 'partial') {
+//                 if ($currentItem->jumlah_datang == $currentItem->quantity) {
+//                     $newJumlahDatang = $item['jumlah_datang'];
+//                 } else {
+//                     $newJumlahDatang = $currentItem->jumlah_datang + $item['jumlah_datang'];
+//                 }
+//             } else {
+            
+//                 $newJumlahDatang = $item['jumlah_datang'];
+//             }
+
+//             DB::table('rkb_items')
+//                 ->where('id', $item['id'])
+//                 ->update([
+//                     'quantity' => $item['quantity'],
+//                     'harga' => $item['harga'],
+//                     'status' => $item['status'],
+//                     'jumlah_datang' => $newJumlahDatang
+//                 ]);
+//         }
+
+//         DB::table('rkb')->where('id', $id)->update([
+//             'status' => $request->action
+//         ]);
+
+//         DB::commit();
+//         return response()->json(['status' => 'success', 'message' => 'Approval berhasil disimpan.']);
+//     } catch (\Exception $e) {
+//         DB::rollBack();
+//         return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+//     }
+// }
 
 public function approveItems(Request $request, $id)
 {
@@ -354,16 +396,44 @@ public function approveItems(Request $request, $id)
 
     try {
         foreach ($request->items as $item) {
+            $currentItem = DB::table('rkb_items')->where('id', $item['id'])->first();
+
+            // Inisialisasi jumlah datang default
+            $newJumlahDatang = $currentItem->jumlah_datang;
+
+            if ($item['status'] === 'partial') {
+    $jumlahDatangInput = is_numeric($item['jumlah_datang']) ? $item['jumlah_datang'] : 0;
+
+    $newJumlahDatang = $currentItem->jumlah_datang + $jumlahDatangInput;
+
+    DB::table('items_barang')
+        ->where('id', $currentItem->item_id)
+        ->increment('stock', $jumlahDatangInput);
+}
+elseif ($item['status'] === 'done') {
+    $newJumlahDatang = $currentItem->quantity;
+
+    DB::table('items_barang')
+        ->where('id', $currentItem->item_id)
+        ->increment('stock', $currentItem->quantity);
+}
+else {
+    $newJumlahDatang = is_numeric($item['jumlah_datang']) ? $item['jumlah_datang'] : 0;
+}
+
+
+            // Update ke rkb_items
             DB::table('rkb_items')
                 ->where('id', $item['id'])
                 ->update([
-                    'quantity' => $item['quantity'],
-                    'harga'    => $item['harga'],
-                    'status'   => $item['status']
+                    'quantity'       => $item['quantity'],
+                    'harga'          => $item['harga'],
+                    'status'         => $item['status'],
+                    'jumlah_datang'  => $newJumlahDatang
                 ]);
         }
 
-        // Simpan status approval RKB utama jika perlu
+        // Update status RKB-nya
         DB::table('rkb')->where('id', $id)->update([
             'status' => $request->action
         ]);
