@@ -128,6 +128,35 @@ class StokGudangRepository
         }
     }
 
+    public function supply($data, $id)
+    {
+        try {
+            $barang = DB::table('items_barang')->where('id', $id)->first();
+// dd($barang);
+            if (!$barang) {
+                throw new \Exception("Barang dengan ID $id tidak ditemukan.");
+            }
+
+            // Pastikan stok mencukupi
+            if ($barang->stock < (int) $data) {
+                throw new \Exception("Stok tidak mencukupi.");
+            }
+
+            $stokBaru = $barang->stock - (int) $data;
+
+            $update = DB::table('items_barang')
+                ->where('id', $id)
+                ->update(['stock' => $stokBaru]);
+
+            return $update ? true : false;
+
+        } catch (\Exception $e) {
+            // Bisa ditambahkan log error kalau perlu
+            return false;
+        }
+    }
+
+
     public function getBarangById($id)
     {
         return DB::table('items_barang')

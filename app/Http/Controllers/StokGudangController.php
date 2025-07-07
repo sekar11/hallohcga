@@ -30,6 +30,7 @@ class StokGudangController extends Controller
         $StokPeralatan = $this->StokGudangRepository->getData('Peralatan');
         $StokPerabotan = $this->StokGudangRepository->getData('Perabotan Rumah Tangga');
         $StokSeragam = $this->StokGudangRepository->getData('Baju Kerja');
+        $NonStok = $this->StokGudangRepository->getData('Non Stock');
 
         return view('/gudang/gudang', [
             'AllData' => $AllData,
@@ -39,6 +40,7 @@ class StokGudangController extends Controller
             'StokSembako' => $StokSembako,
             'StokPeralatan' => $StokPeralatan,
             'StokPerabotan' => $StokPerabotan,
+            'NonStok' => $NonStok,
             'StokSeragam' => $StokSeragam,
             'categories' => $categories,
             'units' => $units,
@@ -97,6 +99,20 @@ class StokGudangController extends Controller
         $tambah_id = $request->input('tambah_id');
        
         $result = $this->StokGudangRepository->tambah($data, $tambah_id);
+
+        if ($result) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error']);
+        }
+    }
+
+    public function supply(Request $request)
+    {
+        $data = $request->input('tambah');
+        $tambah_id = $request->input('tambah_id');
+    //    dd($tambah_id);
+        $result = $this->StokGudangRepository->supply($data, $tambah_id);
 
         if ($result) {
             return response()->json(['status' => 'success']);
