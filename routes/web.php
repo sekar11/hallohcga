@@ -11,7 +11,7 @@ use App\Http\Controllers\LapCateringDeptController;
 use App\Http\Controllers\LapCateringController;
 use App\Http\Controllers\PengambilanBarangController;
 use App\Http\Controllers\StokGudangController;
-use App\Http\Controllers\rkbController;
+use App\Http\Controllers\RkbController;
 
 Route::get('/', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/', [UserController::class, 'loginku']);
