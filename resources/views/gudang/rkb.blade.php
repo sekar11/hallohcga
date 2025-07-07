@@ -33,22 +33,13 @@
                         <h6><strong>Tanggal:</strong> <span id="view-request-date"></span></h6>
                         <h6><strong>Requested By:</strong> <span id="view-requested-by"></span></h6>
                         <h6><strong>No RKB:</strong> <span id="view-norkb"></span></h6>
-                        <h6><strong>Total Harga:</strong> <span id="view-total-harga"></span></h6>
+                        <h6><strong>Total Harga:</strong> <span id="view-total-harga" class="format-harga"></span></h6>
                         <h6><strong>Status:</strong> <span id="view-status"></span></h6>
                         <hr>
                         <h6><strong>Daftar Barang:</strong> </h6>
                         <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                            <th>No</th>
-                            <th>Nama Barang</th>  
-                            <th>Jumlah</th>
-                            <th>Satuan</th>
-                            <th>Harga</th>
-                            <th>Total Harga</th>
-                            <th>Jenis</th>
-                            <th>Status</th>
-                            </tr>
+                        <thead id="view-items-thead">
+                            
                         </thead>
                         <tbody id="view-items-body">
                         
@@ -95,14 +86,11 @@
                                                     <ul class="dropdown-list">
                                                         @foreach($items as $item)
                                                             <li
-                                                                data-id="{{ $item->stock > 0 ? $item->id : '' }}"
+                                                                data-id="{{ $item->id }}"
                                                                 data-stock="{{ $item->stock }}"
-                                                                class="{{ $item->stock == 0 ? 'disabled-item' : '' }}"
-                                                                style="padding: 8px; cursor: {{ $item->stock > 0 ? 'pointer' : 'not-allowed' }}; color: {{ $item->stock > 0 ? 'inherit' : '#aaa' }};">
+                                                                style="padding: 8px; cursor: 'inherit' : '#aaa' }};">
                                                                 {{ $item->name }}
-                                                                @if($item->stock == 0)
-                                                                    <small class="text-danger d-block">*stok tidak tersedia</small>
-                                                                @endif
+                                                                
                                                             </li>
                                                         @endforeach
                                                     </ul>
@@ -197,6 +185,10 @@
                                 ✔ Done
                             </button>
 
+                            <button type="button" class="btn btn-danger btn-approval-action" data-action="reject">
+                                ✖ Reject
+                            </button>
+
                             <div id="loading-spinner-approve" style="display:none;">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
                             </div>
@@ -214,34 +206,6 @@
                 </div>
                 </div>
 
-                <!--begin::Modal Approval; GA GL-->
-                <!-- <div class="modal fade modal_approve" id="appproveModalgagl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Keterangan Approval</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="kt-form kt-form--label-right form_approve" enctype="multipart/form-data" autocomplete="off">
-                                    @csrf
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="keterangan_approval" name="keterangan_approval" rows="8"></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" id="btn-approval">Kirim</button>
-                                <div id="loading-spinner" >
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
                 <div class="modal fade" id="approvalItemsModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -250,6 +214,13 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
+                            <h6><strong>Tanggal:</strong> <span id="approval-request-date"></span></h6>
+                            <h6><strong>Requested By:</strong> <span id="approval-requested-by"></span></h6>
+                            <h6><strong>No RKB:</strong> <span id="approval-norkb"></span></h6>
+                            <h6><strong>Total Harga:</strong> <span id="approval-total-harga"></span></h6>
+                            <h6><strong>Status:</strong> <span id="approval-status"></span></h6>
+                            <hr>
+                            <h6><strong>Daftar Barang:</strong> </h6>
                             <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -351,7 +322,7 @@
                                <td>
                                 @php
                                     switch ($barang->status) {
-                                        case 'Waiting Proses':
+                                        case 'Waiting Process':
                                             $class = 'badge bg-warning text-dark';
                                             $icon = '<i class="fa-solid fa-hourglass-half"></i>';
                                             break;
@@ -359,15 +330,23 @@
                                             $class = 'badge bg-warning text-dark';
                                             $icon = '<i class="fa-solid fa-hourglass-half"></i>';
                                             break;
+                                        case 'Waiting Approval SM':
+                                            $class = 'badge bg-warning text-dark';
+                                            $icon = '<i class="fa-solid fa-hourglass-half"></i>';
+                                            break;
                                         case 'Ready':
                                             $class = 'badge bg-info text-dark';
+                                            $icon = '<i class="fa-solid fa-box-open"></i>';
+                                            break;
+                                        case 'Partial':
+                                            $class = 'badge bg-primary';
                                             $icon = '<i class="fa-solid fa-box-open"></i>';
                                             break;
                                         case 'Done':
                                             $class = 'badge bg-success';
                                             $icon = '<i class="fa-solid fa-circle-check"></i>';
                                             break;
-                                        case 'Rejected':
+                                        case 'Reject':
                                             $class = 'badge bg-danger';
                                             $icon = '<i class="fa-solid fa-circle-xmark"></i>';
                                             break;
@@ -385,16 +364,36 @@
                             <td>{{ $barang->total_item }}</td>
                             <td>
                                 @if($barang->approve_count > 0)
-                                    {{ $barang->approve_count }} Approved, 
+                                    {{ $barang->approve_count }} Approved,
                                 @endif
+
                                 @if($barang->pending_count > 0)
-                                    {{ $barang->pending_count }} Pending, 
+                                    {{ $barang->pending_count }} Pending,
                                 @endif
+
+                                @if($barang->reject_count > 0)
+                                    {{ $barang->reject_count }} Rejected,
+                                @endif
+
+                                @if($barang->supply_count > 0)
+                                    {{ $barang->supply_count }} Supplied,
+                                @endif
+
+                                @if($barang->ready_count > 0)
+                                    {{ $barang->ready_count }} Ready,
+                                @endif
+
+                                @if($barang->partial_count > 0)
+                                    {{ $barang->partial_count }} Partial,
+                                @endif
+
                                 @if($barang->done_count > 0)
                                     {{ $barang->done_count }} Done
                                 @endif
                             </td>
-                            <td>{{ $barang->total_harga }}</td>
+
+                            <td class="format-harga">{{ $barang->total_harga }}</td>
+
                             
                         @endforeach 
                         
@@ -510,28 +509,28 @@ document.getElementById('remove-snack-btn').addEventListener('click', function (
 });
 
 
-document.addEventListener('input', function (e) {
-    if (e.target.classList.contains('jumlah-stock')) {
-        const jumlahInput = e.target;
-        const snackItem = jumlahInput.closest('.snack-item');
-        const stokDbInput = snackItem.querySelector('.stok-db');
-        const errorMsg = snackItem.querySelector('.error-msg');
+// document.addEventListener('input', function (e) {
+//     if (e.target.classList.contains('jumlah-stock')) {
+//         const jumlahInput = e.target;
+//         const snackItem = jumlahInput.closest('.snack-item');
+//         const stokDbInput = snackItem.querySelector('.stok-db');
+//         const errorMsg = snackItem.querySelector('.error-msg');
 
-        const stok = parseInt(stokDbInput?.value || 0);
-        const jumlah = parseInt(jumlahInput.value || 0);
+//         const stok = parseInt(stokDbInput?.value || 0);
+//         const jumlah = parseInt(jumlahInput.value || 0);
 
-        console.log('Jumlah input:', jumlah);
-        console.log('Stok dari DB:', stok);
-        console.log('Valid?', jumlah > stok);
+//         console.log('Jumlah input:', jumlah);
+//         console.log('Stok dari DB:', stok);
+//         console.log('Valid?', jumlah > stok);
 
-        if (jumlah > stok) {
-            errorMsg.classList.remove('d-none');
-            errorMsg.innerText = 'Jumlah melebihi stok tersedia';
-        } else {
-            errorMsg.classList.add('d-none');
-        }
-    }
-});
+//         if (jumlah > stok) {
+//             errorMsg.classList.remove('d-none');
+//             errorMsg.innerText = 'Jumlah melebihi stok tersedia';
+//         } else {
+//             errorMsg.classList.add('d-none');
+//         }
+//     }
+// });
 
 //Active Tab
 document.querySelectorAll('.datatable').forEach(function(table) {
@@ -594,69 +593,53 @@ $(document).ready(function() {
     });
 });
 
-// $(document).on('click', '.view', function () {
-//     const id = $(this).data('id');
-
-//     $.get('/rkb/view/' + id, function (response) {
-//         if (response.status === 'success') {
-//             const request = response.request;
-
-//             $('#view-request-date').text(request.request_date);
-//             $('#view-requested-by').text(request.requested_name);
-//             $('#view-norkb').text(request.no_rkb);
-//             $('#view-status').text(request.status);
-//             $('#view-total-harga').text(response.total_harga);
-
-//             $('#view-items-body').empty();
-
-//             response.items.forEach((item, index) => {
-//                 $('#view-items-body').append(`
-//                     <tr>
-//                         <td>${index + 1}</td>
-//                         <td>${item.item_name}</td>
-//                         <td>${item.quantity}</td>
-//                         <td>${item.unit_name}</td>
-//                         <td>${item.harga}</td>
-//                         <td>${item.total_harga}</td>
-//                         <td>${item.jenis}</td>
-//                         <td>${item.status}</td>
-//                     </tr>
-//                 `);
-//             });
-
-           
-
-//         } else {
-//             Swal.fire('Gagal', response.message, 'error');
-//         }
-//     });
-// });
 $(document).on('click', '.view', function () {
     const id = $(this).data('id');
 
     $.get('/rkb/view/' + id, function (response) {
         if (response.status === 'success') {
             const request = response.request;
+            const hasPartial = response.items.some(item => item.status === 'partial');
+
+            let theadHtml = `
+                <tr>
+                    <th>No</th>
+                    <th>Jenis</th>
+                    <th>Nama Barang</th>  
+                    <th>Jumlah</th>
+                    ${hasPartial ? '<th>Jumlah Sisa</th>' : ''}
+                    <th>Satuan</th>
+                    <th>Harga</th>
+                    <th>Total Harga</th>
+
+                    <th>Status</th>
+                </tr>
+            `;
 
             $('#view-request-date').text(request.request_date);
             $('#view-requested-by').text(request.requested_name);
             $('#view-norkb').text(request.no_rkb);
-            $('#view-status').text(request.status);
-            $('#view-total-harga').text(response.total_harga);
+            $('#view-status').html(getStatusBadgeRKB(request.status));
+            $('#view-total-harga').text(formatHarga(response.total_harga));
+
 
             $('#view-items-body').empty();
+            $('#view-items-body').closest('table').find('thead').html(theadHtml);
 
             response.items.forEach((item, index) => {
                 const statusBadge = getStatusBadge(item.status);
+                const jumlahSisa = item.quantity - item.jumlah_datang;
+
                 $('#view-items-body').append(`
                     <tr>
                         <td>${index + 1}</td>
+                        <td>${item.jenis}</td>
                         <td>${item.item_name}</td>
                         <td>${item.quantity}</td>
+                        ${hasPartial ? `<td>${item.status === 'partial' ? jumlahSisa : '-'}</td>` : ''}
                         <td>${item.unit_name}</td>
-                        <td>${item.harga}</td>
-                        <td>${item.total_harga}</td>
-                        <td>${item.jenis}</td>
+                        <td>${formatHarga(item.harga)}</td>
+                        <td>${formatHarga(item.total_harga)}</td>
                         <td>${statusBadge}</td>
                     </tr>
                 `);
@@ -667,6 +650,7 @@ $(document).on('click', '.view', function () {
         }
     });
 });
+
 
 // Function untuk mapping status → badge + icon
 function getStatusBadge(status) {
@@ -691,7 +675,7 @@ function getStatusBadge(status) {
             icon = '<i class="fa-solid fa-check-double"></i>';
             break;
         case 'partial':
-            badgeClass = 'badge bg-success';
+            badgeClass = 'badge bg-primary';
             icon = '<i class="fa-solid fa-check-double"></i>';
             break;
         case 'reject':
@@ -707,6 +691,48 @@ function getStatusBadge(status) {
     return `<span class="${badgeClass}">${icon} ${status}</span>`;
 }
 
+// Function untuk mapping status → badge + icon
+function getStatusBadgeRKB(status) {
+    let badgeClass = 'badge bg-secondary';
+    let icon = '<i class="fa-solid fa-question-circle"></i>';
+
+    switch (status) {
+        case 'Waiting Process':
+            badgeClass = 'badge bg-warning text-dark';
+            icon = '<i class="fa-solid fa-circle-check"></i>';
+            break;
+        case 'Waiting Approval SH':
+            badgeClass = 'badge bg-warning text-dark';
+            icon = '<i class="fa-solid fa-circle-check"></i>';
+            break;
+        case 'Waiting Approval SM':
+            badgeClass = 'badge bg-warning text-dark';
+            icon = '<i class="fa-solid fa-circle-check"></i>';
+            break;
+        case 'Ready':
+            badgeClass = 'badge bg-info text-dark';
+            icon = '<i class="fa-solid fa-hourglass-half"></i>';
+            break;
+        case 'Done':
+            badgeClass = 'badge bg-success';
+            icon = '<i class="fa-solid fa-check-double"></i>';
+            break;
+        case 'Partial':
+            badgeClass = 'badge bg-primary';
+            icon = '<i class="fa-solid fa-check-double"></i>';
+            break;
+        case 'Reject':
+            badgeClass = 'badge bg-danger';
+            icon = '<i class="fa-solid fa-circle-xmark"></i>';
+            break;
+        case 'Supply':
+            badgeClass = 'badge bg-primary';
+            icon = '<i class="fa-solid fa-truck"></i>';
+            break;
+    }
+
+    return `<span class="${badgeClass}">${icon} ${status}</span>`;
+}
 
 // EDIT DATA RKB
 $('.edit').on('click', function () {
@@ -754,10 +780,9 @@ $('.edit').on('click', function () {
                                 <li 
                                     data-id="${it.id}" 
                                     data-stock="${it.stock}"
-                                    class="${it.stock === 0 ? 'disabled-item' : ''}" 
-                                    style="padding:8px;cursor:${it.stock > 0 ? 'pointer' : 'not-allowed'};color:${it.stock > 0 ? 'inherit' : '#aaa'};">
+                                    style="padding: 8px; cursor: 'inherit' : '#aaa' }};">
                                     ${it.name}
-                                    ${it.stock === 0 ? '<small class="text-danger d-block">*stok tidak tersedia</small>' : ''}
+                                    
                                 </li>
                             `).join('')}
                         </ul>
@@ -957,44 +982,6 @@ document.querySelectorAll('.delete').forEach(function(link) {
    });
 });
 
-// let approvalRequestId = null;
-// $(document).on('click', '.approval', function () {
-//     approvalRequestId = $(this).data('id');
-//     $('#approval_request_id').val(approvalRequestId);
-//     $('#approvalModal').modal('show');
-// });
-
-// $(document).on('click', '.btn-approval', function () {
-//     const action = $(this).data('action');
-
-//     $('#btn-approval').hide();
-//     $('#loading-spinner-approve').show();
-
-//     $.ajax({
-//         url: `/rkb/approve/${approvalRequestId}`,
-//         type: 'POST',
-//         data: {
-//             _token: '{{ csrf_token() }}',
-//             action: action
-//         },
-//         success: function (response) {
-//             if (response.status === 'success') {
-//                 Swal.fire('Berhasil', response.message || `Permintaan berhasil di-${action}`, 'success')
-//                     .then(() => location.reload());
-//             } else {
-//                 Swal.fire('Gagal', response.message || 'Gagal memproses permintaan.', 'error');
-//             }
-//         },
-//         error: function () {
-//             Swal.fire('Gagal', 'Terjadi kesalahan saat memproses.', 'error');
-//         },
-//         complete: function() {
-//             $('#btn-approval').show();
-//             $('#loading-spinner-approve').hide();
-//         }
-//     });
-// });
-
 let approvalRequestId = null;
 let selectedAction = null;
 
@@ -1005,52 +992,6 @@ $(document).on('click', '.approval', function () {
     $('#approvalModal').modal('show');
 });
 
-// $(document).on('click', '.btn-approval-action', function () {
-//     selectedAction = $(this).data('action'); 
-//     $('#approvalModal').modal('hide');      
-//     $('#appproveModalgagl').modal('show');   
-// });
-
-// $('#btn-approval').on('click', function (e) {
-//     e.preventDefault();
-
-//     const keterangan = $('#keterangan_approval').val();
-//     // if (!keterangan.trim()) {
-//     //     alert('Keterangan wajib diisi.');
-//     //     return;
-//     // }
-
-//     $('#btn-approval').hide();
-//     $('#loading-spinner').show();
-
-//     $.ajax({
-//         url: `/rkb/approve/${approvalRequestId}`,
-//         type: 'POST',
-//         data: {
-//             _token: '{{ csrf_token() }}',
-//             action: selectedAction,
-//             keterangan: keterangan
-//         },
-//         success: function (response) {
-//             if (response.status === 'success') {
-//                 Swal.fire('Berhasil', response.message || `Permintaan berhasil di-${selectedAction}`, 'success')
-//                     .then(() => location.reload());
-//             } else {
-//                 Swal.fire('Gagal', response.message || 'Gagal memproses permintaan.', 'error');
-//             }
-//         },
-//         error: function () {
-//             Swal.fire('Gagal', 'Terjadi kesalahan saat memproses.', 'error');
-//         },
-//         complete: function () {
-//             $('#btn-approval').show();
-//             $('#loading-spinner').hide();
-//             $('#appproceModalgagl').modal('hide');
-//         }
-//     });
-// });
-
-
 
 $(document).on('click', '.btn-approval-action', function () {
     selectedAction = $(this).data('action');
@@ -1058,71 +999,67 @@ $(document).on('click', '.btn-approval-action', function () {
     console.log(`Request ID: ${approvalRequestId}, Action: ${selectedAction}`);
 
     $.get(`/rkb/items/${approvalRequestId}`, function (response) {
-    if (response.status === 'success') {
-        const items = response.items;
-        let tbody = '';
-        let hasPartial = false;
+        if (response.status === 'success') {
+            const items = response.items;
+            const request = response.request;
+            let tbody = '';
+            let hasPartial = false;
 
-       items.forEach(item => {
-            if (item.status === 'partial') hasPartial = true;
+            // Set data permintaan ke view
+            $('#approval-request-date').text(request.request_date);
+            $('#approval-requested-by').text(request.requested_name);
+            $('#approval-norkb').text(request.no_rkb);
+            $('#approval-status').html(getStatusBadgeRKB(request.status));
+            $('#approval-total-harga').text(formatHarga(response.total_harga));
 
-            const sisaBarang = item.quantity - item.jumlah_datang;
+            // Loop items
+            items.forEach(item => {
+                if (item.status === 'partial') hasPartial = true;
+                const sisaBarang = item.quantity - item.jumlah_datang;
 
-            tbody += `
-            <tr data-id="${item.id}">
-                <td>${item.item_name}</td>
-                <td><input type="number" class="form-control form-control-sm quantity" value="${item.quantity}" readonly></td>
-                <td><input type="number" class="form-control form-control-sm harga" value="${item.harga}"></td>
-                <td>
-                    <select class="form-select form-select-sm status">
-                        <option value="approve" ${item.status === 'approve' ? 'selected' : ''}>Approve</option>
-                        <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>Pending</option>
-                        <option value="reject" ${item.status === 'reject' ? 'selected' : ''}>Reject</option>
-                        <option value="ready" ${item.status === 'ready' ? 'selected' : ''}>Ready</option>
-                        <option value="done" ${item.status === 'done' ? 'selected' : ''}>Done</option>
-                        <option value="partial" ${item.status === 'partial' ? 'selected' : ''}>Partial</option>
-                        <option value="supply" ${item.status === 'supply' ? 'selected' : ''}>Supply</option>
-                    </select>
-                </td>
-                <td><input type="number" class="form-control form-control-sm jumlah-datang" value="${item.jumlah_datang}" readonly></td>
-                
-                <td><input type="number" class="form-control form-control-sm sisa-barang" value="${sisaBarang}" readonly style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
-                <td><input type="number" class="form-control form-control-sm tambah-datang" placeholder="Jumlah Datang" style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
-            </tr>`;
-        });
+                tbody += `
+                    <tr data-id="${item.id}">
+                        <td>${item.item_name}</td>
+                        <td><input type="number" class="form-control form-control-sm quantity" value="${item.quantity}" readonly></td>
+                        <td><input type="number" class="form-control form-control-sm harga" value="${item.harga}"></td>
+                        <td>
+                            <select class="form-select form-select-sm status">
+                                <option value="approve" ${item.status === 'approve' ? 'selected' : ''}>Approve</option>
+                                <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="reject" ${item.status === 'reject' ? 'selected' : ''}>Reject</option>
+                                <option value="ready" ${item.status === 'ready' ? 'selected' : ''}>Ready</option>
+                                <option value="done" ${item.status === 'done' ? 'selected' : ''}>Done</option>
+                                <option value="partial" ${item.status === 'partial' ? 'selected' : ''}>Partial</option>
+                                <option value="supply" ${item.status === 'supply' ? 'selected' : ''}>Supply</option>
+                            </select>
+                        </td>
+                        <td><input type="number" class="form-control form-control-sm jumlah-datang" value="${item.jumlah_datang}" readonly style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
+                        <td><input type="number" class="form-control form-control-sm sisa-barang" value="${sisaBarang}" readonly style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
+                        <td><input type="number" class="form-control form-control-sm tambah-datang" placeholder="Jumlah Datang" style="display:${item.status === 'partial' ? 'block' : 'none'};"></td>
+                    </tr>`;
+            });
 
+            $('#approval-items-body').html(tbody);
 
-        // Isi tbody
-        $('#approval-items-body').html(tbody);
+            // Tampilkan atau sembunyikan kolom partial
+            if (hasPartial) {
+                $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').show();
+            } else {
+                $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').hide();
+            }
 
-        // Tampilkan th jika ada partial di awal
-        if (hasPartial) {
-            $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').show();
+            $('#approvalItemsModal').modal('show');
+
         } else {
-            $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').hide();
+            Swal.fire('Error', 'Data item tidak ditemukan', 'error');
         }
-
-        $('#approvalItemsModal').modal('show');
-
-    } else {
-        Swal.fire('Error', 'Data item tidak ditemukan', 'error');
-    }
+    });
 });
 
-});
 
 
 $('#save-approval-items').on('click', function () {
     const items = [];
-
-    // $('#approval-items-body tr').each(function () {
-    //     items.push({
-    //         id: $(this).data('id'),
-    //         quantity: $(this).find('.quantity').val(),
-    //         harga: $(this).find('.harga').val(),
-    //         status: $(this).find('.status').val()
-    //     });
-    // });
 
     $('#approval-items-body tr').each(function () {
         items.push({
@@ -1161,14 +1098,10 @@ $('#save-approval-items').on('click', function () {
 $(document).on('change', '.status', function () {
     const row = $(this).closest('tr');
     if ($(this).val() === 'partial') {
-        // Show kolom input di baris ini
         row.find('.jumlah-datang, .tambah-datang, .sisa-barang').show();
-        // Show header kolom
         $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').show();
     } else {
         row.find('.jumlah-datang, .tambah-datang, .sisa-barang').hide().val('');
-
-        // Cek kalau gak ada satupun status partial, sembunyikan kembali header kolom
         if ($('.status option:selected[value="partial"]').length === 0) {
             $('.th-jumlah-datang, .th-tambah-datang, .th-sisa-barang').hide();
         }
@@ -1188,6 +1121,21 @@ $(document).on('input', '.tambah-datang', function () {
     row.find('.sisa-barang').val(sisa >= 0 ? sisa : 0);
 });
 
+
+function formatHarga(value) {
+    return 'Rp ' + Number(value).toLocaleString('id-ID');
+}
+
+function formatSemuaHarga() {
+    document.querySelectorAll('.format-harga').forEach(function(el) {
+        const val = el.textContent || el.innerText;
+        const angka = parseFloat(val.replace(/[^\d]/g, '')) || 0;
+        el.textContent = formatHarga(angka);
+    });
+}
+
+// Panggil saat DOM siap
+document.addEventListener('DOMContentLoaded', formatSemuaHarga);
 
 
 

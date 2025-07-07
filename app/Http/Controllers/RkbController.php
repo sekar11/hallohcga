@@ -164,6 +164,7 @@ class RkbController extends Controller
             ->select(
                 'items_barang.name as item_name',
                 'rkb_items.quantity',
+                'rkb_items.jumlah_datang',
                 'rkb_items.harga',
                 'rkb_items.jenis',
                 'rkb_items.status',
@@ -333,62 +334,40 @@ class RkbController extends Controller
 
     public function getItems($id)
     {
+
+         $request = DB::table('rkb')->where('id', $id)->first();
+
+        if (!$request) {
+            return response()->json(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+        }
+
         $items = DB::table('rkb_items')
             ->join('items_barang', 'rkb_items.item_id', '=', 'items_barang.id')
+            ->join('units_barang', 'rkb_items.unit_id', '=', 'units_barang.id')
             ->select(
                 'rkb_items.id',
                 'items_barang.name as item_name',
                 'rkb_items.quantity',
                 'rkb_items.harga',
                 'rkb_items.jumlah_datang',
-                'rkb_items.status'
+                'rkb_items.status',
+                DB::raw('rkb_items.quantity * CAST(rkb_items.harga AS UNSIGNED) as total_harga'),
+                'units_barang.name as unit_name'
             )
             ->where('rkb_items.rkb_id', $id)
+             ->where('rkb_items.status', '!=', 'done')
             ->get();
-            //dd($items);
-        return response()->json(['status' => 'success', 'items' => $items]);
+        
+        $totalHarga = $items->sum('total_harga');
+
+        return response()->json([
+            'status' => 'success',
+            'request' => $request,
+            'items' => $items,
+            'total_harga' => $totalHarga
+        ]);
     }
 
-// public function approveItems(Request $request, $id)
-// {
-//     DB::beginTransaction();
-
-//     try {
-//         foreach ($request->items as $item) {
-//             $currentItem = DB::table('rkb_items')->where('id', $item['id'])->first();
-
-//             if ($item['status'] === 'partial') {
-//                 if ($currentItem->jumlah_datang == $currentItem->quantity) {
-//                     $newJumlahDatang = $item['jumlah_datang'];
-//                 } else {
-//                     $newJumlahDatang = $currentItem->jumlah_datang + $item['jumlah_datang'];
-//                 }
-//             } else {
-            
-//                 $newJumlahDatang = $item['jumlah_datang'];
-//             }
-
-//             DB::table('rkb_items')
-//                 ->where('id', $item['id'])
-//                 ->update([
-//                     'quantity' => $item['quantity'],
-//                     'harga' => $item['harga'],
-//                     'status' => $item['status'],
-//                     'jumlah_datang' => $newJumlahDatang
-//                 ]);
-//         }
-
-//         DB::table('rkb')->where('id', $id)->update([
-//             'status' => $request->action
-//         ]);
-
-//         DB::commit();
-//         return response()->json(['status' => 'success', 'message' => 'Approval berhasil disimpan.']);
-//     } catch (\Exception $e) {
-//         DB::rollBack();
-//         return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
-//     }
-// }
 
 public function approveItems(Request $request, $id)
 {
