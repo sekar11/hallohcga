@@ -696,6 +696,7 @@ class LapCateringDeptRepository
                 )
                 ->where('tanggal', $tanggal)
                 ->where('waktu', $waktu)
+                ->where('ss6', 1)
                 ->orderBy('id', 'desc')
                 ->first();
 
