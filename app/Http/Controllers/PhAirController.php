@@ -19,11 +19,13 @@ class PhAirController extends Controller
         public function index()
         {
             $PhAir= $this->PhAirRepository->getData();
-            $Dosing= $this->PhAirRepository->getDataDosing();
+            $Dosing= $this->PhAirRepository->getDataDosing('Clean Water');
+            $Raw= $this->PhAirRepository->getDataDosing('Raw Water');
             $DosingPac= $this->PhAirRepository->getDataDosingPac();
             return view('/phair/phair', [
                 'PhAir' => $PhAir,
                 'Dosing' => $Dosing,
+                'Raw' => $Raw,
                 'DosingPac' => $DosingPac,
             ]);
         }

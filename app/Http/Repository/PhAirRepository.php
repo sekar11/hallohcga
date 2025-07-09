@@ -148,7 +148,7 @@ class PhAirRepository
             ->get();
     }
 
-    public function getDataDosing()
+    public function getDataDosing(string $jenis)
     {
         return DB::table('ph_air_dosing')
             ->join('users', 'ph_air_dosing.nrp', '=', 'users.nrp')
@@ -156,6 +156,7 @@ class PhAirRepository
                 'ph_air_dosing.*',
                 'users.nama'
             )
+            ->where('jenis', $jenis)
             ->orderBy('ph_air_dosing.tanggal', 'desc')
             ->get();
     }
