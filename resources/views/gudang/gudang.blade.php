@@ -64,6 +64,12 @@
                         Seragam
                     </button>
                     </li>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="non-tab" data-bs-toggle="tab" data-bs-target="#non" type="button" role="tab" aria-controls="non" aria-selected="false">
+                        Non Stock                    
+                    </button>
+                    </li>
                 </ul>
 
               <!-- Modal View -->
@@ -203,7 +209,7 @@
                   <div class="modal-dialog" role="document">
                       <div class="modal-content">
                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Tambah Stok Barang</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Stok Barang</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </button>
                           </div>
@@ -211,6 +217,8 @@
                                 <form class="kt-form kt-form--label-right form_tambah_stok" autocomplete="off">
                                     @csrf
                                     <input type="hidden" name="tambah_id" id="tambah_id">
+                                    <input type="hidden" id="stok_awal_input">
+
                                     <div class="form-group">
                                         <h6><strong>Kategori    :</strong> <span id="view-kategori"></span></h6>
                                         <h6><strong>Nama Barang :</strong> <span id="view-nama-barang"></span></h6>
@@ -307,7 +315,7 @@
                     <!-- ATK Tab -->
                     <div class="tab-pane fade" id="atk" role="tabpanel" aria-labelledby="atk-tab">
                         <div class="table-responsive">
-                            <table class="table dt_user responsive-table" id="datatable">
+                            <table class="table dt_user responsive-table datatable" id="datatable">
                                 <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -792,6 +800,57 @@
                             </tbody>
                             </table>
                         </div>
+                    </div>    
+                    
+                    <!-- Non Stok Tab -->
+                    <div class="tab-pane fade" id="non" role="tabpanel" aria-labelledby="non-tab">
+                        <div class="table-responsive">
+                            <table class="table dt_user responsive-table datatable" id="datatable">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Kategori</th>
+                                    <th scope="col">Nama Barang</th>
+                                    <th scope="col">Stok</th>
+                                    <!-- <th scope="col">Minimal Stok</th>
+                                    <th scope="col">Maximal Stok</th> -->
+                                    <th scope="col">Satuan</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                            
+                                @foreach($NonStok as $no => $barang)
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $barang->category_name }}</td>
+                                    <td>{{ $barang->name }}</td>
+                                    <td>{{ $barang->stock }}</td>
+                                    <!-- <td>{{ $barang->min_stock}}</td>
+                                    <td>{{ $barang->max_stock }}</td> -->
+                                    <td>{{ $barang->unit_name }}</td>
+                                   <td>
+                                        <span class="badge bg-primary text-center w-100">
+                                            <i class="fa-solid fa-truck"></i> Supply
+                                        </span>
+                                    </td>
+
+                                    <td>  
+                                        <div class="dropdown">
+                                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item view" href="#" data-bs-toggle="modal" data-bs-target="#viewuserModal" data-id="{{ $barang->id }}"><i class="fa fa-expand"></i>View</a></li>
+                                            <li><a class="dropdown-item edit" href="#" data-bs-toggle="modal" data-bs-target="#userModal" data-id="{{ $barang->id }}"><i class="fa-regular fa-pen-to-square"></i>Edit</a></li>
+                                            <li><a class="dropdown-item supply" href="#" data-bs-toggle="modal" data-bs-target="#TambahStokModal" data-id="{{ $barang->id }}"><i class="fa-regular bi bi-folder-minus"></i>Supply</a></li>
+                                            <li><a class="dropdown-item delete" href="#" data-id="{{ $barang->id }}"><i class="fa-solid fa-trash"></i>Delete</a></li>              
+                                        </ul>
+                                    </td>
+                                @endforeach 
+                                
+                            </tbody>
+                            </table>
+                        </div>
                     </div>            
                 </div>
 
@@ -1001,10 +1060,28 @@ $(document).on('click', '.delete', function(event) {
     });
 });
 
-//TAMBAH STOK$
+
 $(document).on('click', '.tambah', function () {
     var id = $(this).data('id');
-    $('#tambah_id').val(id); // simpan ID ke input hidden
+    $('#tambah_id').val(id);
+    $('#btn-yes-tambah-stok').data('id', id).data('mode', 'tambah'); // tambahkan mode
+
+    // Ambil data barang
+    $.ajax({
+        url: '/stok-gudang/get-barang/' + id,
+        method: 'GET',
+        success: function (data) {
+            $('#view-kategori').text(data.kategori);
+            $('#view-nama-barang').text(data.nama_barang);
+            $('#view-stok-awal').text(data.stok_awal);
+        }
+    });
+});
+
+$(document).on('click', '.supply', function () {
+    var id = $(this).data('id');
+    $('#tambah_id').val(id);
+    $('#btn-yes-tambah-stok').data('id', id).data('mode', 'supply'); // bedakan mode
 
     $.ajax({
         url: '/stok-gudang/get-barang/' + id,
@@ -1013,50 +1090,60 @@ $(document).on('click', '.tambah', function () {
             $('#view-kategori').text(data.kategori);
             $('#view-nama-barang').text(data.nama_barang);
             $('#view-stok-awal').text(data.stok_awal);
-        },
-        error: function () {
-            alert('Gagal mengambil data barang');
+            $('#stok_awal_input').val(data.stok_awal);
         }
     });
 });
 
-$(document).ready(function () {
-    $(document).on('click', '.tambah', function () {
-        var tambahId = $(this).data('id');
-        $('#btn-yes-tambah-stok').data('id', tambahId); 
-    });
-    $(document).on('click', '#btn-yes-tambah-stok', function () {
-        var tambahId = $(this).data('id'); // ambil ID yang tadi disimpan
-        var data = $('.form_tambah_stok').serialize();
 
-        $('#btn-yes-tambah-stok').hide();
+$(document).on('click', '#btn-yes-tambah-stok', function () {
+    var id = $(this).data('id');
+    var mode = $(this).data('mode');
 
-        $.ajax({
-            type: 'POST',
-            url: '/stok-gudang/tambah', // Jangan kirim id lewat query, sudah di form
-            data: data,
-            success: function (response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses!',
-                    text: response.message
-                }).then(() => {
-                    location.reload();
-                });
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengirim permintaan.'
-                });
-            },
-            complete: function () {
-                $('#btn-yes-tambah-stok').show();
-            }
-        });
+    var jumlah = parseInt($('input[name="tambah"]').val().replace(/\D/g, '')) || 0; // ambil jumlah yang dimasukkan
+    
+    var stok_awal = parseInt($('#stok_awal_input').val()) || 0;
+
+    if (mode === 'supply') {
+        if (jumlah > stok_awal) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Stok tidak mencukupi!',
+                text: `Jumlah yang dimasukkan (${jumlah}) melebihi stok tersedia (${stok_awal})`
+            });
+            return; // batalkan submit
+        }
+    }
+
+    var data = $('.form_tambah_stok').serialize();
+    $('#btn-yes-tambah-stok').hide();
+
+    $.ajax({
+        type: 'POST',
+        url: mode === 'supply' ? '/stok-gudang/supply' : '/stok-gudang/tambah',
+        data: data,
+        success: function (response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: response.message
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat mengirim permintaan.'
+            });
+        },
+        complete: function () {
+            $('#btn-yes-tambah-stok').show();
+        }
     });
 });
+
 
 
     </script>

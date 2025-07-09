@@ -265,6 +265,13 @@
                                 </a>
                             </li>
                         @endif
+                        @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 7)
+                            <li>
+                                <a href="/rkb">
+                                    <i class="bi bi-dash"></i><span>RKB</span>
+                                </a>
+                            </li>
+                        @endif
                         @if(auth()->user()->id_role == 0)
                             <li>
                                 <a href="/stok-gudang">
@@ -272,13 +279,7 @@
                                 </a>
                             </li>
                         @endif
-                        <!-- @if(auth()->user()->id_role == 0 || auth()->user()->id_role == 7)
-                            <li>
-                                <a href="/lapcatering">
-                                    <i class="bi bi-dash"></i><span>RKB</span>
-                                </a>
-                            </li>
-                        @endif -->
+                        
                     </ul>
                 </li>
                 @endif
